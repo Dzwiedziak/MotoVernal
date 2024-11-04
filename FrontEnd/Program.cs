@@ -51,6 +51,7 @@ internal class Program
         builder.Services.AddScoped<ITopicRepository, TopicRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IVehicleOfferRepository, VehicleOfferRepository>();
+        builder.Services.AddScoped<IUserObservationRepository, UserObservationRepository>();
     }
 
     private static void InjectServices(WebApplicationBuilder builder)

@@ -98,32 +98,31 @@ namespace BusinessLogic.Services
         }
         private GetVehicleOfferDTO CreateGetVehicleOfferDTO(VehicleOffer vehicleOffer)
         {
-            return new GetVehicleOfferDTO
-            {
-                Description = vehicleOffer.Description,
-                CreationTime = DateTime.Now,
-                Location = vehicleOffer.Location,
-                User = vehicleOffer.User,
-                IsReserved = false,
-                Email = vehicleOffer.Email,
-                Phone = vehicleOffer.Phone,
-                Price = vehicleOffer.Price,
+            return new GetVehicleOfferDTO(
+                description : vehicleOffer.Description,
+                creationTime : DateTime.Now,
+                location : vehicleOffer.Location,
+                user : vehicleOffer.User,
+                isReserved : false,
+                email : vehicleOffer.Email,
+                phone : vehicleOffer.Phone,
+                price : vehicleOffer.Price,
 
-                Brand = vehicleOffer.Brand,
-                Model = vehicleOffer.Model,
-                Generation = vehicleOffer.Generation,
-                Version = vehicleOffer.Version,
-                Transmission = vehicleOffer.Transmission,
-                Drive = vehicleOffer.Drive,
-                Body = vehicleOffer.Body,
-                Color = vehicleOffer.Color,
-                Condition = vehicleOffer.Condition,
-                NumberOfSeats = vehicleOffer.NumberOfSeats,
-                YearOfProduction = vehicleOffer.YearOfProduction,
-                Mileage = vehicleOffer.Mileage,
-                FirstOwner = vehicleOffer.FirstOwner,
-                VIN = vehicleOffer.VIN
-            };
+                brand : vehicleOffer.Brand,
+                model : vehicleOffer.Model,
+                generation : vehicleOffer.Generation,
+                version : vehicleOffer.Version,
+                transmission : vehicleOffer.Transmission,
+                drive : vehicleOffer.Drive,
+                body : vehicleOffer.Body,
+                color : vehicleOffer.Color,
+                condition : vehicleOffer.Condition,
+                numberOfSeats : vehicleOffer.NumberOfSeats,
+                yearOfProduction : vehicleOffer.YearOfProduction,
+                mileage : vehicleOffer.Mileage,
+                firstOwner : vehicleOffer.FirstOwner,
+                vIN : vehicleOffer.VIN
+            );
         }
         private VehicleOffer CreateUpdatedVehicleOffer(UpdateVehicleOfferDTO vehicleOffer, VehicleOffer oldVehicleOffer)
         {
