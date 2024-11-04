@@ -1,0 +1,18 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BusinessLogic.DTO.User
+{
+    public class AddUserDTO
+    {
+        [Required]
+        [MaxLength(20)]
+        public string Nickname { get; set; }
+        [Required]
+        [EmailAddress]
+        [MaxLength(50)]
+        public string Email { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Password { get; set; }
+    }
+}

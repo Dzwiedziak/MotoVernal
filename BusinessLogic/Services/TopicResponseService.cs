@@ -1,0 +1,57 @@
+﻿using BusinessLogic.DTO.TopicResponse;
+using BusinessLogic.Errors;
+using BusinessLogic.Repositories.Interfaces;
+using BusinessLogic.Services.Interfaces;
+using BusinessLogic.Services.Response;
+using DB.Entities;
+
+namespace BusinessLogic.Services
+{
+    public class TopicResponseService : ITopicResponseService
+    {
+        private readonly ITopicResponseRepository _topicResponseRepository;
+
+        public TopicResponseService(ITopicResponseRepository responseRepository)
+        {
+            _topicResponseRepository = responseRepository;
+        }
+
+        public Result<int?, TopicErrorCode> Add(AddTopicResponseDTO topicResponse)
+        {
+            var newTopicResponse = CreateNewTopicResponse(topicResponse);
+            _topicResponseRepository.Add(newTopicResponse);
+            return newTopicResponse.Id;
+        }
+
+        public Result<GetTopicResponseDTO, TopicErrorCode> Get(int id)
+        {
+            TopicResponse? dbTopicResponse = _topicResponseRepository.GetOne(id);
+            if (dbTopicResponse is null)
+                return TopicErrorCode.TopicNotFound;
+
+            return CreateGetTopicResponseDTO(dbTopicResponse);
+        }
+
+        public TopicErrorCode? Update(int id, UpdateTopicResponseDTO topicResponse)
+        {
+            TopicResponse? dbTopicResponse = _topicResponseRepository.GetOne(id);
+            if (dbTopicResponse is null)
+                return TopicErrorCode.TopicNotFound;
+
+            UpdateTopicResponse(ref dbTopicResponse, topicResponse);
+            _topicResponseRepository.Update(dbTopicResponse);
+            return null;
+        }
+
+        private TopicResponse CreateNewTopicResponse(AddTopicResponseDTO topicResponse) =>
+            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, DateTime.Now);
+
+        private GetTopicResponseDTO CreateGetTopicResponseDTO(TopicResponse topicResponse) =>
+            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime);
+
+        private void UpdateTopicResponse(ref TopicResponse oldTopicResponse, UpdateTopicResponseDTO topicResponse)
+        {
+            oldTopicResponse.Description = topicResponse.Description;
+        }
+    }
+}
