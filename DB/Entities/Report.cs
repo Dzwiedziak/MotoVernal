@@ -8,6 +8,8 @@
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
 
+        public Report() { }
+
         public Report(int id, User reporter, User reported, string description, DateTime creationTime)
         {
             Id = id;

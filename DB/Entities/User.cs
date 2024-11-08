@@ -1,5 +1,6 @@
 ﻿using DB.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Identity.Client;
 
 namespace DB.Entities
 {

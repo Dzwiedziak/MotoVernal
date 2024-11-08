@@ -14,6 +14,7 @@ namespace DB.Entities
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
 
+        public BugReport() { }
         public BugReport(int id, User reporter, string description, DateTime creationTime)
         {
             Id = id;

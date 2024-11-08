@@ -12,6 +12,7 @@ namespace DB.Entities
         public User Observer { get; set; }
         public User Observed { get; set; }
 
+        public UserObservation() { }
         public UserObservation(int id, User observer, User observed)
         {
             Id = id;

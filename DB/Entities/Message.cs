@@ -14,6 +14,8 @@ namespace DB.Entities
         public string Content { get; set; }
         public DateTime CreationTime { get; set; }
 
+        public Message() { }
+        
         public Message(int id, User broadcaster, User reciever, string content, DateTime creationTime)
         {
             Id = id;
@@ -25,5 +27,6 @@ namespace DB.Entities
 
         public Message(User broadcaster, User reciever, string content, DateTime creationTime)
             : this(0, broadcaster, reciever, content, creationTime) { }
+
     }
 }

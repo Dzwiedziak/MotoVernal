@@ -15,6 +15,7 @@ namespace DB.Entities
         public DateTime ExpirationTime { get; set; }
         public string Reason { get; set; }
 
+        public Ban(){ }
         public Ban(int id, User banned, User banner, DateTime creationTime, DateTime expirationTime, string reason)
         {
             Id = id;

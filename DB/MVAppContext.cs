@@ -1,4 +1,5 @@
 ﻿using DB.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace DB
@@ -24,6 +25,15 @@ namespace DB
         public MVAppContext(DbContextOptions<MVAppContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .HasKey(login => new { login.LoginProvider, login.ProviderKey });
+
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasKey(role => new { role.UserId, role.RoleId });
+
+            modelBuilder.Entity<IdentityUserToken<string>>()
+                .HasKey(token => new { token.UserId, token.LoginProvider, token.Name });
+
             modelBuilder.Entity<Section>()
                 .HasOne(s => s.Parent)
                 .WithMany()
