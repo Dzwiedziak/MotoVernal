@@ -15,8 +15,6 @@ namespace Http.Controllers
         }
         public ActionResult<List<GetSectionDTO>> Childrens(int id)
         {
-            
-
             return NotFound();     
         }
     }
