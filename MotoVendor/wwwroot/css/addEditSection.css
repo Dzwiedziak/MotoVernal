@@ -1,0 +1,183 @@
+﻿main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    gap: 10px;
+    background: #FFFFFF;
+    border: 3px solid #64ABFF;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    font-family: 'Inter', sans-serif;
+    font-style: medium;
+    font-weight: 500;
+    font-size: 24px;
+    color: #000000;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.form-title input {
+    font-family: 'Istok Web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 46px;
+    color: #000000;
+    width: 100%;
+    padding: 2px;
+    background: #C6DBFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+    text-align: center;
+    margin: 5px;
+}
+
+.upload-section {
+    cursor: pointer;
+}
+
+.upload-icon {
+    width: auto;
+    height: auto;
+    max-width: 350px;
+    max-height: 350px;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+    padding: 2px;
+}
+
+.form-category {
+    width: 350px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    background: #64ABFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+    margin-bottom: 15px;
+}
+
+.category-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+}
+
+    .category-image > button {
+        cursor: pointer;
+    }
+
+.form-category img {
+    width: 32px;
+    height: 32px;
+}
+
+.category-list {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: #EAF2FF;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #64ABFF;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+select {
+    border: none;
+    font-family: 'Istok Web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 26px;
+    width: 100%;
+    background: #EAF2FF;
+}
+
+option {
+    font-family: 'Istok Web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border: none;
+    width: 75%;
+    background: #EAF2FF;
+}
+
+label {
+    font-family: 'Istok Web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.cancel-btn, .create-btn {
+    margin-inline: 25px;
+    padding: 7.5px 12px 7.5px 10.5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background: #0066FF;
+    border-radius: 7.5px;
+}
+
+.cancel-btn {
+    background: #0066FF;
+    color: white;
+    opacity: 0.33;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.create-btn {
+    background: #0066FF;
+    color: white;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}

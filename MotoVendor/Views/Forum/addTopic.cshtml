@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Forum - Add Topic";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+}
+<main>
+    <div class="form-container">
+        <form>
+            <h2>Add new topic</h2>
+            <div class="form-group">
+                <label for="category">Section</label>
+                <select id="category">
+                    <option value="Audi">Audi</option>
+                    <option value="BMW">BMW</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="content" rows="4" cols="50" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group image-upload">
+                <label for="image-upload">Load image</label>
+                <input type="file" id="image-upload">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="create-btn">Public</button>
+            </div>
+        </form>
+    </div>
+</main>

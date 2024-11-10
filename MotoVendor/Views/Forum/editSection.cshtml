@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Forum - Edit Section";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditSection.css" />
+}
+@section Scripts {
+    <script src="~/js/addEditSection.js"></script>
+}
+<main>
+    <div class="form-container">
+        <h2>Edit section</h2>
+        <form>
+            <div class="form-title">
+                <input type="text" id="title" value="Electric cars">
+            </div>
+            <div class="upload-section">
+                <img src="~/images/Toyota-Aygo_02.jpg" alt="Upload" class="upload-icon" id="upload-image">
+                <input type="file" id="file-upload" style="display: none;" accept="image/*" />
+            </div>
+            <div class="form-category">
+                <div class="category-image">
+                    <label for="category">Parent category</label>
+
+                </div>
+                <div class="category-list" id="category-list">
+                    <select>
+                        <option value="none">brak</option>
+                        <option value="electric">Electric Cars</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="create-btn">Save</button>
+            </div>
+        </form>
+    </div>
+
+</main>

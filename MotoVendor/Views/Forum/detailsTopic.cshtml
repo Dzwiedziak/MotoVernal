@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "Forum - Details Topic";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/detailsTopic.css" />
+}
+@section Scripts {
+    <script src="~/js/topicComments.js"></script>
+}
+<section>
+    <div class="up-section">
+        <div class="nav-tree">
+            <label for="place">Forum</label>
+        </div>
+    </div>
+</section>
+<main>
+    <div class="basic-info">
+        <span>Problem ze skrzynią biegów VW GOLF 5</span>
+        <div class="extra-info">
+            <button class="profile">
+                <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
+            </button>
+            <span class="nickname">RoyBig</span>
+            <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
+            <span class="hour">12:44</span>
+            <span class="date">30-01-2022</span>
+            <button class="go-back">
+                <img src="~/images/undo.png" alt="go_back-img" class="go-back-img">
+            </button>
+        </div>
+    </div>
+    <div class="main-info">
+        <div class="description-info-item">
+            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+        </div>
+        <img src="~/images/pol_pl_Dyfuzor-Tylny-VW-Golf-5-R32-1807_1.jpg" alt="topic-img" class="topic-img">
+        <div class="action-buttons">
+            <button class="edit-button">
+                <label>Edit</label>
+                <img src="~/images//draw.png" alt="edit" class="edit-image" id="edit-image">
+            </button>
+            <button class="follow-button">
+                <label>Follow</label>
+                <img src="~/images/star.png" alt="follow" class="star-image" id="star-image">
+            </button>
+            <button class="delete-button">
+                <label>Delete</label>
+                <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image">
+            </button>
+        </div>
+    </div>
+    <div class="line">
+    </div>
+    <div id="commentsWindow" class="commentsWindow">
+        <div class="comments-content">
+            <button id="edit-comment-btn" class="edit-comment-btn">
+                <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
+            </button>
+            <button id="cancel-edit-btn" class="cancel-edit-btn">
+                <img src="~/images/x-button.png" alt="cancel" class="cancel-icon" id="cancel-icon">
+            </button>
+            <div class="main-post">
+                <div class="post-info">
+                    <div class="profile">
+                        <button class="profile-btn">
+                            <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img" id="profil-img">
+                        </button>
+                        <span>RoyBig</span>
+                    </div>
+                    <div class="create-time">
+                        <img src="~/images/clock.png" alt="clock" class="clock-icon" id="clock-icon">
+                        <div class="date">
+                            <span>22:26</span>
+                            <label>10-10-2024</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="editable-post-content">
+                    <span id="editable-content" class="editable-content">
+                        Kozak byczq
+                    </span>
+                    <div class="image-input">
+                        <label for="image-upload" class="custom-file-upload">
+                            <img src="~/images/216102_attachment_icon.png" id="attachment_icon">
+                            <span id="file-label">Add image</span>
+                        </label>
+                        <input type="file" id="image-upload" accept="image/*" />
+                    </div>
+                </div>
+                <div class="line-2">
+                </div>
+
+                <div class="action-group">
+                    <div class="interacted-group">
+                        <button class="like-btn">
+                            <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
+                        </button>
+                        <span>122</span>
+                        <button class="dislike-btn">
+                            <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
+                        </button>
+                        <span>25</span>
+                    </div>
+                </div>
+            </div>
+            <button class="x-btn">
+                <img src="~/images/trash-bin.png" alt="delete" class="x-icon" id="x-image">
+            </button>
+        </div>
+        <div class="comments-content">
+            <button id="edit-comment-btn" class="edit-comment-btn">
+                <img src="~/images//draw.png" alt="edit" class="edit-icon" id="edit-icon">
+            </button>
+            <button id="cancel-edit-btn" class="cancel-edit-btn">
+                <img src="~/images/x-button.png" alt="cancel" class="cancel-icon" id="cancel-icon">
+            </button>
+            <div class="main-post">
+                <div class="post-info">
+                    <div class="profile">
+                        <button class="profile-btn">
+                            <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img" id="profil-img">
+                        </button>
+                        <span>RoyBig</span>
+                    </div>
+                    <div class="create-time">
+                        <img src="~/images/clock.png" alt="clock" class="clock-icon" id="clock-icon">
+                        <div class="date">
+                            <span>22:26</span>
+                            <label>10-10-2024</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="editable-post-content">
+                    <span id="editable-content" class="editable-content">
+                        Kozak byczq
+                    </span>
+                    <div class="image-input">
+                        <label for="image-upload" class="custom-file-upload">
+                            <img src="~/images/216102_attachment_icon.png" class="attachment_icon">
+                            <span id="file-label">Add image</span>
+                        </label>
+                        <input type="file" id="image-upload" accept="image/*" />
+
+                    </div>
+                </div>
+                <div class="line-2">
+                </div>
+
+                <div class="action-group">
+                    <div class="interacted-group">
+                        <button class="like-btn">
+                            <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
+                        </button>
+                        <span>122</span>
+                        <button class="dislike-btn">
+                            <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
+                        </button>
+                        <span>25</span>
+                    </div>
+                </div>
+            </div>
+            <button class="x-btn">
+                <img src="~/images/trash-bin.png" alt="delete" class="x-icon" id="x-image">
+            </button>
+        </div>
+        <div class="add-comment-content">
+            <button id="edit-comment-btn" class="edit-comment-btn">
+                <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
+            </button>
+            <div class="main-post">
+                <div class="post-content">
+                    <textarea id="comment-textarea" placeholder="Write to comment"></textarea>
+                </div>
+                <div class="line-add">
+                </div>
+                <div id="new-comment-action" class="comment-action">
+                    <button id="cancel-btn" class="cancel-btn">
+                        <span>Cancel</span>
+                    </button>
+                    <button class="comment-btn">
+                        <span>Comment</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

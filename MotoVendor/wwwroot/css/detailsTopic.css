@@ -1,0 +1,527 @@
+﻿.line {
+    margin: 50px 0px;
+    width: 80%;
+    border: 3px solid #4285F4;
+}
+
+.line-2 {
+    width: 1150px;
+    margin-left: 25px;
+    border: 3px solid #4285F4;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px 50px;
+    gap: 15px;
+    background: #EAF2FF;
+}
+
+.basic-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    margin: 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    border-width: 1px 3px 5px 3px;
+    border-style: solid;
+    border-color: #4285F4;
+    border-radius: 25px;
+}
+
+    .basic-info > span {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 52px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.extra-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: flex-end;
+    margin-right: 5px;
+}
+
+    .extra-info > button.profile {
+        box-sizing: border-box;
+        width: 80px;
+        height: 80px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        flex: none;
+        border-radius: 100%;
+        margin-right: 5px;
+    }
+
+    .extra-info > button.go-back {
+        box-sizing: border-box;
+        width: 40px;
+        height: 40px;
+        flex: none;
+        border-radius: 100%;
+    }
+
+    .extra-info > img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .extra-info > button.go-back {
+        border: none;
+        margin-left: 15px;
+    }
+
+    .extra-info > span.nickname {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        color: #000000;
+        margin-right: 10px;
+    }
+
+button > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.extra-info > span.hour {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 100;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.extra-info > span.date {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.main-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+}
+
+.description-info-item {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 600px;
+    align-self: center;
+    background: #C6DBFF;
+    border-bottom: 3px solid #4285F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    margin-right: 15px;
+}
+
+    .description-info-item > span {
+        width: 550px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        text-align: justify;
+        color: #000000;
+    }
+
+.main-info > img {
+    width: 500px;
+    height: 350px;
+    border: 3px solid #4285F4;
+    border-radius: 25px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .action-buttons label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+    .action-buttons > button {
+        cursor: pointer;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        gap: 25px;
+        margin: 10px;
+        width: 250px;
+        height: 61px;
+        border: 3px solid #4285F4;
+        border-radius: 10px;
+    }
+
+    .action-buttons img {
+        width: 35px;
+        height: 35px;
+    }
+
+.commentsWindow {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.comments-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 50px;
+    padding: 20px;
+    gap: 10px;
+}
+
+    .comments-content button {
+        width: 35px;
+        height: 35px;
+    }
+
+.main-post {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 1200px;
+    border-width: 2px 3px 10px 3px;
+    border-style: solid;
+    border-color: #4285F4;
+    border-radius: 50px;
+}
+
+.post-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(198, 219, 255, 0.5);
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding: 2px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5px;
+    margin-left: 30px;
+    margin-bottom: 5px;
+}
+
+    .profile img {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 100%;
+        margin-right: 5px;
+    }
+
+    .profile > span {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.create-time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 15px;
+}
+
+    .create-time > img {
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+    }
+
+.date {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+    .date > span {
+        font-family: 'Inter';
+        font-style: italic;
+        font-weight: 100;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        margin-left: 5px;
+    }
+
+    .date > label {
+        font-family: 'Inter';
+        font-style: bold;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        margin-left: 5px;
+    }
+
+.post-content {
+    padding: 15px;
+}
+
+    .post-content > span, textarea {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.editable-post-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+    .editable-post-content > span, textarea {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        text-align: top;
+        color: #000000;
+    }
+
+    .editable-post-content > textarea {
+        border-color: #0066FF;
+    }
+
+.action-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+}
+
+.interacted-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+    .interacted-group > span {
+        margin-left: 5px;
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+button.edit-btn {
+    margin-right: 2px;
+    transform: rotate(270deg);
+}
+
+button.edit-comment-btn {
+    margin-right: 2px;
+    transform: rotate(270deg);
+}
+
+button.x-btn {
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    background: none;
+    border: none;
+}
+
+button.cancel-edit-btn {
+    display: none;
+    margin-right: 2px;
+}
+
+.add-comment-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 70px;
+    margin-left: 35px;
+    padding-bottom: 35px;
+}
+
+.comments-content button > img {
+    width: 35px;
+    height: 35px;
+}
+
+.add-comment-content button > img {
+    width: 35px;
+    height: 35px;
+}
+
+.add-comment-content button.edit-comment-btn {
+    visibility: hidden;
+}
+
+.add-comment-content button.x-btn {
+    visibility: hidden;
+}
+
+.add-comment-content textarea {
+    width: 100%;
+    border-color: #0066FF;
+    margin-bottom: 15px;
+}
+
+.comment-action {
+    margin: 15px;
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+    .comment-action > button {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 5px;
+        gap: 10px;
+        width: 150px;
+        height: 42px;
+        background: #2400FF;
+        border-radius: 100px;
+        margin-left: 25px;
+        margin-right: 25px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #FFFFFF;
+    }
+
+        .comment-action > button.cancel-btn {
+            background: rgba(36, 0, 255, 0.5);
+        }
+
+button.cancel-edit-btn {
+    display: none;
+    margin-right: 2px;
+}
+
+textarea {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.image-input input[type="file"] {
+    display: none;
+}
+
+.image-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    padding: 10px;
+    flex-shrink: 0;
+    gap: 5px;
+    height: 35px;
+    background: #FFF5F5;
+    border-width: 1px 1px 0px 0px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+    .image-input img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .image-input label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        text-align: justify;
+        color: #000000;
+    }
+
+    .image-input:hover {
+        background-color: #4285F4;
+    }

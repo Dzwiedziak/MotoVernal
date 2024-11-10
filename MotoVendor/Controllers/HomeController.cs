@@ -21,9 +21,5 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult SectionsList() 
-        { 
-            return View(); 
-        }
     }
 }

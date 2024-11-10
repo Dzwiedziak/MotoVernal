@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Forum - Add Section";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditSection.css" />
+}
+@section Scripts{
+        <script src="~/js/addEditSection.js"></script>
+}
+<main>
+    <div class="form-container">
+        <h2>Add new section</h2>
+        <form>
+            <div class="form-title">
+                <input type="text" id="location" placeholder="Title of the section">
+            </div>
+            <div class="upload-section">
+                <img src="~/images/load_image.png" alt="Upload" class="upload-icon" id="upload-image">
+                <input type="file" id="file-upload" style="display: none;" accept="image/*" />
+            </div>
+            <div class="form-category">
+                <div class="category-image">
+                    <label for="category">Parent category</label>
+
+                </div>
+                <div class="category-list" id="category-list">
+                    <select>
+                        <option value="none">brak</option>
+                        <option value="electric">Electric Cars</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="create-btn">Create</button>
+            </div>
+        </form>
+    </div>
+
+</main>

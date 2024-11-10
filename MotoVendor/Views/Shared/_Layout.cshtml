@@ -15,22 +15,20 @@
             </a>
             <div class="nav-content">
                 <div class="nav-buttons">
-                    <a asp-area="" asp-page="/Index" class="nav-button">Forum</a>
-                    <a asp-area="" asp-page="/Index" class="nav-button">Calendar</a>
-                    <a asp-area="" asp-page="/Privacy" class="nav-button">Store</a>
-                    <a asp-area="" asp-page="/Index" class="nav-button">News</a>
+                    <a asp-controller="Forum" asp-action="SectionsAndTopicsList" class="nav-button">Forum</a>
+                    <a asp-controller="Calendar" asp-action="Index" class="nav-button">Calendar</a>
+                    <a asp-controller="Store" asp-action="Index" class="nav-button">Store</a>
+                    <a asp-controller="News" asp-action="Index" class="nav-button">News</a>
                 </div>
                 <div class="account-wrapper">
-                    <a asp-area="" asp-page="/Index" class="account">Sign in</a>
+                    <a asp-controller="Account" asp-action="Login" class="account">Sign in</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="container">
         @RenderBody()
-    </div>
-
+    
     <footer>
         <div class="footer-section">
             <div class="footer-section-title">
@@ -83,4 +81,5 @@
         </div>
     </footer>
 </body>
+@RenderSection("Scripts", required: false)
 </html>
