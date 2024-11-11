@@ -1,0 +1,260 @@
+﻿main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    background: #FFFFFF;
+    border: 3px solid #64ABFF;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    margin: 50px;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0px;
+    gap: 25px;
+    width: 600px;
+    height: 100px;
+}
+
+.profil-nickname {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 420px;
+    height: 50px;
+    background: #64ABFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+}
+
+    .profil-nickname > span {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 46px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+        border: none;
+        background: #64ABFF;
+        outline: none
+    }
+
+.profile-img {
+    position: relative;
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    border: 5px solid #4285F4;
+    border-radius: 100%;
+}
+
+    .profile-img > img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+    }
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+}
+
+.ban-info-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+    .ban-info-group > img {
+        width: 35px;
+        height: 35px;
+        margin-left: 10px;
+    }
+
+    .ban-info-group > span {
+        width: 100%;
+        height: 32px;
+        background: #FF0000;
+        border-radius: 25px;
+        padding: 15px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+    }
+
+.standard-info-item {
+    box-sizing: border-box;
+    width: 420px;
+    height: 50px;
+    background: #C6DBFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+    .standard-info-item > span {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 26px;
+        color: #000000;
+    }
+
+.description-info-item {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 450px;
+    background: #C6DBFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+}
+
+    .description-info-item > span {
+        width: 420px;
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        text-align: justify;
+        color: #000000;
+    }
+
+.action-profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-to {
+    display: flex;
+    flex-direction: column;
+}
+
+    .nav-to > span {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 7.5px 12px 7.5px 10.5px;
+        gap: 15px;
+        width: 250px;
+        height: 37px;
+        background: #3514FF;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        color: #FFFFFF;
+    }
+
+    .nav-to > button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 7.5px 12px 7.5px 10.5px;
+        gap: 15px;
+        width: 250px;
+        height: 37px;
+        background: #0066FF;
+        border: 1px solid #FFFFFF;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+
+.profile-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+    .profile-buttons > button.go-back {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        height: 60px;
+        background: rgba(36, 0, 255, 0.5);
+        border-radius: 100px;
+        margin-left: 50px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #FFFFFF;
+    }
+
+    .profile-buttons > button {
+        cursor: pointer;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        gap: 25px;
+        margin-top: 10px;
+        margin-left: 50px;
+        width: 250px;
+        height: 60px;
+        border: 3px solid #4285F4;
+        border-radius: 10px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }

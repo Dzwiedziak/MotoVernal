@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Calendar - Edit Event";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+}
+<main>
+    <div class="form-container">
+        <form>
+            <h2>Edit the event</h2>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type">
+                    <option value="online">On-line</option>
+                    <option value="physical">Physical</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="Enter location">
+            </div>
+            <div class="date-group">
+                <div class="form-control">
+                    <label for="datetime-from">Date from</label>
+                    <input type="datetime-local" id="datetime-from">
+                </div>
+
+                <div class="form-control">
+                    <label for="datetime-to">Date to</label>
+                    <input type="datetime-local" id="datetime-to">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" rows="4" placeholder="Enter description"></textarea>
+            </div>
+            <div class="form-group image-upload">
+                <label for="image-upload">Load image</label>
+                <input type="file" id="image-upload">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="create-btn">Save changes</button>
+            </div>
+        </form>
+    </div>
+</main>

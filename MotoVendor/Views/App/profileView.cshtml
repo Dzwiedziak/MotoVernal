@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "App - Profile View";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/profileView.css" />
+}
+<main>
+    <div class="form-container">
+        <div class="profile-header">
+            <div class="profil-nickname">
+                <span>RoyBig</span>
+            </div>
+            <div class="profile-img">
+                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+            </div>
+        </div>
+        <div class="profile-info">
+            <div class="ban-info-group">
+                <span>Blocked to 10:22 30-01-2021</span>
+                <img src="~/images/no-sign-ban-vector-icon-600nw-1676561785.webp" id="ban-icon" alt="ban-icon" class="ban-icon">
+            </div>
+            <div class="standard-info-item">
+                <span>Male, 22 years old, lives in Białystok</span>
+            </div>
+            <div class="description-info-item">
+                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+            </div>
+        </div>
+        <div class="action-profile">
+            <div class="nav-to">
+                <span>Take me to my:</span>
+                <button class="take-to">
+                    Discusions
+                </button>
+                <button class="take-to">
+                    Events
+                </button>
+                <button class="take-to">
+                    Posts
+                </button>
+                <button class="take-to">
+                    Sale ads
+                </button>
+            </div>
+            <div class="profile-buttons">
+                <button class="go-back">
+                    <span>Take me back</span>
+                </button>
+                <button class="edit-button">
+                    <label>Edit</label>
+                    <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
+                </button>
+                <button class="delete-button">
+                    <label>Delete account</label>
+                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                </button>
+            </div>
+        </div>
+    </div>
+
+</main>

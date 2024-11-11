@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "App - Ban Account";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+}
+<main>
+    <div class="form-container">
+        <form>
+            <div class="profile-header">
+                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                <span>Iskra</span>
+            </div>
+            <div class="Form-group">
+                <label for="datetime-from">Ban to</label>
+                <input type="datetime-local" id="datetime-from">
+            </div>
+            <div class="form-group">
+                <label for="content"></label>
+                <textarea id="content" rows="8" cols="50" placeholder="Reason for banning"></textarea>
+            </div>
+            <div class="form-group image-upload">
+                <label for="image-upload">Load image</label>
+                <input type="file" id="image-upload">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" style="background: red;">Cancel</button>
+                <button type="submit" class="create-btn" style="background: red;">Ban</button>
+            </div>
+        </form>
+    </div>
+</main>
