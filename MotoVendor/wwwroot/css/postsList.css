@@ -1,0 +1,559 @@
+﻿.line {
+    width: 850px;
+    margin-left: 25px;
+    border: 3px solid #4285F4;
+}
+
+.line-add {
+    width: 850px;
+    margin-left: 25px;
+    border: 3px solid #4285F4;
+    margin-bottom: 25px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+}
+
+.second-section {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding: 15px 15px;
+    gap: 50px;
+    border: 1px solid #D6D8DC;
+}
+
+.filter-by {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+}
+
+    .filter-by > label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+    .filter-by button {
+        cursor: pointer;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        opacity: 0.5;
+    }
+
+.filter-group {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    border: 1px solid #D6D8DC;
+}
+
+    .filter-group > label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.date-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+}
+
+    .date-group > label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+    .date-group > input {
+        padding: 5px;
+        background-color: #cccccc;
+    }
+
+.location-group {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    border: 1px solid #D6D8DC;
+}
+
+    .location-group > label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+    .location-group > select, option {
+        margin: 0 auto;
+        padding: 5px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.status-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 0px;
+}
+
+    .status-group > label {
+        padding: 2px;
+        margin-right: 5px;
+        width: 80px;
+        background-color: #cccccc;
+        border: 1px solid #000000;
+    }
+
+.up-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #7D7C83;
+    border-radius: 5px;
+}
+
+    .search-bar img {
+        width: 25px;
+        height: 25px;
+        padding: 2px;
+    }
+
+    .search-bar input {
+        border: none;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
+        width: 400px;
+        padding: 5px;
+        outline: none;
+    }
+
+.nav-tree {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    padding-left: 10px;
+}
+
+.sort {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-right: 20px;
+}
+
+    .sort label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
+        padding-right: 5px;
+    }
+
+    .sort select {
+        text-align: center;
+        border: none;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: #0066FF;
+    }
+
+.adding-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    background: #FC139C;
+    border-radius: 5px;
+}
+
+.add-section {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 15px;
+    color: #FFFFFF;
+}
+
+main ul {
+    min-height: 66vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 50px;
+    gap: 50px;
+    background: #EAF2FF;
+}
+
+li {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+main button > img {
+    width: 35px;
+    height: 35px;
+}
+
+button.edit-btn {
+    margin-right: 2px;
+    transform: rotate(270deg);
+}
+
+button.edit-comment-btn {
+    margin-right: 2px;
+    transform: rotate(270deg);
+}
+
+button.x-btn {
+    position: absolute;
+    top: -10px;
+    right: -25px;
+    background: none;
+    border: none;
+}
+
+.main-post {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 900px;
+    border-width: 2px 3px 10px 3px;
+    border-style: solid;
+    border-color: #4285F4;
+    border-radius: 50px;
+}
+
+    .main-post > img {
+        width: 100%;
+    }
+
+.post-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(198, 219, 255, 0.5);
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding: 2px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5px;
+    margin-left: 30px;
+    margin-bottom: 5px;
+}
+
+    .profile img {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 100%;
+        margin-right: 5px;
+    }
+
+    .profile > span {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.create-time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 15px;
+}
+
+    .create-time > img {
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+    }
+
+.date {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+    .date > span {
+        font-family: 'Inter';
+        font-style: italic;
+        font-weight: 100;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        margin-left: 5px;
+    }
+
+    .date > label {
+        font-family: 'Inter';
+        font-style: bold;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        margin-left: 5px;
+    }
+
+.post-content {
+    padding: 15px;
+}
+
+    .post-content > span, textarea {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.editable-post-content {
+    padding: 15px;
+}
+
+    .editable-post-content > span, textarea {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        text-align: top;
+        color: #000000;
+    }
+
+    .editable-post-content > textarea {
+        border-color: #0066FF;
+    }
+
+.action-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+}
+
+.interacted-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+    .interacted-group > span {
+        margin-left: 5px;
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+.commentsWindow {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-height: 80vh;
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    background: #C6DBFF;
+    border-radius: 50px;
+}
+
+.comments-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #C6DBFF;
+    margin: 2px;
+}
+
+.add-comment-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #C6DBFF;
+    margin: 2px;
+}
+
+.blur {
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+.comments-content button > img {
+    width: 35px;
+    height: 35px;
+}
+
+.add-comment-content button > img {
+    width: 35px;
+    height: 35px;
+}
+
+.add-comment-content button.edit-comment-btn {
+    visibility: hidden;
+}
+
+.add-comment-content button.x-btn {
+    visibility: hidden;
+}
+
+.add-comment-content textarea {
+    width: 100%;
+    border-color: #0066FF;
+    margin-bottom: 15px;
+}
+
+.comment-action {
+    margin: 15px;
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+    .comment-action > button {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 5px;
+        gap: 10px;
+        width: 150px;
+        height: 42px;
+        background: #2400FF;
+        border-radius: 100px;
+        margin-left: 25px;
+        margin-right: 25px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #FFFFFF;
+    }
+
+        .comment-action > button.cancel-btn {
+            background: rgba(36, 0, 255, 0.5);
+        }
+
+button.cancel-edit-btn {
+    display: none;
+    margin-right: 2px;
+}
+
+textarea {
+    padding-left: 10px;
+    padding-right: 10px;
+}

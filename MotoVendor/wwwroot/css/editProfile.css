@@ -1,0 +1,198 @@
+﻿main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    gap: 10px;
+    background: #FFFFFF;
+    border: 3px solid #64ABFF;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    margin: 50px;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0px;
+    gap: 25px;
+    width: 600px;
+    height: 100px;
+}
+
+.profil-nickname {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 420px;
+    height: 50px;
+    background: #64ABFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+}
+
+    .profil-nickname > input {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 46px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+        border: none;
+        background: #64ABFF;
+        outline: none
+    }
+
+.profile-img-upload {
+    position: relative;
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    border: 5px solid #4285F4;
+    border-radius: 100%;
+}
+
+    .profile-img-upload > img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        cursor: pointer;
+    }
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+    .info-item > label {
+        width: 60px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 15px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        margin-right: 5px;
+    }
+
+    .info-item > input, select, textarea {
+        box-sizing: border-box;
+        width: 419px;
+        height: 40px;
+        background: #C6DBFF;
+        border: 1px solid #64ABFF;
+        border-radius: 25px;
+        padding: 10px;
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+        outline: none
+    }
+
+textarea {
+    height: 100px;
+    height: 180px;
+    font-family: 'Istok Web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    color: #000000;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.cancel-btn, .create-btn {
+    margin-inline: 25px;
+    padding: 7.5px 12px 7.5px 10.5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background: #0066FF;
+    border-radius: 7.5px;
+}
+
+.cancel-btn {
+    background: #0066FF;
+    color: white;
+    opacity: 0.33;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.create-btn {
+    background: #0066FF;
+    color: white;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.hover-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.profile-img-upload:hover .hover-text {
+    opacity: 1;
+}

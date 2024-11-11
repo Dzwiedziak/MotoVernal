@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Calendar - Events List";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/eventsList.css">
+}
+<section>
+    <div class="up-section">
+        <div class="nav-tree">
+            <label for="place">Calendar</label>
+        </div>
+        <div class="sort">
+            <label for="sort_by">Sort By</label>
+            <select id="type">
+                <option value="date_adc">Date ACS</option>
+                <option value="date_desc">Date DESC</option>
+                <option value="alpabetical_asc">Alpabetical ACS</option>
+                <option value="alphabetical_desc">Alpabetical DESC</option>
+            </select>
+        </div>
+    </div>
+    <div class="second-section">
+        <div class="filter-by">
+            <label>Filter by</label>
+            <button class="clear">
+                <span>X Clear All</span>
+            </button>
+        </div>
+        <div class="filter-group">
+            <div class="date-group">
+                <label for="datetime-from">Date from</label>
+                <input type="datetime-local" id="datetime-from">
+            </div>
+            <div class="date-group">
+                <label for="datetime-to">Date to</label>
+                <input type="datetime-local" id="datetime-to">
+            </div>
+        </div>
+        <div class="location-group">
+            <label for="location">Location</label>
+            <select id="location">
+                <option value="Onlinek">On-line</option>
+                <option value="Bialystok">Białystok</option>
+                <option value="Lublin">Lublin</option>
+                <option value="Warszawa">Warszawa</option>
+                <option value="Wroclaw">Wrocław</option>
+            </select>
+        </div>
+        <div class="location-group">
+            <label for="status">Status</label>
+            <div class="status-group">
+                <label class="status">Owner</label>
+                <input type="checkbox" id="status1" name="owner" value="owner">
+            </div>
+            <div class="status-group">
+                <label class="status">Interested</label>
+                <input type="checkbox" id="status2" name="interested" value="interested">
+            </div>
+        </div>
+        <div class="search-bar">
+            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+            <input type="text" id="search" placeholder="Search">
+        </div>
+        <div class="adding-section">
+            <button class="add-section">
+                Plan new event
+            </button>
+        </div>
+    </div>
+</section>
+<main>
+    <ul>
+        <li>
+            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="event-image" id="event-image">
+            <div class="event-info">
+                <label>Car Show Wrocław 2024</label>
+                <div class="event-content">
+                    <label>by</label>
+                    <button class="profil-btn" id="profil-button">
+                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
+                    </button>
+                    <label>RoyBig</label>
+                </div>
+                <div class="event-content">
+                    <label>Wrocław</label>
+                    <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
+                </div>
+                <div class="event-content">
+                    <label>From</label>
+                    <label class="hour">10:15</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                    <label>To</label>
+                    <label class="hour">12:00</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                </div>
+                <div class="line">
+                </div>
+                <div class="event-down">
+                    <div class="event-interested">
+                        <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
+                        <label>250</label>
+                        <label class="interested">interested</label>
+                    </div>
+                    <button class="event-action">
+                        <span>Show more details</span>
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li>
+            <img src="~/images/pol_pl_Dyfuzor-Tylny-VW-Golf-5-R32-1807_1.jpg" alt="car" class="event-image" id="event-image">
+            <div class="event-info">
+                <label>Car Show Wrocław 2024</label>
+                <div class="event-content">
+                    <label>by</label>
+                    <button class="profil-btn" id="profil-button">
+                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
+                    </button>
+                    <label>RoyBig</label>
+                </div>
+                <div class="event-content">
+                    <label>Wrocław</label>
+                    <img src="~/images//pin.png" alt="pin" class="pin-image" id="pin-image">
+                </div>
+                <div class="event-content">
+                    <label>From</label>
+                    <label class="hour">10:15</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                    <label>To</label>
+                    <label class="hour">12:00</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                </div>
+                <div class="line">
+                </div>
+                <div class="event-down">
+                    <div class="event-interested">
+                        <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
+                        <label>250</label>
+                        <label class="interested">interested</label>
+                    </div>
+                    <button class="event-action">
+                        <span>Show more details</span>
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li>
+            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="event-image" id="event-image">
+            <div class="event-info">
+                <label>Car Show Wrocław 2024</label>
+                <div class="event-content">
+                    <label>by</label>
+                    <button class="profil-btn" id="profil-button">
+                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
+                    </button>
+                    <label>RoyBig</label>
+                </div>
+                <div class="event-content">
+                    <label>Wrocław</label>
+                    <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
+                </div>
+                <div class="event-content">
+                    <label>From</label>
+                    <label class="hour">10:15</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                    <label>To</label>
+                    <label class="hour">12:00</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                </div>
+                <div class="line">
+                </div>
+                <div class="event-down">
+                    <div class="event-interested">
+                        <img src="~/images//group.png" alt="group" class="group-image" id="group-image">
+                        <label>250</label>
+                        <label class="interested">interested</label>
+                    </div>
+                    <button class="event-action">
+                        <span>Show more details</span>
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li>
+            <img src="~/images/e046b8fc8661303aa4606678c95a64eb6edd7a28.jpg" alt="car" class="event-image" id="event-image">
+            <div class="event-info">
+                <label>Car Show Wrocław 2024</label>
+                <div class="event-content">
+                    <label>by</label>
+                    <button class="profil-btn" id="profil-button">
+                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
+                    </button>
+                    <label>RoyBig</label>
+                </div>
+                <div class="event-content">
+                    <label>Wrocław</label>
+                    <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
+                </div>
+                <div class="event-content">
+                    <label>From</label>
+                    <label class="hour">10:15</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                    <label>To</label>
+                    <label class="hour">12:00</label>
+                    <label class="date">30-11-2022</label>
+                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+                </div>
+                <div class="line">
+                </div>
+                <div class="event-down">
+                    <div class="event-interested">
+                        <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
+                        <label>250</label>
+                        <label class="interested">interested</label>
+                    </div>
+                    <button class="event-action">
+                        <span>Show more details</span>
+                    </button>
+                </div>
+            </div>
+        </li>
+    </ul>
+</main>

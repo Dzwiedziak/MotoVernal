@@ -1,0 +1,292 @@
+﻿main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    gap: 10px;
+    box-sizing: border-box;
+    background: #C6DBFF;
+    border: 10px solid #033BFF;
+    border-radius: 50px;
+    min-width: 1000px;
+    margin: 15px;
+}
+
+    .info-container > label {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 69px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+    }
+
+.main-info {
+    font-family: 'Istok Web';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 69px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.description {
+    min-width: 350px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 10px;
+    background: #64ABFF;
+    border: 1px solid #64ABFF;
+    border-radius: 25px;
+    max-width: 500px;
+    margin-right: 25px;
+}
+
+    .description > span {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        text-align: justify;
+        color: #000000;
+    }
+
+.rest-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+
+    .rest-group > img {
+        width: 300px;
+        height: 200px;
+        border: 3px solid #4285F4;
+        border-radius: 25px;
+    }
+
+    .rest-group > button {
+        cursor: pointer;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        gap: 25px;
+        margin: 10px;
+        width: 250px;
+        height: 61px;
+        border: 3px solid #4285F4;
+        border-radius: 10px;
+    }
+
+.event-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    padding: 0px;
+    background: rgba(100, 171, 255, 0.9);
+}
+
+    .event-content > label {
+        font-family: 'Istok Web';
+        font-style: italic;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 29px;
+        padding-inline: 2px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+    }
+
+    .event-content img {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .event-content > label.hour {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+    .event-content > label.date {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+    .event-content button {
+        cursor: pointer;
+    }
+
+.line {
+    width: 90%;
+    height: 0px;
+    border: 3px solid #4285F4;
+}
+
+.interested-section {
+    border: 3px solid #ccc;
+    padding: 2px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 900px;
+}
+
+.interested-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 25px;
+    width: 894px;
+    background: #FFFFFF;
+}
+
+    .interested-header > img {
+        width: 60px;
+        height: 60px;
+        margin-right: 5px;
+    }
+
+    .interested-header > span {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 46px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+    }
+
+    .interested-header > button {
+        width: 50px;
+        height: 30px;
+        color: #2400FF;
+        border: none;
+        font-size: 32px;
+        cursor: pointer;
+    }
+
+ol {
+    display: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 5px 25px;
+    gap: 30px;
+}
+
+li {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    gap: 5px;
+}
+
+    li > button {
+        cursor: pointer
+    }
+
+    li img {
+        width: 50px;
+        height: 50px;
+        border: 3px solid #000000;
+        border-radius: 100%;
+    }
+
+    li > span {
+        font-family: 'Istok Web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #000000;
+    }
+
+.details-action {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+    .details-action > button {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 5px;
+        gap: 10px;
+        width: 300px;
+        height: 42px;
+        background: #2400FF;
+        border-radius: 100px;
+        margin-left: 25px;
+        margin-right: 25px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+        color: #FFFFFF;
+    }
+
+        .details-action > button.go-back {
+            background: rgba(36, 0, 255, 0.5);
+        }

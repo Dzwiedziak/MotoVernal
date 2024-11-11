@@ -1,0 +1,217 @@
+﻿@{
+    Layout = null;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/introductionPage.css" />
+    <script type="text/javascript" src="~/js/introductionPage.js"></script>
+</head>
+<body>
+    <div class="introduction-page">
+        <div class="introduction-page__menu">
+            <div class="introduction-page__menu-content">
+                <div class="hr-line"></div>
+                <ul class="menu__list">
+                    <li class="menu__item">
+                        <div class="menu__title">Website</div>
+                        <ul class="submenu">
+                            <li class="submenu__item">Report problem</li>
+                            <li class="submenu__item">Changes</li>
+                            <li class="submenu__item">Create account</li>
+                        </ul>
+                    </li>
+                    <li class="menu__item">
+                        <div class="menu__title">Marketplace</div>
+                        <ul class="submenu">
+                            <li class="submenu__item">Sell item</li>
+                            <li class="submenu__item">Search for item</li>
+                        </ul>
+                    </li>
+                    <li class="menu__item">
+                        <div class="menu__title">Forum</div>
+                        <ul class="submenu">
+                            <li class="submenu__item">Automotive news</li>
+                            <li class="submenu__item">Discussions</li>
+                            <li class="submenu__item">Calendar of events</li>
+                        </ul>
+                    </li>
+                    <li class="menu__item">
+                        <div class="menu__title">Contact</div>
+                        <ul class="submenu">
+                            <li class="submenu__item">Send message</li>
+                        </ul>
+                    </li>
+                    <li class="menu__item">
+                        <div class="menu__title">For developers</div>
+                        <ul class="submenu">
+                            <li class="submenu__item">API Documentation</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="introduction-page__nav-wrapper">
+            <nav class="introduction-page__nav">
+                <div class="home-action">
+                    <button class="home-action__button">
+                        <img src="~/images/logo-text.svg">
+                    </button>
+                </div>
+                <div class="introduction-page__nav-main">
+                    <ul class="introduction-page__nav-list">
+                        <li>
+                            <img src="~/images/Instagram.svg">
+                        </li>
+                        <li>
+                            <img src="~/images/YouTube.svg">
+                        </li>
+                        <li>
+                            <img src="~/images/Facebook.svg">
+                        </li>
+                        <li>
+                            <img src="~/images/X.svg">
+                        </li>
+                    </ul>
+                    <button class="introduction-page__nav-languages">
+                        <div class="introduction-page__nav-languages__selected">
+                            <div class="landing-page__nav-languages__selected-text">
+                                EN
+                            </div>
+                            <img src="~/images/arrow-down-empty.svg">
+                        </div>
+                        <ul>
+                        </ul>
+                    </button>
+                    <button class="introduction-page__whole-website-nav">
+                        <img src="~/images/menu.svg">
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <div class="introduction-page__carousel" style="transform: translate(0%);">
+            <div class="carousel-page landing-page" style="transform: translate(0%);">
+                <div class="landing-page__top-page page">
+                    <video id="landing-page__bg-video" class="background" muted loop>
+                        <source src="~/images/car-moving-through-desert.mp4" />
+                    </video>
+                    <main class="landing-page__main">
+                        <button class="move-left">
+                            <img class="landing-page__move-left__img" src="~/images/arrow-left-full.svg">
+                            <div class="landing-page__move-left__text">
+                                1/3
+                            </div>
+                        </button>
+                        <div class="landing-page__promoting-text delayed-text-transform">
+                            <div class="landing-page__promoting-text-first">
+                                We keep you
+                            </div>
+                            <div class="landing-page__promoting-text-second delayed-text">
+                                In motion
+                            </div>
+                        </div>
+                        <button class="move-right">
+                            <img class="landing-page__move_right__img" src="~/images/arrow-right-full.svg">
+                            <div class="landing-page__move-right__text">
+                                Next
+                            </div>
+                        </button>
+                    </main>
+                    <footer class="landing-page__footer">
+                        <img src="~/images/trustpilot-logo-text.svg">
+                        <div class="landing-page__scroll-info">
+                            <div class="landing-page__scroll-info__text">
+                                Creation timeline
+                            </div>
+                            <div class="landing-page__scroll-info__line"></div>
+                        </div>
+                        <div class="landing-page__law">
+                            <button class="landing-page__privacy-policy">
+                                Privacy policy
+                            </button>
+                            <div class="landing-page__watermark">
+                                @@ MotoVendor
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+                <div class="slide-up-page landing-page__slide-up" style="transform: translateY(0%);">
+                    <div class="timeline">
+                        <div class="vertical-line"></div>
+                        <div class="timeline-content">
+                            <div class="timeline__timepoint">
+                                <div class="timepoint-title">
+                                    Initialization
+                                </div>
+                                <div class="timepoint-date">
+                                    15.06.2024
+                                </div>
+                                <img class="timeline-img" src="~/images/tate-brothers.jpg">
+                                <div class="timepoint-description">
+                                    Two brothers decided to make world better by making trading easier for everyone , after they got scammed on automotive parts. They did some research and decided to make automotive marketplace.
+                                </div>
+                            </div>
+                            <div class="timeline__timepoint">
+                                <div class="timepoint-title">
+                                    Process of making
+                                </div>
+                                <div class="timepoint-date">
+                                    18.11.2024
+                                </div>
+                                <img class="timeline-img" src="~/images/andrew-tate.jpg">
+                                <div class="timepoint-description">
+                                    They decided to release their project to public. They still don’t know how it will increase safety of trades, but at least website looks cool, and they made some money.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-page marketplace" style="transform: translate(100%);">
+                <div class="page">
+                    <img class="background background--blur" src="~/images/marketplace-example.jpg">
+                    <button class="move-left invert">
+                        <img class="landing-page__move-left__img" src="~/images/arrow-left-full.svg">
+                        <div class="landing-page__move-left__text">
+                            2/3
+                        </div>
+                    </button>
+                    <div class="marketplace-title">
+                        Marketplace
+                    </div>
+                    <button class="move-right invert">
+                        <img class="landing-page__move_right__img" src="~/images/arrow-right-full.svg">
+                        <div class="landing-page__move-right__text">
+                            Next
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="carousel-page forum" style="transform: translate(200%);">
+                <div class="page">
+                    <button class="move-left invert">
+                        <img class="landing-page__move-left__img" src="~/images/arrow-left-full.svg">
+                        <div class="landing-page__move-left__text">
+                            3/3
+                        </div>
+                    </button>
+                    <img class="background background--blur" src="~/images/forum-example.jpg">
+                    <div class="forum-title">
+                        Forum
+                    </div>
+                    <button class="move-right invert">
+                        <img class="landing-page__move_right__img" src="~/images/arrow-right-full.svg">
+                        <div class="landing-page__move-right__text">
+                            End
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

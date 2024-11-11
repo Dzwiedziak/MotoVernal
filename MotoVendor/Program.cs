@@ -38,7 +38,7 @@ internal class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Forum}/{action=SectionsAndTopicsList}/{id?}");
+            pattern: "{controller=Home}/{action=IntroductionPage}/{id?}");
 
         app.Run();
     }
