@@ -30,6 +30,6 @@ namespace BusinessLogic.Services
         }
 
         private Report CreateNewReport(ReportUserDTO report) =>
-            new(report.Reporter, report.Reported, report.Description, DateTime.Now);
+            new(report.Reporter, report.Reported, report.Description, DateTime.Now, report.Image);
     }
 }

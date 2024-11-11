@@ -10,14 +10,16 @@ namespace BusinessLogic.DTO.Event
         public DateTime TimeFrom { get; set; }
         public DateTime TimeTo { get; set; }
         public string Description { get; set; }
+        public Entities.File? Image { get; set; }
 
-        public AddEventDTO(Entities.User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description)
+        public AddEventDTO(Entities.User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description, Entities.File? image)
         {
             Publisher = publisher;
             EventType = eventType;
             TimeFrom = timeFrom;
             TimeTo = timeTo;
             Description = description;
+            Image = image;
         }
     }
 }

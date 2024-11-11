@@ -10,10 +10,11 @@ namespace DB.Entities
         public DateTime TimeFrom { get; set; }
         public DateTime TimeTo { get; set; }
         public string Description { get; set; }
+        public File? Image { get; set; }
 
         public Event() { }
 
-        public Event(int id, User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description)
+        public Event(int id, User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description, File? image)
         {
             Id = id;
             Publisher = publisher;
@@ -21,10 +22,11 @@ namespace DB.Entities
             TimeFrom = timeFrom;
             TimeTo = timeTo;
             Description = description;
+            Image = image;
         }
 
-        public Event(User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description)
-            : this(0, publisher, eventType, timeFrom, timeTo, description) { }
+        public Event(User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description, File? image)
+            : this(0, publisher, eventType, timeFrom, timeTo, description, image) { }
 
         public Event(Event source)
         {

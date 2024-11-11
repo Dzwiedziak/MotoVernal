@@ -13,8 +13,9 @@ namespace BusinessLogic.DTO.Offer
         public string Email { get; set; }
         public Entities.Phone Phone { get; set; }
         public Entities.Price Price { get; set; }
+        public List<Entities.File> Images { get; set; }
 
-        public GetOfferDTO(string description, DateTime creationTime, Location location, Entities.User user, bool isReserved, string email, Phone phone, Price price)
+        public GetOfferDTO(string description, DateTime creationTime, Location location, Entities.User user, bool isReserved, string email, Phone phone, Price price, List<Entities.File> images)
         {
             Description = description;
             CreationTime = creationTime;
@@ -24,6 +25,7 @@ namespace BusinessLogic.DTO.Offer
             Email = email;
             Phone = phone;
             Price = price;
+            Images = images;
         }
     }
 }

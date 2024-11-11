@@ -11,10 +11,11 @@
         public string Email { get; set; }
         public Phone Phone { get; set; }
         public Price Price { get; set; }
+        public List<File> Images { get; set; }
 
         public Offer() { }
 
-        public Offer(int id, string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price)
+        public Offer(int id, string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price, List<File> images)
         {
             Id = id;
             Description = description;
@@ -25,9 +26,10 @@
             Email = email;
             Phone = phone;
             Price = price;
+            Images = images;
         }
 
-        public Offer(string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price)
-            : this(0, description, creationTime, location, user, isReserved, email, phone, price) { }
+        public Offer(string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price, List<File> images)
+            : this(0, description, creationTime, location, user, isReserved, email, phone, price, images) { }
     }
 }

@@ -4,6 +4,7 @@ using DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB.Migrations
 {
     [DbContext(typeof(MVAppContext))]
-    partial class MVAppContextModelSnapshot : ModelSnapshot
+    [Migration("20241111171148_file-add")]
+    partial class fileadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +45,6 @@ namespace DB.Migrations
                     b.Property<DateTime>("ExpirationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -54,8 +54,6 @@ namespace DB.Migrations
                     b.HasIndex("BannedId");
 
                     b.HasIndex("BannerId");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("Bans");
                 });
@@ -75,15 +73,10 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ReporterId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("ReporterId");
 
@@ -105,9 +98,6 @@ namespace DB.Migrations
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PublisherId")
                         .HasColumnType("nvarchar(450)");
 
@@ -119,34 +109,9 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
-
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("DB.Entities.EventInterest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("EventInterests");
                 });
 
             modelBuilder.Entity("DB.Entities.File", b =>
@@ -165,12 +130,7 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VehicleOfferId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VehicleOfferId");
 
                     b.ToTable("Files");
                 });
@@ -257,9 +217,6 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("PublicationTime")
                         .HasColumnType("datetime2");
 
@@ -267,8 +224,6 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("PublisherId");
 
@@ -310,9 +265,6 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ReportedId")
                         .HasColumnType("nvarchar(450)");
 
@@ -320,8 +272,6 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("ReportedId");
 
@@ -338,9 +288,6 @@ namespace DB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
@@ -349,8 +296,6 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("ParentId");
 
@@ -372,9 +317,6 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PublisherId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -387,8 +329,6 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("PublisherId");
 
@@ -412,9 +352,6 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -422,8 +359,6 @@ namespace DB.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("OwnerId");
 
@@ -487,9 +422,6 @@ namespace DB.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProfileImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -509,8 +441,6 @@ namespace DB.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ProfileImageId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -777,69 +707,27 @@ namespace DB.Migrations
                         .WithMany()
                         .HasForeignKey("BannerId");
 
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.Navigation("Banned");
 
                     b.Navigation("Banner");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("DB.Entities.BugReport", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.User", "Reporter")
                         .WithMany()
                         .HasForeignKey("ReporterId");
-
-                    b.Navigation("Image");
 
                     b.Navigation("Reporter");
                 });
 
             modelBuilder.Entity("DB.Entities.Event", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.User", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
 
-                    b.Navigation("Image");
-
                     b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("DB.Entities.EventInterest", b =>
-                {
-                    b.HasOne("DB.Entities.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DB.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Event");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DB.Entities.File", b =>
-                {
-                    b.HasOne("DB.Entities.VehicleOffer", null)
-                        .WithMany("Images")
-                        .HasForeignKey("VehicleOfferId");
                 });
 
             modelBuilder.Entity("DB.Entities.Message", b =>
@@ -859,25 +747,15 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.Post", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.User", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
-
-                    b.Navigation("Image");
 
                     b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("DB.Entities.Report", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.User", "Reported")
                         .WithMany()
                         .HasForeignKey("ReportedId");
@@ -886,8 +764,6 @@ namespace DB.Migrations
                         .WithMany()
                         .HasForeignKey("ReporterId");
 
-                    b.Navigation("Image");
-
                     b.Navigation("Reported");
 
                     b.Navigation("Reporter");
@@ -895,26 +771,16 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.Section", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.Section", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Image");
 
                     b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("DB.Entities.Topic", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.User", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId")
@@ -927,8 +793,6 @@ namespace DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Image");
-
                     b.Navigation("Publisher");
 
                     b.Navigation("Section");
@@ -936,10 +800,6 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.TopicResponse", b =>
                 {
-                    b.HasOne("DB.Entities.File", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("DB.Entities.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
@@ -950,20 +810,9 @@ namespace DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Image");
-
                     b.Navigation("Owner");
 
                     b.Navigation("Topic");
-                });
-
-            modelBuilder.Entity("DB.Entities.User", b =>
-                {
-                    b.HasOne("DB.Entities.File", "ProfileImage")
-                        .WithMany()
-                        .HasForeignKey("ProfileImageId");
-
-                    b.Navigation("ProfileImage");
                 });
 
             modelBuilder.Entity("DB.Entities.UserObservation", b =>
@@ -1065,11 +914,6 @@ namespace DB.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DB.Entities.VehicleOffer", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

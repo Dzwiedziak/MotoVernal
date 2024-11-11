@@ -28,6 +28,6 @@ namespace BusinessLogic.Services
         }
 
         private Ban CreateNewBan(BanUserDTO ban) =>
-            new(ban.Banned, ban.Banner, DateTime.Now, ban.ExpirationTime, ban.Reason);
+            new(ban.Banned, ban.Banner, DateTime.Now, ban.ExpirationTime, ban.Reason, ban.Image);
     }
 }

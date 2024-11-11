@@ -29,7 +29,8 @@ namespace DB.Entities
             vehicleOffer.IsReserved,
             vehicleOffer.Email,
             vehicleOffer.Phone,
-            vehicleOffer.Price)
+            vehicleOffer.Price,
+            vehicleOffer.Images)
         {
             Brand = vehicleOffer.Brand;
             Model = vehicleOffer.Model;
@@ -50,8 +51,8 @@ namespace DB.Entities
         public VehicleOffer(
             int id, string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price,
             string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body,
-            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin)
-            : base(id, description, creationTime, location, user, isReserved, email, phone, price)
+            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images)
+            : base(id, description, creationTime, location, user, isReserved, email, phone, price, images)
         {
             Brand = brand;
             Model = model;
@@ -72,8 +73,8 @@ namespace DB.Entities
         public VehicleOffer(
             string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price,
             string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body,
-            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin)
-            : base(description, creationTime, location, user, isReserved, email, phone, price)
+            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images)
+            : base(description, creationTime, location, user, isReserved, email, phone, price, images)
         {
             Brand = brand;
             Model = model;

@@ -44,14 +44,15 @@ namespace BusinessLogic.Services
         }
 
         private Post CreateNewPost(AddPostDTO post) =>
-            new(post.Publisher, post.Content, publicationTime: DateTime.Now);
+            new(post.Publisher, post.Content, publicationTime: DateTime.Now, post.Image);
 
         private GetPostDTO CreateGetPostDTO(Post post) =>
-            new(post.Publisher, post.Content, post.PublicationTime);
+            new(post.Publisher, post.Content, post.PublicationTime, post.Image);
 
         private void UpdatePost(ref Post oldPost, UpdatePostDTO post)
         {
             oldPost.Content = post.Content;
+            oldPost.Image = post.Image;
         }
     }
 }

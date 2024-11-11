@@ -29,6 +29,6 @@ namespace BusinessLogic.Services
         }
 
         private BugReport CreateNewBugReport(ReportBugDTO reportBug) =>
-            new(reportBug.Reporter, reportBug.Description, DateTime.Now);
+            new(reportBug.Reporter, reportBug.Description, DateTime.Now, reportBug.Image);
     }
 }

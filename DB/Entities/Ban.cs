@@ -14,9 +14,10 @@ namespace DB.Entities
         public DateTime CreationTime { get; set; }
         public DateTime ExpirationTime { get; set; }
         public string Reason { get; set; }
+        public File? Image { get; set; }
 
         public Ban(){ }
-        public Ban(int id, User banned, User banner, DateTime creationTime, DateTime expirationTime, string reason)
+        public Ban(int id, User banned, User banner, DateTime creationTime, DateTime expirationTime, string reason, File? image)
         {
             Id = id;
             Banned = banned;
@@ -24,9 +25,10 @@ namespace DB.Entities
             CreationTime = creationTime;
             ExpirationTime = expirationTime;
             Reason = reason;
+            Image = image;
         }
 
-        public Ban(User banned, User banner, DateTime creationTime, DateTime expirationTime, string reason)
-            : this(0, banned, banner, creationTime, expirationTime, reason) { }
+        public Ban(User banned, User banner, DateTime creationTime, DateTime expirationTime, string reason, File? image)
+            : this(0, banned, banner, creationTime, expirationTime, reason, image) { }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DB.Enums;
+using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.User
 {
@@ -10,8 +11,9 @@ namespace BusinessLogic.DTO.User
         public int? Age { get; set; }
         public DateTime CreationTime { get; set; }
         public string Description { get; set; }
+        public Entities.File? ProfileImage { get; set; }
 
-        public GetUserDTO(string userName, string email, UserGender? gender, int? age, DateTime creationTime, string description)
+        public GetUserDTO(string userName, string email, UserGender? gender, int? age, DateTime creationTime, string description, Entities.File? profileImage)
         {
             UserName = userName;
             Email = email;
@@ -19,6 +21,7 @@ namespace BusinessLogic.DTO.User
             Age = age;
             CreationTime = creationTime;
             Description = description;
+            ProfileImage = profileImage;
         }
     }
 }

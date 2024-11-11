@@ -100,7 +100,7 @@ namespace BusinessLogic.Services
             new(user.Nickname, user.Email, null, null, DateTime.Now, "");
 
         private GetUserDTO CreateGetUserDTO(User user) =>
-            new(user.UserName!, user.Email!, user.Gender, user.Age, user.CreationTime, user.Description);
+            new(user.UserName!, user.Email!, user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
 
         private bool IsUserObserving(string ObserverId, string ObservedId)
         {
@@ -112,6 +112,7 @@ namespace BusinessLogic.Services
             oldUser.Gender = user.Gender;
             oldUser.Age = user.Age;
             oldUser.Description = user.Description;
+            oldUser.ProfileImage = user.ProfileImage;
         }
     }
 }

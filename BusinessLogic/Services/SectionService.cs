@@ -46,9 +46,9 @@ namespace BusinessLogic.Services
             _sectionRepository.GetOne(id) != null;
             
         private Section CreateNewSection(AddSectionDTO section) =>
-            new(section.Title, section.Parent);
+            new(section.Title, section.Parent, section.Image);
 
         private GetSectionDTO CreateGetSectionDTO(Section section) =>
-            new(section.Title, section.Parent);
+            new(section.Title, section.Parent, section.Image);
     }
 }

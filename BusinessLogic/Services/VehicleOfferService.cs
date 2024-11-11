@@ -60,8 +60,8 @@ namespace BusinessLogic.Services
             {
                 return VehicleOfferErrorCode.VehicleWithVinExists;
             }
-            VehicleOffer updatedVehicleOffer = CreateUpdatedVehicleOffer(vehicleOffer, dbVehicleOffer);
-            _vehicleOfferRepository.Update(updatedVehicleOffer);
+            UpdateVehicleOffer(ref dbVehicleOffer, vehicleOffer);
+            _vehicleOfferRepository.Update(dbVehicleOffer);
             return null;
         }
 
@@ -93,7 +93,8 @@ namespace BusinessLogic.Services
                 yearOfProduction: vehicleOffer.YearOfProduction,
                 mileage: vehicleOffer.Mileage,
                 firstOwner: vehicleOffer.FirstOwner,
-                vin: vehicleOffer.VIN
+                vin: vehicleOffer.VIN,
+                images: vehicleOffer.Images
             );
         }
         private GetVehicleOfferDTO CreateGetVehicleOfferDTO(VehicleOffer vehicleOffer)
@@ -121,28 +122,27 @@ namespace BusinessLogic.Services
                 yearOfProduction : vehicleOffer.YearOfProduction,
                 mileage : vehicleOffer.Mileage,
                 firstOwner : vehicleOffer.FirstOwner,
-                vIN : vehicleOffer.VIN
+                vIN : vehicleOffer.VIN,
+                images: vehicleOffer.Images
             );
         }
-        private VehicleOffer CreateUpdatedVehicleOffer(UpdateVehicleOfferDTO vehicleOffer, VehicleOffer oldVehicleOffer)
+        private void UpdateVehicleOffer(ref VehicleOffer oldVehicleOffer, UpdateVehicleOfferDTO vehicleOffer)
         {
-            return new VehicleOffer(oldVehicleOffer)
-            {
-                Brand = vehicleOffer.Brand,
-                Model = vehicleOffer.Model,
-                Generation = vehicleOffer.Generation,
-                Version = vehicleOffer.Version,
-                Transmission = vehicleOffer.Transmission,
-                Drive = vehicleOffer.Drive,
-                Body = vehicleOffer.Body,
-                Color = vehicleOffer.Color,
-                Condition = vehicleOffer.Condition,
-                NumberOfSeats = vehicleOffer.NumberOfSeats,
-                YearOfProduction = vehicleOffer.YearOfProduction,
-                Mileage = vehicleOffer.Mileage,
-                FirstOwner = vehicleOffer.FirstOwner,
-                VIN = vehicleOffer.VIN,
-            };
+            oldVehicleOffer.Brand = vehicleOffer.Brand;
+            oldVehicleOffer.Model = vehicleOffer.Model;
+            oldVehicleOffer.Generation = vehicleOffer.Generation;
+            oldVehicleOffer.Version = vehicleOffer.Version;
+            oldVehicleOffer.Transmission = vehicleOffer.Transmission;
+            oldVehicleOffer.Drive = vehicleOffer.Drive;
+            oldVehicleOffer.Body = vehicleOffer.Body;
+            oldVehicleOffer.Color = vehicleOffer.Color;
+            oldVehicleOffer.Condition = vehicleOffer.Condition;
+            oldVehicleOffer.NumberOfSeats = vehicleOffer.NumberOfSeats;
+            oldVehicleOffer.YearOfProduction = vehicleOffer.YearOfProduction;
+            oldVehicleOffer.Mileage = vehicleOffer.Mileage;
+            oldVehicleOffer.FirstOwner = vehicleOffer.FirstOwner;
+            oldVehicleOffer.VIN = vehicleOffer.VIN;
+            oldVehicleOffer.Images = vehicleOffer.Images;
         }
     }
 }

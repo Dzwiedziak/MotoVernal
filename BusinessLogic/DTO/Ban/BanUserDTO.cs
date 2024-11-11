@@ -8,13 +8,15 @@ namespace BusinessLogic.DTO.Ban
         public Entities.User Banner { get; set; }
         public DateTime ExpirationTime { get; set; }
         public string Reason { get; set; }
+        public Entities.File? Image { get; set; }
 
-        public BanUserDTO(Entities.User banned, Entities.User banner, DateTime creationTime, DateTime expirationTime, string reason)
+        public BanUserDTO(Entities.User banned, Entities.User banner, DateTime creationTime, DateTime expirationTime, string reason, Entities.File? image)
         {
             Banned = banned;
             Banner = banner;
             ExpirationTime = expirationTime;
             Reason = reason;
+            Image = image;
         }
     }
 }

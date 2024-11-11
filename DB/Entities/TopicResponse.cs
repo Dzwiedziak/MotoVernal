@@ -7,6 +7,7 @@
         public User Owner { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
+        public File? Image { get; set; }
 
         public TopicResponse() { }
 
@@ -21,8 +22,5 @@
 
         public TopicResponse(Topic topic, User owner, string description, DateTime creationTime)
             : this(0, topic, owner, description, creationTime) { }
-
-        public TopicResponse(TopicResponse source)
-            : this(source.Id, source.Topic, source.Owner, source.Description, source.CreationTime) { }
     }
 }

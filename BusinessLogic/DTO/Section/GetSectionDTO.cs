@@ -6,11 +6,13 @@ namespace BusinessLogic.DTO.Section
     {
         public string Title { get; set; }
         public Entities.Section? Parent { get; set; }
+        public Entities.File? Image { get; set; }
 
-        public GetSectionDTO(string title, Entities.Section? parent)
+        public GetSectionDTO(string title, Entities.Section? parent, Entities.File? image)
         {
             Title = title;
             Parent = parent;
+            Image = image;
         }
     }
 }

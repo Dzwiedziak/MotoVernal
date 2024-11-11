@@ -8,10 +8,11 @@
         public DateTime CreationTime { get; set; }
         public User Publisher { get; set; }
         public Section Section { get; set; }
+        public File? Image { get; set; }
 
         public Topic() { }
 
-        public Topic(int id, string title, string description, DateTime creationTime, User publisher, Section section)
+        public Topic(int id, string title, string description, DateTime creationTime, User publisher, Section section, File? image)
         {
             Id = id;
             Title = title;
@@ -19,12 +20,11 @@
             CreationTime = creationTime;
             Publisher = publisher;
             Section = section;
+            Image = image;
         }
 
-        public Topic(string title, string description, DateTime creationTime, User publisher, Section section)
-            : this(0, title, description, creationTime, publisher, section) { }
+        public Topic(string title, string description, DateTime creationTime, User publisher, Section section, File? image)
+            : this(0, title, description, creationTime, publisher, section, image) { }
 
-        public Topic(Topic source)
-            : this(source.Id, source.Title, source.Description, source.CreationTime, source.Publisher, source.Section) { }
     }
 }

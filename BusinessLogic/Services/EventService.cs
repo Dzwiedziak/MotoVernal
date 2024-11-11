@@ -43,16 +43,17 @@ namespace BusinessLogic.Services
         }
 
         public Event CreateNewEvent(AddEventDTO @event) =>
-            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description);
+            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
 
         public GetEventDTO CreateGetEventDTO(Event @event) =>
-            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description);
+            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
 
         public void UpdateEvent(ref Event oldEvent, UpdateEventDTO @event)
         {
             oldEvent.TimeFrom = @event.TimeFrom;
             oldEvent.TimeTo = @event.TimeTo;
             oldEvent.Description = @event.Description;
+            oldEvent.Image = @event.Image;
         }
     }
 }

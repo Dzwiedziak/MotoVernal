@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using File = DB.Entities.File;
 namespace DB
 {
     public class MVAppContext : IdentityDbContext<User>
@@ -14,26 +15,19 @@ namespace DB
         public DbSet<Section> Sections { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<TopicResponse> TopicResponses { get; set; }
-        //public DbSet<User> Users { get; set; }
         public DbSet<VehicleOffer> VehicleOffers { get; set; }
         public DbSet<Ban> Bans { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<BugReport> BugReports { get; set; }
         public DbSet<UserObservation> UserObservations { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<EventInterest> EventInterests { get; set; }
 
         public MVAppContext(DbContextOptions<MVAppContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<IdentityUserLogin<string>>()
-                .HasKey(login => new { login.LoginProvider, login.ProviderKey });
-
-            modelBuilder.Entity<IdentityUserRole<string>>()
-                .HasKey(role => new { role.UserId, role.RoleId });
-
-            modelBuilder.Entity<IdentityUserToken<string>>()
-                .HasKey(token => new { token.UserId, token.LoginProvider, token.Name });
-
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Section>()
                 .HasOne(s => s.Parent)
                 .WithMany()

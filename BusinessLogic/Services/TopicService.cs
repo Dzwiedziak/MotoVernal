@@ -44,15 +44,16 @@ namespace BusinessLogic.Services
         }
 
         private Topic CreateNewTopic(AddTopicDTO topic) =>
-            new(topic.Title, topic.Description, DateTime.Now, topic.Publisher, topic.Section);
+            new(topic.Title, topic.Description, DateTime.Now, topic.Publisher, topic.Section, topic.Image);
 
         private GetTopicDTO CreateGetTopicDTO(Topic topic) =>
-            new(topic.Title, topic.Description, topic.CreationTime, topic.Publisher, topic.Section);
+            new(topic.Title, topic.Description, topic.CreationTime, topic.Publisher, topic.Section, topic.Image);
 
         private void UpdateTopic(ref Topic oldTopic, UpdateTopicDTO topic)
         {
             oldTopic.Title = topic.Title;
             oldTopic.Description = topic.Description;
+            oldTopic.Image = topic.Image;
         }
     }
 }

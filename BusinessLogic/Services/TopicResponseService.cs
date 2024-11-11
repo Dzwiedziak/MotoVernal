@@ -47,11 +47,12 @@ namespace BusinessLogic.Services
             new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, DateTime.Now);
 
         private GetTopicResponseDTO CreateGetTopicResponseDTO(TopicResponse topicResponse) =>
-            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime);
+            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime, topicResponse.Image);
 
         private void UpdateTopicResponse(ref TopicResponse oldTopicResponse, UpdateTopicResponseDTO topicResponse)
         {
             oldTopicResponse.Description = topicResponse.Description;
+            oldTopicResponse.Image = topicResponse.Image;
         }
     }
 }
