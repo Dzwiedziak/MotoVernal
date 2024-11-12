@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/register.css" />
+</head>
+<body>
+    <div class="register">
+        <div class="register__header">
+            <div class="title">
+                Sign up
+            </div>
+            <div class="description">
+                Provide us information about yourself
+            </div>
+        </div>
+        <div class="register__form-wrapper">
+            <form class="register__form">
+                <div class="text-input">
+                    <label class="text-input__label">
+                        Nickname
+                    </label>
+                    <input class="text-input__value" type="text">
+                </div>
+                <div class="text-input">
+                    <label class="text-input__label">
+                        Email Address
+                    </label>
+                    <input class="text-input__value" type="text">
+                </div>
+                <div class="text-input">
+                    <label class="text-input__label">
+                        Password
+                    </label>
+                    <input type="password" class="text-input__value" type="text">
+                </div>
+                <div class="text-input">
+                    <label class="text-input__label">
+                        Repeat Password
+                    </label>
+                    <input type="password" class="text-input__value" type="text">
+                </div>
+                <button type="submit" class="sign_in-btn">
+                    Sign up
+                </button>
+            </form>
+        </div>
+        <div class="text-separator__wrapper">
+            <div class="text-separator">
+                or
+            </div>
+        </div>
+        <div class="register__google">
+            <img src="~/images/google-continue.svg" />
+        </div>
+    </div>
+</body>

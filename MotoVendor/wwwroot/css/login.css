@@ -1,0 +1,95 @@
+﻿body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+}
+.title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.description {
+    font-size: 24px;
+    padding: 25px;
+    color: #646364;
+    text-align: center;
+}
+
+.login-template {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    border-radius: 30px;
+    border: 1px solid black;
+    font-family: "Inter", system-ui;
+    padding: 60px 10px;
+    background-color:white;
+}
+
+.sign_in-btn {
+    width: 300px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    border-radius: 30px;
+    font-size: 16px;
+}
+
+.email {
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 300px;
+    height: 47px;
+    margin-bottom: 25px;
+}
+
+.email-inside {
+    padding: 5px;
+}
+
+.input-info {
+    font-size: 12px;
+    color: #646364;
+}
+
+.input-email {
+    font-size: 16px;
+    color: black;
+}
+
+.proposal {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    height: 80px;
+}
+
+.horizontal-line {
+    width: 250px;
+    background-color: black;
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.or {
+    position: absolute;
+    font-size: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 35px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
