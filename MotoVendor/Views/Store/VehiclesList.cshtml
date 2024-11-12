@@ -1,0 +1,309 @@
+﻿@{
+    ViewData["Title"] = "Store - Vehicles List";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/vehiclesList.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+}
+
+<div class="main">
+    <div class="title">
+        Listings of your search
+    </div>
+    <div class="content">
+        <div class="filter">
+            <div class="search">
+                <img src="~/images/search.svg">
+                <div class="search-text">
+                    Search
+                </div>
+            </div>
+            <div class="filters">
+                <div class="filter-section">
+                    <div class="filter-element">
+                        <div class="filter-group">
+                            Car Brand
+                        </div>
+                        <img src="~/images/filter_arrow.svg" />
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-element">
+                        <div class="filter-group">
+                            <div>
+                                Car Model
+                            </div>
+                            <div class="filter_count">
+                                3
+                            </div>
+                        </div>
+                        <img src="~/images/filter_arrow.svg" />
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-element">
+                        <div class="filter-group">
+                            <div>
+                                Car State
+                            </div>
+                            <div class="filter_count">
+                                3
+                            </div>
+                        </div>
+                        <img src="~/images/filter_arrow.svg" />
+                    </div>
+                    <div class="filter-element">
+                        <div class="filter-group">
+                            <div class="roundy-button">
+                                New
+                            </div>
+                            <div class="roundy-button roundy-button-blue">
+                                Used
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-element">
+                        <div class="filter-group">
+                            Price
+                        </div>
+                        <img src="~/images/filter_arrow.svg" />
+                    </div>
+
+                    <div class="filter-element">
+                        <div class="range-form">
+                            From
+                            <div class="range-form-value">
+                                103k
+                            </div>
+                        </div>
+                        <div class="range-form">
+                            To
+                            <div class="range-form-value">
+                                200k
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="results">
+            <div class="results-global">
+                <div class="results-count">
+                    Showing 1-30 of 90 Listings
+                </div>
+                <div>
+                    Sort by:
+                    <span class="sortby">
+                        Price
+                    </span>
+                </div>
+            </div>
+            <div class="results-main">
+                <div class="offer">
+                    <div class="offer-upper">
+                        <div class="reserved">
+                            Not reserved
+                        </div>
+                        <div class="observation">
+                            <img src="~/images/Layer_1_1_.svg" />
+                        </div>
+                    </div>
+                    <div class="photo-main">
+                        <img src="~/images/Photo.png" />
+                    </div>
+                    <div class="offer-bottom">
+                        <div class="brand">
+                            Audi
+                        </div>
+                        <div class="model-price">
+                            <div class="model">
+                                A6 C7 Allroad 3.0tdi
+                            </div>
+                            <div class="price">
+                                159 999 PLN
+                                <div class="price-tag">
+                                    Brutto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line">
+                        </div>
+                        <div class="location-owner">
+                            <div class="location">
+                                <img src="~/images/location.svg" />
+                                Białystok, Podlaskie
+                            </div>
+                            <div class="owner">
+                                Heniek144
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer">
+                    <div class="offer-upper">
+                        <div class="reserved">
+                            Not reserved
+                        </div>
+                        <div class="observation">
+                            <img src="~/images/Layer_1_1_.svg" />
+                        </div>
+                    </div>
+                    <div class="photo-main">
+                        <img src="~/images/Photo.png" />
+                    </div>
+                    <div class="offer-bottom">
+                        <div class="brand">
+                            Audi
+                        </div>
+                        <div class="model-price">
+                            <div class="model">
+                                A6 C7 Allroad 3.0tdi
+                            </div>
+                            <div class="price">
+                                159 999 PLN
+                                <div class="price-tag">
+                                    Brutto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line">
+                        </div>
+                        <div class="location-owner">
+                            <div class="location">
+                                <img src="~/images/location.svg" />
+                                Białystok, Podlaskie
+                            </div>
+                            <div class="owner">
+                                Heniek144
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer">
+                    <div class="offer-upper">
+                        <div class="reserved">
+                            Not reserved
+                        </div>
+                        <div class="observation">
+                            <img src="~/images/Layer_1_1_.svg" />
+                        </div>
+                    </div>
+                    <div class="photo-main">
+                        <img src="~/images/Photo.png" />
+                    </div>
+                    <div class="offer-bottom">
+                        <div class="brand">
+                            Audi
+                        </div>
+                        <div class="model-price">
+                            <div class="model">
+                                A6 C7 Allroad 3.0tdi
+                            </div>
+                            <div class="price">
+                                159 999 PLN
+                                <div class="price-tag">
+                                    Brutto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line">
+                        </div>
+                        <div class="location-owner">
+                            <div class="location">
+                                <img src="~/images/location.svg" />
+                                Białystok, Podlaskie
+                            </div>
+                            <div class="owner">
+                                Heniek144
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer">
+                    <div class="offer-upper">
+                        <div class="reserved">
+                            Not reserved
+                        </div>
+                        <div class="observation">
+                            <img src="~/images/Layer_1_1_.svg" />
+                        </div>
+                    </div>
+                    <div class="photo-main">
+                        <img src="~/images/Photo.png" />
+                    </div>
+                    <div class="offer-bottom">
+                        <div class="brand">
+                            Audi
+                        </div>
+                        <div class="model-price">
+                            <div class="model">
+                                A6 C7 Allroad 3.0tdi
+                            </div>
+                            <div class="price">
+                                159 999 PLN
+                                <div class="price-tag">
+                                    Brutto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line">
+                        </div>
+                        <div class="location-owner">
+                            <div class="location">
+                                <img src="~/images/location.svg" />
+                                Białystok, Podlaskie
+                            </div>
+                            <div class="owner">
+                                Heniek144
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer">
+                    <div class="offer-upper">
+                        <div class="reserved">
+                            Not reserved
+                        </div>
+                        <div class="observation">
+                            <img src="~/images/Layer_1_1_.svg" />
+                        </div>
+                    </div>
+                    <div class="photo-main">
+                        <img src="~/images/Photo.png" />
+                    </div>
+                    <div class="offer-bottom">
+                        <div class="brand">
+                            Audi
+                        </div>
+                        <div class="model-price">
+                            <div class="model">
+                                A6 C7 Allroad 3.0tdi
+                            </div>
+                            <div class="price">
+                                159 999 PLN
+                                <div class="price-tag">
+                                    Brutto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line">
+                        </div>
+                        <div class="location-owner">
+                            <div class="location">
+                                <img src="~/images/location.svg" />
+                                Białystok, Podlaskie
+                            </div>
+                            <div class="owner">
+                                Heniek144
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
