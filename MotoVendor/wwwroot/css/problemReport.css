@@ -1,0 +1,123 @@
+﻿main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:25px;
+    width:100%;
+    height:75vh;
+    
+}
+.report-problem {
+    padding: 30px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    font-family: "Inter", sans-serif;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.report-method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.report-problem__header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.report-problem__title {
+    font-size: 24px;
+    text-align: center;
+}
+
+.report-problem__discription {
+    font-size: 24px;
+    font-weight: 200;
+    text-align: center;
+    text-wrap: balance;
+}
+
+.report-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.report-form__type {
+    padding: 5px 10px;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.report-form__description {
+    padding: 5px 10px;
+    min-height: 150px;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    border-radius: 5px;
+}
+
+.report-problem__media-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.report-problem__media-icon {
+    height: 50px;
+}
+
+.report-btn {
+    min-width: 180px;
+    height: 50px;
+    color: white;
+    background-color: black;
+    border-radius: 30px;
+}
+
+.text-separator__wrapper {
+    width: 80%;
+}
+
+.text-separator {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+    .text-separator::before,
+    .text-separator::after {
+        margin: 0px 10px;
+        height: 1px;
+        flex-grow: 1;
+        content: "";
+        background-color: #CCCCCC;
+    }
+
+.items-spread {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.report-method--different {
+    display: block;
+}
+
+.report__contact-site {
+    color: #0066FF;
+}

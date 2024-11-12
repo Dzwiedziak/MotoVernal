@@ -90,3 +90,10 @@ footer {
     font-size: 24px;
     margin-bottom: 10px;
 }
+.submenu-wrapper {
+    visibility:hidden;
+    position: absolute;
+    right: 0;
+    top: 62px;
+    width: 250px;
+}

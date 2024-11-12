@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Problem - Report";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/problemReport.css">
+}
+<main>
+    <div class="report-problem">
+        <div class="report-method">
+            <div class="report-problem__header">
+                <div class="report-problem__title">
+                    Report bug or issue
+                </div>
+                <div class="report-problem__discription">
+                    What type of issue you want to report
+                </div>
+            </div>
+            <form class="report-form">
+                <select class="report-form__type">
+                    <option>User interface</option>
+                </select>
+                <textarea class="report-form__description" placeholder="Describe your problem"></textarea>
+                <div class="items-spread flex-wrap">
+                    <div class="report-problem__media-icons">
+                        <img class="report-problem__media-icon" src="~/images/photo-icon.svg" />
+                        <img class="report-problem__media-icon" src="~/images/video-icon.svg" />
+                    </div>
+                    <button class="report-btn" type="submit">Report</button>
+                </div>
+            </form>
+        </div>
+        <div class="text-separator__wrapper">
+            <div class="text-separator">
+                or
+            </div>
+        </div>
+        <div class="report-method report-method--different">
+            Report issue through
+            <a class="report__contact-site" href="#">Contact</a>
+        </div>
+    </div>
+</main>

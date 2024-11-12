@@ -1,0 +1,58 @@
+﻿.exchange-rates-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    height:75vh;
+    font-family: "Inter", system-ui;
+}
+
+.exchange-rates-main {
+    margin-top: 50px;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.exchange-rate-block {
+    width: fit-content;
+    padding: 20px 40px;
+    display: block;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #FCFCFC;
+}
+
+.exchange-rate {
+    display: flex;
+}
+
+.exchange-symbol {
+    margin: 0px 20px;
+}
+
+.currency {
+    padding: 15px;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.currency-symbolics {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.probe-time {
+    padding-top: 20px;
+}
+
+.exchange-rate-separator {
+    width: 100%;
+}
