@@ -12,6 +12,9 @@ namespace BusinessLogic.Repositories.Interfaces
     {
         List<EventInterest> GetAll();
         EventInterest? GetOne(int id);
-        void Add(AddEventInterestDTO eventInterest);
+        EventInterest? GetOne(string userId, int eventId);
+        void Add(EventInterest eventInterest);
+        void Delete(int id);
+
     }
 }

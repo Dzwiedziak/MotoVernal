@@ -5,6 +5,7 @@ using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.Reflection.Metadata.Ecma335;
 
 namespace BusinessLogic.Services
@@ -13,12 +14,18 @@ namespace BusinessLogic.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserObservationRepository _userObservationRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public UserService(IUserRepository userRepository, 
-                           IUserObservationRepository userObservationRepository)
+                           IUserObservationRepository userObservationRepository,
+                           UserManager<User> userManager,
+                           SignInManager<User> signInManager)
         {
             _userRepository = userRepository;
             _userObservationRepository = userObservationRepository;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public Result<string?, UserErrorCode> Add(AddUserDTO user)
@@ -32,8 +39,13 @@ namespace BusinessLogic.Services
                 return UserErrorCode.UserWithNickNameExists;
 
             User newUser = CreateNewUser(user);
-            _userRepository.Add(newUser);
-            return newUser.Id;
+            var result = _userManager.CreateAsync(newUser, user.Password).Result;
+            if (result.Succeeded)
+            {
+                _signInManager.SignInAsync(newUser, isPersistent: false).Wait();
+                return newUser.Id;
+            }
+            return UserErrorCode.UserCreationFailed;
         }
 
         public Result<GetUserDTO, UserErrorCode> Get(string id)
@@ -113,6 +125,12 @@ namespace BusinessLogic.Services
             oldUser.Age = user.Age;
             oldUser.Description = user.Description;
             oldUser.ProfileImage = user.ProfileImage;
+        }
+
+        public List<GetUserDTO> GetAll()
+        {
+            List<User> dbUsers = _userRepository.GetAll();
+            return dbUsers.Select(u => CreateGetUserDTO(u)).ToList();
         }
     }
 }

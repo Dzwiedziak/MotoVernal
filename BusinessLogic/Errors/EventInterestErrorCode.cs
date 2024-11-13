@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Errors
 {
-    public enum UserErrorCode
+    public enum EventInterestErrorCode
     {
-        UserWithEmailExists,
-        UserWithNickNameExists,
-        UserNotFound,
-        UserCreationFailed
+        AlreadyInterested,
+        AlreadyNotInterested
     }
 }

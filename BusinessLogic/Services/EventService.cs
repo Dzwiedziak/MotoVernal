@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.DTO.Event;
+using BusinessLogic.DTO.EventInterest;
 using BusinessLogic.Errors;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
@@ -10,9 +11,11 @@ namespace BusinessLogic.Services
     public class EventService : IEventService
     {
         private readonly IEventRepository _eventRepository;
-        public EventService(IEventRepository eventRepository)
+        private readonly IEventIntrestRepository _eventIntrestRepository;
+        public EventService(IEventRepository eventRepository, IEventIntrestRepository eventIntrestRepository)
         {
             _eventRepository = eventRepository;
+            _eventIntrestRepository = eventIntrestRepository;
         }
 
         public Result<int?, EventErrorCode> Add(AddEventDTO @event)
@@ -42,6 +45,26 @@ namespace BusinessLogic.Services
             return null;
         }
 
+        public EventInterestErrorCode? InterestUser(AddEventInterestDTO eventInterest)
+        {
+            EventInterest? dbEventInterest = _eventIntrestRepository.GetOne(eventInterest.User.Id, eventInterest.Event.Id);
+            if (dbEventInterest is not null)
+                return EventInterestErrorCode.AlreadyInterested;
+
+            _eventIntrestRepository.Add(CreateEventInterest(eventInterest));
+            return null;
+        }
+
+        public EventInterestErrorCode? StopInterestUser(DeleteEventInterestDTO eventInterest)
+        {
+            EventInterest? dbEventInterest = _eventIntrestRepository.GetOne(eventInterest.User.Id, eventInterest.Event.Id);
+            if (dbEventInterest is null)
+                return EventInterestErrorCode.AlreadyNotInterested;
+
+            _eventIntrestRepository.Delete(dbEventInterest.Id);
+            return null;
+        }
+
         public Event CreateNewEvent(AddEventDTO @event) =>
             new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
 
@@ -54,6 +77,11 @@ namespace BusinessLogic.Services
             oldEvent.TimeTo = @event.TimeTo;
             oldEvent.Description = @event.Description;
             oldEvent.Image = @event.Image;
+        } 
+
+        public EventInterest CreateEventInterest(AddEventInterestDTO eventInterest)
+        {
+            return new EventInterest(eventInterest.User, eventInterest.Event);
         }
     }
 }

@@ -2,6 +2,7 @@
 using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -13,10 +14,17 @@ namespace BusinessLogic.Repositories
             _context = context;
         }
 
-        public void Add(AddEventInterestDTO eventInterest)
+        public void Add(EventInterest eventInterest)
         {
-            var newEventInterest = CreateEventInterest(eventInterest);
-            _context.Add(newEventInterest);
+            _context.Add(eventInterest);
+            _context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var dbEventInterest = GetOne(id);
+            if(dbEventInterest is not null)
+                _context.EventInterests.Remove(dbEventInterest);
             _context.SaveChanges();
         }
 
@@ -30,7 +38,11 @@ namespace BusinessLogic.Repositories
             return _context.EventInterests.FirstOrDefault(e => e.Id == id);
         }
 
-        public EventInterest CreateEventInterest(AddEventInterestDTO eventInterest) =>
-            new(eventInterest.User, eventInterest.Event);
+        public EventInterest? GetOne(string userId, int eventId)
+        {
+            return _context.EventInterests.FirstOrDefault(e => e.User.Id == userId && e.Event.Id == eventId);
+        }
+
+        
     }
 }

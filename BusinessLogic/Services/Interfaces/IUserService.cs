@@ -8,6 +8,7 @@ namespace BusinessLogic.Services.Interfaces
     {
         Result<string?, UserErrorCode> Add(AddUserDTO user);
         Result<GetUserDTO, UserErrorCode> Get(string id);
+        List<GetUserDTO> GetAll();
         UserErrorCode? Update(string id, UpdateUserDTO user);
         bool CheckExistance(string id);
     }

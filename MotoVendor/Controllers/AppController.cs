@@ -4,6 +4,7 @@ namespace MotoVendor.Controllers
 {
     public class AppController : Controller
     {
+
         public IActionResult Login()
         {
             return View();

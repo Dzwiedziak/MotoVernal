@@ -12,7 +12,9 @@ namespace BusinessLogic.DTO.User
         [MaxLength(50)]
         public string Email { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         [MaxLength(50)]
+        [MinLength(6)]
         public string Password { get; set; }
     }
 }

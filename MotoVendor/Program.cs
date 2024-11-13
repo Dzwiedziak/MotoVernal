@@ -71,6 +71,7 @@ internal class Program
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IVehicleOfferRepository, VehicleOfferRepository>();
         builder.Services.AddScoped<IUserObservationRepository, UserObservationRepository>();
+        builder.Services.AddScoped<IEventIntrestRepository, EventInterestRepository>();
     }
 
     private static void InjectServices(WebApplicationBuilder builder)
