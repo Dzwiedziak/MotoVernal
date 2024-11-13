@@ -1,0 +1,35 @@
+﻿.padding {
+    padding: 10px;
+}
+.notify {
+    height:75vh;
+    font-family: "Roboto", sans-serif;
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.notify_title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.notify_content {
+    overflow: auto;
+    max-height: 450px;
+}
+
+.day-container__date {
+    background-color: #f4f4f4;
+}
+
+.message {
+    display: flex;
+    border-bottom: 1px solid #CCCCCC;
+    gap: 15px
+}
+
+.message-photo img {
+    aspect-ratio: 1/1;
+    width: 50px;
+}

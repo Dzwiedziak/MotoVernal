@@ -1,0 +1,165 @@
+﻿main {
+    display: flex;
+    flex-direction: column;
+    font-family: "Inter", sans-serif;
+    margin: 50px;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    padding: 0px;
+}
+
+h1 {
+    padding-left: 25px;
+}
+
+.breadcrumb {
+    padding-left: 25px;
+}
+
+    .breadcrumb li::after {
+        content: ">";
+        padding: 10px;
+    }
+
+    .breadcrumb li:last-child::after {
+        content: "";
+    }
+
+.content {
+    display: flex;
+    gap: 40px;
+}
+
+.action-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.main-photo {
+    position: relative;
+}
+
+.arrow-left {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0%, -50%);
+    background-color: white;
+    border-radius: 0px 10px 10px 0px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.arrow-right {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0%, -50%);
+    background-color: white;
+    border-radius: 10px 0px 0px 10px;
+    height: 100px;
+    align-items: center;
+}
+
+.action-btn {
+    display: flex;
+    width: 230px;
+    height: 50px;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid black;
+    align-items: center;
+}
+
+.action-text {
+    width: 90px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.product-info-2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-categories {
+    border-bottom: 1px solid #CCCCCC;
+    color: #CCCCCC;
+    font-size: 24px;
+    gap: 30px;
+}
+
+.current-category {
+    border-bottom: 3px solid #0066FF;
+    padding-bottom: 10px;
+    color: #0066FF;
+}
+
+.overview {
+    display: flex;
+    gap: 50px;
+}
+
+    .overview ul {
+        flex-direction: column;
+    }
+
+.photo-inside {
+    width: 867px;
+    height: 342px;
+}
+
+.properties {
+    display: flex;
+    gap: 20px;
+}
+
+    .properties li {
+        font-size: 24px;
+        display: flex;
+    }
+
+        .properties li .label {
+            width: 250px;
+        }
+
+    .properties .label {
+        color: #646364;
+    }
+
+.product-price {
+    border: 1px solid #CCCCCC;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+    gap: 10px;
+}
+
+.price-amount {
+    font-size: 26px;
+}
+
+.price-label {
+    font-size: 12px;
+}
+
+.negotiation-info {
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.currency-options {
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+    padding: 10px;
+}
