@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "App - Profile View";
+﻿@model BusinessLogic.DTO.User.GetUserDTO;
+@{
+    ViewData["Title"] = "App - Profile View"; 
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/profileView.css" />
@@ -8,7 +9,7 @@
     <div class="form-container">
         <div class="profile-header">
             <div class="profil-nickname">
-                <span>RoyBig</span>
+                <span>@Model.UserName</span>
             </div>
             <div class="profile-img">
                 <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">

@@ -56,14 +56,24 @@
                 <img src="~/images/star.png" alt="star-img" class="star-img">
             </button>
         </li>
+        <li class="admin">
+            <span class="id">1.</span>
+            <span class="nickname">Dzwiedziu</span>
+            <button class="profile">
+                <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
+            </button>
+            <button class="observed">
+                <img src="~/images/star (1).png" alt="star-img" class="star-img">
+            </button>
+        </li>
         @foreach(var user in Model)
         {
             <li>
-                <span class="id">1.</span>
                 <span class="nickname">@user.UserName</span>
-                <button class="profile">
-                    <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
+                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
+                    <img src="@user.ProfileImage" alt="profil-img" class="profil-img">
                 </button>
+
                 <button class="observed">
                     <img src="~/images/star.png" alt="star-img" class="star-img">
                 </button>

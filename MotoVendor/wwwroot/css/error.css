@@ -1,0 +1,30 @@
+﻿.page_404 {
+    padding: 60px 0;
+    background: #fff;
+    font-family: 'Arvo', serif;
+}
+
+    .page_404 img {
+        width: 100%;
+    }
+
+h1 {
+    font-size: 80px;
+}
+
+
+.link_404 {
+    margin-inline: 25px;
+    padding: 7.5px 12px 7.5px 10.5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background: #0066FF;
+    border-radius: 7.5px;
+    color: white;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}

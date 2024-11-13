@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.DTO.User;
+using BusinessLogic.Errors;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,18 @@ namespace MotoVendor.Controllers
         {
             List<GetUserDTO> dbUsers = _userService.GetAll();
             return View(dbUsers);
+        }
+        [HttpGet]
+        public IActionResult ProfileView(string id)
+        {
+            var result = _userService.Get(id);
+
+            if (result.Error == UserErrorCode.UserNotFound)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction("Error", "Home");
+            }
+            return View(result.Value);
         }
     }
 }

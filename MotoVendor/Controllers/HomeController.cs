@@ -8,5 +8,9 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }
