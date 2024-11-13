@@ -9,8 +9,8 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult Register() 
-        { 
+        public IActionResult Register()
+        {
             return View();
         }
         public IActionResult ProfileView()

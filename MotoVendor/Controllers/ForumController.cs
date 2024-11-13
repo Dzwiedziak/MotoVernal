@@ -10,8 +10,8 @@ namespace MotoVendor.Controllers
         }
 
         public IActionResult AddSection()
-        { 
-            return View(); 
+        {
+            return View();
         }
         public IActionResult EditSection()
         {
@@ -25,7 +25,7 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult DetailsTopic() 
+        public IActionResult DetailsTopic()
         {
             return View();
         }

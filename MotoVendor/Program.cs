@@ -1,13 +1,11 @@
-using System.ComponentModel.Design;
-using System;
 using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DB;
-using Microsoft.EntityFrameworkCore;
 using DB.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 internal class Program
 {
@@ -54,7 +52,7 @@ internal class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
-        
+
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=IntroductionPage}/{id?}");
@@ -111,7 +109,7 @@ internal class Program
 
         var adminUser = await userManager.FindByEmailAsync("admin@motovendor.com");
         if (adminUser == null)
-        { 
+        {
             var newAdmin = new User("admin", "admin@motovendor.com", null, null, DateTime.Now, "")
             {
                 EmailConfirmed = true

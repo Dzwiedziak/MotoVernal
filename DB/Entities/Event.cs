@@ -31,7 +31,7 @@ namespace DB.Entities
         public Event(Event source)
         {
             Id = source.Id;
-            Publisher = source.Publisher;            
+            Publisher = source.Publisher;
             EventType = source.EventType;
             TimeFrom = source.TimeFrom;
             TimeTo = source.TimeTo;

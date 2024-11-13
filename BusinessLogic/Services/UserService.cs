@@ -6,7 +6,6 @@ using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Reflection.Metadata.Ecma335;
 
 namespace BusinessLogic.Services
 {
@@ -17,7 +16,7 @@ namespace BusinessLogic.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public UserService(IUserRepository userRepository, 
+        public UserService(IUserRepository userRepository,
                            IUserObservationRepository userObservationRepository,
                            UserManager<User> userManager,
                            SignInManager<User> signInManager)
@@ -71,7 +70,7 @@ namespace BusinessLogic.Services
         public Result<int?, UserObservationErrorCode> ObserveUser(ObserveUserDTO userObservation)
         {
             _userObservationRepository.Get(userObservation.Observed.Id, userObservation.Observer.Id);
-            if(userObservation.Observer is not null)
+            if (userObservation.Observer is not null)
                 return UserObservationErrorCode.UserAlreadyFollowing;
 
             UserObservation newUserObservation = CreateUserObservation(userObservation);
@@ -82,7 +81,7 @@ namespace BusinessLogic.Services
         public UserObservationErrorCode? StopObservingUser(int id)
         {
             UserObservation? userObservation = _userObservationRepository.GetOne(id);
-            if(userObservation is null)
+            if (userObservation is null)
             {
                 return UserObservationErrorCode.UserObservationNotFound;
             }

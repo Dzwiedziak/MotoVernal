@@ -23,7 +23,7 @@ namespace BusinessLogic.Services
             List<VehicleOffer> dbVehicleOffers = _vehicleOfferRepository.GetAll();
             if (FindVehicleWithSameVIN(vehicleOffer.VIN, dbVehicleOffers) is not null)
                 return VehicleOfferErrorCode.VehicleWithVinExists;
-                
+
             VehicleOffer newVehicleOffer = CreateVehicleOffer(vehicleOffer);
             _vehicleOfferRepository.Add(newVehicleOffer);
             return newVehicleOffer.Id;
@@ -40,7 +40,7 @@ namespace BusinessLogic.Services
 
         public Result<List<GetVehicleOfferDTO>, UserErrorCode> GetUserVehicleOffers(string userID)
         {
-            if(!_userService.CheckExistance(userID))
+            if (!_userService.CheckExistance(userID))
                 return UserErrorCode.UserNotFound;
             return _vehicleOfferRepository.GetAll()
                    .Where(dbOffer => String.Equals(dbOffer.User.Id, userID))
@@ -100,29 +100,29 @@ namespace BusinessLogic.Services
         private GetVehicleOfferDTO CreateGetVehicleOfferDTO(VehicleOffer vehicleOffer)
         {
             return new GetVehicleOfferDTO(
-                description : vehicleOffer.Description,
-                creationTime : DateTime.Now,
-                location : vehicleOffer.Location,
-                user : vehicleOffer.User,
-                isReserved : false,
-                email : vehicleOffer.Email,
-                phone : vehicleOffer.Phone,
-                price : vehicleOffer.Price,
+                description: vehicleOffer.Description,
+                creationTime: DateTime.Now,
+                location: vehicleOffer.Location,
+                user: vehicleOffer.User,
+                isReserved: false,
+                email: vehicleOffer.Email,
+                phone: vehicleOffer.Phone,
+                price: vehicleOffer.Price,
 
-                brand : vehicleOffer.Brand,
-                model : vehicleOffer.Model,
-                generation : vehicleOffer.Generation,
-                version : vehicleOffer.Version,
-                transmission : vehicleOffer.Transmission,
-                drive : vehicleOffer.Drive,
-                body : vehicleOffer.Body,
-                color : vehicleOffer.Color,
-                condition : vehicleOffer.Condition,
-                numberOfSeats : vehicleOffer.NumberOfSeats,
-                yearOfProduction : vehicleOffer.YearOfProduction,
-                mileage : vehicleOffer.Mileage,
-                firstOwner : vehicleOffer.FirstOwner,
-                vIN : vehicleOffer.VIN,
+                brand: vehicleOffer.Brand,
+                model: vehicleOffer.Model,
+                generation: vehicleOffer.Generation,
+                version: vehicleOffer.Version,
+                transmission: vehicleOffer.Transmission,
+                drive: vehicleOffer.Drive,
+                body: vehicleOffer.Body,
+                color: vehicleOffer.Color,
+                condition: vehicleOffer.Condition,
+                numberOfSeats: vehicleOffer.NumberOfSeats,
+                yearOfProduction: vehicleOffer.YearOfProduction,
+                mileage: vehicleOffer.Mileage,
+                firstOwner: vehicleOffer.FirstOwner,
+                vIN: vehicleOffer.VIN,
                 images: vehicleOffer.Images
             );
         }

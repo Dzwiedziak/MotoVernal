@@ -1,16 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DB.Entities
+﻿namespace DB.Entities
 {
     public class BugReport
     {
         public int Id { get; set; }
-        public User Reporter {  get; set; }
+        public User Reporter { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
         public File? Image { get; set; }

@@ -77,7 +77,7 @@ namespace BusinessLogic.Services
             oldEvent.TimeTo = @event.TimeTo;
             oldEvent.Description = @event.Description;
             oldEvent.Image = @event.Image;
-        } 
+        }
 
         public EventInterest CreateEventInterest(AddEventInterestDTO eventInterest)
         {

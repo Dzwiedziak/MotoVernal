@@ -1,10 +1,5 @@
 ﻿using BusinessLogic.DTO.User;
-using BusinessLogic.Errors;
-using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
-using BusinessLogic.Services.Response;
-using DB.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MotoVendor.Controllers
@@ -26,12 +21,12 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public IActionResult Register(AddUserDTO user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = _userService.Add(user);
                 //result.Match(
-                    //successValue => Result.Success("User verified successfully"),
-                    //errorValue => Result.Failure($"Verification failed: {errorValue}")
+                //successValue => Result.Success("User verified successfully"),
+                //errorValue => Result.Failure($"Verification failed: {errorValue}")
                 //);
                 return RedirectToAction("IntroductionPage", "Home");
             }
@@ -50,7 +45,7 @@ namespace MotoVendor.Controllers
             if (ModelState.IsValid)
             {
                 //logowanie
-                
+
                 return RedirectToAction("IntroductionPage", "Home");
             }
             return View(user);

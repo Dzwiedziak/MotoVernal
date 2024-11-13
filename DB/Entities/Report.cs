@@ -22,6 +22,6 @@
         }
 
         public Report(User reporter, User reported, string description, DateTime creationTime, File? image)
-            : this (0, reporter, reported, description, creationTime, image) { }
+            : this(0, reporter, reported, description, creationTime, image) { }
     }
 }

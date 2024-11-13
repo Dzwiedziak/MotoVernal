@@ -1,5 +1,4 @@
 ﻿using DB.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using File = DB.Entities.File;
@@ -33,7 +32,7 @@ namespace DB
                 .WithMany()
                 .HasForeignKey(s => s.ParentId)
                 .OnDelete(DeleteBehavior.NoAction);
-            
+
             modelBuilder.Entity<Topic>()
                 .HasOne(s => s.Publisher)
                 .WithMany()

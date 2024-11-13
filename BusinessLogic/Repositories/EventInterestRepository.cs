@@ -1,8 +1,6 @@
-﻿using BusinessLogic.DTO.EventInterest;
-using BusinessLogic.Repositories.Interfaces;
+﻿using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -23,7 +21,7 @@ namespace BusinessLogic.Repositories
         public void Delete(int id)
         {
             var dbEventInterest = GetOne(id);
-            if(dbEventInterest is not null)
+            if (dbEventInterest is not null)
                 _context.EventInterests.Remove(dbEventInterest);
             _context.SaveChanges();
         }
@@ -43,6 +41,6 @@ namespace BusinessLogic.Repositories
             return _context.EventInterests.FirstOrDefault(e => e.User.Id == userId && e.Event.Id == eventId);
         }
 
-        
+
     }
 }

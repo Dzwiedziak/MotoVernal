@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DB.Entities
+﻿namespace DB.Entities
 {
     public class Message
     {
@@ -15,7 +9,7 @@ namespace DB.Entities
         public DateTime CreationTime { get; set; }
 
         public Message() { }
-        
+
         public Message(int id, User broadcaster, User reciever, string content, DateTime creationTime)
         {
             Id = id;

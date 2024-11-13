@@ -15,7 +15,7 @@
             Extension = extension;
         }
 
-         public Phone(string number, string extension)
-            : this(0, number, extension) { }
+        public Phone(string number, string extension)
+           : this(0, number, extension) { }
     }
 }

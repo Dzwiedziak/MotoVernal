@@ -1,5 +1,4 @@
-﻿using BusinessLogic.DTO.UserObservation;
-using BusinessLogic.Errors;
+﻿using BusinessLogic.Errors;
 using DB.Entities;
 
 namespace BusinessLogic.Repositories.Interfaces

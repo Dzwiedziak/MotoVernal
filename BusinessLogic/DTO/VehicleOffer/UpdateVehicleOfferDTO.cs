@@ -1,8 +1,7 @@
 ﻿using BusinessLogic.DTO.Offer;
 using DB.Entities;
-using Entities = DB.Entities;
 using DB.Enums;
-using System.Collections.Generic;
+using Entities = DB.Entities;
 namespace BusinessLogic.DTO.VehicleOffer
 {
     public class UpdateVehicleOfferDTO : UpdateOfferDTO

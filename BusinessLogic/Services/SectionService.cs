@@ -34,7 +34,7 @@ namespace BusinessLogic.Services
 
         public Result<List<GetSectionDTO>, SectionErrorCode> GetChildrenSections(int id)
         {
-            if(!CheckExistance(id))
+            if (!CheckExistance(id))
                 return SectionErrorCode.SectionNotFound;
 
             List<Section> sections = _sectionRepository.GetAll();
@@ -44,7 +44,7 @@ namespace BusinessLogic.Services
 
         private bool CheckExistance(int id) =>
             _sectionRepository.GetOne(id) != null;
-            
+
         private Section CreateNewSection(AddSectionDTO section) =>
             new(section.Title, section.Parent, section.Image);
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DB.Entities
+﻿namespace DB.Entities
 {
     public class Ban
     {
@@ -16,7 +10,7 @@ namespace DB.Entities
         public string Reason { get; set; }
         public File? Image { get; set; }
 
-        public Ban(){ }
+        public Ban() { }
         public Ban(int id, User banned, User banner, DateTime creationTime, DateTime expirationTime, string reason, File? image)
         {
             Id = id;

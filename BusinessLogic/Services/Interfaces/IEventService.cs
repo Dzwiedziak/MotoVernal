@@ -2,7 +2,6 @@
 using BusinessLogic.DTO.EventInterest;
 using BusinessLogic.Errors;
 using BusinessLogic.Services.Response;
-using DB.Entities;
 
 namespace BusinessLogic.Services.Interfaces
 {

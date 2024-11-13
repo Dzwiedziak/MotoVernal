@@ -16,8 +16,8 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult DetailsOffer() 
-        { 
+        public IActionResult DetailsOffer()
+        {
             return View();
         }
 
