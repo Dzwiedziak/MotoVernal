@@ -108,5 +108,17 @@ namespace MotoVendor.Controllers
                 return RedirectToAction("IntroductionPage", "Home");
             }
         }
+        [HttpGet]
+        public IActionResult ProfileView(string id)
+        {
+            var result = _userService.Get(id);
+
+            if (result.Error == UserErrorCode.UserNotFound)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction("Error", "Home");
+            }
+            return View(result.Value);
+        }
     }
 }

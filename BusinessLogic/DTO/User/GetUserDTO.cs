@@ -5,6 +5,7 @@ namespace BusinessLogic.DTO.User
 {
     public class GetUserDTO
     {
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public UserGender? Gender { get; set; }
@@ -13,8 +14,9 @@ namespace BusinessLogic.DTO.User
         public string Description { get; set; }
         public Entities.File? ProfileImage { get; set; }
 
-        public GetUserDTO(string userName, string email, UserGender? gender, int? age, DateTime creationTime, string description, Entities.File? profileImage)
+        public GetUserDTO(string id,string userName, string email, UserGender? gender, int? age, DateTime creationTime, string description, Entities.File? profileImage)
         {
+            Id = id;
             UserName = userName;
             Email = email;
             Gender = gender;
