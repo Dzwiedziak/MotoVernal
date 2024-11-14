@@ -10,6 +10,7 @@ namespace BusinessLogic.DTO.User
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public LoginUserDTO() { }
         public LoginUserDTO(string userName, string password)
         {
             UserName = userName;

@@ -41,6 +41,7 @@ namespace BusinessLogic.Services
             var result = _userManager.CreateAsync(newUser, user.Password).Result;
             if (result.Succeeded)
             {
+                _userManager.AddToRoleAsync(newUser, "User").Wait();
                 _signInManager.SignInAsync(newUser, isPersistent: false).Wait();
                 return newUser.Id;
             }
