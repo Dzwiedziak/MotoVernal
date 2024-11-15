@@ -5,7 +5,9 @@ using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace BusinessLogic.Services
 {
@@ -15,16 +17,19 @@ namespace BusinessLogic.Services
         private readonly IUserObservationRepository _userObservationRepository;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(IUserRepository userRepository,
                            IUserObservationRepository userObservationRepository,
                            UserManager<User> userManager,
-                           SignInManager<User> signInManager)
+                           SignInManager<User> signInManager,
+                           IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _userObservationRepository = userObservationRepository;
             _userManager = userManager;
             _signInManager = signInManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public Result<string?, UserErrorCode> Add(AddUserDTO user)
@@ -131,6 +136,14 @@ namespace BusinessLogic.Services
         {
             List<User> dbUsers = _userRepository.GetAll();
             return dbUsers.Select(u => CreateGetUserDTO(u)).ToList();
+        }
+
+        public async Task<User?> GetCurrentUser()
+        {
+            var userPrincipal = _httpContextAccessor.HttpContext?.User;
+            return userPrincipal == null ? 
+                null : 
+                await _userManager.GetUserAsync(userPrincipal);
         }
     }
 }

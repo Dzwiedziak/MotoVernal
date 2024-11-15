@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="appsettings.json" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Auth.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +25,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\Auth.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\Auth.cshtml" />
   </ItemGroup>
 
 </Project>

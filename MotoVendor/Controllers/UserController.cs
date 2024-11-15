@@ -28,11 +28,16 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public IActionResult Register(AddUserDTO user)
         {
+            var referer = Request.Headers["Referer"].ToString();
             if (ModelState.IsValid)
             {
                 var result = _userService.Add(user);
                 if (result.IsSuccess)
                 {
+                    if (!string.IsNullOrEmpty(referer))
+                    {
+                        return Redirect(referer);
+                    }
                     return RedirectToAction("IntroductionPage", "Home");
                 }
                 switch (result.Error)
@@ -65,6 +70,7 @@ namespace MotoVendor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginUserDTO model)
         {
+            var referer = Request.Headers["Referer"].ToString();
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
@@ -74,6 +80,10 @@ namespace MotoVendor.Controllers
 
                     if(result.Succeeded)
                     {
+                        if (!string.IsNullOrEmpty(referer))
+                        {
+                            return Redirect(referer);
+                        }
                         return RedirectToAction("IntroductionPage", "Home");
                     }
                     ModelState.AddModelError(string.Empty, "Invalid login attempt");

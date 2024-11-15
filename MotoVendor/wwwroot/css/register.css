@@ -89,19 +89,19 @@ input:focus {
     font-weight: 600;
 }
 
-    .text-separator::before,
-    .text-separator::after {
-        margin: 0px 10px;
-        height: 1px;
-        flex-grow: 1;
-        content: "";
-        background-color: #CCCCCC;
-    }
+.text-separator::before,
+.text-separator::after {
+    margin: 0px 10px;
+    height: 1px;
+    flex-grow: 1;
+    content: "";
+    background-color: #CCCCCC;
+}
 
 .register__google {
     width: 80%;
 }
 
-    .register__google img {
-        width: 100%;
-    }
+.register__google img {
+    width: 100%;
+}

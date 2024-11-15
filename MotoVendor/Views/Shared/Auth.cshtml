@@ -1,0 +1,21 @@
+﻿<div id="login__component-wrapper" style="display: block">
+    <partial name="Login" />
+</div>
+<div id="register__component-wrapper" style="display: none">
+    <partial name="Register" />
+</div>
+
+<script>
+    let loginWrapper = document.querySelector('#login__component-wrapper');
+    let registerWrapper = document.querySelector('#register__component-wrapper');
+    const switchAuth = function(authType) {
+        if (authType === "login") {
+            registerWrapper.style.display = 'none';
+            loginWrapper.style.display = 'block';
+        }
+        else if (authType === "register") {
+            loginWrapper.style.display = 'none';
+            registerWrapper.style.display = 'block';
+        }
+    };
+</script>
