@@ -87,11 +87,11 @@
         color: #0066FF;
     }
 
-main {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
+.main-cnt {
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+align-items: flex-start;
 }
 
 .side-section {
@@ -183,7 +183,7 @@ main {
         border: 1px solid #000000;
     }
 
-ol {
+.main-cnt ol {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -197,7 +197,7 @@ ol {
     margin-top: 15px;
 }
 
-li {
+.main-cnt li {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -237,11 +237,13 @@ li {
         order: 1;
         flex-grow: 0;
         border-radius: 100%;
+        padding:0;
     }
 
         li > button.observed {
             border: none;
             margin-left: 15px;
+            background:transparent;
         }
 
     li > span.nickname {
@@ -254,7 +256,7 @@ li {
         margin-right: 5px;
     }
 
-button > img {
+.main-cnt button > img {
     width: 100%;
     height: 100%;
     border-radius: 100%;
