@@ -64,7 +64,7 @@ namespace MotoVendor.Controllers
 
             if (result.Error == UserErrorCode.UserNotFound)
             {
-                TempData["ErrorMessage"] = "User not found.";
+                TempData["ErrorMessage"] = "User not found";
                 return RedirectToAction("Error", "Home");
             }
             return View(result.Value);
