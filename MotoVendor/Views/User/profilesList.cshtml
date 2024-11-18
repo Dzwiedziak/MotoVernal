@@ -68,7 +68,7 @@
         </li>
         @foreach(var user in Model)
         {
-            var isAdmin = User.IsInRole("admin");
+            bool isAdmin = user.Roles.Contains("Admin");
             <li class="@(isAdmin ? "admin" : "")">
                 <span class="nickname">@user.UserName</span>
                 <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
