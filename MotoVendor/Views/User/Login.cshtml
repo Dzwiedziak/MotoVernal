@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BusinessLogic.DTO.User.LoginUserDTO
+@{
     Layout = null;
 }
 <head>
@@ -11,34 +12,46 @@
     <link rel="stylesheet" href="~/css/login.css" />
 </head>
 <body>
-    <div class="login-template">
+    <form asp-action="Login" method="post" class="login-template">
         <div class="title">
-            Log in or sign up
+            Log in or sign up
         </div>
         <div class="description">
-            Give us your email, we will check if you are registered
+            Give us your username and password to log in
         </div>
         <div class="email">
             <div class="email-inside">
                 <div class="input-info">
-                    Email Address
+                    Nickname
                 </div>
-                <div class="email-input">
-                    niedzmat@gmail.com
-                </div>
+                <input asp-for="UserName" class="email-input" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
         </div>
-        <button class="sign_in-btn">
-            Sign in
+
+        <div class="email">
+            <div class="email-inside">
+                <div class="input-info">
+                    Password
+                </div>
+                <input asp-for="Password" class="email-input" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="sign_in-btn">
+            Log in
         </button>
+
         <div class="proposal">
             <div class="horizontal-line"></div>
             <div class="or">
                 or
             </div>
         </div>
+
         <div>
             <img src="~/images/login-google.svg" />
         </div>
-    </div>
+    </form>
 </body>

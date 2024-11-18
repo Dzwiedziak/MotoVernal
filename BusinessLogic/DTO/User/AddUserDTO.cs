@@ -6,7 +6,7 @@ namespace BusinessLogic.DTO.User
     {
         [Required]
         [MaxLength(20)]
-        public string Nickname { get; set; }
+        public string UserName { get; set; }
         [Required]
         [EmailAddress]
         [MaxLength(50)]
@@ -16,5 +16,14 @@ namespace BusinessLogic.DTO.User
         [MaxLength(50)]
         [MinLength(6)]
         public string Password { get; set; }
+
+        public AddUserDTO() { }
+
+        public AddUserDTO(string nickname, string email, string password)
+        {
+            UserName = nickname;
+            Email = email;
+            Password = password;
+        }
     }
 }

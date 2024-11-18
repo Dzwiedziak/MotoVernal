@@ -1,88 +1,191 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
-    @RenderSection("Styles", required: false)
-</head>
-<body>
-    <header>
-        <div class="nav">
-            <a href="/" class="logo-button">
-                <img class="logo" src="~/images/Logo-wrapper.svg" alt="Logo" />
-            </a>
-            <div class="nav-content">
-                <div class="nav-buttons">
-                    <a asp-controller="Forum" asp-action="SectionsAndTopicsList" class="nav-button">Forum</a>
-                    <a asp-controller="Calendar" asp-action="EventsList" class="nav-button">Calendar</a>
-                    <a asp-controller="Store" asp-action="SearchOffers" class="nav-button">Store</a>
-                    <a asp-controller="News" asp-action="PostsList" class="nav-button">News</a>
-                </div>
-                <div class="account-wrapper">
-                    <a asp-controller="App" asp-action="Login" class="account">Sign in</a>
-                </div>
-                <div class="submenu-wrapper">
-                    <partial name="AccountSubmenu" />
-                </div>
-            </div>
-        </div>
-    </header>
+﻿@inject BusinessLogic.Services.Interfaces.IUserService UserService
+@{
+    var user = UserService.GetCurrentUser().Result;
+    var showAuth = !(TempData["RegisterSuccessful"] != null ? (bool)TempData["RegisterSuccessful"] : true && TempData["LoginSuccessful"] != null ? (bool)TempData["LoginSuccessful"] : true);
+}
 
-        @RenderBody()
-    
-    <footer>
-        <div class="footer-section">
-            <div class="footer-section-title">
-                Website
-            </div>
-            <div class="footer-section-element">
-                Report problem
-            </div>
-            <div class="footer-section-element">
-                Cookies
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@ViewData["Title"]</title>
+        <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+        @RenderSection("Styles", required: false)
+        @RenderSection("Scripts", required: false)
+    </head>
+    <body>
+        <div id="full-page">
+            <header>
+                <nav class="site-nav">
+                    <a href="/" class="site-nav__home">
+                        <img src="~/images/Logo.svg" alt="Home" />
+                    </a>
+                    <ul class="site-nav__list">
+                        <li class="site-nav__item">
+                            <a asp-controller="Forum" asp-action="SectionsAndTopicsList" class="nav-button">Forum</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a asp-controller="Calendar" asp-action="EventsList" class="nav-button">Calendar</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a asp-controller="Store" asp-action="SearchOffers" class="nav-button">Store</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a asp-controller="News" asp-action="PostsList" class="nav-button">News</a>
+                        </li>
+                    </ul>
+                    @{
+                        if(user is null)
+                        {
+                            <button class="site-nav__auth-btn">Log in</button>
+                        }
+
+                        else
+                        {
+                            <button class="site-nav__auth-btn">Account</button>
+                            <div style="visibility: hidden" class="auth__submenu-wrapper">
+                                <partial name="AccountSubmenu" />
+                            </div>
+                            <script>
+                                let visibility = false;
+                                let accountButton = document.querySelector('.site-nav__auth-btn');
+                                let accountSubmenu = document.querySelector('.auth__submenu-wrapper');
+
+                                accountButton.onclick = function () {
+                                    visibility = !visibility;
+                                    if (visibility) {
+                                        accountSubmenu.style.visibility = 'visible';
+                                    } else {
+                                        accountSubmenu.style.visibility = 'hidden';
+                                    }
+                                };
+                            </script>                    
+                        }
+                    }
+                </nav>
+            </header>
+
+            <main>
+                @RenderBody()
+            </main>
+
+            <footer class="site-ft">
+                <ul class="site-ft__sections">
+                    <li class="site-ft__section">
+                        <a class="site-ft__link site-ft__section-title">Website</a>
+                        <ul class="site-ft__section-list">
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Report Problem</a>
+                            </li>
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Cookies</a>
+                            </li>
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Promoted offers</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="site-ft__section">
+                        <a class="site-ft__link site-ft__section-title">Company</a>
+                        <ul class="site-ft__section-list">
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">About us</a>
+                            </li>
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Privacy policy</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="site-ft__section">
+                        <a class="site-ft__link site-ft__section-title">Currencies</a>
+                        <ul class="site-ft__section-list">
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Exchange rates</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="site-ft__section">
+                        <a class="site-ft__link site-ft__section-title">For developers</a>
+                        <ul class="site-ft__section-list">
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">API Documentation</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="site-ft__section">
+                        <a class="site-ft__link site-ft__section-title">Help</a>
+                        <ul class="site-ft__section-list">
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">FAQ</a>
+                            </li>
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Contact</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="site-ft__bottom">
+                    <div>
+                        © MotoVendor
+                    </div>
+                    <ul class="socials">
+                        <li>
+                            <img src="~/images/Instagram.svg" alt="instagram" />
+                        </li>
+                        <li>
+                            <img src="~/images/YouTube.svg" alt="youtube" />
+                        </li>
+                        <li>
+                            <img src="~/images/Facebook.svg" alt="facebook" />
+                        </li>
+                        <li>
+                            <img src="~/images/X.svg" alt="x" />
+                        </li>
+                    </ul>
+                </div>
+            </footer>
         </div>
-        <div class="footer-section">
-            <div class="footer-section-title">
-                Company
-            </div>
-            <div class="footer-section-element">
-                About us
-            </div>
-            <div class="footer-section-element">
-                Privacy policy
-            </div>
+
+        <div class="auth__template-wrapper">
+            @if (user is null)
+            {
+                <style>
+                    #auth-component {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                </style>
+                <div style="display: @(showAuth ? "block" : "none")" id="auth-component">
+                    <partial name="Auth" />
+                </div>
+
+                <script>
+                    const authComponent = document.querySelector('#auth-component');
+                    const accountButton = document.querySelector('.site-nav__auth-btn');
+                    const fullPage = document.querySelector('#full-page');
+
+                    const openAuthComponent = () => {
+                        authComponent.style.display = 'block';
+                        fullPage.style.filter = 'blur(4px)';
+                    };
+
+                    const closeAuthComponent = () => {
+                        authComponent.style.display = 'none';
+                        fullPage.style.filter = 'none';
+                        switchAuth("login");
+                    };
+
+                    accountButton.addEventListener('click', () => {
+                        event.stopPropagation();
+                        openAuthComponent();
+                    });
+
+                    fullPage.addEventListener('click', () => {
+                        closeAuthComponent();
+                    });
+                </script>
+            }
         </div>
-        <div class="footer-section">
-            <div class="footer-section-title">
-                Currencies
-            </div>
-            <div class="footer-section-element">
-                Exchange rates
-            </div>
-        </div>
-        <div class="footer-section">
-            <div class="footer-section-title">
-                For developers
-            </div>
-            <div class="footer-section-element">
-                API documentation
-            </div>
-        </div>
-        <div class="footer-section">
-            <div class="footer-section-title">
-                Help
-            </div>
-            <div class="footer-section-element">
-                FAQ
-            </div>
-            <div class="footer-section-element">
-                Contact
-            </div>
-        </div>
-    </footer>
-</body>
-@RenderSection("Scripts", required: false)
+    </body>
 </html>

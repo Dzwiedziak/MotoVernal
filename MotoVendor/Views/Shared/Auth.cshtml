@@ -1,0 +1,26 @@
+﻿@{
+    bool registerSuccessful = TempData["RegisterSuccessful"] != null ? (bool)TempData["RegisterSuccessful"] : true;
+    bool loginSuccessful = TempData["LoginSuccessful"] != null ? (bool)TempData["LoginSuccessful"] : true;
+}
+
+<div id="login__component-wrapper" style="display: @(registerSuccessful ? "block" : "none")">
+    @await Component.InvokeAsync("Login", new { model = ViewBag.LoginModel });
+</div>
+<div id="register__component-wrapper" style="display: @(registerSuccessful ? "none" : "block")">
+    @await Component.InvokeAsync("Register", new { model = ViewBag.RegisterModel });
+</div>
+
+<script>
+    let loginWrapper = document.querySelector('#login__component-wrapper');
+    let registerWrapper = document.querySelector('#register__component-wrapper');
+    const switchAuth = function(authType) {
+        if (authType === "login") {
+            registerWrapper.style.display = 'none';
+            loginWrapper.style.display = 'block';
+        }
+        else if (authType === "register") {
+            loginWrapper.style.display = 'none';
+            registerWrapper.style.display = 'block';
+        }
+    };
+</script>

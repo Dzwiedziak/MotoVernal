@@ -5,7 +5,9 @@ using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace BusinessLogic.Services
 {
@@ -15,16 +17,19 @@ namespace BusinessLogic.Services
         private readonly IUserObservationRepository _userObservationRepository;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(IUserRepository userRepository,
                            IUserObservationRepository userObservationRepository,
                            UserManager<User> userManager,
-                           SignInManager<User> signInManager)
+                           SignInManager<User> signInManager,
+                           IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _userObservationRepository = userObservationRepository;
             _userManager = userManager;
             _signInManager = signInManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public Result<string?, UserErrorCode> Add(AddUserDTO user)
@@ -34,13 +39,14 @@ namespace BusinessLogic.Services
             if (FindUserWithSameEmail(user.Email, dbUsers) is not null)
                 return UserErrorCode.UserWithEmailExists;
 
-            if (FindUserWithSameNickName(user.Nickname, dbUsers) is not null)
+            if (FindUserWithSameNickName(user.UserName, dbUsers) is not null)
                 return UserErrorCode.UserWithNickNameExists;
 
             User newUser = CreateNewUser(user);
             var result = _userManager.CreateAsync(newUser, user.Password).Result;
             if (result.Succeeded)
             {
+                _userManager.AddToRoleAsync(newUser, "User").Wait();
                 _signInManager.SignInAsync(newUser, isPersistent: false).Wait();
                 return newUser.Id;
             }
@@ -108,10 +114,13 @@ namespace BusinessLogic.Services
             users.FirstOrDefault(u => String.Equals(u.Email, email));
 
         private User CreateNewUser(AddUserDTO user) =>
-            new(user.Nickname, user.Email, null, null, DateTime.Now, "");
+            new(user.UserName, user.Email, null, null, DateTime.Now, "");
 
-        private GetUserDTO CreateGetUserDTO(User user) =>
-            new(user.Id!,user.UserName!, user.Email!, user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
+        private GetUserDTO CreateGetUserDTO(User user)
+        {
+            List<string> roles = _userManager.GetRolesAsync(user).Result.ToList();
+            return new GetUserDTO(user.Id!, user.UserName!, user.Email!, roles ,user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
+        }
 
         private bool IsUserObserving(string ObserverId, string ObservedId)
         {
@@ -130,6 +139,14 @@ namespace BusinessLogic.Services
         {
             List<User> dbUsers = _userRepository.GetAll();
             return dbUsers.Select(u => CreateGetUserDTO(u)).ToList();
+        }
+
+        public async Task<User?> GetCurrentUser()
+        {
+            var userPrincipal = _httpContextAccessor.HttpContext?.User;
+            return userPrincipal == null ? 
+                null : 
+                await _userManager.GetUserAsync(userPrincipal);
         }
     }
 }

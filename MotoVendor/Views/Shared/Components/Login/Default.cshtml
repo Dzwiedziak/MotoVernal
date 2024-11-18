@@ -1,0 +1,172 @@
+﻿@using Newtonsoft.Json
+@model BusinessLogic.DTO.User.LoginUserDTO
+@{
+    var loginModel = TempData["LoginModel"] != null ? JsonConvert.DeserializeObject<BusinessLogic.DTO.User.LoginUserDTO>(TempData["LoginModel"].ToString()) : null;
+    var loginErrors = TempData["LoginErrors"] != null ? JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(TempData["LoginErrors"].ToString()) : new Dictionary<string, List<string>>();
+}
+
+<style>
+    .register {
+        max-width: 400px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        font-family: "Inter", system-ui;
+        border-radius: 30px;
+        border: 1px solid black;
+        background-color: white;
+    }
+
+    .register__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        font-size: 24px;
+    }
+
+    .title {
+        font-weight: 700;
+    }
+
+    .description {
+        font-weight: 200;
+        color: #646364;
+        text-align: center;
+    }
+
+    .register__form-wrapper {
+        width: 70%;
+    }
+
+    .register__form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .text-input {
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        font-family: "Inter", system-ui;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .text-input__label {
+        font-size: 12px;
+        font-weight: 300;
+        color: #646364;
+    }
+
+    .text-input__value {
+        font-family: "Inter", system-ui;
+        font-weight: 600;
+        border: none;
+    }
+
+    .sign_in-btn {
+        width: 100%;
+        aspect-ratio: 6/1;
+        color: white;
+        font-size: 16px;
+        border-radius: 30px;
+        background-color: black;
+    }
+
+    .text-separator__wrapper {
+        width: 60%;
+    }
+
+    .text-separator {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+        .text-separator::before,
+        .text-separator::after {
+            margin: 0px 10px;
+            height: 1px;
+            flex-grow: 1;
+            content: "";
+            background-color: #CCCCCC;
+        }
+
+    .register__google {
+        width: 80%;
+    }
+
+        .register__google img {
+            width: 100%;
+        }
+</style>
+
+<div class="register">
+    <div class="register__header">
+        <div class="title">
+            Log in
+        </div>
+        <div class="description">
+            Provide us information about yourself
+        </div>
+    </div>
+    <div class="register__form-wrapper">
+        <style>
+            .text-danger {
+                color: #dc3545 !important;
+            }
+        </style>
+        <form asp-controller="User" asp-action="Login" class="register__form" method="post">
+            <div class="text-input">
+                <label asp-for="UserName" class="text-input__label">Nickname</label>
+                <input asp-for="UserName" class="text-input__value" type="text" value="@loginModel?.UserName"/>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                @if (loginErrors.ContainsKey("UserName"))
+                {
+                    <ul class="text-danger">
+                        @foreach (var error in loginErrors["UserName"])
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                }
+            </div>
+            <div class="text-input">
+                <label asp-for="Password" class="text-input__label">Password</label>
+                <input asp-for="Password" class="text-input__value" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+                @if (loginErrors.ContainsKey("Password"))
+                {
+                    <ul class="text-danger">
+                        @foreach (var error in loginErrors["Password"])
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                }
+            </div>
+            <button type="submit" class="sign_in-btn">Log in</button>
+        </form>
+    </div>
+    <div class="text-separator__wrapper">
+        <div class="text-separator">
+            or
+        </div>
+    </div>
+    <div class="register__google">
+        <img src="~/images/google-continue.svg" />
+    </div>
+    <button onclick='switchAuth("register")' class="sign_in-btn">
+        Register
+    </button>
+</div>

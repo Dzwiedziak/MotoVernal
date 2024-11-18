@@ -6,15 +6,19 @@
         public readonly TError? Error;
 
         private bool _isSuccess;
+        public bool IsSuccess
+        {
+            get => _isSuccess;
+        }
 
-        protected Result(TValue value)
+        public Result(TValue value)
         {
             Value = value;
             Error = default;
             _isSuccess = true;
         }
 
-        protected Result(TError error)
+        public Result(TError error)
         {
             Value = default;
             Error = error;

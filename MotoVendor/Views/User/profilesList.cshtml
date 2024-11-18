@@ -25,7 +25,7 @@
         </div>
     </div>
 </section>
-<main>
+<div class="main-cnt">
     <div class="side-section">
         <div class="filter-by">
             <label>Filter by</label>
@@ -50,7 +50,7 @@
             <span class="id">1.</span>
             <span class="nickname">RoyBig</span>
             <button class="profile">
-                <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
+                <img src="~/images/auto-z-usa-autobaza.jpg" alt="profil-img" class="profil-img">
             </button>
             <button class="observed">
                 <img src="~/images/star.png" alt="star-img" class="star-img">
@@ -68,7 +68,8 @@
         </li>
         @foreach(var user in Model)
         {
-            <li>
+            bool isAdmin = user.Roles.Contains("Admin");
+            <li class="@(isAdmin ? "admin" : "")">
                 <span class="nickname">@user.UserName</span>
                 <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
                     <img src="@user.ProfileImage" alt="profil-img" class="profil-img">
@@ -80,4 +81,4 @@
             </li>
         }
     </ol>
-</main>
+</div>
