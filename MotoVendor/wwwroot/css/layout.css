@@ -7,8 +7,6 @@
 
 main {
     flex-grow: 1;
-    width: fit-content;
-    display: flex;
     justify-content: center;
     width: 100%;
 }
