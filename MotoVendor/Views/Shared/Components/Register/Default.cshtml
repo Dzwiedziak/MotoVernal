@@ -1,4 +1,9 @@
-﻿@model BusinessLogic.DTO.User.AddUserDTO
+﻿@using Newtonsoft.Json
+@model BusinessLogic.DTO.User.AddUserDTO
+@{
+    var registerModel = TempData["RegisterModel"] != null ? JsonConvert.DeserializeObject<BusinessLogic.DTO.User.AddUserDTO>(TempData["RegisterModel"].ToString()) : null;
+    var registerErrors = TempData["RegisterErrors"] != null ? JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(TempData["RegisterErrors"].ToString()) : new Dictionary<string, List<string>>();
+}
 
 <style>
     .register {
@@ -88,22 +93,22 @@
         font-weight: 600;
     }
 
-    .text-separator::before,
-    .text-separator::after {
-        margin: 0px 10px;
-        height: 1px;
-        flex-grow: 1;
-        content: "";
-        background-color: #CCCCCC;
-    }
+        .text-separator::before,
+        .text-separator::after {
+            margin: 0px 10px;
+            height: 1px;
+            flex-grow: 1;
+            content: "";
+            background-color: #CCCCCC;
+        }
 
     .register__google {
         width: 80%;
     }
 
-    .register__google img {
-        width: 100%;
-    }
+        .register__google img {
+            width: 100%;
+        }
 </style>
 
 <div class="register">
@@ -116,21 +121,53 @@
         </div>
     </div>
     <div class="register__form-wrapper">
+        <style>
+            .text-danger {
+                color: #dc3545 !important;
+            }
+        </style>
         <form asp-controller="User" asp-action="Register" class="register__form" method="post">
             <div class="text-input">
                 <label asp-for="UserName" class="text-input__label">Nickname</label>
-                <input asp-for="UserName" class="text-input__value" type="text" />
+                <input asp-for="UserName" class="text-input__value" type="text" value="@registerModel?.UserName"/>
                 <span asp-validation-for="UserName" class="text-danger"></span>
+                @if (registerErrors.ContainsKey("UserName"))
+                {
+                    <ul class="text-danger">
+                        @foreach (var error in registerErrors["UserName"])
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                }
             </div>
             <div class="text-input">
                 <label asp-for="Email" class="text-input__label">Email Address</label>
-                <input asp-for="Email" class="text-input__value" type="email" />
+                <input asp-for="Email" class="text-input__value" type="email" value="@registerModel?.Email"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
+                @if (registerErrors.ContainsKey("Email"))
+                {
+                    <ul class="text-danger">
+                        @foreach (var error in registerErrors["Email"])
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                }
             </div>
             <div class="text-input">
                 <label asp-for="Password" class="text-input__label">Password</label>
                 <input asp-for="Password" class="text-input__value" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+                @if (registerErrors.ContainsKey("Password"))
+                {
+                    <ul class="text-danger">
+                        @foreach (var error in registerErrors["Password"])
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                }
             </div>
             <button type="submit" class="sign_in-btn">Sign up</button>
         </form>

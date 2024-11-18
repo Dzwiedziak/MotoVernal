@@ -1,8 +1,13 @@
-﻿<div id="login__component-wrapper" style="display: block">
-    <partial name="Login" />
+﻿@{
+    bool registerSuccessful = TempData["RegisterSuccessful"] != null ? (bool)TempData["RegisterSuccessful"] : true;
+    bool loginSuccessful = TempData["LoginSuccessful"] != null ? (bool)TempData["LoginSuccessful"] : true;
+}
+
+<div id="login__component-wrapper" style="display: @(registerSuccessful ? "block" : "none")">
+    @await Component.InvokeAsync("Login", new { model = ViewBag.LoginModel });
 </div>
-<div id="register__component-wrapper" style="display: none">
-    <partial name="Register" />
+<div id="register__component-wrapper" style="display: @(registerSuccessful ? "none" : "block")">
+    @await Component.InvokeAsync("Register", new { model = ViewBag.RegisterModel });
 </div>
 
 <script>

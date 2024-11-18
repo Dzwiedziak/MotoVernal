@@ -39,7 +39,7 @@ namespace BusinessLogic.Services
             if (FindUserWithSameEmail(user.Email, dbUsers) is not null)
                 return UserErrorCode.UserWithEmailExists;
 
-            if (FindUserWithSameNickName(user.Nickname, dbUsers) is not null)
+            if (FindUserWithSameNickName(user.UserName, dbUsers) is not null)
                 return UserErrorCode.UserWithNickNameExists;
 
             User newUser = CreateNewUser(user);
@@ -114,7 +114,7 @@ namespace BusinessLogic.Services
             users.FirstOrDefault(u => String.Equals(u.Email, email));
 
         private User CreateNewUser(AddUserDTO user) =>
-            new(user.Nickname, user.Email, null, null, DateTime.Now, "");
+            new(user.UserName, user.Email, null, null, DateTime.Now, "");
 
         private GetUserDTO CreateGetUserDTO(User user) =>
             new(user.Id!,user.UserName!, user.Email!, user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);

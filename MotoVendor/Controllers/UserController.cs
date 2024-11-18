@@ -4,6 +4,8 @@ using BusinessLogic.Services.Interfaces;
 using DB.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MotoVendor.Controllers
 {
@@ -26,37 +28,76 @@ namespace MotoVendor.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(AddUserDTO user)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(AddUserDTO user)
         {
             var referer = Request.Headers["Referer"].ToString();
+            var errors = new Dictionary<string, List<string>>();
+            TempData["RegisterSuccessful"] = true;
+
             if (ModelState.IsValid)
             {
-                var result = _userService.Add(user);
-                if (result.IsSuccess)
+                var existingUser = await _userManager.FindByNameAsync(user.UserName);
+                if (existingUser != null)
                 {
-                    if (!string.IsNullOrEmpty(referer))
+                    errors["UserName"] = new List<string> { "User with this nickname already exists" };
+                    TempData["RegisterSuccessful"] = false;
+                }
+                else
+                {
+                    var existingEmail = await _userManager.FindByEmailAsync(user.Email);
+                    if (existingEmail != null)
                     {
-                        return Redirect(referer);
+                        errors["Email"] = new List<string> { "User with this email already exists" };
+                        TempData["RegisterSuccessful"] = false;
                     }
-                    return RedirectToAction("IntroductionPage", "Home");
-                }
-                switch (result.Error)
-                {
-                    case UserErrorCode.UserWithNickNameExists:
-                        user.Nickname = "";
-                        ModelState.AddModelError("Nickname", "User with this nickname already exists");
-                        break;
+                    else
+                    {
+                        var newUser = new User(user.UserName, user.Email, null, null, DateTime.Now, "");
 
-                    case UserErrorCode.UserWithEmailExists:
-                        ModelState.AddModelError("Email", "User with this email already exists");
-                        break;
+                        var result = await _userManager.CreateAsync(newUser, user.Password);
+                        if (result.Succeeded)
+                        {
+                            if (!string.IsNullOrEmpty(referer))
+                            {
+                                return Redirect(referer);
+                            }
 
-                    case UserErrorCode.UserCreationFailed:
-                        ModelState.AddModelError(string.Empty, "Unexpected error happened during registering");
-                        break;
+                            return RedirectToAction("IntroductionPage", "Home");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                errors["General"] = errors.GetValueOrDefault("General", new List<string>());
+                                errors["General"].Add(error.Description);
+                                TempData["RegisterSuccessful"] = false;
+                            }
+                        }
+                    }
                 }
-                return View(user);
             }
+            else
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var fieldErrors = ModelState[key].Errors.Select(e => e.ErrorMessage).ToList();
+                    if (fieldErrors.Any())
+                    {
+                        errors[key] = fieldErrors;
+                    }
+                }
+                TempData["RegisterSuccessful"] = false;
+            }
+
+            TempData["RegisterModel"] = JsonConvert.SerializeObject(user);
+            TempData["RegisterErrors"] = JsonConvert.SerializeObject(errors);
+
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
+
             return View(user);
         }
 
@@ -70,15 +111,18 @@ namespace MotoVendor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginUserDTO model)
         {
+            TempData["LoginSuccessful"] = true;
             var referer = Request.Headers["Referer"].ToString();
+            var errors = new Dictionary<string, List<string>>();
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
-                if(user is not null)
+                if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
-                    if(result.Succeeded)
+                    if (result.Succeeded)
                     {
                         if (!string.IsNullOrEmpty(referer))
                         {
@@ -86,17 +130,47 @@ namespace MotoVendor.Controllers
                         }
                         return RedirectToAction("IntroductionPage", "Home");
                     }
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt");
-                    return View(model);
+
+                    errors["UserName"] = new List<string> { "Invalid login attempt" };
+                    TempData["LoginSuccessful"] = false;
                 }
-                ModelState.AddModelError(string.Empty, "User not found");
-                return View(model);
+                else
+                {
+                    errors["UserName"] = new List<string> { "User not found" };
+                    TempData["LoginSuccessful"] = false;
+                }
             }
+            else
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var fieldErrors = ModelState[key].Errors.Select(e => e.ErrorMessage).ToList();
+                    if (fieldErrors.Any())
+                    {
+                        errors[key] = fieldErrors;
+                    }
+                }
+                TempData["LoginSuccessful"] = false;
+            }
+            TempData["LoginModel"] = JsonConvert.SerializeObject(model);
+            TempData["LoginErrors"] = JsonConvert.SerializeObject(errors);
+
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
+
             return View(model);
         }
+
         public async Task<IActionResult> Logout()
         {
+            var referer = Request.Headers["Referer"].ToString();
             await _signInManager.SignOutAsync();
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
             return RedirectToAction("IntroductionPage", "Home");
         }
 

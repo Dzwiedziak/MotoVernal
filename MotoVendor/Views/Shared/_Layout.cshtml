@@ -1,6 +1,7 @@
 ﻿@inject BusinessLogic.Services.Interfaces.IUserService UserService
 @{
     var user = UserService.GetCurrentUser().Result;
+    var showAuth = !(TempData["RegisterSuccessful"] != null ? (bool)TempData["RegisterSuccessful"] : true && TempData["LoginSuccessful"] != null ? (bool)TempData["LoginSuccessful"] : true);
 }
 
 <!DOCTYPE html>
@@ -155,7 +156,7 @@
                         transform: translate(-50%, -50%);
                     }
                 </style>
-                <div style="display: none" id="auth-component">
+                <div style="display: @(showAuth ? "block" : "none")" id="auth-component">
                     <partial name="Auth" />
                 </div>
 
