@@ -202,6 +202,12 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "User not found";
                 return RedirectToAction("Error", "Home");
             }
+            var currentUser = User.Identity.Name;
+            var isCurrentUser = result.Value.UserName == currentUser;
+            bool isAdmin = User.IsInRole("Admin");
+            ViewBag.IsCurrentUser = isCurrentUser;
+            ViewBag.IsAdmin = isAdmin;
+
             return View(result.Value);
         }
     }

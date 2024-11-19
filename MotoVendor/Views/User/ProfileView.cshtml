@@ -1,6 +1,6 @@
 ﻿@model BusinessLogic.DTO.User.GetUserDTO;
 @{
-    ViewData["Title"] = "App - Profile View"; 
+    ViewData["Title"] = "App - Profile View";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/profileView.css" />
@@ -21,10 +21,10 @@
                 <img src="~/images/no-sign-ban-vector-icon-600nw-1676561785.webp" id="ban-icon" alt="ban-icon" class="ban-icon">
             </div>
             <div class="standard-info-item">
-                <span>Male, 22 years old, lives in Białystok</span>
+                <span>@Model.Gender, @Model.Age years old, on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
             </div>
             <div class="description-info-item">
-                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+                <span>@Model.Description</span>
             </div>
         </div>
         <div class="action-profile">
@@ -44,17 +44,34 @@
                 </button>
             </div>
             <div class="profile-buttons">
-                <button class="go-back">
+                <button class="go-back" onclick="window.history.back()">
                     <span>Take me back</span>
                 </button>
-                <button class="edit-button">
-                    <label>Edit</label>
-                    <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
-                </button>
-                <button class="delete-button">
-                    <label>Delete account</label>
-                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
-                </button>
+                @if (ViewBag.IsCurrentUser)
+                {
+                    <button class="edit-button">
+                        <label>Edit</label>
+                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
+                    </button>
+                    <button class="delete-button">
+                        <label>Delete account</label>
+                        <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                    </button>  
+                }
+                else if(ViewBag.IsAdmin)
+                {
+                    <button class="delete-button">
+                        <label>Ban account</label>
+                        <img src="~/images/warning.png" alt="ban" class="x-image" id="x-image" width="35px" height="35px">
+                    </button>
+                }
+                else
+                {
+                    <button class="delete-button">
+                        <label>Report account</label>
+                        <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                    </button>
+                }
             </div>
         </div>
     </div>
