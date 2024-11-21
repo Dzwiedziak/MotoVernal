@@ -1,7 +1,7 @@
 ﻿@inject BusinessLogic.Services.Interfaces.IUserService UserService
 @{
     var user = UserService.GetCurrentUser().Result;
-    var showAuth = !(TempData["RegisterSuccessful"] != null ? (bool)TempData["RegisterSuccessful"] : true && TempData["LoginSuccessful"] != null ? (bool)TempData["LoginSuccessful"] : true);
+    var authState = TempData["AuthState"] != null ? (string)TempData["AuthState"]! : "None";
 }
 
 <!DOCTYPE html>
@@ -36,29 +36,29 @@
                     @{
                         if(user is null)
                         {
-                            <button class="site-nav__auth-btn">Log in</button>
+                                        <button class="site-nav__auth-btn">Log in</button>
                         }
 
                         else
                         {
-                            <button class="site-nav__auth-btn">Account</button>
-                            <div style="visibility: hidden" class="auth__submenu-wrapper">
-                                <partial name="AccountSubmenu" />
-                            </div>
-                            <script>
-                                let visibility = false;
-                                let accountButton = document.querySelector('.site-nav__auth-btn');
-                                let accountSubmenu = document.querySelector('.auth__submenu-wrapper');
+                                        <button class="site-nav__auth-btn">Account</button>
+                                        <div style="visibility: hidden" class="auth__submenu-wrapper">
+                                            <partial name="AccountSubmenu" />
+                                        </div>
+                                        <script>
+                                            let visibility = false;
+                                            let accountButton = document.querySelector('.site-nav__auth-btn');
+                                            let accountSubmenu = document.querySelector('.auth__submenu-wrapper');
 
-                                accountButton.onclick = function () {
-                                    visibility = !visibility;
-                                    if (visibility) {
-                                        accountSubmenu.style.visibility = 'visible';
-                                    } else {
-                                        accountSubmenu.style.visibility = 'hidden';
-                                    }
-                                };
-                            </script>                    
+                                            accountButton.onclick = function () {
+                                                visibility = !visibility;
+                                                if (visibility) {
+                                                    accountSubmenu.style.visibility = 'visible';
+                                                } else {
+                                                    accountSubmenu.style.visibility = 'hidden';
+                                                }
+                                            };
+                                        </script>                    
                         }
                     }
                 </nav>
@@ -156,7 +156,7 @@
                         transform: translate(-50%, -50%);
                     }
                 </style>
-                <div style="display: @(showAuth ? "block" : "none")" id="auth-component">
+                <div style="display: none" id="auth-component">
                     <partial name="Auth" />
                 </div>
 
@@ -184,6 +184,17 @@
                     fullPage.addEventListener('click', () => {
                         closeAuthComponent();
                     });
+
+                    var authState = '@authState';
+                    if (authState === 'Login') {
+                        openAuthComponent();
+                        switchAuth("login");
+                    }
+                    else if (authState === 'Register') {
+                        openAuthComponent();
+                        switchAuth("register");
+                    }
+
                 </script>
             }
         </div>
