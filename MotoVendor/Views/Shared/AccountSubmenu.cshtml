@@ -7,7 +7,7 @@
     <ul class="sign-in__nav">
         <li>
             <a class="sign-in__link" href="#">
-                <img class="sign-in__icon" src="~/images/bell.svg">
+                <img class="sign-in__icon" src="~/images/human.svg">
                 <div class="sign-in_text">
                     Profile
                 </div>
@@ -15,14 +15,14 @@
         </li>
         <li>
             <a class="sign-in__link" href="#">
-                <img class="sign-in__icon" src="~/images/human.svg">
+                <img class="sign-in__icon" src="~/images/bell.svg">
                 <div class="sign-in_text">
                     Alerts
                 </div>
             </a>
         </li>
         <li>
-            <a class="sign-in__link" href="#">
+            <a asp-controller="User" asp-action="ProfilesList" class="sign-in__link">
                 <img class="sign-in__icon" src="~/images/human.svg">
                 <div class="sign-in_text">
                     Users
