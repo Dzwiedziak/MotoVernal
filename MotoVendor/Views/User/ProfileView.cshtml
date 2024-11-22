@@ -49,7 +49,7 @@
                 </button>
                 @if (ViewBag.IsCurrentUser)
                 {
-                    <button class="edit-button">
+                    <button class="edit-button" onclick="window.location.href='/user/EditProfile?id=@Model.Id'">
                         <label>Edit</label>
                         <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
                     </button>

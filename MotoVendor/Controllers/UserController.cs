@@ -2,6 +2,7 @@
 using BusinessLogic.Errors;
 using BusinessLogic.Services.Interfaces;
 using DB.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -192,6 +193,7 @@ namespace MotoVendor.Controllers
                 return RedirectToAction("IntroductionPage", "Home");
             }
         }
+
         [HttpGet]
         public IActionResult ProfileView(string id)
         {
@@ -208,6 +210,17 @@ namespace MotoVendor.Controllers
             ViewBag.IsCurrentUser = isCurrentUser;
             ViewBag.IsAdmin = isAdmin;
 
+            return View(result.Value);
+        }
+        [HttpGet]
+        public IActionResult EditProfile(string id)
+        {
+            var result = _userService.Get(id);
+            if (result.Error == UserErrorCode.UserNotFound)
+            {
+                TempData["ErrorMessage"] = "User not found";
+                return RedirectToAction("Error", "Home");
+            }
             return View(result.Value);
         }
     }

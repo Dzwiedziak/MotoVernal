@@ -43,7 +43,7 @@
     border-radius: 25px;
 }
 
-    .profil-nickname > input {
+    .profil-nickname > label {
         font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
@@ -102,7 +102,7 @@
         margin-right: 5px;
     }
 
-    .info-item > input, select, textarea {
+    .info-item > input, select, textarea, span{
         box-sizing: border-box;
         width: 419px;
         height: 40px;

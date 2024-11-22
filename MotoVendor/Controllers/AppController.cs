@@ -9,9 +9,5 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult EditProfile()
-        {
-            return View();
-        }
     }
 }
