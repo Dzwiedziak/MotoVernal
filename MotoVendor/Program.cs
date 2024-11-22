@@ -29,6 +29,12 @@ internal class Program
         .AddEntityFrameworkStores<MVAppContext>()
         .AddDefaultTokenProviders();
 
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/User/Login";
+            options.AccessDeniedPath = "/User/AccessDenied";
+        });
+
         var app = builder.Build();
 
         using (var scope = app.Services.CreateScope())
@@ -60,6 +66,7 @@ internal class Program
 
         app.Run();
     }
+
     private static void InjectRepositories(WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IEventRepository, EventRepository>();

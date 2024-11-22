@@ -25,6 +25,13 @@ namespace MotoVendor.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            var referer = Request.Headers["Referer"].ToString();
+            TempData["AuthState"] = "Register";
+
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
             return View();
         }
 
@@ -34,7 +41,7 @@ namespace MotoVendor.Controllers
         {
             var referer = Request.Headers["Referer"].ToString();
             var errors = new Dictionary<string, List<string>>();
-            TempData["RegisterSuccessful"] = true;
+            TempData["AuthState"] = "None";
 
             if (ModelState.IsValid)
             {
@@ -42,7 +49,7 @@ namespace MotoVendor.Controllers
                 if (existingUser != null)
                 {
                     errors["UserName"] = new List<string> { "User with this nickname already exists" };
-                    TempData["RegisterSuccessful"] = false;
+                    TempData["AuthState"] = "Register";
                 }
                 else
                 {
@@ -50,7 +57,7 @@ namespace MotoVendor.Controllers
                     if (existingEmail != null)
                     {
                         errors["Email"] = new List<string> { "User with this email already exists" };
-                        TempData["RegisterSuccessful"] = false;
+                        TempData["AuthState"] = "Register";
                     }
                     else
                     {
@@ -72,7 +79,7 @@ namespace MotoVendor.Controllers
                             {
                                 errors["General"] = errors.GetValueOrDefault("General", new List<string>());
                                 errors["General"].Add(error.Description);
-                                TempData["RegisterSuccessful"] = false;
+                                TempData["AuthState"] = "Register";
                             }
                         }
                     }
@@ -88,7 +95,7 @@ namespace MotoVendor.Controllers
                         errors[key] = fieldErrors;
                     }
                 }
-                TempData["RegisterSuccessful"] = false;
+                TempData["AuthState"] = "Register";
             }
 
             TempData["RegisterModel"] = JsonConvert.SerializeObject(user);
@@ -105,6 +112,13 @@ namespace MotoVendor.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            var referer = Request.Headers["Referer"].ToString();
+            TempData["AuthState"] = "Login";
+
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
             return View();
         }
 
@@ -112,7 +126,7 @@ namespace MotoVendor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginUserDTO model)
         {
-            TempData["LoginSuccessful"] = true;
+            TempData["AuthState"] = "None";
             var referer = Request.Headers["Referer"].ToString();
             var errors = new Dictionary<string, List<string>>();
 
@@ -133,12 +147,12 @@ namespace MotoVendor.Controllers
                     }
 
                     errors["UserName"] = new List<string> { "Invalid login attempt" };
-                    TempData["LoginSuccessful"] = false;
+                    TempData["AuthState"] = "Login";
                 }
                 else
                 {
                     errors["UserName"] = new List<string> { "User not found" };
-                    TempData["LoginSuccessful"] = false;
+                    TempData["AuthState"] = "Login";
                 }
             }
             else
@@ -151,7 +165,7 @@ namespace MotoVendor.Controllers
                         errors[key] = fieldErrors;
                     }
                 }
-                TempData["LoginSuccessful"] = false;
+                TempData["AuthState"] = "Login";
             }
             TempData["LoginModel"] = JsonConvert.SerializeObject(model);
             TempData["LoginErrors"] = JsonConvert.SerializeObject(errors);
@@ -195,6 +209,7 @@ namespace MotoVendor.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult ProfileView(string id)
         {
             var result = _userService.Get(id);
