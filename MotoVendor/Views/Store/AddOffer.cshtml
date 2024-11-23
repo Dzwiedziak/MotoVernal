@@ -1,4 +1,7 @@
-﻿@{
+﻿@using   DB.Enums;
+
+@model BusinessLogic.DTO.VehicleOffer.AddVehicleOfferDTO
+@{
     ViewData["Title"] = "Store - Add Offer";
 }
 @section Styles {
@@ -7,98 +10,143 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
-<main>
-    <div class="main-container">
-        <div class="offer-add-container">
-            <div class="vehicle-model">
-                <div class="photo">
-                    <img src="~/images/example-vehicle(1).png" />
-                </div>
-                <div class="mark">
-                    Audi
-                </div>
-                <div class="model">
-                    A6 C7 3.0tdi
-                </div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buttons = document.querySelectorAll(".vehicle-info-nav-group button");
+            const sections = document.querySelectorAll(".form-section");
+
+            sections.forEach(section => section.style.display = "none");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", () => {
+                    const sectionId = button.getAttribute("data-section");
+
+                    sections.forEach(section => section.style.display = "none");
+
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.style.display = "block";
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<div class="main-container">
+    <div class="offer-add-container">
+        <div class="vehicle-model">
+            <div class="photo">
+                <img src="~/images/example-vehicle(1).png" />
             </div>
-            <ul class="vehicle-info-nav">
-                <li class="vehicle-info-nav-group">
-                    <div class="nav-group-title">
-                        <div class="nav-group-title-text">
-                            Specification
-                        </div>
-                    </div>
-                    <ul>
-                        <li>
-                            Vehicle base informations
-                        </li>
-                        <li>
-                            Additional features
-                        </li>
-                    </ul>
-                </li>
-                <li class="vehicle-info-nav-group">
-                    <div class="nav-group-title">
-                        <div class="nav-group-title-text">
-                            Vehicle's life
-                        </div>
-                    </div>
-                    <ul>
-                        <li>
-                            Vehicle state information
-                        </li>
-                    </ul>
-                </li>
-                <li class="vehicle-info-nav-group">
-                    <div class="nav-group-title">
-                        <div class="nav-group-title-text">
-                            Directly provided
-                        </div>
-                    </div>
-                    <ul>
-                        <li>
-                            Description
-                        </li>
-                        <li>
-                            Photos
-                        </li>
-                    </ul>
-                </li>
-                <li class="vehicle-info-nav-group">
-                    <div class="nav-group-title">
-                        <div class="nav-group-title-text">
-                            Personal
-                        </div>
-                    </div>
-                    <ul>
-                        <li>
-                            Contact informations
-                        </li>
-                        <li>
-                            Location
-                        </li>
-                        <li>
-                            Price
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="offer-add-category">
-            <div class="category-info">
-                <div class="category-title">
-                    Vehicle base information
-                </div>
-                <div class="description">
-                    Provide us basic inforamations about your vehicle
-                </div>
+            <div class="mark">
+                Audi
             </div>
-            <div class="vehicle-info-form">
-                <input type="text" name="" id="" placeholder="Brand">
-                <input type="text" name="" id="" placeholder="Model">
-                <input type="text" name="" id="" placeholder="Generation">
-                <input type="text" name="" id="" placeholder="Version">
+            <div class="model">
+                A6 C7 3.0tdi
             </div>
         </div>
+        <ul class="vehicle-info-nav">
+            <li class="vehicle-info-nav-group">
+                <button data-section="form__vehicle-base-informations" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Vehicle base informations
+                    </div>
+                </button>
+                <button data-section="form__additional-features" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Additional features
+                    </div>
+                </button>
+            </li>
+            <li class="vehicle-info-nav-group">
+                <button data-section="form_vehicle-state-informations" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Vehicle state information
+                    </div>
+                </button>
+            </li>
+            <li class="vehicle-info-nav-group">
+                <button data-section="form__description" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Description
+                    </div>
+                </button>
+                <button data-section="form_photos" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Photos
+                    </div>
+                </button>
+            </li>
+            <li class="vehicle-info-nav-group">
+                <button data-section="form__contact-informations" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Contact informations
+                    </div>
+                </button>
+                <button data-section="form__location" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Location
+                    </div>
+                </button>
+                <button data-section="form__price" class="nav-group-title">
+                    <div class="nav-group-title-text">
+                        Price
+                    </div>
+                </button>
+            </li>
+        </ul>
     </div>
-</main>
+    <div class="offer-add-category">
+        <form class="vehicle-info-form" method="po">
+            <div id="form__vehicle-base-informations" class="form-section">
+                <h3>Vehicle Base Informations</h3>
+                <input type="text" asp-for="Brand" placeholder="Brand">
+                <input type="text" asp-for="Model" placeholder="Model">
+                <input type="text" asp-for="Generation" placeholder="Generation">
+                <input type="text" asp-for="Version" placeholder="Version">
+                <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<TransmissionType>()"></select>
+                <select asp-for="Drive" asp-items="Html.GetEnumSelectList<DriveType>()"> </select>
+                <select asp-for="Body" asp-items="Html.GetEnumSelectList<BodyType>()" />
+                <input type="number" asp-for="NumberOfSeats" placeholder="NumberOfSeats" />
+            </div>
+            <div id="form__additional-features" class="form-section">
+                <h3>Additional Features</h3>
+            </div>
+            <div id="form_vehicle-state-informations" class="form-section">
+                <h3>Vehicle State Informations</h3>
+                <input type="text" asp-for="FirstOwner" placeholder="First-Owner" />
+                <input type="text" asp-for="YearOfProduction" placeholder="YearOfProduction" />
+                <input type="text" asp-for="Mileage" placeholder="Mileage" />
+                <input type="text" asp-for="VIN" placeholder="Vin" />
+                <input type="text" asp-for="Color" placeholder="Color" />
+                <input type="text" asp-for="Condition" placeholder="Condition" />
+            </div>
+            <div id="form__description" class="form-section">
+                <h3>Description</h3>
+                <input type="text" asp-for="Description" placeholder="Description" />
+            </div>
+            <div id="form_photos" class="form-section">
+                <h3>Photos</h3>
+                <input type="text" placeholder="Photos" />
+            </div>
+            <div id="form__contact-informations" class="form-section">
+                <h3>Contact Informations</h3>
+                <input type="text" asp-for="Email" placeholder="Email" />
+                <input type="text" asp-for="Phone" placeholder="Phone" />
+            </div>
+            <div id="form__location" class="form-section">
+                <h3>Location</h3>
+                <input type="text" asp-for="Location" placeholder="Location" />
+            </div>
+            <div id="form__price" class="form-section">
+                <h3>Price</h3>
+                <input type="text" asp-for="Price" placeholder="Price" />
+            </div>
+            <button type="submit">
+                Add offer
+            </button>
+        </form>
+    </div>
+</div>

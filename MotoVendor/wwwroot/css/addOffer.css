@@ -1,10 +1,46 @@
-﻿ul {
-    list-style: none;
+﻿.nav-btns {
+    display: flex;
+    gap: 30px;
 }
 
-a {
-    font-size: 18px;
+.auth-btn {
+    background-color: #0066FF;
+    border-radius: 5px;
+    color: white;
+    padding: 7.5px 12px 7.5px 12px;
 }
+
+.ft-secs {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+}
+
+.ft-secs > li > a {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.ft-secs > li > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ft-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    border-top: 1px solid #D6D8DC;
+}
+
+.socials {
+    display: flex;
+    gap: 30px;
+}
+
 .offer-add-container {
     font-weight: 500;
     margin-right: 50px;
@@ -44,45 +80,11 @@ a {
     padding: 2px 0px;
 }
 
-main {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    height:75vh;
-    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
-}
-
-.main-container {
-    display: flex;
-    font-family: "Inter", sans-serif;
-    border-radius: 10px;
-    border: 1px solid #CCCCCC;
-    width: fit-content;
-    padding: 30px;
-    margin:25px;
-    background-color:white;
-}
-
-
 .vehicle-info-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-
-input {
-    padding: 10px;
-    padding-left: 20px;
-    color: black;
-    border-radius: 5px;
-    border: 1px solid #7D7C83;
-}
-
-    input::placeholder {
-        color: black;
-        font-family: "Inter", sans-serif;
-    }
 
 .offer-add-category {
     display: flex;
