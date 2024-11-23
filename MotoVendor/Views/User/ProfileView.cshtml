@@ -1,6 +1,6 @@
 ﻿@model BusinessLogic.DTO.User.GetUserDTO;
 @{
-    ViewData["Title"] = "App - Profile View";
+    ViewData["Title"] = "User - Profile View";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/profileView.css" />
@@ -44,7 +44,7 @@
                 </button>
             </div>
             <div class="profile-buttons">
-                <button class="go-back" onclick="window.history.back()">
+                <button class="go-back" onclick="window.location.href='/user/profilesList'">
                     <span>Take me back</span>
                 </button>
                 @if (ViewBag.IsCurrentUser)
@@ -75,5 +75,4 @@
             </div>
         </div>
     </div>
-
 </main>

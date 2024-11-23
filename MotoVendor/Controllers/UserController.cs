@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
+using System.Security.Claims;
 
 namespace MotoVendor.Controllers
 {
@@ -227,16 +227,51 @@ namespace MotoVendor.Controllers
 
             return View(result.Value);
         }
+      
         [HttpGet]
+        [Authorize]
         public IActionResult EditProfile(string id)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (currentUserId != id)
+            {
+                TempData["ErrorMessage"] = "You are not authorized to edit this profile.";
+                return RedirectToAction("Error", "Home");
+            }
             var result = _userService.Get(id);
             if (result.Error == UserErrorCode.UserNotFound)
             {
                 TempData["ErrorMessage"] = "User not found";
                 return RedirectToAction("Error", "Home");
             }
-            return View(result.Value);
+            var updateUserDTO = new UpdateUserDTO(
+                id,
+                result.Value.Gender,
+                result.Value.Age,
+                result.Value.Description,
+                result.Value.ProfileImage
+            ); ;
+
+            return View(updateUserDTO);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult EditProfile(UpdateUserDTO updateUserDTO)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (currentUserId != updateUserDTO.Id)
+            {
+                TempData["ErrorMessage"] = "You are not authorized to edit this profile.";
+                return RedirectToAction("Error", "Home");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(updateUserDTO);
+            }
+            _userService.Update(updateUserDTO.Id, updateUserDTO);
+            return RedirectToAction("ProfileView", new { id = updateUserDTO.Id });
         }
     }
 }

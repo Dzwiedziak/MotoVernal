@@ -10,7 +10,6 @@
         <title>@ViewData["Title"]</title>
         <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
         @RenderSection("Styles", required: false)
-        @RenderSection("Scripts", required: false)
     </head>
     <body>
         <div id="full-page">
@@ -143,6 +142,7 @@
                     </ul>
                 </div>
             </footer>
+        @RenderSection("Scripts", required: false)
         </div>
 
         <div class="auth__template-wrapper">
