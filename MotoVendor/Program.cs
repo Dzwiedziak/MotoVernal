@@ -32,7 +32,7 @@ internal class Program
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.LoginPath = "/User/Login";
-            options.AccessDeniedPath = "/User/AccessDenied";
+            options.AccessDeniedPath = "/Home/Error";
         });
 
         var app = builder.Build();
@@ -78,6 +78,7 @@ internal class Program
         builder.Services.AddScoped<IVehicleOfferRepository, VehicleOfferRepository>();
         builder.Services.AddScoped<IUserObservationRepository, UserObservationRepository>();
         builder.Services.AddScoped<IEventIntrestRepository, EventInterestRepository>();
+        builder.Services.AddScoped<IBanRepository, BanRepository>();
     }
 
     private static void InjectServices(WebApplicationBuilder builder)
@@ -89,6 +90,7 @@ internal class Program
         builder.Services.AddScoped<ITopicService, TopicService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IVehicleOfferService, VehicleOfferService>();
+        builder.Services.AddScoped<IBanService, BanService>();
     }
 
     private static void InjectDbContext(WebApplicationBuilder builder)

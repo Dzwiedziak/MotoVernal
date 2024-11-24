@@ -173,21 +173,22 @@
                             @gender
                         </option>
                     }
-                    </select>
-                </div>
-                <div class="info-item">
-                    <label for="age">Age:</label>
-                    <input type="number" id="age" asp-for="Age" />
-                </div>
-                <div class="info-item">
-                    <label for="description">Description:</label>
-                    <textarea id="description" asp-for="Description" cols="50"></textarea>
-                </div>
+                </select>
             </div>
-            <div class="form-actions">
-                <button type="button" class="cancel-btn" onclick="window.history.back()">Cancel</button>
-                <button type="submit" class="create-btn">Save changes</button>
+            <div class="info-item">
+                <label for="age">Age:</label>
+                <input type="number" id="age" asp-for="Age" />
             </div>
-        </form>
-    </div>
-</main>
+            <span asp-validation-for="Age" class="text-danger"></span>
+            <div class="info-item">
+                <label for="description">Description:</label>
+                <textarea id="description" asp-for="Description" cols="50" maxlength="600"></textarea>
+            </div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-actions">
+            <button class="cancel-btn" onclick="window.location.href='/user/ProfileView?id=@Model.Id">Cancel</button>
+            <button type="submit" class="create-btn">Save changes</button>
+        </div>
+    </form>
+</div>

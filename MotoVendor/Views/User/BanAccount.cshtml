@@ -1,0 +1,41 @@
+﻿@model BusinessLogic.DTO.Ban.BanUserDTO
+@{
+    ViewData["Title"] = "User - Ban Account";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+}
+<div class="form-container">
+    <form asp-action="BanAccount" method="post">
+        <input type="hidden" asp-for="Banned.Id" value="@Model.Banned.Id" />
+        <input type="hidden" asp-for="Banner.Id" value="@Model.Banner.Id" />
+
+        <div class="profile-header">
+            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+            <span>@Model.Banned.UserName</span>
+        </div>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" style="color:red">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+        <div class="Form-group">
+            <label for="datetime-from">Ban to</label>
+            <input type="datetime-local" id="datetime-from" asp-for="ExpirationTime">
+        </div>
+        <div class="form-group">
+            <label for="content"></label>
+            <textarea id="content" asp-for="Reason" rows="8" cols="50" placeholder="Reason for banning"></textarea>
+        </div>
+        <div class="form-group image-upload">
+            <label for="image-upload">Load image</label>
+            <input type="file" id="image-upload" asp-for="Image">
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="cancel-btn" style="background: red;" onclick="window.location.href='/user/ProfileView?id=@Model.Banned.Id">Cancel</button>
+            <button type="submit" class="create-btn" style="background: red;">Ban</button>
+        </div>
+    </form>
+</div>

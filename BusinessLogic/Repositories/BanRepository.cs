@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -14,7 +15,10 @@ namespace BusinessLogic.Repositories
 
         public void Add(Ban ban) { _context.Add(ban); _context.SaveChanges(); }
 
-        public List<Ban> GetAll() => _context.Bans.ToList();
+        public List<Ban> GetAll() => _context.Bans
+            .Include(b => b.Banned)
+            .Include(b => b.Banner)  
+            .ToList();
 
         public Ban? GetOne(int id) => _context.Bans.FirstOrDefault(b => b.Id == id);
 
