@@ -251,13 +251,14 @@ namespace MotoVendor.Controllers
                 result.Value.Age,
                 result.Value.Description,
                 result.Value.ProfileImage
-            ); ;
+            );
 
             return View(updateUserDTO);
         }
-        [Authorize]
+
         [HttpPost]
-        public IActionResult EditProfile(UpdateUserDTO updateUserDTO)
+        [Authorize]
+        public async Task<IActionResult> EditProfile(UpdateUserDTO updateUserDTO)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -266,10 +267,12 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You are not authorized to edit this profile.";
                 return RedirectToAction("Error", "Home");
             }
+
             if (!ModelState.IsValid)
             {
                 return View(updateUserDTO);
             }
+
             _userService.Update(updateUserDTO.Id, updateUserDTO);
             return RedirectToAction("ProfileView", new { id = updateUserDTO.Id });
         }

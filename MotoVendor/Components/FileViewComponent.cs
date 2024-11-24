@@ -5,19 +5,14 @@ namespace MotoVendor.Components
 {
     public class FileViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync(Entities.File? file = null)
         {
-            var model = new Entities.File()
+            var model = file ?? new Entities.File
             {
                 Base64 = "",
                 Extension = ""
             };
             return View(model);
-        }
-
-        public IViewComponentResult Invoke(Entities.File file)
-        {
-            return View(file);
         }
     }
 }

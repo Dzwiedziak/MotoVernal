@@ -1,51 +1,53 @@
 ﻿@using Entities = DB.Entities;
 @model Entities.File;
 
-@section Styles {
-    <style>
-        #photo-select {
-            position: relative;
-        }
+<style>
+    #photo-select {
+        position: relative;
+    }
 
-        #photo-select__file {
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: pointer;
-            visibility: none;
-            height: 100%;
-            width: 100%;
-            color: transparent;
-        }
+    #photo-select__file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        visibility: none;
+        height: 100%;
+        width: 100%;
+        color: transparent;
+    }
 
-        #photo-select__file::-webkit-file-upload-button {
-            display: none;
-        }
+    #photo-select__file::-webkit-file-upload-button {
+        display: none;
+    }
 
-        #photo-select__selected {
-            position: relative;
-            cursor: pointer;
-        }
+    #photo-select__selected {
+        position: relative;
+        cursor: pointer;
+    }
 
-        .photo-select__photo--cursor-over {
-            opacity: 0.5;
-        }
+    .photo-select__photo--cursor-over {
+        opacity: 0.5;
+    }
 
-        .photo-select__remove-img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
+    .photo-select__remove-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
 
-        .photo-select__remove-img--cursor-over {
-            display: block;
-        }
-    </style>
-}
+    .photo-select__remove-img--cursor-over {
+        display: block;
+    }
 
-@section Scripts {
+    #photo-select__photo {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const fileUpload = document.getElementById('photo-select__file');
@@ -98,8 +100,7 @@
             });
         });
     </script>
-}
-<form asp-action="Test" asp-controller="Home" method="post">
+
     <div id="photo-select">
         <div style="display: block;" id="photo-select__unselected">
             <div class="photo-select__text">
@@ -117,5 +118,3 @@
         <input style="display: none" id="base64" type="text" asp-for="Base64" />
         <input style="display: none" id="extension" type="text" asp-for="Extension" />
     </div>
-    <button type="submit">Submit</button>
-</form>
