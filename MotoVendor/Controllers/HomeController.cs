@@ -1,4 +1,6 @@
+using BusinessLogic.DTO.Post;
 using Microsoft.AspNetCore.Mvc;
+using Entities = DB.Entities;
 
 namespace MotoVendor.Controllers
 {
@@ -8,9 +10,23 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult Test() { 
-            return View(); 
+
+        [HttpGet]
+        public IActionResult Test() {
+            Entities.File file = new Entities.File()
+            {
+                Base64 = "",
+                Extension = ""
+            };
+            return View(file); 
         }
+
+        [HttpPost]
+        public IActionResult Test(Entities.File file)
+        {
+            return View(file);
+        }
+
         public IActionResult Error()
         {
             return View();
