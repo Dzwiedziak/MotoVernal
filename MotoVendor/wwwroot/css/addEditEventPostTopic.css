@@ -124,3 +124,33 @@ input, select, textarea {
         border-radius: 100%;
         margin-right: 5px;
     }
+.question {
+    margin-inline: 25px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 22px;
+    text-align:center;
+}
+.question > span{
+    color:blue
+}
+.question-info {
+    text-align:center;
+    padding: 0px 25px 15px 0px;
+    margin-inline: 25px;
+    border: none;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+.question-info > span{
+    color:red;
+}

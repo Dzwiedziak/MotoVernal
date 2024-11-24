@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "User - Remove Ban";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+}
+<div class="form-container">
+    <form asp-action="RemoveBanConfirmed" asp-controller="User" method="post">
+        <input type="hidden" name="id" value="@ViewBag.UserId" />
+        <div class="question">
+            Are you sure you want remove Ban from <span>@ViewBag.UserName</span>?
+        </div>
+        <div class="question-info">
+            This user is aldready blocked to <span class="red-text">@ViewBag.BanExpiration</span>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="cancel-btn" style="background: blue;" onclick="window.location.href='/user/ProfileView?id=@ViewBag.UserId'">Cancel</button>
+            <button type="submit" class="create-btn" style="background: blue;">Remove</button>
+        </div>
+    </form>
+</div>

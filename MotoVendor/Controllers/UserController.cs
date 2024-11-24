@@ -1,23 +1,30 @@
-﻿using BusinessLogic.DTO.User;
+﻿using BusinessLogic.DTO.Ban;
+using BusinessLogic.DTO.User;
 using BusinessLogic.Errors;
+using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Data;
 using System.Security.Claims;
+
 
 namespace MotoVendor.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IBanService _banService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        public UserController(IUserService userService, SignInManager<User> signInManager, UserManager<User> userManager)
+
+        public UserController(IUserService userService, IBanService banService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _userService = userService;
+            _banService = banService;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -222,8 +229,14 @@ namespace MotoVendor.Controllers
             var currentUser = User.Identity.Name;
             var isCurrentUser = result.Value.UserName == currentUser;
             bool isAdmin = User.IsInRole("Admin");
+
+            var activeBan = _banService.GetActiveBan(id);
+            var isBanned = activeBan != null;
+
             ViewBag.IsCurrentUser = isCurrentUser;
             ViewBag.IsAdmin = isAdmin;
+            ViewBag.IsBanned = isBanned;
+            ViewBag.BanExpiration = activeBan?.ExpirationTime;
 
             return View(result.Value);
         }
@@ -273,5 +286,79 @@ namespace MotoVendor.Controllers
             _userService.Update(updateUserDTO.Id, updateUserDTO);
             return RedirectToAction("ProfileView", new { id = updateUserDTO.Id });
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> BanAccount(string id)
+        {
+            var bannedUser =  await _userManager.FindByIdAsync(id);
+            var bannerUser = await _userManager.GetUserAsync(User);
+
+            var model = new BanUserDTO
+            {
+                Banned = bannedUser,
+                Banner = bannerUser, 
+                ExpirationTime = DateTime.Today.AddDays(1),
+                Reason = string.Empty, 
+                Image = null  
+            };
+            return View(model);
+        }
+        
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> BanAccount(BanUserDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Invalid input. Please check the form and try again.";
+                return RedirectToAction("BanAccount", new { id = model.Banned.Id });
+            }
+            var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
+            var bannerUser = await _userManager.GetUserAsync(User);
+
+            model.Banned = bannedUser;
+            model.Banner = bannerUser;
+
+            var result = _banService.BanUser(model);
+            if (result.Error == BanErrorCode.UserAlreadyBanned)
+            {
+                TempData["ErrorMessage"] = "User is already banned";
+                return RedirectToAction("Error", "Home");
+            }
+            return RedirectToAction("ProfileView", new {id = model.Banned.Id});
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult RemoveBan(string id)
+        {
+            var activeBan = _banService.GetActiveBan(id);
+
+            if (activeBan == null)
+            {
+                TempData["ErrorMessage"] = "No active ban found for the user.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            ViewBag.UserId = id;
+            ViewBag.UserName = activeBan.Banned.UserName;
+            ViewBag.BanExpiration = activeBan.ExpirationTime;
+
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult RemoveBanConfirmed(string id)
+        {
+            var result = _banService.UnbanUser(id);
+            if(result.Error == BanErrorCode.NoActiveBan)
+            {
+                TempData["ErrorMessage"] = "No active ban found for the user.";
+                return RedirectToAction("Error", "Home");
+            }
+            return RedirectToAction("ProfileView", new { id });
+        }
+
     }
 }

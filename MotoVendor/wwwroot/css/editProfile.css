@@ -102,7 +102,7 @@
         margin-right: 5px;
     }
 
-    .info-item > input, select, textarea, span{
+    .info-item > input, select, textarea{
         box-sizing: border-box;
         width: 419px;
         height: 40px;
@@ -195,4 +195,10 @@ textarea {
 
 .profile-img-upload:hover .hover-text {
     opacity: 1;
+}
+.text-danger {
+    color: red;
+    width: 419px;
+    text-align: center;
+    margin-left: 65px
 }

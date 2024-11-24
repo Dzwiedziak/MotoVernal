@@ -5,74 +5,86 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/profileView.css" />
 }
-<main>
-    <div class="form-container">
-        <div class="profile-header">
-            <div class="profil-nickname">
-                <span>@Model.UserName</span>
-            </div>
-            <div class="profile-img">
-                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
-            </div>
+<div class="form-container">
+    <div class="profile-header">
+        <div class="profil-nickname">
+            <span>@Model.UserName</span>
         </div>
-        <div class="profile-info">
+        <div class="profile-img">
+            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+        </div>
+    </div>
+    <div class="profile-info">
+        @if (ViewBag.IsBanned)
+        {
             <div class="ban-info-group">
-                <span>Blocked to 10:22 30-01-2021</span>
+                <span>Blocked to @ViewBag.BanExpiration</span>
                 <img src="~/images/no-sign-ban-vector-icon-600nw-1676561785.webp" id="ban-icon" alt="ban-icon" class="ban-icon">
             </div>
-            <div class="standard-info-item">
-                <span>@Model.Gender, @Model.Age years old, on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
-            </div>
-            <div class="description-info-item">
-                <span>@Model.Description</span>
-            </div>
+        }
+        <div class="standard-info-item">
+            <span>@Model.Gender, @Model.Age years old, on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
         </div>
-        <div class="action-profile">
-            <div class="nav-to">
-                <span>Take me to my:</span>
-                <button class="take-to">
-                    Discusions
+        <div class="description-info-item">
+            <span>@Model.Description</span>
+        </div>
+    </div>
+    <div class="action-profile">
+        <div class="nav-to">
+            <span>Take me to my:</span>
+            <button class="take-to">
+                Discusions
+            </button>
+            <button class="take-to">
+                Events
+            </button>
+            <button class="take-to">
+                Posts
+            </button>
+            <button class="take-to">
+                Sale ads
+            </button>
+        </div>
+        <div class="profile-buttons">
+            <button class="go-back" onclick="window.location.href='/user/profilesList'">
+                <span>Take me back</span>
+            </button>
+            @if (ViewBag.IsCurrentUser)
+            {
+                <button class="edit-button" onclick="window.location.href='/user/EditProfile?id=@Model.Id'">
+                    <label>Edit</label>
+                    <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
                 </button>
-                <button class="take-to">
-                    Events
+                <button class="delete-button">
+                    <label>Delete account</label>
+                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
                 </button>
-                <button class="take-to">
-                    Posts
-                </button>
-                <button class="take-to">
-                    Sale ads
-                </button>
-            </div>
-            <div class="profile-buttons">
-                <button class="go-back" onclick="window.location.href='/user/profilesList'">
-                    <span>Take me back</span>
-                </button>
-                @if (ViewBag.IsCurrentUser)
+            }
+            else if (ViewBag.IsAdmin)
+            {
+                @if (!ViewBag.IsBanned)
                 {
-                    <button class="edit-button" onclick="window.location.href='/user/EditProfile?id=@Model.Id'">
-                        <label>Edit</label>
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
-                    </button>
-                    <button class="delete-button">
-                        <label>Delete account</label>
-                        <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
-                    </button>  
-                }
-                else if(ViewBag.IsAdmin)
-                {
-                    <button class="delete-button">
+                    <button class="delete-button" onclick="window.location.href='/user/BanAccount?id=@Model.Id'">
                         <label>Ban account</label>
                         <img src="~/images/warning.png" alt="ban" class="x-image" id="x-image" width="35px" height="35px">
                     </button>
                 }
                 else
                 {
-                    <button class="delete-button">
-                        <label>Report account</label>
-                        <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                    <button class="delete-button" onclick="window.location.href='/user/RemoveBan?id=@Model.Id'">
+                        <label>Remove ban</label>
+                        <img src="~/images/warning.png" alt="ban" class="x-image" id="x-image" width="35px" height="35px">
                     </button>
+
                 }
-            </div>
+            }
+            else
+            {
+                <button class="delete-button">
+                    <label>Report account</label>
+                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                </button>
+            }
         </div>
     </div>
-</main>
+</div>
