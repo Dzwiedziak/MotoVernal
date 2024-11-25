@@ -8,7 +8,6 @@
 @section Scripts {
     <script src="~/js/editProfile.js"></script>
 }
-<main>
     <div class="form-container">
         <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="@Model.Id" />
@@ -20,12 +19,17 @@
                     .profile-photo{
                         height: 100px;
                         width: 100px;
+                        border: 5px solid #4285F4;
+                        border-radius: 100%;
+                        overflow: hidden;
                     }
                 </style>
                 <div class="profile-photo">
                     <style>
                         #photo-select {
                             position: relative;
+                            height: 100%;
+                            width: 100%;
                         }
 
                         #photo-select__file {
@@ -39,13 +43,15 @@
                             color: transparent;
                         }
 
-                            #photo-select__file::-webkit-file-upload-button {
-                                display: none;
-                            }
+                        #photo-select__file::-webkit-file-upload-button {
+                            display: none;
+                        }
 
                         #photo-select__selected {
                             position: relative;
                             cursor: pointer;
+                            height: 100%;
+                            width: 100%;
                         }
 
                         .photo-select__photo--cursor-over {
@@ -131,7 +137,7 @@
                     <div id="photo-select">
                         <div style="display: block;" id="photo-select__unselected">
                             <div class="photo-select__text">
-                                Set up your profile image
+                                <!--Set up your profile image-->
                             </div>
                             <div class="photo-select__photo-add-icon">
                                 <img src="~/images/photo-add-icon.svg" />
@@ -144,7 +150,7 @@
                             }
                             else
                             {
-                                <img id="photo-select__photo" src="" alt="Brak zdjęcia" />
+                                <img src="~/images/profilowe.jpg" id="photo-select__photo" alt="profil" class="profil-img">
                             }
                             <img class="photo-select__remove-img" src="~/images/remove.svg" />
                         </div>
