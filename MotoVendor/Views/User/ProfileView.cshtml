@@ -11,7 +11,14 @@
             <span>@Model.UserName</span>
         </div>
         <div class="profile-img">
-            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+            @if (Model.ProfileImage != null && !string.IsNullOrEmpty(Model.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.ProfileImage.Extension))
+            {
+                <img id="profil-img" class="profil-img" src="data:image/@Model.ProfileImage.Extension;base64,@Model.ProfileImage.Base64" />
+            }
+            else
+            {
+                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+            }
         </div>
     </div>
     <div class="profile-info">

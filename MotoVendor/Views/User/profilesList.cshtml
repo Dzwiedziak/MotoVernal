@@ -72,7 +72,14 @@
             <li class="@(isAdmin ? "admin" : "")">
                 <span class="nickname">@user.UserName</span>
                 <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
-                    <img src="@user.ProfileImage" alt="profil-img" class="profil-img">
+                    @if (user.ProfileImage != null && !string.IsNullOrEmpty(user.ProfileImage.Base64) && !string.IsNullOrEmpty(user.ProfileImage.Extension))
+                    {
+                        <img class="profil-img" src="data:image/@user.ProfileImage.Extension;base64,@user.ProfileImage.Base64" />
+                    }
+                    else
+                    {
+                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                    }
                 </button>
 
                 <button class="observed">
