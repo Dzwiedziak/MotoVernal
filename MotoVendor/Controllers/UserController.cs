@@ -362,6 +362,10 @@ namespace MotoVendor.Controllers
             }
             return RedirectToAction("ProfileView", new { id });
         }
+        public IActionResult BanDetails(string userId)
+        {
+            return View();
+        }
 
     }
 }

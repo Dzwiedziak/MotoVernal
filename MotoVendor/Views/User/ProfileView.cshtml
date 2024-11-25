@@ -19,7 +19,16 @@
         {
             <div class="ban-info-group">
                 <span>Blocked to @ViewBag.BanExpiration</span>
-                <img src="~/images/no-sign-ban-vector-icon-600nw-1676561785.webp" id="ban-icon" alt="ban-icon" class="ban-icon">
+                @if (ViewBag.IsCurrentUser || ViewBag.IsAdmin)
+                {
+                    <button class="info-button" onclick="window.location.href='/User/BanDetails?id=@Model.Id'">
+                    <img src="~/images/info.png" id="ban-info-icon" alt="ban-info-icon" class="ban-icon">
+                    </button>
+                }
+                else
+                {
+                    <img src="~/images/no-sign-ban-vector-icon-600nw-1676561785.webp" id="ban-icon" alt="ban-icon" class="ban-icon">
+                }
             </div>
         }
         <div class="standard-info-item">
