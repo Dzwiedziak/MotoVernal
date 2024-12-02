@@ -6,10 +6,10 @@
     </div>
     <ul class="sign-in__nav">
         <li>
-            <a class="sign-in__link" href="#">
+            <a asp-controller="User" asp-action="ProfileView" asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" class="sign-in__link">
                 <img class="sign-in__icon" src="~/images/human.svg">
                 <div class="sign-in_text">
-                    Profile
+                    My Profile
                 </div>
             </a>
         </li>
@@ -29,6 +29,17 @@
                 </div>
             </a>
         </li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li>
+                <a asp-controller="User" asp-action="BansList" class="sign-in__link">
+                <img class="sign-in__icon" src="~/images/block-user.png">
+                <div class="sign-in_text">
+                    Blocked List
+                </div>
+            </a>
+        </li>
+        }
         <li>
             <a asp-controller="User" asp-action="Logout" class="sign-in__link logout">
                 <img class="sign-in__icon" src="~/images/logout.svg">

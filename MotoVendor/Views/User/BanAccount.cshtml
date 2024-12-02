@@ -5,13 +5,23 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
 }
+@section Scripts {
+    <script src="~/js/banAccount.js"></script>
+}
 <div class="form-container">
     <form asp-action="BanAccount" method="post">
         <input type="hidden" asp-for="Banned.Id" value="@Model.Banned.Id" />
         <input type="hidden" asp-for="Banner.Id" value="@Model.Banner.Id" />
 
         <div class="profile-header">
-            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+            @if (Model.Banned.ProfileImage != null && !string.IsNullOrEmpty(Model.Banned.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Banned.ProfileImage.Extension))
+            {
+                <img id="profil-img" class="profil-img" src="data:image/@Model.Banned.ProfileImage.Extension;base64,@Model.Banned.ProfileImage.Base64" />
+            }
+            else
+            {
+                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+            }
             <span>@Model.Banned.UserName</span>
         </div>
         @if (TempData["ErrorMessage"] != null)
@@ -22,7 +32,7 @@
         }
         <div class="Form-group">
             <label for="datetime-from">Ban to</label>
-            <input type="datetime-local" id="datetime-from" asp-for="ExpirationTime">
+            <input type="datetime-local" id="datetime-from" asp-for="ExpirationTime" min="@DateTime.Now>
         </div>
         <div class="form-group">
             <label for="content"></label>
@@ -30,12 +40,14 @@
         </div>
         <div class="form-group image-upload">
             <label for="image-upload">Load image</label>
-            <input type="file" id="image-upload" asp-for="Image">
+            <input id="photo-select__file" type="file" accept="image/*">
+            <input style="display: none" id="base64" type="text" asp-for="Image.Base64" />
+            <input style="display: none" id="extension" type="text" asp-for="Image.Extension" />
         </div>
 
         <div class="form-actions">
-            <button type="button" class="cancel-btn" style="background: red;" onclick="window.location.href='/user/ProfileView?id=@Model.Banned.Id">Cancel</button>
-            <button type="submit" class="create-btn" style="background: red;">Ban</button>
+            <button type="button" class="cancel-btn" style="background: red;" onclick="window.location.href='/user/ProfileView?id=@Model.Banned.Id'">Cancel</button>
+            <button type="submit" class="create-btn" style="background: red;">Ban</button>s
         </div>
     </form>
 </div>

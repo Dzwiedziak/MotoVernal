@@ -3,13 +3,14 @@ using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Ban
 {
-    public class BanUserDTO
+    public class BanUserDTO 
     {
         public Entities.User Banned { get; set; }
         public Entities.User Banner { get; set; }
         [Required]
         public DateTime ExpirationTime { get; set; }
         [Required]
+        [MaxLength(200)]
         public string Reason { get; set; }
         public Entities.File? Image { get; set; }
 

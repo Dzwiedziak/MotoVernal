@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
+using System.Drawing;
 using System.Security.Claims;
 
 
@@ -294,7 +295,7 @@ namespace MotoVendor.Controllers
         [HttpGet]
         public async Task<IActionResult> BanAccount(string id)
         {
-            var bannedUser =  await _userManager.FindByIdAsync(id);
+            var bannedUser = _userService.GetUser(id);
             var bannerUser = await _userManager.GetUserAsync(User);
 
             var model = new BanUserDTO
@@ -317,6 +318,11 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "Invalid input. Please check the form and try again.";
                 return RedirectToAction("BanAccount", new { id = model.Banned.Id });
             }
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
+
             var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
 
@@ -362,9 +368,27 @@ namespace MotoVendor.Controllers
             }
             return RedirectToAction("ProfileView", new { id });
         }
-        public IActionResult BanDetails(string userId)
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult BansList()
         {
-            return View();
+            var list = _banService.GetAllBans();
+            return View(list);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult BansDetails(int id)
+        {
+            var ban = _banService.GetBanById(id);
+
+            if (ban == null)
+            {
+                TempData["ErrorMessage"] = "No ban found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+            return View(ban);
         }
 
     }

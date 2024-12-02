@@ -11,6 +11,7 @@ namespace BusinessLogic.Services.Interfaces
         Result<GetUserDTO, UserErrorCode> Get(string id);
         Task<User?> GetCurrentUser();
         List<GetUserDTO> GetAll();
+        User GetUser(string id);
         UserErrorCode? Update(string id, UpdateUserDTO user);
         bool CheckExistance(string id);
 

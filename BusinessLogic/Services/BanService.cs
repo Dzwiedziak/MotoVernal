@@ -5,6 +5,7 @@ using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BusinessLogic.Services
 {
@@ -31,6 +32,10 @@ namespace BusinessLogic.Services
             return _banRepository.GetAll()
             .FirstOrDefault(ban => ban.Banned != null && ban.Banned.Id == userId && ban.ExpirationTime > DateTime.Now);
         }
+        public Ban GetBanById(int banId)
+        {
+            return _banRepository.GetOne(banId);
+        }
 
         public Result<bool, BanErrorCode> UnbanUser(string userId)
         {
@@ -46,6 +51,17 @@ namespace BusinessLogic.Services
             _banRepository.Update(activeBan);
 
             return true;
+        }
+
+        public List<Ban> GetBansByUser(string userId)
+        {
+            return _banRepository.GetAll()
+            .Where(b => b.Banned.Id == userId)
+            .ToList();
+        }
+        public List<Ban> GetAllBans()
+        {
+            return _banRepository.GetAll().ToList();
         }
 
         private bool IsUserBanned(string userId)

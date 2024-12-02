@@ -17,7 +17,8 @@ namespace BusinessLogic.Repositories
 
         public List<Ban> GetAll() => _context.Bans
             .Include(b => b.Banned)
-            .Include(b => b.Banner)  
+            .Include(b => b.Banner)
+            .Include(b => b.Banned.ProfileImage)
             .ToList();
 
         public Ban? GetOne(int id) => _context.Bans.FirstOrDefault(b => b.Id == id);
