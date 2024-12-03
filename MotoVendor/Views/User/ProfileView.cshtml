@@ -28,7 +28,7 @@
                 <span>Blocked to @ViewBag.BanExpiration</span>
                 @if (ViewBag.IsCurrentUser || ViewBag.IsAdmin)
                 {
-                    <button class="info-button" onclick="window.location.href='/User/BanDetails?id=@Model.Id'">
+                    <button class="info-button" onclick="window.location.href='/User/BanDetails?id=@ViewBag.BanId'">
                     <img src="~/images/info.png" id="ban-info-icon" alt="ban-info-icon" class="ban-icon">
                     </button>
                 }
@@ -62,7 +62,7 @@
             </button>
         </div>
         <div class="profile-buttons">
-            <button class="go-back" onclick="window.location.href='/user/profilesList'">
+            <button class="go-back" onclick="window.history.back()">
                 <span>Take me back</span>
             </button>
             @if (ViewBag.IsCurrentUser)

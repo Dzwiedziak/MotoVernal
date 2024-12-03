@@ -1,39 +1,77 @@
-﻿@model List<DB.Entities.Ban>;
+﻿@model DB.Entities.Ban;
 @{
     ViewData["Title"] = "User - Ban Details";
 }
 @section Styles {
-    <link rel="stylesheet" href="~/css/profileView.css" />
+    <link rel="stylesheet" href="~/css/banDetails.css" />
 }
-<div class="form-container">
-    @foreach (var ban in Model){
-    <div class="profile-header">
-        @if (ban.Banned.ProfileImage != null && !string.IsNullOrEmpty(ban.Banned.ProfileImage.Base64) && !string.IsNullOrEmpty(ban.Banned.ProfileImage.Extension))
-        {
-            <img id="profil-img" class="profil-img" src="data:image/@ban.Banned.ProfileImage.Extension;base64,@ban.Banned.ProfileImage.Base64" />
-        }
-        else
-        {
-            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
-        }
-        <span>@ban.Banned.UserName</span>
+<div class="main-cnt">
+    <div class="info-container">
+        <div class="up-info">
+            <div class="profile-info">
+                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@Model.Banned.Id'">
+                    @if (Model.Banned.ProfileImage != null && !string.IsNullOrEmpty(Model.Banned.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Banned.ProfileImage.Extension))
+                    {
+                        <img class="profil-img" src="data:image/@Model.Banned.ProfileImage.Extension;base64,@Model.Banned.ProfileImage.Base64" />
+                    }
+                    else
+                    {
+                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                    }
+                </button>
+                <span class="nickname">@Model.Banned.UserName</span>
+            </div>
+            <div class="classic">was banned by the</div>
+            <div class="profile-info">
+                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@Model.Banner.Id'">
+                    @if (Model.Banner.ProfileImage != null && !string.IsNullOrEmpty(Model.Banner.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Banner.ProfileImage.Extension))
+                    {
+                        <img class="profil-img" src="data:image/@Model.Banner.ProfileImage.Extension;base64,@Model.Banner.ProfileImage.Base64" />
+                    }
+                    else
+                    {
+                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                    }
+                </button>
+                <span class="nickname">@Model.Banner.UserName</span>
+            </div>
+        </div>
+        <div class="main-info">
+            <div class="reason">
+            Reason of blocking:
+                <span>@Model.Reason</span>
+            </div>
+            <div class="rest-group">
+                @if (Model.Image != null && !string.IsNullOrEmpty(Model.Image.Base64) && !string.IsNullOrEmpty(Model.Image.Extension))
+                {
+                    <img class="reason-img" src="data:image/@Model.Image.Extension;base64,@Model.Image.Base64" />
+                }
+                else
+                {
+                    
+                }
+            </div>
+        </div>
+        <div class="event-content">
+            <label>Creation time of blocked</label>
+            <label class="hour">@Model.CreationTime</label>
+            <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+        </div>
+        <div class="event-content">
+            <label>Expiration time of blocked</label>
+            <label class="hour">@Model.ExpirationTime</label>
+            <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+        </div>
+        <div class="details-action">
+            <button class="go-back" onclick="window.history.back()">
+                <span>Take me back</span>
+            </button>
+            @if (User.IsInRole("Admin") && ViewBag.isActive)
+            {
+                <button class="show-more" onclick="window.location.href='/user/RemoveBan?id=@Model.Banned.Id'">
+                    <span>Remove Ban</span>
+                </button>
+            }
+        </div>
     </div>
-    <div class="Form-group">
-        <label for="datetime-from">Ban to</label>
-        <input type="datetime-local" id="datetime-from" >
-    </div>
-    <div class="form-group">
-        <label for="content"></label>
-        <textarea id="content" rows="8" cols="50" placeholder="Reason for banning"></textarea>
-    </div>
-    <div class="form-group image-upload">
-        <label for="image-upload">Load image</label>
-        <input type="file" id="image-upload">
-    </div>
-
-    <div class="form-actions">
-        <button type="button" class="cancel-btn" style="background: red;" onclick="window.location.href='/user/ProfileView?id=@ban.Banned.Id'">Cancel</button>
-        <button type="submit" class="create-btn" style="background: red;">Ban</button>s
-    </div>
-   }
 </div>

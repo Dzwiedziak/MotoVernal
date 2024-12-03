@@ -231,12 +231,20 @@ namespace MotoVendor.Controllers
             var isCurrentUser = result.Value.UserName == currentUser;
             bool isAdmin = User.IsInRole("Admin");
 
-            var activeBan = _banService.GetActiveBan(id);
-            var isBanned = activeBan != null;
+            var activeBan = _banService.GetActiveBan(id);  
 
+            if (activeBan != null)
+            {
+                ViewBag.BanId = activeBan.Id;
+                var isBanned = activeBan != null;
+                ViewBag.IsBanned = isBanned;
+            }
+            else
+            {
+                ViewBag.IsBanned = false;
+            }
             ViewBag.IsCurrentUser = isCurrentUser;
             ViewBag.IsAdmin = isAdmin;
-            ViewBag.IsBanned = isBanned;
             ViewBag.BanExpiration = activeBan?.ExpirationTime;
 
             return View(result.Value);
@@ -379,15 +387,23 @@ namespace MotoVendor.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult BansDetails(int id)
+        public IActionResult BanDetails(int id)
         {
-            var ban = _banService.GetBanById(id);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var ban = _banService.GetBanById(id);
             if (ban == null)
             {
                 TempData["ErrorMessage"] = "No ban found for this Id.";
                 return RedirectToAction("Error", "Home");
             }
+            if (!(User.IsInRole("Admin") || currentUserId == ban.Banned.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to see this ban.";
+                return RedirectToAction("Error", "Home");
+            }
+            bool isActiveBan = ban.ExpirationTime > DateTime.Now;
+            ViewBag.isActive = isActiveBan;
             return View(ban);
         }
 
