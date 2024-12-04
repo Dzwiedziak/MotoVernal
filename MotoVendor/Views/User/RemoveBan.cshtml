@@ -14,7 +14,7 @@
             This user is aldready blocked to <span class="red-text">@ViewBag.BanExpiration</span>
         </div>
         <div class="form-actions">
-            <button type="button" class="cancel-btn" style="background: blue;" onclick="window.location.href='/user/ProfileView?id=@ViewBag.UserId'">Cancel</button>
+            <button type="button" class="cancel-btn" style="background: blue;" onclick="window.history.back()">Cancel</button>
             <button type="submit" class="create-btn" style="background: blue;">Remove</button>
         </div>
     </form>

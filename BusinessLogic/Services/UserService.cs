@@ -100,6 +100,10 @@ namespace BusinessLogic.Services
         {
             return _userObservationRepository.Get(id);
         }
+        public User GetUser(string userId)
+        {
+            return _userRepository.GetOne(userId);
+        }
 
         private UserObservation CreateUserObservation(ObserveUserDTO observeUser) =>
             new(observer: observeUser.Observer, observed: observeUser.Observed);
