@@ -7,7 +7,9 @@
 
 main {
     flex-grow: 1;
+    display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
@@ -20,9 +22,8 @@ ul {
 button {
     border: none;
     cursor: pointer;
+    background-color: transparent;
 }
-
-
 
 a {
     text-decoration: none;

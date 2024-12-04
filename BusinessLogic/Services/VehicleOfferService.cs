@@ -100,6 +100,7 @@ namespace BusinessLogic.Services
         private GetVehicleOfferDTO CreateGetVehicleOfferDTO(VehicleOffer vehicleOffer)
         {
             return new GetVehicleOfferDTO(
+                id: vehicleOffer.Id,
                 description: vehicleOffer.Description,
                 creationTime: DateTime.Now,
                 location: vehicleOffer.Location,

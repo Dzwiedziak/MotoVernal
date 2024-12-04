@@ -6,14 +6,20 @@ namespace BusinessLogic.DTO.Offer
     public class AddOfferDTO
     {
         public string Description { get; set; }
-        public Entities.Location Location { get; set; }
+        public string Location { get; set; }
+        //public Entities.Location Location { get; set; }
         public Entities.User User { get; set; }
         public string Email { get; set; }
-        public Entities.Phone Phone { get; set; }
-        public Entities.Price Price { get; set; }
+        public string Phone {  get; set; }
+        //public Entities.Phone Phone { get; set; }
+        public int Price { get; set; }
         public List<Entities.File> Images { get; set; }
 
-        public AddOfferDTO(string description, Location location, Entities.User user, string email, Phone phone, Price price, List<Entities.File> images)
+        public AddOfferDTO()
+        {
+        }
+
+        public AddOfferDTO(string description, string location, Entities.User user, string email, string phone, int price, List<Entities.File> images)
         {
             Description = description;
             Location = location;
