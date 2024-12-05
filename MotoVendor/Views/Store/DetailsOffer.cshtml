@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BusinessLogic.DTO.VehicleOffer.GetVehicleOfferDTO
+@{
     ViewData["Title"] = "Store - Details Offer";
 }
 @section Styles {
@@ -6,8 +7,277 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        .breadcrumb {
+            padding-left: 25px;
+        }
+
+        .breadcrumb li::after {
+            content: ">";
+            padding: 10px;
+        }
+
+        .breadcrumb li:last-child::after {
+            content: "";
+        }
+
+        .content {
+            display: flex;
+            gap: 40px;
+        }
+
+        .action-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            display: flex;
+            width: 230px;
+            height: 50px;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px solid black;
+            align-items: center;
+        }
+
+        .action-text {
+            width: 90px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-info-2 {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 30px;
+            gap: 20px;
+        }
+
+        .info-categories {
+            border-bottom: 1px solid #CCCCCC;
+            color: #CCCCCC;
+            font-size: 24px;
+            gap: 30px;
+        }
+
+        .current-category {
+            border-bottom: 3px solid #0066FF;
+            padding-bottom: 10px;
+            color: #0066FF;
+        }
+
+        .overview {
+            display: flex;
+            gap: 50px;
+            padding-top: 20px;
+        }
+
+        .overview ul {
+            flex-direction: column;
+        }
+
+        .properties {
+            display: flex;
+            gap: 20px;
+        }
+
+        .properties li {
+            font-size: 24px;
+            display: flex;
+        }
+
+        .properties li .label {
+            width: 250px;
+        }
+
+        .properties .label {
+            color: #646364;
+        }
+
+        .product-price {
+            border: 1px solid #CCCCCC;
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .price-amount {
+            font-size: 26px;
+        }
+
+        .price-label {
+            font-size: 12px;
+        }
+
+        .negotiation-info {
+            font-size: 13px;
+            text-decoration: underline;
+        }
+
+        .currency-options {
+            color: white;
+            background-color: black;
+            border-radius: 20px;
+            padding: 10px;
+        }
+
+        .photo-list__carousel {
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        .photo-list__move-left-img {
+            width: 50px;
+            position: absolute;
+            left: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            background-color: white;
+            padding: 50px 5px;
+            border-radius: 5px;
+        }
+
+        .photo-list__carousel-list-container {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        .photo-list__carousel-list {
+            display: flex;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .photo-list__carousel-element {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+
+        .photo-list__carousel-content {
+            height: 100%;
+            width: 100%;
+        }
+
+        .photo-list__move-right-img {
+            width: 50px;
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            background-color: white;
+            padding: 50px 5px;
+            border-radius: 5px;
+        }
+
+        .tabs-sections {
+            height: 500px;
+            width: 800px;
+        }
+        .profile-image {
+            height: 150px;
+            width: 150px;
+        }
+        .seller-info {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .profile-username {
+            font-size: 24px;
+        }
+    </style>
 }
-<main>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const carouselList = document.querySelector('.photo-list__carousel-list');
+            let currentIndex = 0;
+            function updateCarouselPosition(targetIndex) {
+                let carouselItemsCount = carouselList.children.length;
+                if (targetIndex >= 0 && targetIndex < carouselItemsCount) {
+                    currentIndex = targetIndex;
+                    carouselList.style.left = (-currentIndex * 100) + "%";
+                    updateArrowsVisibility();
+                }
+            }
+
+            const carouselMoveLeft = document.querySelector('.photo-list__move-left-img');
+            carouselMoveLeft.addEventListener('click', () => {
+                updateCarouselPosition(currentIndex - 1);
+            });
+            const carouselMoveRight = document.querySelector('.photo-list__move-right-img');
+            carouselMoveRight.addEventListener('click', () => {
+                updateCarouselPosition(currentIndex + 1);
+            });
+
+            function updateArrowsVisibility() {
+                let carouselItemsCount = carouselList.children.length;
+                if (currentIndex <= 0) {
+                    carouselMoveLeft.style.display = 'none';
+                }
+                else {
+                    carouselMoveLeft.style.display = 'block';
+                }
+                if (currentIndex >= carouselItemsCount - 1) {
+                    carouselMoveRight.style.display = 'none';
+                }
+                else {
+                    carouselMoveRight.style.display = 'block';
+                }
+            }
+            updateArrowsVisibility();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const infoCategories = document.querySelector('.info-categories');
+            const tabSections = document.querySelector('.tabs-sections');
+            const tabSectionsChildrenArray = Array.from(tabSections.children);
+
+            hideAllSections = function () {
+                tabSectionsChildrenArray.forEach(controlSectionContainer => {
+                    controlSectionContainer.style.display = 'none';
+                });
+            }
+            hideAllSections();
+            if (tabSectionsChildrenArray[0])
+                tabSectionsChildrenArray[0].style.display = 'block';
+
+            const sectionButtons = document.querySelectorAll('.section-btn');
+            sectionButtons.forEach(sectionButton => {
+                sectionButton.addEventListener('click', () => {
+                    const btnControlSectionAttribute = sectionButton.getAttribute('tab-section-btn');
+                    hideAllSections();
+                    tabSectionsChildrenArray.forEach(tabSection => {
+                        if (tabSection.getAttribute('tab-section') === btnControlSectionAttribute)
+                            tabSection.style.display = 'block';
+                    });
+                });
+            });
+        });
+
+    </script>
+}
+
+<div>
     <ul class="breadcrumb">
         <li>
             Offers
@@ -29,13 +299,19 @@
         Used Audi A6 C7 Allroad Quattro
     </h1>
     <div class="content">
-        <div class="main-photo">
-            <div class="arrow-left">
-                <img src="~/images/arrow-triange-left.svg" />
-            </div>
-            <img class="photo-inside" src="/images/example-vehicle.png" />
-            <div class="arrow-right">
-                <img src="~/images/arrow-triangle-right.svg" />
+        <div style="display: block;" class="photo-list__carousel">
+            <div class="photo-list__carousel-list-container">
+                <img class="photo-list__move-left-img" src="~/images/arrow-triange-left.svg" />
+                <div style="left: 0%;" class="photo-list__carousel-list">
+                    @if(Model?.Images != null)
+                    @foreach(var image in Model.Images)
+                    {
+                        <div class="photo-list__carousel-element">
+                            <img class="photo-list__carousel-content" src="data:/images/@image.Extension;base64,@image.Base64" />
+                        </div>
+                    }
+                </div>
+                <img class="photo-list__move-right-img" src="~/images/arrow-triangle-right.svg" />
             </div>
         </div>
         <div class="action-btns">
@@ -75,89 +351,112 @@
     </div>
     <div class="product-info-2">
         <div class="category-info">
-            <ul class="info-categories">
-                <li class="current-category">
+            <div class="info-categories">
+                <button class="section-btn current-category" tab-section-btn="overview">
                     Overview
-                </li>
-                <li>
+                </button>
+                <button class="section-btn" tab-section-btn="description">
                     Description
-                </li>
-                <li>
+                </button>
+                <button class="section-btn" tab-section-btn="seller-info">
                     Seller
-                </li>
-            </ul>
-            <div class="overview">
-                <ul class="properties">
-                    <li>
-                        <div class="label">Brand</div>
-                        <div class="value">Audi</div>
-                    </li>
-                    <li>
-                        <div class="label">Model</div>
-                        <div class="value">A6</div>
-                    </li>
-                    <li>
-                        <div class="label">Generation</div>
-                        <div class="value">135hp</div>
-                    </li>
-                    <li>
-                        <div class="label">Version</div>
-                        <div class="value">Allroad Quattro</div>
-                    </li>
-                    <li>
-                        <div class="label">Transmission</div>
-                        <div class="value">Automatic</div>
-                    </li>
-                    <li>
-                        <div class="label">Engine</div>
-                        <div class="value">Diesel</div>
-                    </li>
-                    <li>
-                        <div class="label">Drive</div>
-                        <div class="value">4x4</div>
-                    </li>
-                    <li>
-                        <div class="label">Body</div>
-                        <div class="value">Sedan</div>
-                    </li>
-                    <li>
-                        <div class="label">Color</div>
-                        <div class="value">White</div>
-                        <div class="value">White</div>
-                    </li>
-                </ul>
-                <ul class="properties">
-                    <li>
-                        <div class="label">Condition</div>
-                        <div class="value">Used</div>
-                    </li>
-                    <li>
-                        <div class="label">Number of seats</div>
-                        <div class="value">5</div>
-                    </li>
-                    <li>
-                        <div class="label">Year of production</div>
-                        <div class="value">2012</div>
-                    </li>
-                    <li>
-                        <div class="label">Mileage</div>
-                        <div class="value">135 567km</div>
-                    </li>
-                    <li>
-                        <div class="label">First owner</div>
-                        <div class="value">Yes</div>
-                    </li>
-                    <li>
-                        <div class="label">VIN</div>
-                        <div class="value">4d3h43hd</div>
-                    </li>
-                </ul>
+                </button>
+            </div>
+            <div class="tabs-sections">
+                <div class="tab-section" tab-section="overview">
+                    <div class="overview">
+                        <ul class="properties">
+                            <li>
+                                <div class="label">Brand</div>
+                                <div class="value">@Model.Brand</div>
+                            </li>
+                            <li>
+                                <div class="label">Model</div>
+                                <div class="value">@Model.Model</div>
+                            </li>
+                            <li>
+                                <div class="label">Generation</div>
+                                <div class="value">@Model.Generation</div>
+                            </li>
+                            <li>
+                                <div class="label">Version</div>
+                                <div class="value">@Model.Version</div>
+                            </li>
+                            <li>
+                                <div class="label">Transmission</div>
+                                <div class="value">@Model.Transmission</div>
+                            </li>
+                            <li>
+                                <div class="label">Engine</div>
+                                <div class="value">Unknown</div>
+                            </li>
+                            <li>
+                                <div class="label">Drive</div>
+                                <div class="value">@Model.Drive</div>
+                            </li>
+                            <li>
+                                <div class="label">Body</div>
+                                <div class="value">@Model.Body</div>
+                            </li>
+                            <li>
+                                <div class="label">Color</div>
+                                <div class="value">@Model.Color</div>
+                            </li>
+                        </ul>
+                        <ul class="properties">
+                            <li>
+                                <div class="label">Condition</div>
+                                <div class="value">@Model.Condition</div>
+                            </li>
+                            <li>
+                                <div class="label">Number of seats</div>
+                                <div class="value">@Model.NumberOfSeats</div>
+                            </li>
+                            <li>
+                                <div class="label">Year of production</div>
+                                <div class="value">@Model.YearOfProduction</div>
+                            </li>
+                            <li>
+                                <div class="label">Mileage</div>
+                                <div class="value">@Model.Mileage km</div>
+                            </li>
+                            <li>
+                                <div class="label">First owner</div>
+                                <div class="value">@Model.FirstOwner</div>
+                            </li>
+                            <li>
+                                <div class="label">VIN</div>
+                                <div class="value">@Model.VIN</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-section" tab-section="description">
+                    <div class="description">
+                        @Model.Description
+                    </div>
+                </div>
+                <div class="tab-section" tab-section="seller-info">
+                    <div class="seller-info">
+                        <div>
+                            <img class="profile-image" src="data:image/@Model.User.ProfileImage.Extension;base64,@Model.User.ProfileImage.Base64" />
+                        </div>
+                        <div>
+                            <div class="profile-username">
+                                @Model.User.UserName
+                            </div>
+                            <div class="profile-description">
+                                @Model.User.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="product-price">
             <div class="price-group">
                 <div class="price-amount">
-                    69 599 PLN
+                    @Model.Price PLN
                 </div>
                 <div class="price-label">
                     Cena brutto
@@ -171,4 +470,4 @@
             </div>
         </div>
     </div>
-</main>
+</div>

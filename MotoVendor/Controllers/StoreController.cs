@@ -12,20 +12,23 @@ namespace MotoVendor.Controllers
     {
         
         IVehicleOfferService _vehicleOfferService;
-        public StoreController(IVehicleOfferService vehicleOfferService)
+        IUserService _userService;
+        public StoreController(IVehicleOfferService vehicleOfferService, IUserService userService)
         {
             _vehicleOfferService = vehicleOfferService;
+            _userService = userService;
         }
 
         [HttpGet]
         public IActionResult AddOffer()
         {
-            //var model = new AddVehicleOfferDTO("", "", "", "", TransmissionType.Manual, VehicleDriveType.FrontWheel, BodyType.Sedan, "", VehicleCondition.Used, );
-            return View();
+            var model = new AddVehicleOfferDTO("Audi", "A6", "C7", "3", TransmissionType.Manual, VehicleDriveType.FrontWheel, BodyType.Sedan, "blue", VehicleCondition.Used, 5, 1999, 2555, OwnerType.First, "44ueu", "elo elo320", "Warszawa", new DB.Entities.User(), "mm@gmail.com", "+48 433 434 433", 4344343, new List<DB.Entities.File>());
+            return View(model);
         }
         [HttpPost]
         public IActionResult AddOffer(AddVehicleOfferDTO vehicleOffer)
         {
+            vehicleOffer.User = _userService.GetCurrentUser().Result;
             _vehicleOfferService.Add(vehicleOffer);
             return RedirectToAction("DetailsOffer");
         }
@@ -38,9 +41,12 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult DetailsOffer()
+        public IActionResult DetailsOffer(int id)
         {
-            return View();
+            var model = _vehicleOfferService.Get(id);
+            if(model.IsSuccess)
+                return View(model.Value);
+            return View("Error");
         }
 
     }

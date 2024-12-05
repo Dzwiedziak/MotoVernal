@@ -49,7 +49,7 @@ namespace DB.Entities
         }
 
         public VehicleOffer(
-            int id, string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price,
+            int id, string description, DateTime creationTime, string location, User user, bool isReserved, string email, string phone, int price,
             string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body,
             string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images)
             : base(id, description, creationTime, location, user, isReserved, email, phone, price, images)
@@ -71,7 +71,7 @@ namespace DB.Entities
         }
 
         public VehicleOffer(
-            string description, DateTime creationTime, Location location, User user, bool isReserved, string email, Phone phone, Price price,
+            string description, DateTime creationTime, string location, User user, bool isReserved, string email, string phone, int price,
             string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body,
             string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images)
             : base(description, creationTime, location, user, isReserved, email, phone, price, images)
