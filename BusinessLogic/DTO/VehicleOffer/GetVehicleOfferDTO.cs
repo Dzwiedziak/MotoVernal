@@ -1,4 +1,5 @@
-﻿using BusinessLogic.DTO.Offer;
+﻿using BusinessLogic.Decorators;
+using BusinessLogic.DTO.Offer;
 using DB.Entities;
 using DB.Enums;
 using Entities = DB.Entities;
@@ -7,6 +8,7 @@ namespace BusinessLogic.DTO.VehicleOffer
 {
     public class GetVehicleOfferDTO : GetOfferDTO
     {
+        [Filterable]
         public string Brand { get; set; }
         public string Model { get; set; }
         public string Generation { get; set; }
@@ -15,9 +17,11 @@ namespace BusinessLogic.DTO.VehicleOffer
         public VehicleDriveType Drive { get; set; }
         public BodyType Body { get; set; }
         public string Color { get; set; }
+        [Filterable]
         public VehicleCondition Condition { get; set; }
         public int NumberOfSeats { get; set; }
         public int YearOfProduction { get; set; }
+        [Filterable]
         public int Mileage { get; set; }
         public OwnerType FirstOwner { get; set; }
         public string VIN { get; set; }

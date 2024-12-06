@@ -1,4 +1,5 @@
-﻿using DB.Entities;
+﻿using BusinessLogic.Decorators;
+using DB.Entities;
 using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Offer
@@ -7,6 +8,7 @@ namespace BusinessLogic.DTO.Offer
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        [Filterable]
         public DateTime CreationTime { get; set; }
         public string Location { get; set; }
         //public Entities.Location Location { get; set; }

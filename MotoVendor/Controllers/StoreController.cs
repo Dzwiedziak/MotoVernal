@@ -1,10 +1,13 @@
 ﻿using BusinessLogic.DTO.Offer;
 using BusinessLogic.DTO.VehicleOffer;
 using BusinessLogic.Errors;
+using BusinessLogic.Repositories;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
+using DB.Entities;
 using DB.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MotoVendor.Controllers
 {
@@ -32,9 +35,16 @@ namespace MotoVendor.Controllers
             _vehicleOfferService.Add(vehicleOffer);
             return RedirectToAction("DetailsOffer");
         }
-
+        [HttpGet]
         public IActionResult VehiclesList()
         {
+            var query = HttpContext.Request.Query;
+            var filters = new Dictionary<string, string>();
+            foreach(var key in query.Keys)
+            {
+                var value = query[key];
+                filters[key] = value;
+            }
             return View();
         }
         public IActionResult SearchOffers()

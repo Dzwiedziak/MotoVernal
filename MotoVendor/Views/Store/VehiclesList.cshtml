@@ -1,4 +1,7 @@
-﻿@{
+﻿@using BusinessLogic.DTO.VehicleOffer;
+@using BusinessLogic.Decorators;
+@using System.Reflection;
+@{
     ViewData["Title"] = "Store - Vehicles List";
 }
 @section Styles {
@@ -6,6 +9,352 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        .filter {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            font-family: "Inter", sans-serif;
+        }
+
+        .filter input {
+            font-family: "Inter", sans-serif;
+            border: none;
+            background-color: transparent;
+        }
+
+        .filter__search-component {
+            display: flex;
+            align-items: center;
+            border: 1px solid black;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .filter__search-input {
+            border: none;
+            outline: none;
+            font-family: "Inter", sans-serif;
+        }
+
+            .filter__search-input::placeholder {
+                color: black;
+            }
+
+        .filter__dropdown-base {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter__dropdown-base__left {
+            display: flex;
+            gap: 5px;
+        }
+
+        .filter__dropdown-base__left {
+            display: flex;
+            align-items: center;
+        }
+
+        .filter__dropdown-base__count-container {
+            background-color: #0066FF;
+            border-radius: 100%;
+            width: 30px;
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .filter__dropdown-base__count {
+            color: white;
+        }
+
+        .filter__toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
+            width: 80px;
+        }
+
+        .filter__toggle-btn__content {
+            color: #7D7C83;
+        }
+
+        .filter__toggle-btn--on {
+            border: none;
+            background-color: #0066FF;
+        }
+
+        .filter__toggle-btn__content--on {
+            color: white;
+        }
+
+        .filter__dropdown-collapsible__content {
+            display: flex;
+            width: 100%;
+            padding-top: 10px;
+        }
+
+        .filter__slider-component {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter__slider-component__slider-wrapper {
+            height: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter__slider-component__slider {
+            position: relative;
+            width: 100%;
+            background-color: #CCCCCC;
+            height: 1px;
+            content: "";
+        }
+
+        .filter__slider-component__slider-from,
+        .filter__slider-component__slider-to {
+            position: absolute;
+            background-color: #0066FF;
+            content: "";
+            aspect-ratio: 1/1;
+            width: 20px;
+            border-radius: 100%;
+            transform: translate(-50%, -50%);
+        }
+
+        .filter__slider-component__slider-filler {
+            position: absolute;
+            background-color: #0066FF;
+            content: "";
+            height: 1px;
+        }
+
+        .horizontal-line {
+            content: "";
+            height: 1px;
+            background-color: #CCCCCC;
+            display: block;
+        }
+
+        .filter__slider-component__values {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .filter__slider-component__value-title {
+            color: #7D7C83;
+            font-weight: 300;
+        }
+
+        .filter__slider-component__value-from-container,
+        .filter__slider-component__value-to-container {
+            background-color: #F7F7F8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px;
+            width: 150px;
+            border-radius: 5px;
+        }
+
+        .filter__dropdown-base__title {
+            font-weight: 400;
+        }
+
+        .filter__dropdown-collapsible__content--row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .filter__slider-component__input-from,
+        .filter__slider-component__input-to {
+            width: 100%;
+            text-align: right;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const dropDownComponents = document.querySelectorAll('.filter__dropdown-component');
+            dropDownComponents.forEach(dropDownComponent => {
+                const dropDownCollapsible = dropDownComponent.querySelector('.filter__dropdown-collapsible');
+                dropDownCollapsible.style.display = 'none';
+
+                const dropDownBase = dropDownComponent.querySelector('.filter__dropdown-base');
+                const dropDownArrow = dropDownComponent.querySelector('.filter__dropdown-arrow');
+                dropDownBase.addEventListener('click', () => {
+                    if(dropDownCollapsible.style.display === 'none') {
+                        dropDownCollapsible.style.display = 'block';
+                        dropDownArrow.style.transform = 'rotate(180deg)';
+                    }
+                    else {
+                        dropDownCollapsible.style.display = 'none';
+                        dropDownArrow.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sliderComponents = document.querySelectorAll('.filter__slider-component');
+            sliderComponents.forEach(sliderComponent => {
+                const sliderFrom = sliderComponent.querySelector('.filter__slider-component__slider-from');
+                const sliderTo = sliderComponent.querySelector('.filter__slider-component__slider-to');
+                const sliderFiller = sliderComponent.querySelector('.filter__slider-component__slider-filler');
+
+                const inputFrom = sliderComponent.querySelector('.filter__slider-component__input-from');
+                const inputTo = sliderComponent.querySelector('.filter__slider-component__input-to');
+
+                let isDraggingFrom = false;
+                let isDraggingTo = false;
+
+                function updateSliderFromSliders() {
+                    const left = parseFloat(sliderFrom.style.left || '0%');
+                    const right = parseFloat(sliderTo.style.left || '100%');
+
+                    const fillerLeft = left;
+                    const fillerRight = 100 - right;
+
+                    sliderFiller.style.left = `${fillerLeft}%`;
+                    sliderFiller.style.right = `${fillerRight}%`;
+
+                    const fromBase = sliderFrom.getAttribute('basefrom');
+                    const toBase = sliderTo.getAttribute('baseto');
+
+                    const newValueFrom = Math.round(fromBase + (toBase - fromBase) * left / 100);
+                    const newValueTo = Math.round(fromBase + (toBase - fromBase) * right / 100);
+
+                    inputFrom.value = newValueFrom;
+                    inputTo.value = newValueTo;
+                }
+
+                function updateSliderFromInputs() {
+                    const leftValue = parseFloat(inputFrom.value);
+                    const rightValue = parseFloat(inputTo.value);
+
+                    const fromBase = sliderFrom.getAttribute('basefrom');
+                    const toBase = sliderTo.getAttribute('baseto');
+
+                    const left = (leftValue - fromBase) / (toBase - fromBase) * 100;
+                    const right = (rightValue - fromBase) / (toBase - fromBase) * 100;
+
+                    if (left <= right) {
+                        sliderFrom.style.left = `${left}%`;
+                    }
+
+                    if (right >= left) {
+                        sliderTo.style.left = `${right}%`;
+                    }
+
+                    updateSliderFromSliders();
+                }
+
+                sliderFrom.addEventListener('mousedown', function (event) {
+                    isDraggingFrom = true;
+                    document.addEventListener('mousemove', onMouseMoveFrom);
+                    document.addEventListener('mouseup', onMouseUpFrom);
+                });
+
+                sliderTo.addEventListener('mousedown', function (event) {
+                    isDraggingTo = true;
+                    document.addEventListener('mousemove', onMouseMoveTo);
+                    document.addEventListener('mouseup', onMouseUpTo);
+                });
+
+                function onMouseMoveFrom(event) {
+                    if (isDraggingFrom) {
+                        handleMouseMove(event, true);
+                    }
+                }
+
+                function onMouseMoveTo(event) {
+                    if (isDraggingTo) {
+                        handleMouseMove(event, false);
+                    }
+                }
+
+                function onMouseUpFrom() {
+                    isDraggingFrom = false;
+                    document.removeEventListener('mousemove', onMouseMoveFrom);
+                    document.removeEventListener('mouseup', onMouseUpFrom);
+                }
+
+                function onMouseUpTo() {
+                    isDraggingTo = false;
+                    document.removeEventListener('mousemove', onMouseMoveTo);
+                    document.removeEventListener('mouseup', onMouseUpTo);
+                }
+
+                function handleMouseMove(event, isFrom) {
+                    let sliderWidth = document.querySelector('.filter__slider-component__slider').offsetWidth;
+                    const offsetX = event.clientX - document.querySelector('.filter__slider-component__slider').getBoundingClientRect().left;
+                    const percentage = Math.min(Math.max(0, offsetX / sliderWidth * 100), 100);
+
+                    if (isFrom) {
+                        if (percentage < parseFloat(sliderTo.style.left || '100%')) {
+                            sliderFrom.style.left = `${percentage}%`;
+                        }
+                    } else {
+                        if (percentage > parseFloat(sliderFrom.style.left || '0%')) {
+                            sliderTo.style.left = `${percentage}%`;
+                        }
+                    }
+
+                    updateSliderFromSliders();
+                }
+
+                inputFrom.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter')
+                        updateSliderFromInputs();
+                });
+                inputTo.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter')
+                        updateSliderFromInputs();
+                });
+
+                updateSliderFromInputs();
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const customCheckBoxes = document.querySelectorAll('.filter__toggle-btn');
+            customCheckBoxes.forEach(customCheckBox => {
+                const customCheckBoxContent = customCheckBox.querySelector('.filter__toggle-btn__content');
+                const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
+                customCheckBox.addEventListener('click', () => {
+                    if (customCheckBoxInput.checked) {
+                        customCheckBox.classList.remove('filter__toggle-btn--on');
+                        customCheckBoxContent.classList.remove('filter__toggle-btn__content--on');
+                        customCheckBoxInput.checked = false;
+                    }
+                    else {
+                        customCheckBox.classList.add('filter__toggle-btn--on');
+                        customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
+                        customCheckBoxInput.checked = true;
+                    }
+                });
+            });
+        });
+    </script>
 }
 
 <div class="main">
@@ -13,83 +362,133 @@
         Listings of your search
     </div>
     <div class="content">
-        <div class="filter">
-            <div class="search">
-                <img src="~/images/search.svg">
-                <div class="search-text">
-                    Search
-                </div>
+        <form class="filter" method="get">
+            <div class="filter__search-component">
+                <img class="filter__search-icon" src="~/images/search.svg" />
+                <input class="filter__search-input" placeholder="Search" />
             </div>
-            <div class="filters">
-                <div class="filter-section">
-                    <div class="filter-element">
-                        <div class="filter-group">
-                            Car Brand
-                        </div>
-                        <img src="~/images/filter_arrow.svg" />
-                    </div>
-                </div>
-                <div class="filter-section">
-                    <div class="filter-element">
-                        <div class="filter-group">
-                            <div>
-                                Car Model
-                            </div>
-                            <div class="filter_count">
-                                3
+            @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
+            {
+                var isFilterable = property.GetCustomAttribute<FilterableAttribute>() != null;
+                if (!isFilterable) continue;
+                if(property.PropertyType == typeof(string))
+                {
+                    <div class="filter__dropdown-component">
+                        <div class="filter__dropdown-base">
+                            <div class="filter__dropdown-base__title">
+                                @property.Name
                             </div>
                         </div>
-                        <img src="~/images/filter_arrow.svg" />
-                    </div>
-                </div>
-                <div class="filter-section">
-                    <div class="filter-element">
-                        <div class="filter-group">
-                            <div>
-                                Car State
-                            </div>
-                            <div class="filter_count">
-                                3
-                            </div>
-                        </div>
-                        <img src="~/images/filter_arrow.svg" />
-                    </div>
-                    <div class="filter-element">
-                        <div class="filter-group">
-                            <div class="roundy-button">
-                                New
-                            </div>
-                            <div class="roundy-button roundy-button-blue">
-                                Used
+                        <div class="filter__dropdown-collapsible">
+                            <div class="filter__dropdown-collapsible__content">
+                                <div class="filter__search-component">
+                                    <img class="filter__search-icon" src="~/images/search.svg" />
+                                    <input type="text" name="@property.Name" class="filter__search-input" placeholder="Search" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="filter-section">
-                    <div class="filter-element">
-                        <div class="filter-group">
-                            Price
-                        </div>
-                        <img src="~/images/filter_arrow.svg" />
-                    </div>
-
-                    <div class="filter-element">
-                        <div class="range-form">
-                            From
-                            <div class="range-form-value">
-                                103k
+                }
+                else if(property.PropertyType.IsEnum)
+                {
+                    <div class="filter__dropdown-component">
+                        <div class="filter__dropdown-base">
+                            <div class="filter__dropdown-base__left">
+                                <div class="filter__dropdown-base__title">
+                                    @property.Name
+                                </div>
+                                <div class="filter__dropdown-base__count-container">
+                                    <div class="filter__dropdown-base__count">
+                                        3
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter__dropdown-base__right">
+                                <img class="filter__dropdown-arrow" src="~/images/triangle-arrow.svg" />
                             </div>
                         </div>
-                        <div class="range-form">
-                            To
-                            <div class="range-form-value">
-                                200k
+                        <div class="filter__dropdown-collapsible">
+                            <div class="filter__dropdown-collapsible__content filter__dropdown-collapsible__content--row">
+                                @foreach (var value in Enum.GetValues(property.PropertyType))
+                                {
+                                    <div class="filter__toggle-btn">
+                                        <div class="filter__toggle-btn__content">
+                                            @value
+                                        </div>
+                                        <input class="filter__toggle-btn__input" style="display: none;" type="checkbox" name="@property.Name" value="@value" />
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                }
+                else if(property.PropertyType == typeof(int))
+                {
+                    <div class="filter__dropdown-component">
+                        <div class="filter__dropdown-base">
+                            <div class="filter__dropdown-base__left">
+                                <div class="filter__dropdown-base__title">
+                                    @property.Name
+                                </div>
+                            </div>
+                            <div class="filter__dropdown-base__right">
+                                <img class="filter__dropdown-arrow" src="~/images/triangle-arrow.svg" />
+                            </div>
+                        </div>
+                        <div class="filter__dropdown-collapsible">
+                            <div class="filter__dropdown-collapsible__content">
+                                <div class="filter__slider-component">
+                                    <div class="filter__slider-component__slider-wrapper">
+                                        <div class="filter__slider-component__slider">
+                                            <div basefrom="0" style="left: 10%;" class="filter__slider-component__slider-from"></div>
+                                            <div style="left: 10%; right: calc(100% - 70%)" class="filter__slider-component__slider-filler"></div>
+                                            <div baseto="10000" style="left: 70%;" class="filter__slider-component__slider-to"></div>
+                                        </div>
+                                    </div>
+                                    <div class="filter__slider-component__values">
+                                        <div class="filter__slider-component__value-from-container">
+                                            <div class="filter__slider-component__value-title">
+                                                From
+                                            </div>
+                                            <input class="filter__slider-component__input-from" type="number" name="@(property.Name)[gte]" value="3000" />
+                                        </div>
+                                        <div class="filter__slider-component__value-to-container">
+                                            <div class="filter__slider-component__value-title">
+                                                To
+                                            </div>
+                                            <input class="filter__slider-component__input-to" type="number" name="@(property.Name)[lte]" value="7000" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else if(property.PropertyType == typeof(DateTime))
+                {
+                    <div class="filter__dropdown-component">
+                        <div class="filter__dropdown-base">
+                            <div class="filter__dropdown-base__left">
+                                <div class="filter__dropdown-base__title">
+                                    @property.Name
+                                </div>
+                            </div>
+                            <div class="filter__dropdown-base__right">
+                                <img class="filter__dropdown-arrow" src="~/images/triangle-arrow.svg" />
+                            </div>
+                        </div>
+                        <div class="filter__dropdown-collapsible">
+                            <div class="filter__dropdown-collapsible__content">
+                                <input type="datetime-local" name="@(property.Name)[gte]"/>
+                                <input type="datetime-local" name="@(property.Name)[lte]" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="horizontal-line"></div>
+            }
+            <button type="submit">Filter</button>
+        </form>
         <div class="results">
             <div class="results-global">
                 <div class="results-count">
