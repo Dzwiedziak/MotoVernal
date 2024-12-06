@@ -39,11 +39,23 @@
             </div>
         }
         <div class="standard-info-item">
-            <span>@Model.Gender, @Model.Age years old, on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
+            @if (Model.Gender != null)
+            {
+                <span>@Model.Gender
+                    , </span>
+            }
+            @if(Model.Age != null)
+            {
+                <span>@Model.Age years old, </span>
+            }
+            <span>on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
         </div>
-        <div class="description-info-item">
-            <span>@Model.Description</span>
-        </div>
+        @if (Model.Description != null && !string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="description-info-item">
+                <span>@Model.Description</span>
+            </div>
+        }
     </div>
     <div class="action-profile">
         <div class="nav-to">
@@ -62,8 +74,8 @@
             </button>
         </div>
         <div class="profile-buttons">
-            <button class="go-back" onclick="window.history.back()">
-                <span>Take me back</span>
+            <button class="go-back" onclick="window.location.href='/user/ProfilesList'">
+                <span>Take me to users list</span>
             </button>
             @if (ViewBag.IsCurrentUser)
             {

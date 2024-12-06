@@ -191,7 +191,7 @@ align-items: flex-start;
     align-items: flex-start;
     align-content: flex-start;
     width: 100%;
-    height: auto;
+    min-height: 66vh;
     background: #EAF2FF;
     margin-right: 25px;
     margin-top: 15px;
