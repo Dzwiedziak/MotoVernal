@@ -1,8 +1,10 @@
 ﻿using BusinessLogic.DTO.Ban;
+using BusinessLogic.DTO.Report;
 using BusinessLogic.DTO.User;
 using BusinessLogic.Errors;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,13 +21,15 @@ namespace MotoVendor.Controllers
     {
         private readonly IUserService _userService;
         private readonly IBanService _banService;
+        private readonly IReportService _reportService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
-        public UserController(IUserService userService, IBanService banService, SignInManager<User> signInManager, UserManager<User> userManager)
+        public UserController(IUserService userService, IBanService banService, IReportService reportService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _userService = userService;
             _banService = banService;
+            _reportService = reportService;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -305,6 +309,19 @@ namespace MotoVendor.Controllers
         {
             var bannedUser = _userService.GetUser(id);
             var bannerUser = await _userManager.GetUserAsync(User);
+            
+            if (bannedUser == bannerUser)
+            {
+                TempData["ErrorMessage"] = "You can't ban yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
+            if (isBannedUserAdmin)
+            {
+                TempData["ErrorMessage"] = "You cannot ban another admin.";
+                return RedirectToAction("Error", "Home");
+            }
 
             var model = new BanUserDTO
             {
@@ -333,6 +350,13 @@ namespace MotoVendor.Controllers
 
             var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
+            
+            var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
+            if (isBannedUserAdmin)
+            {
+                TempData["ErrorMessage"] = "You cannot ban another admin.";
+                return RedirectToAction("Error", "Home");
+            }
 
             model.Banned = bannedUser;
             model.Banner = bannerUser;
@@ -405,6 +429,45 @@ namespace MotoVendor.Controllers
             bool isActiveBan = ban.ExpirationTime > DateTime.Now;
             ViewBag.isActive = isActiveBan;
             return View(ban);
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ReportAccount(string id)
+        {
+            var reportedUser = _userService.GetUser(id);
+            var reporterUser = await _userManager.GetUserAsync(User);
+
+            if (reportedUser == reporterUser)
+            {
+                TempData["ErrorMessage"] = "You can't report yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+            var model = new ReportUserDTO(reporterUser, reportedUser, string.Empty, null);
+
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ReportAccount(ReportUserDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Invalid input. Reason of reporting can't be empty.";
+                return RedirectToAction("ReportAccount", new { id = model.Reported.Id });
+            }
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
+
+            var reportedUser = await _userManager.FindByIdAsync(model.Reported.Id);
+            var reporterUser = await _userManager.GetUserAsync(User);
+
+            model.Reporter = reporterUser;
+            model.Reported = reportedUser;
+
+            var result = _reportService.ReportUser(model);
+            return RedirectToAction("ProfileView", new { id = model.Reported.Id });
         }
 
     }

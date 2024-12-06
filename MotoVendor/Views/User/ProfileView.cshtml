@@ -108,9 +108,9 @@
             }
             else
             {
-                <button class="delete-button">
+                <button class="delete-button" onclick="window.location.href='/user/ReportAccount?id=@Model.Id'">
                     <label>Report account</label>
-                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                    <img src="~/images/warning.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
                 </button>
             }
         </div>

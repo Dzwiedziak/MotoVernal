@@ -9,6 +9,7 @@ namespace BusinessLogic.DTO.Report
         public string Description { get; set; }
         public Entites.File? Image { get; set; }
 
+        public ReportUserDTO() { }
         public ReportUserDTO(Entites.User reporter, Entites.User reported, string description, Entites.File? image)
         {
             Reporter = reporter;

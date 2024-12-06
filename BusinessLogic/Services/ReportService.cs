@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.DTO.Report;
 using BusinessLogic.Errors;
 using BusinessLogic.Repositories;
+using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
@@ -9,9 +10,9 @@ namespace BusinessLogic.Services
 {
     public class ReportService : IReportService
     {
-        private readonly ReportRepository _reportRepository;
+        private readonly IReportRepository _reportRepository;
 
-        public ReportService(ReportRepository reportRepository)
+        public ReportService(IReportRepository reportRepository)
         {
             _reportRepository = reportRepository;
         }
