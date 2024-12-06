@@ -145,5 +145,11 @@ namespace BusinessLogic.Services
             oldVehicleOffer.VIN = vehicleOffer.VIN;
             oldVehicleOffer.Images = vehicleOffer.Images;
         }
+
+        public List<GetVehicleOfferDTO> GetAll()
+        {
+            List<VehicleOffer> vehicleOffers = _vehicleOfferRepository.GetAll();
+            return vehicleOffers.Select(vo => CreateGetVehicleOfferDTO(vo)).ToList();
+        }
     }
 }

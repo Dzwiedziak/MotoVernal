@@ -24,21 +24,69 @@ namespace MotoVendor
                     throw new ArgumentException($"Property '{propertyName}' does not exist on type '{typeof(T).Name}'");
 
                 var propertyAccess = Expression.Property(parameter, property);
-                var value = Expression.Constant(Convert.ChangeType(filter.Value, property.PropertyType));
 
-                Expression comparison = comparisonType switch
+                if (property.PropertyType.IsEnum)
                 {
-                    "lte" => Expression.LessThanOrEqual(propertyAccess, value),
-                    "lt" => Expression.LessThan(propertyAccess, value),
-                    "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
-                    "gt" => Expression.GreaterThan(propertyAccess, value),
-                    "neq" => Expression.NotEqual(propertyAccess, value),
-                    _ => Expression.Equal(propertyAccess, value),
-                };
+                    var enumValue = Enum.Parse(property.PropertyType, filter.Value, true); 
+                    var value = Expression.Constant(enumValue, property.PropertyType);
 
-                combinedExpression = combinedExpression == null
-                    ? comparison
-                    : Expression.AndAlso(combinedExpression, comparison);
+                    Expression comparison = comparisonType switch
+                    {
+                        "lte" => Expression.LessThanOrEqual(propertyAccess, value),
+                        "lt" => Expression.LessThan(propertyAccess, value),
+                        "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
+                        "gt" => Expression.GreaterThan(propertyAccess, value),
+                        "neq" => Expression.NotEqual(propertyAccess, value),
+                        _ => Expression.Equal(propertyAccess, value),
+                    };
+
+                    combinedExpression = combinedExpression == null
+                        ? comparison
+                        : Expression.AndAlso(combinedExpression, comparison);
+                }
+                else if (property.PropertyType == typeof(DateTime))
+                {
+                    if (DateTime.TryParse(filter.Value, out DateTime dateValue))
+                    {
+                        var value = Expression.Constant(dateValue, typeof(DateTime));
+
+                        Expression comparison = comparisonType switch
+                        {
+                            "lte" => Expression.LessThanOrEqual(propertyAccess, value),
+                            "lt" => Expression.LessThan(propertyAccess, value),
+                            "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
+                            "gt" => Expression.GreaterThan(propertyAccess, value),
+                            "neq" => Expression.NotEqual(propertyAccess, value),
+                            _ => Expression.Equal(propertyAccess, value),
+                        };
+
+                        combinedExpression = combinedExpression == null
+                            ? comparison
+                            : Expression.AndAlso(combinedExpression, comparison);
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Invalid date format for filter value '{filter.Value}' for property '{propertyName}'");
+                    }
+                }
+                else
+                {
+                    var value = Expression.Constant(Convert.ChangeType(filter.Value, property.PropertyType));
+
+                    Expression comparison = comparisonType switch
+                    {
+                        "lte" => Expression.LessThanOrEqual(propertyAccess, value),
+                        "lt" => Expression.LessThan(propertyAccess, value),
+                        "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
+                        "gt" => Expression.GreaterThan(propertyAccess, value),
+                        "neq" => Expression.NotEqual(propertyAccess, value),
+                        _ => Expression.Equal(propertyAccess, value),
+                    };
+
+                    combinedExpression = combinedExpression == null
+                        ? comparison
+                        : Expression.AndAlso(combinedExpression, comparison);
+                }
             }
 
             if (combinedExpression == null)

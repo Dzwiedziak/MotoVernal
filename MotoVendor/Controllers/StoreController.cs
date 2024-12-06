@@ -45,7 +45,9 @@ namespace MotoVendor.Controllers
                 var value = query[key];
                 filters[key] = value;
             }
-            return View();
+            List<GetVehicleOfferDTO> getVehicleOfferDTOs = _vehicleOfferService.GetAll();
+            List<GetVehicleOfferDTO> filteredGetVehicleOfferDTOs = ListFilter.FilterList(getVehicleOfferDTOs, filters);
+            return View(filteredGetVehicleOfferDTOs);
         }
         public IActionResult SearchOffers()
         {

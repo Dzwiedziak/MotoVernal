@@ -1,6 +1,7 @@
 ﻿@using BusinessLogic.DTO.VehicleOffer;
 @using BusinessLogic.Decorators;
 @using System.Reflection;
+@model List<GetVehicleOfferDTO>;
 @{
     ViewData["Title"] = "Store - Vehicles List";
 }
@@ -502,206 +503,49 @@
                 </div>
             </div>
             <div class="results-main">
-                <div class="offer">
-                    <div class="offer-upper">
-                        <div class="reserved">
-                            Not reserved
-                        </div>
-                        <div class="observation">
-                            <img src="~/images/Layer_1_1_.svg" />
-                        </div>
-                    </div>
-                    <div class="photo-main">
-                        <img src="~/images/Photo.png" />
-                    </div>
-                    <div class="offer-bottom">
-                        <div class="brand">
-                            Audi
-                        </div>
-                        <div class="model-price">
-                            <div class="model">
-                                A6 C7 Allroad 3.0tdi
+                @foreach (var vehicleOffer in Model)
+                {
+                    <div class="offer">
+                        <div class="offer-upper">
+                            <div class="reserved">
+                                Not reserved
                             </div>
-                            <div class="price">
-                                159 999 PLN
-                                <div class="price-tag">
-                                    Brutto
+                            <div class="observation">
+                                <img src="~/images/Layer_1_1_.svg" />
+                            </div>
+                        </div>
+                        <div class="photo-main">
+                            <img src="data:image/@vehicleOffer.Images[0].Extension;base64,@vehicleOffer.Images[0].Base64" />
+                        </div>
+                        <div class="offer-bottom">
+                            <div class="brand">
+                                @vehicleOffer.Brand
+                            </div>
+                            <div class="model-price">
+                                <div class="model">
+                                    @vehicleOffer.Model @vehicleOffer.Generation @vehicleOffer.Version
+                                </div>
+                                <div class="price">
+                                    @vehicleOffer.Price PLN
+                                    <div class="price-tag">
+                                        Brutto
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line">
+                            </div>
+                            <div class="location-owner">
+                                <div class="location">
+                                    <img src="~/images/location.svg" />
+                                    @vehicleOffer.Location
+                                </div>
+                                <div class="owner">
+                                    @vehicleOffer.User.UserName
                                 </div>
                             </div>
                         </div>
-                        <div class="hr-line">
-                        </div>
-                        <div class="location-owner">
-                            <div class="location">
-                                <img src="~/images/location.svg" />
-                                Białystok, Podlaskie
-                            </div>
-                            <div class="owner">
-                                Heniek144
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <div class="offer">
-                    <div class="offer-upper">
-                        <div class="reserved">
-                            Not reserved
-                        </div>
-                        <div class="observation">
-                            <img src="~/images/Layer_1_1_.svg" />
-                        </div>
-                    </div>
-                    <div class="photo-main">
-                        <img src="~/images/Photo.png" />
-                    </div>
-                    <div class="offer-bottom">
-                        <div class="brand">
-                            Audi
-                        </div>
-                        <div class="model-price">
-                            <div class="model">
-                                A6 C7 Allroad 3.0tdi
-                            </div>
-                            <div class="price">
-                                159 999 PLN
-                                <div class="price-tag">
-                                    Brutto
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr-line">
-                        </div>
-                        <div class="location-owner">
-                            <div class="location">
-                                <img src="~/images/location.svg" />
-                                Białystok, Podlaskie
-                            </div>
-                            <div class="owner">
-                                Heniek144
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer">
-                    <div class="offer-upper">
-                        <div class="reserved">
-                            Not reserved
-                        </div>
-                        <div class="observation">
-                            <img src="~/images/Layer_1_1_.svg" />
-                        </div>
-                    </div>
-                    <div class="photo-main">
-                        <img src="~/images/Photo.png" />
-                    </div>
-                    <div class="offer-bottom">
-                        <div class="brand">
-                            Audi
-                        </div>
-                        <div class="model-price">
-                            <div class="model">
-                                A6 C7 Allroad 3.0tdi
-                            </div>
-                            <div class="price">
-                                159 999 PLN
-                                <div class="price-tag">
-                                    Brutto
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr-line">
-                        </div>
-                        <div class="location-owner">
-                            <div class="location">
-                                <img src="~/images/location.svg" />
-                                Białystok, Podlaskie
-                            </div>
-                            <div class="owner">
-                                Heniek144
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer">
-                    <div class="offer-upper">
-                        <div class="reserved">
-                            Not reserved
-                        </div>
-                        <div class="observation">
-                            <img src="~/images/Layer_1_1_.svg" />
-                        </div>
-                    </div>
-                    <div class="photo-main">
-                        <img src="~/images/Photo.png" />
-                    </div>
-                    <div class="offer-bottom">
-                        <div class="brand">
-                            Audi
-                        </div>
-                        <div class="model-price">
-                            <div class="model">
-                                A6 C7 Allroad 3.0tdi
-                            </div>
-                            <div class="price">
-                                159 999 PLN
-                                <div class="price-tag">
-                                    Brutto
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr-line">
-                        </div>
-                        <div class="location-owner">
-                            <div class="location">
-                                <img src="~/images/location.svg" />
-                                Białystok, Podlaskie
-                            </div>
-                            <div class="owner">
-                                Heniek144
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="offer">
-                    <div class="offer-upper">
-                        <div class="reserved">
-                            Not reserved
-                        </div>
-                        <div class="observation">
-                            <img src="~/images/Layer_1_1_.svg" />
-                        </div>
-                    </div>
-                    <div class="photo-main">
-                        <img src="~/images/Photo.png" />
-                    </div>
-                    <div class="offer-bottom">
-                        <div class="brand">
-                            Audi
-                        </div>
-                        <div class="model-price">
-                            <div class="model">
-                                A6 C7 Allroad 3.0tdi
-                            </div>
-                            <div class="price">
-                                159 999 PLN
-                                <div class="price-tag">
-                                    Brutto
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr-line">
-                        </div>
-                        <div class="location-owner">
-                            <div class="location">
-                                <img src="~/images/location.svg" />
-                                Białystok, Podlaskie
-                            </div>
-                            <div class="owner">
-                                Heniek144
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
