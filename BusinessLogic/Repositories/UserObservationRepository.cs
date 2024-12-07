@@ -42,6 +42,7 @@ namespace BusinessLogic.Repositories
                 return UserObservationErrorCode.UserObservationNotFound;
 
             _context.UserObservations.Remove(userObservation);
+            _context.SaveChanges();
             return null;
         }
     }

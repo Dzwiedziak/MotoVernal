@@ -85,16 +85,18 @@ namespace BusinessLogic.Services
             _userObservationRepository.Add(newUserObservation);
             return newUserObservation.Id;
         }
+       
+        public UserObservationErrorCode? StopObservingUser(string observerId, string observedId)
+        { 
+            UserObservation? userObservation = _userObservationRepository.Get(observerId, observedId);
 
-        public UserObservationErrorCode? StopObservingUser(int id)
-        {
-            UserObservation? userObservation = _userObservationRepository.GetOne(id);
             if (userObservation is null)
             {
                 return UserObservationErrorCode.UserObservationNotFound;
             }
 
             _userObservationRepository.Delete(userObservation.Id);
+
             return null;
         }
 
@@ -144,7 +146,7 @@ namespace BusinessLogic.Services
         public List<GetUserDTO> GetAll(string currentUserId)
         {
             List<User> dbUsers = _userRepository.GetAll();
-            List<UserObservation> observedUsers = _userObservationRepository.Get(currentUserId); // Pobierz obserwacje dla aktualnego użytkownika
+            List<UserObservation> observedUsers = _userObservationRepository.Get(currentUserId); 
 
             return dbUsers.Select(u =>
             {

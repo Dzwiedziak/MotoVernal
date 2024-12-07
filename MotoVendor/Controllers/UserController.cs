@@ -588,11 +588,28 @@ namespace MotoVendor.Controllers
 
             return RedirectToAction("ProfilesList");
         }
-        /*[HttpPost]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> StopObserveUser(int id)
+        public async Task<IActionResult> StopObserveUser(string id)
         {
+            var observedUser = _userService.GetUser(id);
+            var observerUser = await _userManager.GetUserAsync(User);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        }*/
+            if (observerUser == observedUser)
+            {
+                TempData["ErrorMessage"] = "You cannot unfollow yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+            
+            var result = _userService.StopObservingUser(currentUserId,id);
+            if (result== UserObservationErrorCode.UserObservationNotFound)
+            {
+                TempData["ErrorMessage"] = "You are not observing this user.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return RedirectToAction("ProfilesList");
+        }
     }
 }

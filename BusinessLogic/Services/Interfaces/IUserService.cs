@@ -16,7 +16,7 @@ namespace BusinessLogic.Services.Interfaces
         UserErrorCode? Update(string id, UpdateUserDTO user);
         bool CheckExistance(string id);
         Result<int?, UserObservationErrorCode> ObserveUser(ObserveUserDTO userObservation);
-        UserObservationErrorCode? StopObservingUser(int id);
+        UserObservationErrorCode? StopObservingUser(string observerId, string observedId);
 
     }
 }
