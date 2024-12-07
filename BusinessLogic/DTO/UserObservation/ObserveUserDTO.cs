@@ -7,6 +7,7 @@ namespace BusinessLogic.DTO.UserObservation
         public Entities.User Observer { get; set; }
         public Entities.User Observed { get; set; }
 
+        public ObserveUserDTO() { }
         public ObserveUserDTO(Entities.User observer, Entities.User observed)
         {
             Observer = observer;

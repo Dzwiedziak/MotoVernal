@@ -59,7 +59,7 @@
     </div>
     <div class="action-profile">
         <div class="nav-to">
-            <span>Take me to my:</span>
+            <span>Take me to @Model.UserName:</span>
             <button class="take-to">
                 Discusions
             </button>
@@ -82,10 +82,6 @@
                 <button class="edit-button" onclick="window.location.href='/user/EditProfile?id=@Model.Id'">
                     <label>Edit</label>
                     <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
-                </button>
-                <button class="delete-button">
-                    <label>Delete account</label>
-                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
                 </button>
             }
             else if (ViewBag.IsAdmin)

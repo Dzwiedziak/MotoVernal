@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.DTO.Ban;
 using BusinessLogic.DTO.Report;
 using BusinessLogic.DTO.User;
+using BusinessLogic.DTO.UserObservation;
 using BusinessLogic.Errors;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
@@ -204,7 +205,8 @@ namespace MotoVendor.Controllers
         [HttpGet]
         public IActionResult ProfilesList()
         {
-            List<GetUserDTO> dbUsers = _userService.GetAll();
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<GetUserDTO> dbUsers = _userService.GetAll(currentUserId);
             return View(dbUsers);
         }
 
@@ -556,5 +558,41 @@ namespace MotoVendor.Controllers
             _reportService.RejectReport(id);
             return RedirectToAction("ReportsList");
         }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ObserveUser(string id)
+        {
+            var observedUser = _userService.GetUser(id);
+            var observerUser = await _userManager.GetUserAsync(User);
+            
+            if (observerUser == observedUser)
+            {
+                TempData["ErrorMessage"] = "You cannot follow yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+            var model = new ObserveUserDTO
+            {
+                Observer = observerUser,
+                Observed = observedUser
+            };
+            var result = _userService.ObserveUser(model);
+            if (result.Value != null)
+            {
+                return RedirectToAction("ProfilesList");
+            }
+            else if (result.Error == UserObservationErrorCode.UserAlreadyFollowing)
+            {
+                TempData["ErrorMessage"] = "This user is aldready following by you.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return RedirectToAction("ProfilesList");
+        }
+        /*[HttpPost]
+        [Authorize]
+        public async Task<IActionResult> StopObserveUser(int id)
+        {
+
+        }*/
     }
 }
