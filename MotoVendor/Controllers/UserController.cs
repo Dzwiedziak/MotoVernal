@@ -309,7 +309,14 @@ namespace MotoVendor.Controllers
         {
             var bannedUser = _userService.GetUser(id);
             var bannerUser = await _userManager.GetUserAsync(User);
-            
+
+            var result = _banService.GetActiveBan(id);
+            if(result != null)
+            {
+                TempData["ErrorMessage"] = "This user is aldready banned.";
+                return RedirectToAction("Error", "Home");
+            }
+       
             if (bannedUser == bannerUser)
             {
                 TempData["ErrorMessage"] = "You can't ban yourself.";
@@ -467,8 +474,87 @@ namespace MotoVendor.Controllers
             model.Reported = reportedUser;
 
             var result = _reportService.ReportUser(model);
-            return RedirectToAction("ProfileView", new { id = model.Reported.Id });
+            return RedirectToAction("reportsList");
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult ReportsList()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                var list = _reportService.GetAllReports();
+                return View(list);
+            }
+            else
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var list = _reportService.GetReporterReports(currentUserId);
+                return View(list);
+            }
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult ReportDetails(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var report = _reportService.GetReportById(id);
+            if (report == null)
+            {
+                TempData["ErrorMessage"] = "No report found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+            if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to see this report.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(report);
+        }
+        [HttpGet]
+        [Authorize]
+        public IActionResult RejectReport(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var report = _reportService.GetReportById(id);
+            
+            ViewBag.currentUserId = currentUserId;
+
+            if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to reject this report.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            if (report == null)
+            {
+                TempData["ErrorMessage"] = "No report found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(report);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult RejectReportConfirmed(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var report = _reportService.GetReportById(id);
+
+            if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to reject this report.";
+                return RedirectToAction("Error", "Home");
+            }
+            if(report == null)
+            {
+                TempData["ErrorMessage"] = "No report found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+            _reportService.RejectReport(id);
+            return RedirectToAction("ReportsList");
+        }
     }
 }

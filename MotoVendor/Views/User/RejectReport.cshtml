@@ -1,0 +1,38 @@
+﻿@model DB.Entities.Report;
+@{
+    ViewData["Title"] = "User - Reject Report";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+}
+<div class="form-container">
+    <form asp-action="RejectReportConfirmed" asp-controller="User" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        @if (!(User.IsInRole("Admin") || ViewBag.currentUserId != Model.Reporter.Id))
+        {
+            <div class="question">
+                Are you sure you want delete your report for user <span>@Model.Reported.UserName</span>?
+            </div>
+            <div class="question-info">
+                The reason of report is <span class="red-text">@Model.Description</span>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" style="background: blue;" onclick="window.history.back()">Cancel</button>
+            <button type="submit" class="create-btn" style="background: blue;">Delete</button>
+            </div>
+        }
+        else
+        {
+            <div class="question">
+                Are you sure you want reject report submitted by <span>@Model.Reporter.UserName</span> for user <span>@Model.Reported.UserName</span>?
+            </div>
+            <div class="question-info">
+                The reason of report is <span class="red-text">@Model.Description</span>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" style="background: blue;" onclick="window.history.back()">Cancel</button>
+                <button type="submit" class="create-btn" style="background: blue;">Reject</button>
+            </div>
+        }
+    </form>
+</div>
