@@ -203,7 +203,7 @@ namespace MotoVendor.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProfilesList()
+        public IActionResult ProfilesList(string search, bool? observed, bool? admin, string sort_by)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<GetUserDTO> dbUsers = _userService.GetAll(currentUserId);
