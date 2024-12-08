@@ -26,7 +26,8 @@ namespace MotoVendor.Controllers
         [HttpGet]
         public IActionResult EventsList()
         {
-            return View();
+            var events = _eventService.GetEvents();
+            return View(events);
         }
         [Authorize]
         [HttpGet]
@@ -55,6 +56,16 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEvent(AddEventDTO model)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            model.Publisher = currentUser;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -63,17 +74,6 @@ namespace MotoVendor.Controllers
             {
                 model.Image = null;
             }
-
-            var currentUser = await _userManager.GetUserAsync(User);
-
-            var isBanned= _banService.GetActiveBan(currentUser.Id);
-            if (isBanned != null)
-            {
-                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
-                return RedirectToAction("Error", "Home");
-            }
-
-            model.Publisher = currentUser;
 
             _eventService.Add(model);
             return RedirectToAction("EventsList");

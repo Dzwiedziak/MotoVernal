@@ -25,6 +25,10 @@ namespace BusinessLogic.Services
             return newEvent.Id;
         }
 
+        public List<Event> GetEvents()
+        {
+            return _eventRepository.GetAll().ToList();
+        }
         public Result<GetEventDTO, EventErrorCode> Get(int id)
         {
             Event? dbEvent = _eventRepository.GetOne(id);
