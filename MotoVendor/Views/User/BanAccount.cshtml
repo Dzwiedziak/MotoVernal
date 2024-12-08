@@ -3,7 +3,7 @@
     ViewData["Title"] = "User - Ban Account";
 }
 @section Styles {
-    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+    <link rel="stylesheet" href="~/css/banAccount.css" />
 }
 @section Scripts {
     <script src="~/js/banReportAccount.js"></script>
@@ -24,19 +24,19 @@
             }
             <span>@Model.Banned.UserName</span>
         </div>
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger" style="color:red">
-                @TempData["ErrorMessage"]
-            </div>
-        }
-        <div class="Form-group">
+        <div class="form-group">
             <label for="datetime-from">Ban to</label>
-            <input type="datetime-local" id="datetime-from" asp-for="ExpirationTime" min="@DateTime.Now>
+            <input type="datetime-local" id="datetime-from" asp-for="ExpirationTime">
+        </div>
+        <div class="validate">
+            <span asp-validation-for="ExpirationTime" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label for="content"></label>
+            <label for="reason">Reason</label>
             <textarea id="content" asp-for="Reason" rows="8" cols="50" placeholder="Reason for banning"></textarea>
+        </div>
+        <div class="validate">
+            <span asp-validation-for="Reason" class="text-danger"></span>
         </div>
         <div class="form-group image-upload">
             <label for="image-upload">Load image</label>

@@ -7,7 +7,7 @@ namespace BusinessLogic.DTO.Event
 {
     public class AddEventDTO
     {
-        [Required]
+        [Required(ErrorMessage = "Publisher is required.")]
         public Entities.User Publisher { get; set; }
         [Required(ErrorMessage = "Event type is required.")]
         [EnumDataType(typeof(EventType), ErrorMessage = "Invalid event type.")]

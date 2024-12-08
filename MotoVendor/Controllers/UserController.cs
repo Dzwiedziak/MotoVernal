@@ -349,8 +349,7 @@ namespace MotoVendor.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Invalid input. Please check the form and try again.";
-                return RedirectToAction("BanAccount", new { id = model.Banned.Id });
+                return View(model);
             }
             if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
             {
@@ -459,21 +458,21 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> ReportAccount(ReportUserDTO model)
         {
-            if (!ModelState.IsValid)
-            {
-                TempData["ErrorMessage"] = "Invalid input. Reason of reporting can't be empty.";
-                return RedirectToAction("ReportAccount", new { id = model.Reported.Id });
-            }
-            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
-            {
-                model.Image = null;
-            }
-
             var reportedUser = await _userManager.FindByIdAsync(model.Reported.Id);
             var reporterUser = await _userManager.GetUserAsync(User);
 
             model.Reporter = reporterUser;
             model.Reported = reportedUser;
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+                //return RedirectToAction("ReportAccount", new { id = model.Reported.Id });
+            }
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
 
             var result = _reportService.ReportUser(model);
             return RedirectToAction("reportsList");

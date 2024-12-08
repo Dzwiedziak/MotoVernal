@@ -1,0 +1,171 @@
+﻿main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+}
+
+.form-container {
+    background: #FFFFFF;
+    border: 0.5px solid #646364;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+}
+
+form h2 {
+    font-family: 'Inter',sans-serif;
+    font-style: medium;
+    font-weight: 500;
+    font-size: 24px;
+    color: #000000;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.date-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 35px;
+}
+
+.form-control {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+    .form-control label {
+        margin-bottom: 5px;
+    }
+
+label {
+    display: block;
+    font-family: 'Inter',sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: normal;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+input, select, textarea {
+    font-family: 'Inter',sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    font-style: light;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-control input {
+    width: 100%;
+}
+
+.image-upload input {
+    padding: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.cancel-btn, .create-btn {
+    margin-inline: 25px;
+    padding: 7.5px 12px 7.5px 10.5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background: #0066FF;
+    border-radius: 7.5px;
+}
+
+.cancel-btn {
+    background: #0066FF;
+    color: white;
+    opacity: 0.33;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.create-btn {
+    background: #0066FF;
+    color: white;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+    .profile-header > img {
+        box-sizing: border-box;
+        width: 50px;
+        height: 50px;
+        border: 5px solid #4285F4;
+        border-radius: 100%;
+        margin-right: 5px;
+    }
+
+.question {
+    margin-inline: 25px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 22px;
+    text-align: center;
+}
+
+    .question > span {
+        color: blue
+    }
+
+.question-info {
+    text-align: center;
+    padding: 0px 25px 15px 0px;
+    margin-inline: 25px;
+    border: none;
+    border-radius: 7.5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+    .question-info > span {
+        color: red;
+    }
+
+.text-danger {
+    color: red;
+    text-align: center;
+}
+
+.validate {
+    margin-top: -30px;
+    margin-bottom: 15px;
+}
