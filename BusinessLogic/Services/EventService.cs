@@ -70,7 +70,7 @@ namespace BusinessLogic.Services
         }
 
         public Event CreateNewEvent(AddEventDTO @event) =>
-            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
+            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Title, @event.Location, @event.Description, @event.Image);
 
         public GetEventDTO CreateGetEventDTO(Event @event) =>
             new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);

@@ -19,18 +19,22 @@ namespace BusinessLogic.DTO.Event
         [FutureDate(ErrorMessage = "End date must be in the future.")]
         [DateGreaterThan(nameof(TimeFrom), ErrorMessage = "End date must be after start date.")]
         public DateTime TimeTo { get; set; }
+        public string Title { get; set; }
+        public string Location { get; set; }
         [Required(ErrorMessage = "Description is required.")]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Description must be between 10 and 1000 characters.")]
         public string Description { get; set; }
         public Entities.File? Image { get; set; }
 
         public AddEventDTO() { }
-        public AddEventDTO(Entities.User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string description, Entities.File? image)
+        public AddEventDTO(Entities.User publisher, EventType eventType, DateTime timeFrom, DateTime timeTo, string title, string location, string description, Entities.File? image)
         {
             Publisher = publisher;
             EventType = eventType;
             TimeFrom = timeFrom;
             TimeTo = timeTo;
+            Title = title;
+            Location = location;
             Description = description;
             Image = image;
         }
