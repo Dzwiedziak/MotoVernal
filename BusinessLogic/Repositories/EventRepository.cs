@@ -19,7 +19,12 @@ namespace BusinessLogic.Repositories
             .Include(e => e.Publisher.ProfileImage)
             .Include(e => e.Image)
             .ToList();
-        public Event? GetOne(int id) => _context.Events.FirstOrDefault(e => e.Id == id);
+        public Event? GetOne(int id) => _context.Events
+            .Include(e => e.Publisher)
+            .Include(e => e.Publisher.ProfileImage)
+            .Include(e => e.Image)
+            .FirstOrDefault(e => e.Id == id);
+
         public void Add(Event eventEntity) { _context.Events.Add(eventEntity); _context.SaveChanges(); }
         public void Update(Event eventEntity) { _context.Events.Update(eventEntity); _context.SaveChanges(); }
     }

@@ -80,26 +80,11 @@
                 }
                 else
                 {
-                    <img src="~/images/Toyota-Aygo_02.jpg" alt="car" class="event-image" id="event-image">
+                    <img src="~/images/default_car.png" id="event-img" alt="event" class="event-img">
                 }
             <div class="event-info">
                     <label>
-                        @if (ev3nt.Description?.Length > 10)
-                        {
-                            var spaceIndex = ev3nt.Description.IndexOf(" ", 10);
-                            if (spaceIndex == -1)
-                            {
-                                @ev3nt.Description.Substring(0, 10)
-                            }
-                            else
-                            {
-                                @ev3nt.Description.Substring(0, spaceIndex)
-                            }
-                        }
-                        else
-                        {
-                            @ev3nt.Description
-                        }
+                       @ev3nt.Title
                     </label>
                 <div class="event-content">
                     <label>by</label>
@@ -116,7 +101,7 @@
                     <label>@ev3nt.Publisher.UserName</label>
                 </div>
                 <div class="event-content">
-                    <label>@ev3nt.EventType</label>
+                    <label>@ev3nt.Location</label>
                     <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
                 </div>
                 <div class="event-content">
@@ -137,7 +122,7 @@
                         <label>250</label>
                         <label class="interested">interested</label>
                     </div>
-                    <button class="event-action">
+                        <button class="event-action" onclick="window.location.href='/Calendar/detailsEvent?id=@ev3nt.Id'">
                         <span>Show more details</span>
                     </button>
                 </div>

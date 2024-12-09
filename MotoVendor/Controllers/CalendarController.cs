@@ -47,6 +47,8 @@ namespace MotoVendor.Controllers
                 EventType = DB.Enums.EventType.Physical,
                 TimeFrom = DateTime.Today,
                 TimeTo = DateTime.Today.AddDays(1),
+                Title = string.Empty,
+                Location = string.Empty,
                 Description = string.Empty,
                 Image = null
             };
@@ -82,9 +84,25 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
-        public IActionResult DetailsEvent()
+        [Authorize]
+        [HttpGet]
+        public IActionResult DetailsEvent(int Id)
         {
-            return View();
+            var result = _eventService.Get(Id);
+
+            var currentUserId = _userManager.GetUserId(User);
+            if(result.Value != null)
+            {
+                bool isOwner = currentUserId == result.Value.Publisher.Id;
+                ViewBag.isOwner = isOwner;
+                return View(result.Value);
+            }
+            else if (result.Error == EventErrorCode.EventNotFound)
+            {
+                TempData["ErrorMessage"] = "Event not exist";
+                return RedirectToAction("Error", "Home");
+            }
+            return View(result.Value);
         }
     }
 }

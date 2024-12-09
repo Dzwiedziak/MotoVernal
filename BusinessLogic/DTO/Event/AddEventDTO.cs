@@ -19,7 +19,11 @@ namespace BusinessLogic.DTO.Event
         [FutureDate(ErrorMessage = "End date must be in the future.")]
         [DateGreaterThan(nameof(TimeFrom), ErrorMessage = "End date must be after start date.")]
         public DateTime TimeTo { get; set; }
+        [Required(ErrorMessage = "Title is required.")]
+        [MaxLength(30, ErrorMessage = "Title can be at most 50 characters long.")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "Location is required.")]
+        [MaxLength(30, ErrorMessage = "Location can be at most 30 characters long.")]
         public string Location { get; set; }
         [Required(ErrorMessage = "Description is required.")]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Description must be between 10 and 1000 characters.")]

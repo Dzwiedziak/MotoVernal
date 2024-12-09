@@ -33,7 +33,9 @@ namespace BusinessLogic.Services
         {
             Event? dbEvent = _eventRepository.GetOne(id);
             if (dbEvent is null)
+            {
                 return EventErrorCode.EventNotFound;
+            }
 
             return CreateGetEventDTO(dbEvent);
         }
@@ -73,7 +75,7 @@ namespace BusinessLogic.Services
             new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Title, @event.Location, @event.Description, @event.Image);
 
         public GetEventDTO CreateGetEventDTO(Event @event) =>
-            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
+            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Title, @event.Location, @event.Description, @event.Image);
 
         public void UpdateEvent(ref Event oldEvent, UpdateEventDTO @event)
         {

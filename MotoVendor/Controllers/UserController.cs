@@ -602,7 +602,7 @@ namespace MotoVendor.Controllers
             }
             
             var result = _userService.StopObservingUser(currentUserId,id);
-            if (result== UserObservationErrorCode.UserObservationNotFound)
+            if (result == UserObservationErrorCode.UserObservationNotFound)
             {
                 TempData["ErrorMessage"] = "You are not observing this user.";
                 return RedirectToAction("Error", "Home");
