@@ -40,6 +40,10 @@ namespace BusinessLogic.Services
             return CreateGetEventDTO(dbEvent);
         }
 
+        public Event GetEvent(int id)
+        {
+            return _eventRepository.GetOne(id);
+        }
         public EventErrorCode? Update(int id, UpdateEventDTO offer)
         {
             Event? dbEvent = _eventRepository.GetOne(id);
@@ -69,6 +73,10 @@ namespace BusinessLogic.Services
 
             _eventIntrestRepository.Delete(dbEventInterest.Id);
             return null;
+        }
+        public List<EventInterest> GetAllInterestByEvent(int id)
+        {
+            return _eventIntrestRepository.GetAllByEventId(id);
         }
 
         public Event CreateNewEvent(AddEventDTO @event) =>

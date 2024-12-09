@@ -467,7 +467,6 @@ namespace MotoVendor.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-                //return RedirectToAction("ReportAccount", new { id = model.Reported.Id });
             }
             if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
             {

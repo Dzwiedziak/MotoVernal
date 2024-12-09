@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -30,6 +31,15 @@ namespace BusinessLogic.Repositories
         {
             return _context.EventInterests.ToList();
         }
+        public List<EventInterest> GetAllByEventId(int eventId)
+        {
+            return _context.EventInterests
+                .Where(ei => ei.Event.Id == eventId)
+                .Include(ei => ei.User)
+                .Include(ei => ei.User.ProfileImage)
+                .ToList();
+        }
+
 
         public EventInterest? GetOne(int id)
         {

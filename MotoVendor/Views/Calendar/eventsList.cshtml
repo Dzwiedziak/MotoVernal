@@ -1,4 +1,4 @@
-﻿@model List<DB.Entities.Event>
+﻿@model List<BusinessLogic.DTO.Event.EventDTO>
 @{
     ViewData["Title"] = "Calendar - Events List";
 }
@@ -119,7 +119,7 @@
                 <div class="event-down">
                     <div class="event-interested">
                         <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
-                        <label>250</label>
+                        <label>@ev3nt.InterestedCount</label>
                         <label class="interested">interested</label>
                     </div>
                         <button class="event-action" onclick="window.location.href='/Calendar/detailsEvent?id=@ev3nt.Id'">
