@@ -295,3 +295,13 @@
     filter: invert();
     gap: 30px;
 }
+
+.photo-main {
+    aspect-ratio: 16/9;
+    width: 200px;
+}
+
+.photo-main img {
+    width: 100%;
+    height: 100%;
+}
