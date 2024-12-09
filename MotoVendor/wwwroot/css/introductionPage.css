@@ -341,6 +341,11 @@ textarea {
 .submenu__item {
     font-weight: 300;
 }
+.submenu__item > a{
+    color:white;
+    font-weight:300;
+    text-decoration:none;
+}
 
 .hr-line {
     position: absolute;

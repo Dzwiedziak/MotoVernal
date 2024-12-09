@@ -10,8 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <style>
+        .main-cnt{
+            display:flex;
+            justify-content:center;
+            width:100%;
+        }
         .add-offer {
             display: flex;
+            justify-content:center;
             font-family: 'Inter', sans-serif;
             background-color: white;
             border-radius: 10px;
@@ -20,6 +26,7 @@
             width: 650px;
             height: 520px;
             gap: 30px;
+            margin:30px;
         }
 
         .offer-add__sidebar {
@@ -419,7 +426,7 @@
         });
     </script>
 }
-
+<div class="main-cnt">
 <div class="add-offer">
     <div class="offer-add__sidebar">
         <div class="offer-add__vehicle-model">
@@ -664,4 +671,4 @@
         <button class="add-offer__submit-btn" type="submit">Add offer</button>
     </form>
 </div>
-
+</div>

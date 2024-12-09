@@ -35,7 +35,7 @@ namespace MotoVendor.Controllers
         {
             vehicleOffer.User = _userService.GetCurrentUser().Result;
             _vehicleOfferService.Add(vehicleOffer);
-            return RedirectToAction("DetailsOffer");
+            return RedirectToAction("VehiclesList");
         }
         [HttpGet]
         public IActionResult VehiclesList()
