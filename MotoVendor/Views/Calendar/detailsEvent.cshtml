@@ -14,7 +14,7 @@
         <div class="main-info">
             <div class="description">
                 <span>
-                     @Model.Description
+                    <pre>@Model.Description</pre>
                 </span>
             </div>
             <div class="rest-group">
@@ -28,7 +28,7 @@
                 }
                 @if (ViewBag.isOwner)
                 {
-                    <button class="edit-button">
+                    <button class="edit-button" onclick="window.location.href='/Calendar/EditEvent?id=@ViewBag.EventID'">
                         <label>Edit</label>
                         <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
                     </button>
@@ -163,7 +163,7 @@
                 <span>Take me back</span>
             </button>
             <button class="show-more">
-                <span>Show more details</span>
+                <span>I'm interested'</span>
             </button>
         </div>
     </div>

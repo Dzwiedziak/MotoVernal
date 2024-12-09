@@ -1,49 +1,82 @@
-﻿@{
+﻿@model BusinessLogic.DTO.Event.UpdateEventDTO;
+@{
     ViewData["Title"] = "Calendar - Edit Event";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
 }
-<main>
-    <div class="form-container">
-        <form>
-            <h2>Edit the event</h2>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select id="type">
-                    <option value="online">On-line</option>
-                    <option value="physical">Physical</option>
-                </select>
+@section Scripts {
+    <script src="~/js/addEditEvent.js"></script>
+}
+<div class="form-container">
+    <form asp-action="EditEvent" method="post">
+        <input type="hidden" asp-for="Id" />
+        <h2>Edit event</h2>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select id="type" asp-for="EventType">
+                @foreach (var eventType in Enum.GetValues(typeof(DB.Enums.EventType)).Cast<DB.Enums.EventType>())
+                {
+                    <option value="@eventType">
+                        @eventType
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="validate">
+            <span asp-validation-for="EventType" class="text-danger"></span>
+        </div>
+        <div class="date-group">
+            <div class="form-control">
+                <label for="datetime-from">Date from</label>
+                <input type="datetime-local" id="datetime-from" asp-for="TimeFrom">
             </div>
-            <div class="form-group">
-                <label for="location">Location</label>
-                <input type="text" id="location" placeholder="Enter location">
+            <div class="form-control">
+                <label for="datetime-to">Date to</label>
+                <input type="datetime-local" id="datetime-to" asp-for="TimeTo">
             </div>
-            <div class="date-group">
-                <div class="form-control">
-                    <label for="datetime-from">Date from</label>
-                    <input type="datetime-local" id="datetime-from">
+        </div>
+        <div class="date-group">
+            <span asp-validation-for="TimeFrom" class="text-danger"></span>
+            <span asp-validation-for="TimeTo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" asp-for="Title">
+        </div>
+        <div class="validate">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" rows="4" placeholder="Enter description" asp-for="Description"></textarea>
+        </div>
+        <div class="validate">
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" asp-for="Location">
+        </div>
+        <div class="validate">
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div class="form-group image-upload">
+            <label for="image-upload">Load image</label>
+            <input id="photo-select__file" type="file" accept="image/*">
+            @if (!string.IsNullOrEmpty(Model.Image?.Base64))
+            {
+                <div class="current-image">
+                    <p>Previously uploaded image:</p>
+                    <img src="data:image/@Model.Image.Extension;base64,@Model.Image.Base64" alt="Current uploaded image" style="width: 100px; height: auto;">
                 </div>
-
-                <div class="form-control">
-                    <label for="datetime-to">Date to</label>
-                    <input type="datetime-local" id="datetime-to">
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" rows="4" placeholder="Enter description"></textarea>
-            </div>
-            <div class="form-group image-upload">
-                <label for="image-upload">Load image</label>
-                <input type="file" id="image-upload">
-            </div>
-            <div class="form-actions">
-                <button type="button" class="cancel-btn">Cancel</button>
-                <button type="submit" class="create-btn">Save changes</button>
-            </div>
-        </form>
-    </div>
-</main>
+            }
+            <input style="display: none" id="base64" type="text" asp-for="Image.Base64" />
+            <input style="display: none" id="extension" type="text" asp-for="Image.Extension" />
+        </div>
+        <div class="form-actions">
+            <button type="button" class="cancel-btn" onclick="window.location.href='/Calendar/detailsEvent?id=@Model.Id'">Cancel</button>
+            <button type="submit" class="create-btn">Save changes</button>
+        </div>
+    </form>
+</div>

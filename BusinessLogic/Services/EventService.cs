@@ -79,8 +79,11 @@ namespace BusinessLogic.Services
 
         public void UpdateEvent(ref Event oldEvent, UpdateEventDTO @event)
         {
+            oldEvent.EventType = @event.EventType;
             oldEvent.TimeFrom = @event.TimeFrom;
             oldEvent.TimeTo = @event.TimeTo;
+            oldEvent.Title = @event.Title;
+            oldEvent.Location = @event.Location;  
             oldEvent.Description = @event.Description;
             oldEvent.Image = @event.Image;
         }
