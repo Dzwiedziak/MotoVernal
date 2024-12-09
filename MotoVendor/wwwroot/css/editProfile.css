@@ -196,9 +196,4 @@ textarea {
 .profile-img-upload:hover .hover-text {
     opacity: 1;
 }
-.text-danger {
-    color: red;
-    width: 419px;
-    text-align: center;
-    margin-left: 65px
-}
+

@@ -8,5 +8,7 @@ namespace BusinessLogic.Repositories.Interfaces
         Report? GetOne(int id);
         void Add(Report report);
         void Update(Report report);
+
+        void Delete(int id);
     }
 }

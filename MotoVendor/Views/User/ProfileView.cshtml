@@ -39,15 +39,27 @@
             </div>
         }
         <div class="standard-info-item">
-            <span>@Model.Gender, @Model.Age years old, on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
+            @if (Model.Gender != null)
+            {
+                <span>@Model.Gender
+                    , </span>
+            }
+            @if(Model.Age != null)
+            {
+                <span>@Model.Age years old, </span>
+            }
+            <span>on <strong>MotoVendor</strong> since @Model.CreationTime.Year</span>
         </div>
-        <div class="description-info-item">
-            <span>@Model.Description</span>
-        </div>
+        @if (Model.Description != null && !string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="description-info-item">
+                <span>@Model.Description</span>
+            </div>
+        }
     </div>
     <div class="action-profile">
         <div class="nav-to">
-            <span>Take me to my:</span>
+            <span>Take me to @Model.UserName:</span>
             <button class="take-to">
                 Discusions
             </button>
@@ -62,18 +74,14 @@
             </button>
         </div>
         <div class="profile-buttons">
-            <button class="go-back" onclick="window.history.back()">
-                <span>Take me back</span>
+            <button class="go-back" onclick="window.location.href='/user/ProfilesList'">
+                <span>Take me to users list</span>
             </button>
             @if (ViewBag.IsCurrentUser)
             {
                 <button class="edit-button" onclick="window.location.href='/user/EditProfile?id=@Model.Id'">
                     <label>Edit</label>
                     <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
-                </button>
-                <button class="delete-button">
-                    <label>Delete account</label>
-                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
                 </button>
             }
             else if (ViewBag.IsAdmin)
@@ -96,9 +104,9 @@
             }
             else
             {
-                <button class="delete-button">
+                <button class="delete-button" onclick="window.location.href='/user/ReportAccount?id=@Model.Id'">
                     <label>Report account</label>
-                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
+                    <img src="~/images/warning.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
                 </button>
             }
         </div>

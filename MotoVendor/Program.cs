@@ -79,6 +79,7 @@ internal class Program
         builder.Services.AddScoped<IUserObservationRepository, UserObservationRepository>();
         builder.Services.AddScoped<IEventIntrestRepository, EventInterestRepository>();
         builder.Services.AddScoped<IBanRepository, BanRepository>();
+        builder.Services.AddScoped<IReportRepository, ReportRepository>();
     }
 
     private static void InjectServices(WebApplicationBuilder builder)
@@ -91,6 +92,7 @@ internal class Program
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IVehicleOfferService, VehicleOfferService>();
         builder.Services.AddScoped<IBanService, BanService>();
+        builder.Services.AddScoped<IReportService, ReportService>();
     }
 
     private static void InjectDbContext(WebApplicationBuilder builder)

@@ -62,9 +62,24 @@
                     }
                 </button>
 
-                <button class="observed">
-                    <img src="~/images/star.png" alt="star-img" class="star-img">
-                </button>
+                @if (user.IsObserved)
+                {
+                    <form asp-action="StopObserveUser" method="post">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="observed">
+                            <img src="~/images/star.png" alt="Unobserve" class="star-img" />
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="ObserveUser" method="post">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="observed">
+                            <img src="~/images/star (1).png" alt="Observe" class="star-img" />
+                        </button>
+                    </form>
+                }
             </li>
         }
     </ol>

@@ -1,4 +1,4 @@
-﻿ul {
+﻿.main-cnt ul {
     min-height: 66vh;
     display: flex;
     flex-direction: row;
@@ -11,21 +11,18 @@
     background: #EAF2FF;
 }
 
-li {
+.main-cnt li {
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    width: 600px;
-    height: 650px;
     border-bottom: 5px solid #4285F4;
     border-radius: 50px;
 }
 
-    li > img {
-        width: 600px;
-        height: 350px;
-    }
+ .main-cnt li > img {
+    height: 350px;
+}
 
 .section-buttons {
     display: flex;
@@ -100,6 +97,14 @@ li {
         width: 35px;
         height: 35px;
         margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .event-content img.profil-img {
+        width: 35px;
+        height: 35px;
+        margin-right:0px;
         margin-left: 10px;
         margin-top: 5px;
         margin-bottom: 5px;

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BusinessLogic.DTO.Event.GetEventDTO;
+@{
     ViewData["Title"] = "Calendar - Details Event";
 }
 @section Styles {
@@ -7,47 +8,59 @@
 @section Scripts {
     <script src="~/js/detailsEvent.js"></script>
 }
-<main>
+<div class="main-cnt">
     <div class="info-container">
-        <label>Car Show Wrocław 2024</label>
+        <label>@Model.Title</label>
         <div class="main-info">
             <div class="description">
                 <span>
-                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+                    <pre>@Model.Description</pre>
                 </span>
             </div>
             <div class="rest-group">
-                <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="car-image" id="car-image">
-                <button class="edit-button">
-                    <label>Edit</label>
-                    <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
-                </button>
-                <button class="delete-button">
-                    <label>Delete</label>
-                    <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image" width="35px" height="35px">
-                </button>
+                @if (Model.Image != null && !string.IsNullOrEmpty(Model.Image.Base64) && !string.IsNullOrEmpty(Model.Image.Extension))
+                {
+                    <img alt="car" class="car-image" src="data:image/@Model.Image.Extension;base64,@Model.Image.Base64" />
+                }
+                else
+                {
+                    <img src="~/images/default_car.png" id="car-img" alt="car-ing" class="car-img">
+                }
+                @if (ViewBag.isOwner)
+                {
+                    <button class="edit-button" onclick="window.location.href='/Calendar/EditEvent?id=@ViewBag.EventID'">
+                        <label>Edit</label>
+                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
+                    </button>
+                }
             </div>
         </div>
         <div class="event-content">
             <label>by</label>
-            <button class="profil-btn" id="profil-button">
-                <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
+            <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@Model.Publisher.Id'">
+                @if (Model.Publisher.ProfileImage != null && !string.IsNullOrEmpty(Model.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Publisher.ProfileImage.Extension))
+                {
+                    <img class="profil-img" src="data:image/@Model.Publisher.ProfileImage.Extension;base64,@Model.Publisher.ProfileImage.Base64" />
+                }
+                else
+                {
+                    <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                }
             </button>
-            <label>RoyBig</label>
+            <label>@Model.Publisher.UserName</label>
         </div>
         <div class="event-content">
-            <label>Wrocław</label>
+            <label>@Model.Location</label>
             <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
         </div>
         <div class="event-content">
             <label>From</label>
-            <label class="hour">10:15</label>
-            <label class="date">30-11-2022</label>
+            <label class="hour">@Model.TimeFrom.ToString("HH:mm")</label>
+            <label class="date">@Model.TimeFrom.ToString("dd-MM-yyyy")</label>
             <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
             <label>To</label>
-            <label class="hour">12:00</label>
-            <label class="date">30-11-2022</label>
+            <label class="hour">@Model.TimeTo.ToString("HH:mm")</label>
+            <label class="date">@Model.TimeTo.ToString("dd-MM-yyyy")</label>
             <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
         </div>
         <div class="line">
@@ -146,12 +159,12 @@
             </ol>
         </div>
         <div class="details-action">
-            <button class="go-back">
+            <button class="go-back" onclick="window.location.href='/Calendar/EventsList'">
                 <span>Take me back</span>
             </button>
             <button class="show-more">
-                <span>Show more details</span>
+                <span>I'm interested'</span>
             </button>
         </div>
     </div>
-</main>
+</div>

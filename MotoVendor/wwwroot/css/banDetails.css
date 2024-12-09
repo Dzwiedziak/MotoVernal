@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height:100%;
     background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
 }
 .info-container {

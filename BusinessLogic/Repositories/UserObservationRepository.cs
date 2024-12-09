@@ -2,6 +2,7 @@
 using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -22,7 +23,11 @@ namespace BusinessLogic.Repositories
 
         public List<UserObservation> Get(string ObserverId)
         {
-            return _context.UserObservations.Where(uo => uo.Observer.Id == ObserverId).ToList();
+            return _context.UserObservations
+                .Include(uo => uo.Observer) 
+                .Include(uo => uo.Observed) 
+                .Where(uo => uo.Observer.Id == ObserverId)
+                .ToList();
         }
 
         public UserObservation? Get(string ObserverId, string ObservedId)
@@ -37,6 +42,7 @@ namespace BusinessLogic.Repositories
                 return UserObservationErrorCode.UserObservationNotFound;
 
             _context.UserObservations.Remove(userObservation);
+            _context.SaveChanges();
             return null;
         }
     }

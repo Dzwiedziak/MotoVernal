@@ -25,11 +25,17 @@ namespace BusinessLogic.Services
             return newEvent.Id;
         }
 
+        public List<Event> GetEvents()
+        {
+            return _eventRepository.GetAll().ToList();
+        }
         public Result<GetEventDTO, EventErrorCode> Get(int id)
         {
             Event? dbEvent = _eventRepository.GetOne(id);
             if (dbEvent is null)
+            {
                 return EventErrorCode.EventNotFound;
+            }
 
             return CreateGetEventDTO(dbEvent);
         }
@@ -66,15 +72,18 @@ namespace BusinessLogic.Services
         }
 
         public Event CreateNewEvent(AddEventDTO @event) =>
-            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
+            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Title, @event.Location, @event.Description, @event.Image);
 
         public GetEventDTO CreateGetEventDTO(Event @event) =>
-            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Description, @event.Image);
+            new(@event.Publisher, @event.EventType, @event.TimeFrom, @event.TimeTo, @event.Title, @event.Location, @event.Description, @event.Image);
 
         public void UpdateEvent(ref Event oldEvent, UpdateEventDTO @event)
         {
+            oldEvent.EventType = @event.EventType;
             oldEvent.TimeFrom = @event.TimeFrom;
             oldEvent.TimeTo = @event.TimeTo;
+            oldEvent.Title = @event.Title;
+            oldEvent.Location = @event.Location;  
             oldEvent.Description = @event.Description;
             oldEvent.Image = @event.Image;
         }

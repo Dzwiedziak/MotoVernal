@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB", "DB\DB.csproj", "{093D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{5B41EFBB-3638-4330-AD53-82CCC0B41D02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoVendor", "MotoVendor\MotoVendor.csproj", "{D19425CE-2437-4098-B4FE-E2C0E0966DA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotoVendor", "MotoVendor\MotoVendor.csproj", "{D19425CE-2437-4098-B4FE-E2C0E0966DA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

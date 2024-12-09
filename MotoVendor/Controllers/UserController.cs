@@ -1,8 +1,11 @@
 ﻿using BusinessLogic.DTO.Ban;
+using BusinessLogic.DTO.Report;
 using BusinessLogic.DTO.User;
+using BusinessLogic.DTO.UserObservation;
 using BusinessLogic.Errors;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,13 +22,15 @@ namespace MotoVendor.Controllers
     {
         private readonly IUserService _userService;
         private readonly IBanService _banService;
+        private readonly IReportService _reportService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
-        public UserController(IUserService userService, IBanService banService, SignInManager<User> signInManager, UserManager<User> userManager)
+        public UserController(IUserService userService, IBanService banService, IReportService reportService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _userService = userService;
             _banService = banService;
+            _reportService = reportService;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -198,9 +203,10 @@ namespace MotoVendor.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProfilesList()
+        public IActionResult ProfilesList(string search, bool? observed, bool? admin, string sort_by)
         {
-            List<GetUserDTO> dbUsers = _userService.GetAll();
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<GetUserDTO> dbUsers = _userService.GetAll(currentUserId);
             return View(dbUsers);
         }
 
@@ -306,6 +312,26 @@ namespace MotoVendor.Controllers
             var bannedUser = _userService.GetUser(id);
             var bannerUser = await _userManager.GetUserAsync(User);
 
+            var result = _banService.GetActiveBan(id);
+            if(result != null)
+            {
+                TempData["ErrorMessage"] = "This user is aldready banned.";
+                return RedirectToAction("Error", "Home");
+            }
+       
+            if (bannedUser == bannerUser)
+            {
+                TempData["ErrorMessage"] = "You can't ban yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
+            if (isBannedUserAdmin)
+            {
+                TempData["ErrorMessage"] = "You cannot ban another admin.";
+                return RedirectToAction("Error", "Home");
+            }
+
             var model = new BanUserDTO
             {
                 Banned = bannedUser,
@@ -323,8 +349,7 @@ namespace MotoVendor.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Invalid input. Please check the form and try again.";
-                return RedirectToAction("BanAccount", new { id = model.Banned.Id });
+                return View(model);
             }
             if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
             {
@@ -333,6 +358,13 @@ namespace MotoVendor.Controllers
 
             var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
+            
+            var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
+            if (isBannedUserAdmin)
+            {
+                TempData["ErrorMessage"] = "You cannot ban another admin.";
+                return RedirectToAction("Error", "Home");
+            }
 
             model.Banned = bannedUser;
             model.Banner = bannerUser;
@@ -406,6 +438,177 @@ namespace MotoVendor.Controllers
             ViewBag.isActive = isActiveBan;
             return View(ban);
         }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ReportAccount(string id)
+        {
+            var reportedUser = _userService.GetUser(id);
+            var reporterUser = await _userManager.GetUserAsync(User);
 
+            if (reportedUser == reporterUser)
+            {
+                TempData["ErrorMessage"] = "You can't report yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+            var model = new ReportUserDTO(reporterUser, reportedUser, string.Empty, null);
+
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ReportAccount(ReportUserDTO model)
+        {
+            var reportedUser = await _userManager.FindByIdAsync(model.Reported.Id);
+            var reporterUser = await _userManager.GetUserAsync(User);
+
+            model.Reporter = reporterUser;
+            model.Reported = reportedUser;
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+                //return RedirectToAction("ReportAccount", new { id = model.Reported.Id });
+            }
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
+
+            var result = _reportService.ReportUser(model);
+            return RedirectToAction("reportsList");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ReportsList()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                var list = _reportService.GetAllReports();
+                return View(list);
+            }
+            else
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var list = _reportService.GetReporterReports(currentUserId);
+                return View(list);
+            }
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult ReportDetails(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var report = _reportService.GetReportById(id);
+            if (report == null)
+            {
+                TempData["ErrorMessage"] = "No report found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+            if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to see this report.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(report);
+        }
+        [HttpGet]
+        [Authorize]
+        public IActionResult RejectReport(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var report = _reportService.GetReportById(id);
+            
+            ViewBag.currentUserId = currentUserId;
+
+            if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to reject this report.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            if (report == null)
+            {
+                TempData["ErrorMessage"] = "No report found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(report);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult RejectReportConfirmed(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var report = _reportService.GetReportById(id);
+
+            if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to reject this report.";
+                return RedirectToAction("Error", "Home");
+            }
+            if(report == null)
+            {
+                TempData["ErrorMessage"] = "No report found for this Id.";
+                return RedirectToAction("Error", "Home");
+            }
+            _reportService.RejectReport(id);
+            return RedirectToAction("ReportsList");
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ObserveUser(string id)
+        {
+            var observedUser = _userService.GetUser(id);
+            var observerUser = await _userManager.GetUserAsync(User);
+            
+            if (observerUser == observedUser)
+            {
+                TempData["ErrorMessage"] = "You cannot follow yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+            var model = new ObserveUserDTO
+            {
+                Observer = observerUser,
+                Observed = observedUser
+            };
+            var result = _userService.ObserveUser(model);
+            if (result.Value != null)
+            {
+                return RedirectToAction("ProfilesList");
+            }
+            else if (result.Error == UserObservationErrorCode.UserAlreadyFollowing)
+            {
+                TempData["ErrorMessage"] = "This user is aldready following by you.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return RedirectToAction("ProfilesList");
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> StopObserveUser(string id)
+        {
+            var observedUser = _userService.GetUser(id);
+            var observerUser = await _userManager.GetUserAsync(User);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (observerUser == observedUser)
+            {
+                TempData["ErrorMessage"] = "You cannot unfollow yourself.";
+                return RedirectToAction("Error", "Home");
+            }
+            
+            var result = _userService.StopObservingUser(currentUserId,id);
+            if (result == UserObservationErrorCode.UserObservationNotFound)
+            {
+                TempData["ErrorMessage"] = "You are not observing this user.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return RedirectToAction("ProfilesList");
+        }
     }
 }

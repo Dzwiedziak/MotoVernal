@@ -59,7 +59,7 @@ namespace BusinessLogic.Services
             if (dbUser is null)
                 return UserErrorCode.UserNotFound;
 
-            return CreateGetUserDTO(dbUser);
+            return CreateGetUserDTO(dbUser,false);
         }
 
         public UserErrorCode? Update(string id, UpdateUserDTO user)
@@ -75,24 +75,28 @@ namespace BusinessLogic.Services
 
         public Result<int?, UserObservationErrorCode> ObserveUser(ObserveUserDTO userObservation)
         {
-            _userObservationRepository.Get(userObservation.Observed.Id, userObservation.Observer.Id);
-            if (userObservation.Observer is not null)
+            var existingObservation = _userObservationRepository.Get(userObservation.Observer.Id, userObservation.Observed.Id);
+            if (existingObservation != null)
+            {
                 return UserObservationErrorCode.UserAlreadyFollowing;
+            }
 
             UserObservation newUserObservation = CreateUserObservation(userObservation);
             _userObservationRepository.Add(newUserObservation);
             return newUserObservation.Id;
         }
+       
+        public UserObservationErrorCode? StopObservingUser(string observerId, string observedId)
+        { 
+            UserObservation? userObservation = _userObservationRepository.Get(observerId, observedId);
 
-        public UserObservationErrorCode? StopObservingUser(int id)
-        {
-            UserObservation? userObservation = _userObservationRepository.GetOne(id);
             if (userObservation is null)
             {
                 return UserObservationErrorCode.UserObservationNotFound;
             }
 
             _userObservationRepository.Delete(userObservation.Id);
+
             return null;
         }
 
@@ -120,10 +124,10 @@ namespace BusinessLogic.Services
         private User CreateNewUser(AddUserDTO user) =>
             new(user.UserName, user.Email, null, null, DateTime.Now, "");
 
-        private GetUserDTO CreateGetUserDTO(User user)
+        private GetUserDTO CreateGetUserDTO(User user,bool isObserved)
         {
             List<string> roles = _userManager.GetRolesAsync(user).Result.ToList();
-            return new GetUserDTO(user.Id!, user.UserName!, user.Email!, roles ,user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
+            return new GetUserDTO(user.Id!, user.UserName!, user.Email!, roles ,isObserved,user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
         }
 
         private bool IsUserObserving(string ObserverId, string ObservedId)
@@ -139,10 +143,18 @@ namespace BusinessLogic.Services
             oldUser.ProfileImage = user.ProfileImage;
         }
 
-        public List<GetUserDTO> GetAll()
+        public List<GetUserDTO> GetAll(string currentUserId)
         {
             List<User> dbUsers = _userRepository.GetAll();
-            return dbUsers.Select(u => CreateGetUserDTO(u)).ToList();
+            List<UserObservation> observedUsers = _userObservationRepository.Get(currentUserId); 
+
+            return dbUsers.Select(u =>
+            {
+                bool isObserved = observedUsers.Any(o => o.Observed.Id == u.Id);
+
+                var userDTO = CreateGetUserDTO(u, isObserved);
+                return userDTO;
+            }).ToList();
         }
 
         public async Task<User?> GetCurrentUser()

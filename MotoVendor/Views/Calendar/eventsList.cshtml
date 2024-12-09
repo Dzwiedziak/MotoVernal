@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<DB.Entities.Event>
+@{
     ViewData["Title"] = "Calendar - Events List";
 }
 @section Styles {
@@ -62,37 +63,55 @@
             <input type="text" id="search" placeholder="Search">
         </div>
         <div class="adding-section">
-            <button class="add-section">
+            <button class="add-section" onclick="window.location.href='/Calendar/AddEvent'">
                 Plan new event
             </button>
         </div>
     </div>
 </section>
-<main>
+<div class="main-cnt">
     <ul>
+        @foreach(var ev3nt in Model)
+        {
         <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="event-image" id="event-image">
+                @if (ev3nt.Image != null && !string.IsNullOrEmpty(ev3nt.Image.Base64) && !string.IsNullOrEmpty(ev3nt.Image.Extension))
+                {
+                    <img alt="car" class="event-image" src="data:image/@ev3nt.Image.Extension;base64,@ev3nt.Image.Base64" />
+                }
+                else
+                {
+                    <img src="~/images/default_car.png" id="event-img" alt="event" class="event-img">
+                }
             <div class="event-info">
-                <label>Car Show Wrocław 2024</label>
+                    <label>
+                       @ev3nt.Title
+                    </label>
                 <div class="event-content">
                     <label>by</label>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
+                        <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@ev3nt.Publisher.Id'">
+                            @if (ev3nt.Publisher.ProfileImage != null && !string.IsNullOrEmpty(ev3nt.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(ev3nt.Publisher.ProfileImage.Extension))
+                            {
+                                <img class="profil-img" src="data:image/@ev3nt.Publisher.ProfileImage.Extension;base64,@ev3nt.Publisher.ProfileImage.Base64" />
+                            }
+                            else
+                            {
+                                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                            }
                     </button>
-                    <label>RoyBig</label>
+                    <label>@ev3nt.Publisher.UserName</label>
                 </div>
                 <div class="event-content">
-                    <label>Wrocław</label>
+                    <label>@ev3nt.Location</label>
                     <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
                 </div>
                 <div class="event-content">
                     <label>From</label>
-                    <label class="hour">10:15</label>
-                    <label class="date">30-11-2022</label>
+                        <label class="hour">@ev3nt.TimeFrom.ToString("HH:mm")</label>
+                        <label class="date">@ev3nt.TimeFrom.ToString("dd-MM-yyyy")</label>
                     <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
                     <label>To</label>
-                    <label class="hour">12:00</label>
-                    <label class="date">30-11-2022</label>
+                        <label class="hour">@ev3nt.TimeTo.ToString("HH:mm")</label>
+                        <label class="date">@ev3nt.TimeTo.ToString("dd-MM-yyyy")</label>
                     <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
                 </div>
                 <div class="line">
@@ -103,128 +122,12 @@
                         <label>250</label>
                         <label class="interested">interested</label>
                     </div>
-                    <button class="event-action">
+                        <button class="event-action" onclick="window.location.href='/Calendar/detailsEvent?id=@ev3nt.Id'">
                         <span>Show more details</span>
                     </button>
                 </div>
             </div>
         </li>
-        <li>
-            <img src="~/images/pol_pl_Dyfuzor-Tylny-VW-Golf-5-R32-1807_1.jpg" alt="car" class="event-image" id="event-image">
-            <div class="event-info">
-                <label>Car Show Wrocław 2024</label>
-                <div class="event-content">
-                    <label>by</label>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <label>RoyBig</label>
-                </div>
-                <div class="event-content">
-                    <label>Wrocław</label>
-                    <img src="~/images//pin.png" alt="pin" class="pin-image" id="pin-image">
-                </div>
-                <div class="event-content">
-                    <label>From</label>
-                    <label class="hour">10:15</label>
-                    <label class="date">30-11-2022</label>
-                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-                    <label>To</label>
-                    <label class="hour">12:00</label>
-                    <label class="date">30-11-2022</label>
-                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-                </div>
-                <div class="line">
-                </div>
-                <div class="event-down">
-                    <div class="event-interested">
-                        <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
-                        <label>250</label>
-                        <label class="interested">interested</label>
-                    </div>
-                    <button class="event-action">
-                        <span>Show more details</span>
-                    </button>
-                </div>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="event-image" id="event-image">
-            <div class="event-info">
-                <label>Car Show Wrocław 2024</label>
-                <div class="event-content">
-                    <label>by</label>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <label>RoyBig</label>
-                </div>
-                <div class="event-content">
-                    <label>Wrocław</label>
-                    <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
-                </div>
-                <div class="event-content">
-                    <label>From</label>
-                    <label class="hour">10:15</label>
-                    <label class="date">30-11-2022</label>
-                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-                    <label>To</label>
-                    <label class="hour">12:00</label>
-                    <label class="date">30-11-2022</label>
-                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-                </div>
-                <div class="line">
-                </div>
-                <div class="event-down">
-                    <div class="event-interested">
-                        <img src="~/images//group.png" alt="group" class="group-image" id="group-image">
-                        <label>250</label>
-                        <label class="interested">interested</label>
-                    </div>
-                    <button class="event-action">
-                        <span>Show more details</span>
-                    </button>
-                </div>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/e046b8fc8661303aa4606678c95a64eb6edd7a28.jpg" alt="car" class="event-image" id="event-image">
-            <div class="event-info">
-                <label>Car Show Wrocław 2024</label>
-                <div class="event-content">
-                    <label>by</label>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <label>RoyBig</label>
-                </div>
-                <div class="event-content">
-                    <label>Wrocław</label>
-                    <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
-                </div>
-                <div class="event-content">
-                    <label>From</label>
-                    <label class="hour">10:15</label>
-                    <label class="date">30-11-2022</label>
-                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-                    <label>To</label>
-                    <label class="hour">12:00</label>
-                    <label class="date">30-11-2022</label>
-                    <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-                </div>
-                <div class="line">
-                </div>
-                <div class="event-down">
-                    <div class="event-interested">
-                        <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
-                        <label>250</label>
-                        <label class="interested">interested</label>
-                    </div>
-                    <button class="event-action">
-                        <span>Show more details</span>
-                    </button>
-                </div>
-            </div>
-        </li>
+        }
     </ul>
-</main>
+</div>
