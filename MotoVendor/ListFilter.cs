@@ -5,7 +5,7 @@ namespace MotoVendor
 {
     public static class ListFilter
     {
-        public static List<T> FilterList<T>(List<T> dbList, Dictionary<string, string> filters)
+        public static List<T> FilterList<T>(List<T> dbList, Dictionary<string, HashSet<string>> filters)
         {
             if (dbList == null || filters == null || !filters.Any())
                 return dbList;
@@ -15,42 +15,27 @@ namespace MotoVendor
 
             foreach (var filter in filters)
             {
-                string[] keyParts = filter.Key.Split(new[] { '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
-                string propertyName = keyParts[0];
-                string comparisonType = keyParts.Length > 1 ? keyParts[1] : "eq";
+                Expression keyExpression = null;
 
-                var property = typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (property == null)
-                    throw new ArgumentException($"Property '{propertyName}' does not exist on type '{typeof(T).Name}'");
-
-                var propertyAccess = Expression.Property(parameter, property);
-
-                if (property.PropertyType.IsEnum)
+                foreach (var filterValue in filter.Value)
                 {
-                    var enumValue = Enum.Parse(property.PropertyType, filter.Value, true); 
-                    var value = Expression.Constant(enumValue, property.PropertyType);
+                    string[] keyParts = filter.Key.Split(new[] { '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+                    string propertyName = keyParts[0];
+                    string comparisonType = keyParts.Length > 1 ? keyParts[1] : "eq";
 
-                    Expression comparison = comparisonType switch
+                    var property = typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    if (property == null)
+                        throw new ArgumentException($"Property '{propertyName}' does not exist on type '{typeof(T).Name}'");
+
+                    var propertyAccess = Expression.Property(parameter, property);
+
+                    Expression comparison;
+                    if (property.PropertyType.IsEnum)
                     {
-                        "lte" => Expression.LessThanOrEqual(propertyAccess, value),
-                        "lt" => Expression.LessThan(propertyAccess, value),
-                        "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
-                        "gt" => Expression.GreaterThan(propertyAccess, value),
-                        "neq" => Expression.NotEqual(propertyAccess, value),
-                        _ => Expression.Equal(propertyAccess, value),
-                    };
+                        var enumValue = Enum.Parse(property.PropertyType, filterValue, true);
+                        var value = Expression.Constant(enumValue, property.PropertyType);
 
-                    combinedExpression = combinedExpression == null
-                        ? comparison
-                        : Expression.AndAlso(combinedExpression, comparison);
-                }
-                else if (property.PropertyType == typeof(DateTime))
-                {
-                    if (DateTime.TryParse(filter.Value, out DateTime dateValue))
-                    {
-                        var value = Expression.Constant(dateValue, typeof(DateTime));
-
-                        Expression comparison = comparisonType switch
+                        comparison = comparisonType switch
                         {
                             "lte" => Expression.LessThanOrEqual(propertyAccess, value),
                             "lt" => Expression.LessThan(propertyAccess, value),
@@ -59,33 +44,48 @@ namespace MotoVendor
                             "neq" => Expression.NotEqual(propertyAccess, value),
                             _ => Expression.Equal(propertyAccess, value),
                         };
+                    }
+                    else if (property.PropertyType == typeof(DateTime))
+                    {
+                        if (!DateTime.TryParse(filterValue, out DateTime dateValue))
+                            throw new ArgumentException($"Invalid date format for filter value '{filterValue}' for property '{propertyName}'");
 
-                        combinedExpression = combinedExpression == null
-                            ? comparison
-                            : Expression.AndAlso(combinedExpression, comparison);
+                        var value = Expression.Constant(dateValue, typeof(DateTime));
+
+                        comparison = comparisonType switch
+                        {
+                            "lte" => Expression.LessThanOrEqual(propertyAccess, value),
+                            "lt" => Expression.LessThan(propertyAccess, value),
+                            "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
+                            "gt" => Expression.GreaterThan(propertyAccess, value),
+                            "neq" => Expression.NotEqual(propertyAccess, value),
+                            _ => Expression.Equal(propertyAccess, value),
+                        };
                     }
                     else
                     {
-                        throw new ArgumentException($"Invalid date format for filter value '{filter.Value}' for property '{propertyName}'");
+                        var value = Expression.Constant(Convert.ChangeType(filterValue, property.PropertyType));
+
+                        comparison = comparisonType switch
+                        {
+                            "lte" => Expression.LessThanOrEqual(propertyAccess, value),
+                            "lt" => Expression.LessThan(propertyAccess, value),
+                            "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
+                            "gt" => Expression.GreaterThan(propertyAccess, value),
+                            "neq" => Expression.NotEqual(propertyAccess, value),
+                            _ => Expression.Equal(propertyAccess, value),
+                        };
                     }
-                }
-                else
-                {
-                    var value = Expression.Constant(Convert.ChangeType(filter.Value, property.PropertyType));
 
-                    Expression comparison = comparisonType switch
-                    {
-                        "lte" => Expression.LessThanOrEqual(propertyAccess, value),
-                        "lt" => Expression.LessThan(propertyAccess, value),
-                        "gte" => Expression.GreaterThanOrEqual(propertyAccess, value),
-                        "gt" => Expression.GreaterThan(propertyAccess, value),
-                        "neq" => Expression.NotEqual(propertyAccess, value),
-                        _ => Expression.Equal(propertyAccess, value),
-                    };
-
-                    combinedExpression = combinedExpression == null
+                    keyExpression = keyExpression == null
                         ? comparison
-                        : Expression.AndAlso(combinedExpression, comparison);
+                        : Expression.OrElse(keyExpression, comparison);
+                }
+                if (keyExpression != null)
+                {
+                    combinedExpression = combinedExpression == null
+                        ? keyExpression
+                        : Expression.AndAlso(combinedExpression, keyExpression);
                 }
             }
 
@@ -94,6 +94,37 @@ namespace MotoVendor
 
             var lambda = Expression.Lambda<Func<T, bool>>(combinedExpression, parameter);
             return dbList.AsQueryable().Where(lambda).ToList();
+        }
+        public static List<T> SortList<T>(List<T> dbList, string filter)
+        {
+            if (dbList == null || string.IsNullOrWhiteSpace(filter))
+                return dbList;
+
+            string[] filterParts = filter.Split(new[] { '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+            if (filterParts.Length == 0)
+                throw new ArgumentException("Invalid filter format. Expected format: 'Property[asc]' or 'Property[desc]'.");
+
+            string propertyName = filterParts[0];
+            string sortOrder = filterParts.Length > 1 ? filterParts[1].ToLower() : "asc";
+
+            var property = typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            if (property == null)
+                throw new ArgumentException($"Property '{propertyName}' does not exist on type '{typeof(T).Name}'.");
+
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var propertyAccess = Expression.Property(parameter, property);
+
+            var keySelector = Expression.Lambda<Func<T, object>>(
+                Expression.Convert(propertyAccess, typeof(object)),
+                parameter
+            );
+
+            return sortOrder switch
+            {
+                "asc" => dbList.AsQueryable().OrderBy(keySelector).ToList(),
+                "desc" => dbList.AsQueryable().OrderByDescending(keySelector).ToList(),
+                _ => throw new ArgumentException($"Invalid sort order '{sortOrder}'. Expected 'asc' or 'desc'.")
+            };
         }
     }
 }

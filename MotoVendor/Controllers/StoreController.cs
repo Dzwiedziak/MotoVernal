@@ -8,6 +8,8 @@ using DB.Entities;
 using DB.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 
 namespace MotoVendor.Controllers
 {
@@ -39,15 +41,32 @@ namespace MotoVendor.Controllers
         public IActionResult VehiclesList()
         {
             var query = HttpContext.Request.Query;
-            var filters = new Dictionary<string, string>();
+            var filters = new Dictionary<string, HashSet<string>>();
+            string sort_by = null;
             foreach(var key in query.Keys)
             {
                 var value = query[key];
-                filters[key] = value;
+                if(key == "sort_by")
+                    sort_by = value;
+                else
+                {
+                    foreach (var keyvalue in value)
+                    {
+                        if (!filters.ContainsKey(key))
+                        {
+                            filters[key] = new HashSet<string>();
+                        }
+                        if (!keyvalue.IsNullOrEmpty())
+                            filters[key].Add(keyvalue);
+                    }
+                }
             }
             List<GetVehicleOfferDTO> getVehicleOfferDTOs = _vehicleOfferService.GetAll();
             List<GetVehicleOfferDTO> filteredGetVehicleOfferDTOs = ListFilter.FilterList(getVehicleOfferDTOs, filters);
-            return View(filteredGetVehicleOfferDTOs);
+            List<GetVehicleOfferDTO> sortedList = ListFilter.SortList(filteredGetVehicleOfferDTOs, sort_by);
+            ViewBag.FilterValues = filters;
+            ViewBag.SortBy = sort_by;
+            return View(sortedList);
         }
         public IActionResult SearchOffers()
         {

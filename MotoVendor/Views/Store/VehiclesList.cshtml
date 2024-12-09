@@ -187,6 +187,109 @@
             width: 100%;
             text-align: right;
         }
+
+        .filter__section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .filter__sort-by {
+            border: none;
+            color: #0066FF;
+            font-size: 16px;
+        }
+    </style>
+    <style>
+        .offer {
+            font-family: "Inter", sans-serif;
+            border-radius: 10px;
+            border: 1px solid #CCCCCC;
+            width: 400px;
+        }
+
+        .offer__photo-main {
+            width: 100%;
+        }
+
+            .offer__photo-main img {
+                width: 100%;
+                aspect-ratio: 16/9;
+            }
+
+        .offer__upper {
+            margin: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offer__bottom {
+            padding: 15px;
+        }
+
+        .offer__location-owner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offer__location {
+            display: flex;
+            align-items: center;
+        }
+
+        .offer__owner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .offer__brand {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #7D7C83;
+        }
+
+        .offer__model {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .offer__model-price {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .offer__price {
+            display: flex;
+            align-items: last baseline;
+            font-weight: 500;
+        }
+
+        .offer__price-tag {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .hr-line {
+            width: 100%;
+            border-color: #CCCCCC;
+            border-bottom: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .offer__reservation-status {
+            width: 127px;
+            height: 27px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #20DA32;
+            border-radius: 7px;
+            background-color: #b4F8b2;
+        }
     </style>
 }
 
@@ -338,20 +441,27 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const customCheckBoxes = document.querySelectorAll('.filter__toggle-btn');
-            customCheckBoxes.forEach(customCheckBox => {
+
+            function update(customCheckBox) {
                 const customCheckBoxContent = customCheckBox.querySelector('.filter__toggle-btn__content');
                 const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
+
+                if (customCheckBoxInput.checked) {
+                    customCheckBox.classList.add('filter__toggle-btn--on');
+                    customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
+                } else {
+                    customCheckBox.classList.remove('filter__toggle-btn--on');
+                    customCheckBoxContent.classList.remove('filter__toggle-btn__content--on');
+                }
+            }
+
+            customCheckBoxes.forEach(customCheckBox => update(customCheckBox));
+
+            customCheckBoxes.forEach(customCheckBox => {
                 customCheckBox.addEventListener('click', () => {
-                    if (customCheckBoxInput.checked) {
-                        customCheckBox.classList.remove('filter__toggle-btn--on');
-                        customCheckBoxContent.classList.remove('filter__toggle-btn__content--on');
-                        customCheckBoxInput.checked = false;
-                    }
-                    else {
-                        customCheckBox.classList.add('filter__toggle-btn--on');
-                        customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
-                        customCheckBoxInput.checked = true;
-                    }
+                    const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
+                    customCheckBoxInput.checked = !customCheckBoxInput.checked;
+                    update(customCheckBox);
                 });
             });
         });
@@ -384,7 +494,13 @@
                             <div class="filter__dropdown-collapsible__content">
                                 <div class="filter__search-component">
                                     <img class="filter__search-icon" src="~/images/search.svg" />
-                                    <input type="text" name="@property.Name" class="filter__search-input" placeholder="Search" />
+                                    <input type="text"
+                                           name="@property.Name"
+                                           class="filter__search-input"
+                                           placeholder="Search"
+                                           value="@(ViewBag.FilterValues?.ContainsKey(property.Name) == true
+                                                  ? ((HashSet<string>)ViewBag.FilterValues[property.Name]).FirstOrDefault()
+                                                  : string.Empty)" />
                                 </div>
                             </div>
                         </div>
@@ -412,11 +528,19 @@
                             <div class="filter__dropdown-collapsible__content filter__dropdown-collapsible__content--row">
                                 @foreach (var value in Enum.GetValues(property.PropertyType))
                                 {
+                                    var isChecked = ViewBag.FilterValues != null
+                                                    && ViewBag.FilterValues.ContainsKey(property.Name)
+                                                    && ((HashSet<string>)ViewBag.FilterValues[property.Name]).Contains(value.ToString());
                                     <div class="filter__toggle-btn">
                                         <div class="filter__toggle-btn__content">
                                             @value
                                         </div>
-                                        <input class="filter__toggle-btn__input" style="display: none;" type="checkbox" name="@property.Name" value="@value" />
+                                        <input class="filter__toggle-btn__input"
+                                               style="display: none;"
+                                               type="checkbox"
+                                               name="@property.Name"
+                                               value="@value"
+                                               @(isChecked ? "checked" : "") />
                                     </div>
                                 }
                             </div>
@@ -441,9 +565,9 @@
                                 <div class="filter__slider-component">
                                     <div class="filter__slider-component__slider-wrapper">
                                         <div class="filter__slider-component__slider">
-                                            <div basefrom="0" style="left: 10%;" class="filter__slider-component__slider-from"></div>
-                                            <div style="left: 10%; right: calc(100% - 70%)" class="filter__slider-component__slider-filler"></div>
-                                            <div baseto="10000" style="left: 70%;" class="filter__slider-component__slider-to"></div>
+                                            <div basefrom="0" class="filter__slider-component__slider-from"></div>
+                                            <div class="filter__slider-component__slider-filler"></div>
+                                            <div baseto="1000000" class="filter__slider-component__slider-to"></div>
                                         </div>
                                     </div>
                                     <div class="filter__slider-component__values">
@@ -451,13 +575,19 @@
                                             <div class="filter__slider-component__value-title">
                                                 From
                                             </div>
-                                            <input class="filter__slider-component__input-from" type="number" name="@(property.Name)[gte]" value="3000" />
+                                            <input class="filter__slider-component__input-from" type="number" name="@(property.Name)[gte]"
+                                                   value="@(ViewBag.FilterValues?.ContainsKey(property.Name + "[gte]") == true
+                                                  ? ((HashSet<string>)ViewBag.FilterValues[property.Name + "[gte]"]).FirstOrDefault()
+                                                  : "0")" />
                                         </div>
                                         <div class="filter__slider-component__value-to-container">
                                             <div class="filter__slider-component__value-title">
                                                 To
                                             </div>
-                                            <input class="filter__slider-component__input-to" type="number" name="@(property.Name)[lte]" value="7000" />
+                                            <input class="filter__slider-component__input-to" type="number" name="@(property.Name)[lte]"
+                                                   value="@(ViewBag.FilterValues?.ContainsKey(property.Name + "[lte]") == true
+                                                  ? ((HashSet<string>)ViewBag.FilterValues[property.Name + "[lte]"]).FirstOrDefault()
+                                                  : "1000000")" />
                                         </div>
                                     </div>
                                 </div>
@@ -480,14 +610,35 @@
                         </div>
                         <div class="filter__dropdown-collapsible">
                             <div class="filter__dropdown-collapsible__content">
-                                <input type="datetime-local" name="@(property.Name)[gte]"/>
-                                <input type="datetime-local" name="@(property.Name)[lte]" />
+                                <input value="@(ViewBag.FilterValues?.ContainsKey(property.Name + "[gte]") == true
+                                                  ? ((HashSet<string>)ViewBag.FilterValues[property.Name + "[gte]"]).FirstOrDefault()
+                                                  : string.Empty)" 
+                                       type="datetime-local" 
+                                       name="@(property.Name)[gte]" />
+                                <input value="@(ViewBag.FilterValues?.ContainsKey(property.Name + "[lte]") == true
+                                                  ? ((HashSet<string>)ViewBag.FilterValues[property.Name + "[lte]"]).FirstOrDefault()
+                                                  : string.Empty)" 
+                                       type="datetime-local" 
+                                       name="@(property.Name)[lte]" />
                             </div>
                         </div>
                     </div>
                 }
                 <div class="horizontal-line"></div>
             }
+            <div class="filter__section">
+                <div>Sort by:</div>
+                <select name="sort_by" class="filter__sort-by">
+                    @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
+                    {
+                        var isSortable = property.GetCustomAttribute<FilterableAttribute>() != null;
+                        if (!isSortable) continue;
+                        <option value="@(property.Name)[asc]">@(property.Name) (Asc)</option>
+                        <option value="@(property.Name)[desc]">@(property.Name) (Desc)</option>
+                    }
+                </select>
+            </div>
+            <div class="horizontal-line"></div>
             <button type="submit">Filter</button>
         </form>
         <div class="results">
@@ -495,52 +646,45 @@
                 <div class="results-count">
                     Showing 1-30 of 90 Listings
                 </div>
-                <div>
-                    Sort by:
-                    <span class="sortby">
-                        Price
-                    </span>
-                </div>
             </div>
             <div class="results-main">
                 @foreach (var vehicleOffer in Model)
                 {
                     <div class="offer">
-                        <div class="offer-upper">
-                            <div class="reserved">
+                        <div class="offer__upper">
+                            <div class="offer__reservation-status">
                                 Not reserved
                             </div>
-                            <div class="observation">
-                                <img src="~/images/Layer_1_1_.svg" />
+                            <div class="offer__observation-status">
+                                <img src="~/images/pin.svg" alt="pin offer" />
                             </div>
                         </div>
-                        <div class="photo-main">
-                            <img src="data:image/@vehicleOffer.Images[0].Extension;base64,@vehicleOffer.Images[0].Base64" />
+                        <div class="offer__photo-main">
+                            <img src="data:image/@vehicleOffer.Images[0].Extension;base64,@vehicleOffer.Images[0].Base64" alt="fetch failed" />
                         </div>
-                        <div class="offer-bottom">
-                            <div class="brand">
+                        <div class="offer__bottom">
+                            <div class="offer__brand">
                                 @vehicleOffer.Brand
                             </div>
-                            <div class="model-price">
-                                <div class="model">
-                                    @vehicleOffer.Model @vehicleOffer.Generation @vehicleOffer.Version
+                            <div class="offer__model-price">
+                                <div class="offer__model">
+                                    @vehicleOffer.Model @vehicleOffer.Version
                                 </div>
-                                <div class="price">
+                                <div class="offer__price">
                                     @vehicleOffer.Price PLN
-                                    <div class="price-tag">
+                                    <div class="offer__price-tag">
                                         Brutto
                                     </div>
                                 </div>
                             </div>
-                            <div class="hr-line">
-                            </div>
-                            <div class="location-owner">
-                                <div class="location">
-                                    <img src="~/images/location.svg" />
+                            <hr class="hr-line" />
+                            <div class="offer__location-owner">
+                                <div class="offer__location">
+                                    <img src="~/images/location.svg" alt="fetch failed" />
                                     @vehicleOffer.Location
                                 </div>
-                                <div class="owner">
-                                    @vehicleOffer.User.UserName
+                                <div class="offer__owner">
+                                    @@Heniek144
                                 </div>
                             </div>
                         </div>
