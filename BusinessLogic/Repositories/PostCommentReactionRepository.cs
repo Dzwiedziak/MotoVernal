@@ -1,0 +1,37 @@
+﻿using BusinessLogic.Repositories.Interfaces;
+using DB;
+using DB.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusinessLogic.Repositories
+{
+    public class PostCommentReactionRepository : IPostCommentReactionRepository
+    {
+        readonly MVAppContext _context;
+        public PostCommentReactionRepository(MVAppContext context)
+        {
+            _context = context;
+        }
+
+        public void Add(PostCommentReaction postComment)
+        {
+            _context.Add(postComment);
+            _context.SaveChanges();
+        }
+
+        public List<PostCommentReaction> GetAll()
+        {
+            return _context.PostCommentReactions.ToList();
+        }
+
+        public void Update(PostCommentReaction postComment)
+        {
+            _context.Update(postComment);
+            _context.SaveChanges();
+        }
+    }
+}

@@ -23,6 +23,7 @@ namespace DB
         public DbSet<File> Files { get; set; }
         public DbSet<EventInterest> EventInterests { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
+        public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
 
         public MVAppContext(DbContextOptions<MVAppContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -13,16 +13,18 @@ namespace DB.Entities
         public Post Post { get; set; }
         public User Publisher { get; set; }
         public DateTime CreationTime { get; set; }  
+        public List<PostCommentReaction> Reactions { get; set; }
 
         public PostComment() { }
 
-        public PostComment(int id, string content, Post post, User publisher, DateTime creationTime)
+        public PostComment(int id, string content, Post post, User publisher, DateTime creationTime, List<PostCommentReaction> reactions)
         {
             Id = id;
             Content = content;
             Post = post;
             Publisher = publisher;
             CreationTime = creationTime;
+            Reactions = reactions;
         }
     }
 }

@@ -9,6 +9,46 @@
 }
 @section Scripts {
     <script src="~/js/postComments.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const comments = document.querySelectorAll('.comments-content');
+            comments.forEach(comment => {
+                const commentContentSection = comment.querySelector('.editable-post-content');
+                const immutableContentSection = commentContentSection.querySelector('.editable-content');
+                const mutableContentSection = commentContentSection.querySelector('.editable-content-section');
+                function switchContentSection(section) {
+                    if (section === "immutable") {
+                        mutableContentSection.style.display = 'none';
+                        immutableContentSection.style.display = 'block';
+                    }
+                    else if (section === "mutable") {
+                        mutableContentSection.style.display = 'block';
+                        immutableContentSection.style.display = 'none';
+                    }
+                }
+                const editButton = comment.querySelector('#edit-comment-btn');
+                editButton.addEventListener('click', () => {
+                    switchContentSection("mutable");
+                    switchContentSectionButtonVisiblity("immutable");
+                });
+                const cancelButton = comment.querySelector('#cancel-edit-btn');
+                cancelButton.addEventListener('click', () => {
+                    switchContentSection("immutable");
+                    switchContentSectionButtonVisiblity("mutable");
+                });
+                function switchContentSectionButtonVisiblity(sectionButton) {
+                    if (sectionButton === "immutable") {
+                        cancelButton.style.display = 'block';
+                        editButton.style.display = 'none';
+                    }
+                    else if (sectionButton === "mutable") {
+                        editButton.style.display = 'block';
+                        cancelButton.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
 }
 
 <div class="postList">
@@ -130,15 +170,15 @@
                             <div id="commentsWindow" class="commentsWindow">
                                 @foreach(var comment in post.PostComments)
                                 {
-                                    <div class="comments-content">
-                                        <button id="edit-comment-btn" class="edit-comment-btn">
-                                            <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
-                                        </button>
+                                    <div class="comments-content"> 
                                         @if(user != null && post.Publisher != null && comment.Publisher?.Id == user.Id)
                                         {
-                                            <a id="cancel-edit-btn" class="cancel-edit-btn">
+                                            <button style="display: block" id="edit-comment-btn" class="edit-comment-btn">
+                                                <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
+                                            </button>
+                                            <button style="display: none" id="cancel-edit-btn" class="cancel-edit-btn">
                                                 <img src="~/images/x-button.png" alt="cancel" class="cancel-icon" id="cancel-icon">
-                                            </a>
+                                            </button>
                                         }
                                         <div class="main-post">
                                             <div class="post-info">
@@ -157,21 +197,43 @@
                                             </div>
                                             <div class="editable-post-content">
                                                 <span id="editable-content" class="editable-content">
-                                                    <pre>@comment.Content</pre>
+                                                    @comment.Content
                                                 </span>
+                                                <form style="display: none" class="editable-content-section" asp-action="UpdatePostComment" asp-route-id="@comment.Id">
+                                                    <textarea name="Content">@comment.Content</textarea>
+                                                    <button type="submit">Update comment</button>
+                                                </form>
                                             </div>
                                             <div class="line">
                                             </div>
                                             <div class="action-group">
                                                 <div class="interacted-group">
-                                                    <button class="like-btn">
+                                                    <a class="like-btn" asp-action="PostCommentLike" asp-route-postCommentId="@comment.Id">
                                                         <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
-                                                    </button>
-                                                    <span>122</span>
-                                                    <button class="dislike-btn">
+                                                    </a>
+                                                    @{
+                                                        var likeCount = 0;
+                                                        if (comment?.Reactions != null)
+                                                        {
+                                                            likeCount = comment.Reactions
+                                                            .Where(reaction => reaction.ReactionType == DB.Enums.ReactionType.Like)
+                                                            .Count();
+                                                        }
+                                                    }
+                                                    <span>@likeCount</span>
+                                                    <a class="dislike-btn" asp-action="PostCommentDislike" asp-route-postCommentId="@comment.Id">
                                                         <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
-                                                    </button>
-                                                    <span>25</span>
+                                                    </a>
+                                                    @{
+                                                        var dislikeCount = 0;
+                                                        if (comment?.Reactions != null)
+                                                        {
+                                                            dislikeCount = comment.Reactions
+                                                            .Where(reaction => reaction.ReactionType == DB.Enums.ReactionType.Dislike)
+                                                            .Count();
+                                                        }
+                                                    }
+                                                    <span>@dislikeCount</span>
                                                 </div>
                                             </div>
                                         </div>
