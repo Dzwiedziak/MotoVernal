@@ -49,6 +49,6 @@ namespace BusinessLogic.Services
             new(section.Title, section.Parent, section.Image);
 
         private GetSectionDTO CreateGetSectionDTO(Section section) =>
-            new(section.Title, section.Parent, section.Image);
+            new(section.Id,section.Title, section.Parent, section.Image);
     }
 }

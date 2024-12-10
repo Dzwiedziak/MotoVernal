@@ -31,6 +31,11 @@ namespace BusinessLogic.Services
 
             return CreateGetTopicDTO(dbTopic);
         }
+        public List<GetTopicDTO> GetAllInSections(int sectionId)
+        {
+            List<Topic> topics = _topicRepository.GetAllInSection(sectionId);
+            return topics.Select(t => CreateGetTopicDTO(t)).ToList();
+        }
 
         public TopicErrorCode? Update(int id, UpdateTopicDTO topic)
         {

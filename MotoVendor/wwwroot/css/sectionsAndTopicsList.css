@@ -1,4 +1,4 @@
-﻿ul {
+﻿.main-cnt ul {
     min-height: 66vh;
     display: flex;
     flex-direction: row;
@@ -11,7 +11,7 @@
     background: #EAF2FF;
 }
 
-li {
+.main-cnt li {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,10 +22,10 @@ li {
     border-radius: 50px;
 }
 
-    li > img {
-        width: 350px;
-        height: 350px;
-    }
+.main-cnt li > img {
+    width: 350px;
+    height: 350px;
+}
 
 .section-buttons {
     display: flex;
@@ -209,7 +209,7 @@ section {
         color: #0066FF;
     }
 
-main.second {
+.main-down-cnt {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -435,7 +435,7 @@ main.second {
     height: 3px;
 }
 
-main.second > ol {
+.main-down-cnt > ol {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -448,7 +448,7 @@ main.second > ol {
     margin-top: 15px;
 }
 
-main.second li {
+.main-down-cnt li {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -466,7 +466,7 @@ main.second li {
     padding: 5px;
 }
 
-    main.second li.owner {
+    .main-down-cnt li.owner {
         background: #FFE9A8;
         border-color: #FBBC04;
     }

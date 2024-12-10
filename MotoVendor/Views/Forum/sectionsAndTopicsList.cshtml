@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MotoVendor.ViewModels.SectionsAndTopicsListViewModel;
+@{
     ViewData["Title"] = "Forum - Section and Topic List";
 }
 @section Styles {
@@ -8,7 +9,7 @@
 <section>
     <div class="up-section">
         <div class="nav-tree">
-            <label for="place">Forum</label>
+            <label for="place">@Model.SectionInfo.Title</label>
         </div>
         <div class="sort">
             <label for="sort_by">Sort By</label>
@@ -30,13 +31,19 @@
         </div>
     </div>
 </section>
-<main>
+<div class="main-cnt">
     <ul>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
+        @foreach (var sectionC in Model.ChildSections)
+        {
+            <li>
+            @if (sectionC.Image != null && !string.IsNullOrEmpty(sectionC.Image.Base64) && !string.IsNullOrEmpty(sectionC.Image.Extension))
+            {
+                    <img alt="car" class="section-image" id="section-image" src="data:image/@sectionC.Image.Extension;base64,@sectionC.Image.Base64" />
+            }
+
             <div class="section-info">
                 <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
+                        <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
                         <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
                     </button>
                     <button class="hide-btn" id="hide-button">
@@ -46,111 +53,10 @@
                         <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
                     </button>
                 </div>
-                <label>Electric Cars</label>
+                <label>@sectionC.Title</label>
             </div>
         </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
-            </div>
-        </li>
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
-            </div>
-        </li>
+        }
         <li>
             <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
             <div class="section-info">
@@ -169,7 +75,7 @@
             </div>
         </li>
     </ul>
-</main>
+</div>
 
 <section>
     <div class="up-section">
@@ -198,7 +104,7 @@
         </div>
     </div>
 </section>
-<main class="second">
+<div class="main-down-cnt">
     <div class="side-section">
         <div class="filter-by">
             <label>Filter by</label>
@@ -260,16 +166,18 @@
         </div>
     </div>
     <ol>
+        @foreach (var topic in Model.TopicsList)
+        {
         <li>
             <div class="main-info">
-                <span>Problem ze skrzynią biegów VW GOLF 5</span>
+                <span>@topic.Title</span>
                 <span class="nr-answers">Number of answers: 23</span>
             </div>
             <div class="extra-info">
                 <button class="profile">
                     <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
                 </button>
-                <span class="nickname">RoyBig</span>
+                <span class="nickname">@topic.Publisher.UserName</span>
                 <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
                 <span class="hour">12:44</span>
                 <span class="date">30-01-2022</span>
@@ -283,6 +191,7 @@
                 </div>
             </div>
         </li>
+        }
         <li>
             <div class="main-info">
                 <span>Problem ze skrzynią biegów VW GOLF 5</span>
@@ -422,4 +331,4 @@
             </div>
         </li>
     </ol>
-</main>
+</div>
