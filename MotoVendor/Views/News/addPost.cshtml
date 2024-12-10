@@ -1,20 +1,66 @@
-﻿@{
+﻿@model BusinessLogic.DTO.Post.AddPostDTO
+@{
     ViewData["Title"] = "News - Add Topic";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/addEditEventPostTopic.css">
 }
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const fileInput = document.querySelector('#image-upload');
+            const extensionInput = document.querySelector('#image-upload-extension');
+            const base64Input = document.querySelector('#image-upload-base64');
+            const visibleImg = document.querySelector('#image-visible');
+
+            fileInput.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                if (!file)
+                    return;
+                const extension = file.name.split('.').pop();
+                const base64 = await ToBase64(file);
+                extensionInput.value = extension;
+                base64Input.value = base64;
+                visibleImg.src = `data:image/${extension};base64,${base64}`;
+                checkImageVisiblity();
+            });
+            visibleImg.addEventListener('click', () => {
+                fileInput.click();
+            });
+            function checkImageVisiblity() {
+                if (visibleImg.src && visibleImg.src !== '') {
+                    fileInput.style.display = 'none';
+                }
+                else {
+                    fileInput.style.display = 'block';
+                }
+            }
+            checkImageVisiblity();
+        });
+        async function ToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const fileReader = new FileReader();
+                fileReader.onload = () => resolve(fileReader.result.split(',')[1]);
+                fileReader.onerror = (error) => reject(error);
+                fileReader.readAsDataURL(file);
+            });
+        }
+    </script>
+}
 <main>
     <div class="form-container">
-        <form>
+        <form asp-action="AddPost" method="post">
             <h2>Add new post</h2>
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea id="content" rows="8" cols="50" placeholder="What whould you like to share with others?"></textarea>
+                <textarea asp-for="@Model.Content" id="content" rows="8" cols="50" placeholder="What would you like to share with others?">@Model?.Content</textarea>
             </div>
             <div class="form-group image-upload">
                 <label for="image-upload">Load image</label>
                 <input type="file" id="image-upload">
+                <input style="display: none" type="text" id="image-upload-extension" asp-for="@Model.Image.Extension" value="@Model?.Image?.Extension" />
+                <input style="display: none" type="text" id="image-upload-base64" asp-for="@Model.Image.Base64" value="@Model?.Image?.Base64" />
+                <img src="@((Model?.Image != null) ? $"data:image/{Model.Image.Extension};base64,{Model.Image.Base64}" : "")" id="image-visible" style="max-width: 400px" />
             </div>
             <div class="form-actions">
                 <button type="button" class="cancel-btn">Cancel</button>

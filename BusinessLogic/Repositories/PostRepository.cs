@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -13,9 +14,9 @@ namespace BusinessLogic.Repositories
             _context = context;
         }
 
-        public List<Post> GetAll() => _context.Posts.ToList();
+        public List<Post> GetAll() => _context.Posts.Include(p => p.Image).Include(p => p.Publisher).Include(p => p.PostComments).ThenInclude(pc => pc.Publisher).ToList();
 
-        public Post? GetOne(int id) => _context.Posts.FirstOrDefault(p => p.Id == id);
+        public Post? GetOne(int id) => _context.Posts.Include(p => p.Image).Include(p => p.PostComments).Include(p => p.Publisher).FirstOrDefault(p => p.Id == id);
 
         public void Add(Post post)
         {

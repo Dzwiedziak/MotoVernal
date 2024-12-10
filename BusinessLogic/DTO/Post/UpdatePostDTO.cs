@@ -7,6 +7,7 @@ namespace BusinessLogic.DTO.Post
         public string Content { get; set; }
         public Entities.File? Image { get; set; }
 
+        public UpdatePostDTO() { }
         public UpdatePostDTO(string content, Entities.File? image)
         {
             Content = content;
