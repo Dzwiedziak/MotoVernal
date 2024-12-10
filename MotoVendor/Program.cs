@@ -80,6 +80,7 @@ internal class Program
         builder.Services.AddScoped<IEventIntrestRepository, EventInterestRepository>();
         builder.Services.AddScoped<IBanRepository, BanRepository>();
         builder.Services.AddScoped<IReportRepository, ReportRepository>();
+        builder.Services.AddScoped<IPostCommentRepository, PostCommentRepository>();
     }
 
     private static void InjectServices(WebApplicationBuilder builder)

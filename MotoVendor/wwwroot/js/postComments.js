@@ -1,118 +1,36 @@
-﻿var modal= document.getElementById("commentsWindow");
-
-var commentsBtns = document.querySelectorAll(".comments-btn");
-
-var mainContent = document.querySelector('.listNews');
-
-let scrollPosition = 0;
-
-commentsBtns.forEach(function(btn) {
-
-    btn.onclick = function() {
-        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-
-        document.body.style.overflow = 'hidden';
-        document.body.style.top = `-${scrollPosition}px`;
-
-        modal.style.display = "flex";
-        mainContent.classList.add('blur');
+﻿document.addEventListener("DOMContentLoaded", () => {
+    const listNews = document.querySelector('.listNews');
+    const commmentModal = document.querySelector('#comment-modal');
+    let currentCommentsContainer = null;
+    function addElementToCommentModal(element) {
+        clearCommentModal();
+        commmentModal.appendChild(element);
+        currentCommentInModal = element;
+        element.style.display = 'block';
+        listNews.style.filter = 'blur(4px)';
     }
-});
-
-window.onclick = function(event) {
-  if (event.target == modal) {
-    document.body.style.overflow = '';
-    document.body.style.top = '';
-
-    window.scrollTo(0, scrollPosition);
-    modal.style.display = "none";
-    mainContent.classList.remove('blur');
-  }
-}
-const textarea = document.getElementById('comment-textarea');
-const buttons = document.getElementById('new-comment-action');
-const cancelBtn = document.getElementById('cancel-btn');
-
-    textarea.addEventListener('input', function () {
-        this.style.height = 'auto';
-        this.style.height = `${this.scrollHeight}px`;
-        if (textarea.value.trim() !== '') {
-            buttons.style.display = 'flex'; 
-        } else {
-            buttons.style.display = 'none';
+    function clearCommentModal() {
+        if(currentCommentsContainer)
+            currentCommentsContainer.innerHTML = '';
+        if(commmentModal.children[0]) {
+            commmentModal.children[0].style.display = 'none';
+            currentCommentsContainer.appendChild(commmentModal.children[0]);
         }
-});
-    cancelBtn.addEventListener('click', function() {
-        textarea.value = '';
-        textarea.style.height = `auto`;
-        buttons.style.display = 'none';
-});
-
-const comments = document.querySelectorAll('.comments-content');
-
-comments.forEach(comment => {
-    const editButton = comment.querySelector('.edit-comment-btn');
-    let editableSpan = comment.querySelector('.editable-content');
-    const cancelEditButton = comment.querySelector('.cancel-edit-btn');
-    
-    let isEditing = false;
-    let editTextarea; 
-    let originalContent; 
-
-    editButton.addEventListener('click', function() {
-        if (!isEditing) {
-
-            originalContent = editableSpan.innerHTML.trim();
-
-            const currentContent = editableSpan.innerHTML.replace(/<br>/g, "\n").trim();
-            editTextarea = document.createElement('textarea');
-            editTextarea.value = currentContent;
-            editTextarea.style.width = '100%';
-
-            const computedHeight = window.getComputedStyle(editableSpan).height;
-            editTextarea.style.height = computedHeight;
-
-            editTextarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = `${this.scrollHeight}px`;
-            });
-
-            editableSpan.parentNode.replaceChild(editTextarea, editableSpan);
-
-            editButton.querySelector('img').src = '/images/accept.png';
-            isEditing = true;
-
-            cancelEditButton.style.display = 'flex';
-        } else {
-            
-            const newContent = editTextarea.value.trim().split('\n').join('<br>');
-
-            editableSpan = document.createElement('span');
-            editableSpan.className = 'editable-content';
-            editableSpan.innerHTML = newContent;
-
-            editTextarea.parentNode.replaceChild(editableSpan, editTextarea);
-
-            editButton.querySelector('img').src = '/images/draw.png';
-            isEditing = false;
-
-            cancelEditButton.style.display = 'none';
-        }
+        currentCommentsContainer = null;
+        commmentModal.innerHTML = '';
+        listNews.style.filter = '';
+    }
+    const posts = document.querySelectorAll('.posts--post');
+    posts.forEach(post => {
+        const commentsBtn = post.querySelector('.comments-btn');
+        const commentsContainer = post.querySelector('.commentsWindow-container');
+        const commentWindow = post.querySelector('.commentsWindow');
+        commentsBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            addElementToCommentModal(commentWindow);
+            currentCommentsContainer = commentsContainer;
+        });
     });
-
-    cancelEditButton.addEventListener('click', function() {
-
-        editableSpan = document.createElement('span');
-        editableSpan.className = 'editable-content';
-        editableSpan.innerHTML = originalContent;
-
-        editTextarea.parentNode.replaceChild(editableSpan, editTextarea);
-        isEditing = false;
-
-        cancelEditButton.style.display = 'none';
-
-        editButton.querySelector('img').src = '/images/draw.png';
-    });
+    listNews.addEventListener('click', clearCommentModal);
 });
 
-    

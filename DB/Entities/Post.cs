@@ -7,6 +7,7 @@
         public string Content { get; set; }
         public DateTime PublicationTime { get; set; }
         public File? Image { get; set; }
+        public List<PostComment> PostComments { get; set; }
 
         public Post() { }
 

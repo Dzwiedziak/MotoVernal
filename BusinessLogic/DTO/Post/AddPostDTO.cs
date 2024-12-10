@@ -8,6 +8,7 @@ namespace BusinessLogic.DTO.Post
         public string Content { get; set; }
         public Entities.File? Image { get; set; }
 
+        public AddPostDTO() { }
         public AddPostDTO(Entities.User publisher, string content, Entities.File? image)
         {
             Publisher = publisher;

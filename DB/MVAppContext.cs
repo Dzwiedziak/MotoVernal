@@ -22,6 +22,7 @@ namespace DB
         public DbSet<UserObservation> UserObservations { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<EventInterest> EventInterests { get; set; }
+        public DbSet<PostComment> PostComments { get; set; }
 
         public MVAppContext(DbContextOptions<MVAppContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
