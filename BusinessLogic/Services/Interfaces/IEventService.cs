@@ -11,8 +11,10 @@ namespace BusinessLogic.Services.Interfaces
         Result<int?, EventErrorCode> Add(AddEventDTO @event);
         List<Event> GetEvents();
         Result<GetEventDTO, EventErrorCode> Get(int id);
+        Event GetEvent(int id);
         EventErrorCode? Update(int id, UpdateEventDTO offer);
         EventInterestErrorCode? InterestUser(AddEventInterestDTO eventInterest);
         EventInterestErrorCode? StopInterestUser(DeleteEventInterestDTO eventInterest);
+        List<EventInterest> GetAllInterestByEvent(int id);
     }
 }

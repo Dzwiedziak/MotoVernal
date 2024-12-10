@@ -1,4 +1,4 @@
-﻿@model BusinessLogic.DTO.Event.GetEventDTO;
+﻿@model MotoVendor.ViewModels.EventDetailsViewModel;
 @{
     ViewData["Title"] = "Calendar - Details Event";
 }
@@ -10,17 +10,17 @@
 }
 <div class="main-cnt">
     <div class="info-container">
-        <label>@Model.Title</label>
+        <label>@Model.EventDetails.Title</label>
         <div class="main-info">
             <div class="description">
                 <span>
-                    <pre>@Model.Description</pre>
+                    <pre>@Model.EventDetails.Description</pre>
                 </span>
             </div>
             <div class="rest-group">
-                @if (Model.Image != null && !string.IsNullOrEmpty(Model.Image.Base64) && !string.IsNullOrEmpty(Model.Image.Extension))
+                @if (Model.EventDetails.Image != null && !string.IsNullOrEmpty(Model.EventDetails.Image.Base64) && !string.IsNullOrEmpty(Model.EventDetails.Image.Extension))
                 {
-                    <img alt="car" class="car-image" src="data:image/@Model.Image.Extension;base64,@Model.Image.Base64" />
+                    <img alt="car" class="car-image" src="data:image/@Model.EventDetails.Image.Extension;base64,@Model.EventDetails.Image.Base64" />
                 }
                 else
                 {
@@ -37,30 +37,30 @@
         </div>
         <div class="event-content">
             <label>by</label>
-            <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@Model.Publisher.Id'">
-                @if (Model.Publisher.ProfileImage != null && !string.IsNullOrEmpty(Model.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Publisher.ProfileImage.Extension))
+            <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@Model.EventDetails.Publisher.Id'">
+                @if (Model.EventDetails.Publisher.ProfileImage != null && !string.IsNullOrEmpty(Model.EventDetails.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.EventDetails.Publisher.ProfileImage.Extension))
                 {
-                    <img class="profil-img" src="data:image/@Model.Publisher.ProfileImage.Extension;base64,@Model.Publisher.ProfileImage.Base64" />
+                    <img class="profil-img" src="data:image/@Model.EventDetails.Publisher.ProfileImage.Extension;base64,@Model.EventDetails.Publisher.ProfileImage.Base64" />
                 }
                 else
                 {
                     <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
                 }
             </button>
-            <label>@Model.Publisher.UserName</label>
+            <label>@Model.EventDetails.Publisher.UserName</label>
         </div>
         <div class="event-content">
-            <label>@Model.Location</label>
+            <label>@Model.EventDetails.Location</label>
             <img src="~/images/pin.png" alt="pin" class="pin-image" id="pin-image">
         </div>
         <div class="event-content">
             <label>From</label>
-            <label class="hour">@Model.TimeFrom.ToString("HH:mm")</label>
-            <label class="date">@Model.TimeFrom.ToString("dd-MM-yyyy")</label>
+            <label class="hour">@Model.EventDetails.TimeFrom.ToString("HH:mm")</label>
+            <label class="date">@Model.EventDetails.TimeFrom.ToString("dd-MM-yyyy")</label>
             <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
             <label>To</label>
-            <label class="hour">@Model.TimeTo.ToString("HH:mm")</label>
-            <label class="date">@Model.TimeTo.ToString("dd-MM-yyyy")</label>
+            <label class="hour">@Model.EventDetails.TimeTo.ToString("HH:mm")</label>
+            <label class="date">@Model.EventDetails.TimeTo.ToString("dd-MM-yyyy")</label>
             <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
         </div>
         <div class="line">
@@ -68,103 +68,51 @@
         <div class="interested-section">
             <div class="interested-header">
                 <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
-                <span>250 Interested</span>
+                <span>@Model.InterestedUsers.Count Interested</span>
                 <button id="toggle-list">▼</button>
             </div>
             <ol class="interested-list hidden">
+                @foreach (var userInterest in Model.InterestedUsers)
+                {
                 <li>
                     <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
+                        <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@userInterest.User.Id'">
+                            @if (userInterest.User.ProfileImage != null && !string.IsNullOrEmpty(userInterest.User.ProfileImage.Base64) && !string.IsNullOrEmpty(userInterest.User.ProfileImage.Extension))
+                            {
+                                <img class="profil-img" src="data:image/@userInterest.User.ProfileImage.Extension;base64,@userInterest.User.ProfileImage.Base64" />
+                            }
+                            else
+                            {
+                                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                            }
+                        </button>
+                    <span>@userInterest.User.UserName</span>
                 </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
-                <li>
-                    <span>▷</span>
-                    <button class="profil-btn" id="profil-button">
-                        <img src="~/images/profilowe.jpg" alt="profil" class="profil-image" id="profil-image">
-                    </button>
-                    <span>RoyBig</span>
-                </li>
+                }
             </ol>
         </div>
         <div class="details-action">
             <button class="go-back" onclick="window.location.href='/Calendar/EventsList'">
                 <span>Take me back</span>
             </button>
-            <button class="show-more">
-                <span>I'm interested'</span>
-            </button>
+            @if (ViewBag.IsCurrentUserInterested)
+            {
+                <form asp-action="UninterestEvent" method="post">
+                    <input type="hidden" name="id" value="@ViewBag.EventID" />
+                    <button class="interested-btn interested">
+                        <span>You are interested</span>
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form asp-action="InterestEvent" method="post">
+                    <input type="hidden" name="id" value="@ViewBag.EventID" />
+                    <button class="show-more">
+                        <span>I'm interested</span>
+                    </button>
+                </form>
+            }
         </div>
     </div>
 </div>

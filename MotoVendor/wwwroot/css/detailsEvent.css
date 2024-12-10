@@ -182,7 +182,7 @@
     flex-direction: row;
     align-items: center;
     padding: 0px 25px;
-    width: 894px;
+    width: 850px;
     background: #FFFFFF;
 }
 
@@ -263,7 +263,7 @@
     align-items: center;
 }
 
-    .details-action > button {
+    .details-action button {
         cursor: pointer;
         display: flex;
         flex-direction: row;
@@ -287,6 +287,6 @@
         color: #FFFFFF;
     }
 
-        .details-action > button.go-back {
+        .details-action button.go-back {
             background: rgba(36, 0, 255, 0.5);
         }

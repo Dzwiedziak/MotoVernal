@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.DTO.Ban;
 using BusinessLogic.DTO.Event;
+using BusinessLogic.DTO.EventInterest;
 using BusinessLogic.DTO.User;
+using BusinessLogic.DTO.UserObservation;
 using BusinessLogic.Errors;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
@@ -8,6 +10,7 @@ using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MotoVendor.ViewModels;
 using System.Security.Claims;
 
 namespace MotoVendor.Controllers
@@ -29,7 +32,19 @@ namespace MotoVendor.Controllers
         public IActionResult EventsList()
         {
             var events = _eventService.GetEvents();
-            return View(events);
+            var eventsWithInterest = events.Select(e => new EventDTO
+            {
+                Id = e.Id,
+                Publisher = e.Publisher,
+                Title = e.Title,
+                Description = e.Description,
+                Location = e.Location,
+                TimeFrom = e.TimeFrom,
+                TimeTo = e.TimeTo,
+                InterestedCount = _eventService.GetAllInterestByEvent(e.Id).Count()
+            }).ToList();
+
+            return View(eventsWithInterest);
         }
         [Authorize]
         [HttpGet]
@@ -163,22 +178,94 @@ namespace MotoVendor.Controllers
         public IActionResult DetailsEvent(int Id)
         {
             var result = _eventService.Get(Id);
+            var interestedUsers = _eventService.GetAllInterestByEvent(Id);
 
             ViewBag.EventID = Id;
 
             var currentUserId = _userManager.GetUserId(User);
-            if(result.Value != null)
+            bool isCurrentUserInterested = interestedUsers.Any(u => u.User.Id == currentUserId);
+
+            ViewBag.IsCurrentUserInterested = isCurrentUserInterested;
+            if (result.Value != null)
             {
                 bool isOwner = currentUserId == result.Value.Publisher.Id;
                 ViewBag.isOwner = isOwner;
-                return View(result.Value);
+                var viewModel = new EventDetailsViewModel
+                {
+                    EventDetails = result.Value,
+                    InterestedUsers = interestedUsers
+                };
+                return View(viewModel);
             }
             else if (result.Error == EventErrorCode.EventNotFound)
             {
                 TempData["ErrorMessage"] = "Event not exist";
                 return RedirectToAction("Error", "Home");
             }
-            return View(result.Value);
+            return View();
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> InterestEvent(int id)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var result = _eventService.Get(id);
+            if (result.Value == null)
+            {
+                TempData["ErrorMessage"] = "Event not exist";
+                return RedirectToAction("Error", "Home");
+            }
+            if (currentUser.Id == result.Value.Publisher.Id)
+            {
+                TempData["ErrorMessage"] = "Uou can't get interested in your own event";
+                return RedirectToAction("Error", "Home");
+            }
+            var currentEvent = _eventService.GetEvent(id);
+            var model = new AddEventInterestDTO
+            {
+                User = currentUser,
+                Event = currentEvent
+            };
+            var interestResult = _eventService.InterestUser(model);
+            if (interestResult == null)
+            {
+                return RedirectToAction("DetailsEvent", new { id = model.Event.Id });
+            }
+            else if (interestResult == EventInterestErrorCode.AlreadyInterested)
+            {
+                TempData["ErrorMessage"] = "You already interested in this event.";
+                return RedirectToAction("Error", "Home");
+            }
+            return RedirectToAction("DetailsEvent", new { id = model.Event.Id });
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UninterestEvent(int id)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var result = _eventService.Get(id);
+            if (result.Value == null)
+            {
+                TempData["ErrorMessage"] = "Event not exist";
+                return RedirectToAction("Error", "Home");
+            }
+            var currentEvent = _eventService.GetEvent(id);
+            var model = new DeleteEventInterestDTO
+            {
+                User = currentUser,
+                Event = currentEvent
+            };
+            var interestResult = _eventService.StopInterestUser(model);
+            if (interestResult == null)
+            {
+                return RedirectToAction("DetailsEvent", new { id = model.Event.Id });
+            }
+            else if (interestResult == EventInterestErrorCode.AlreadyNotInterested)
+            {
+                TempData["ErrorMessage"] = "You already not interested in this event.";
+                return RedirectToAction("Error", "Home");
+            }
+            return RedirectToAction("DetailsEvent", new { id = model.Event.Id });
         }
     }
 }

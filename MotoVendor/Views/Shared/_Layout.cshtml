@@ -40,7 +40,7 @@
 
                         else
                         {
-                                        <button class="site-nav__auth-btn">Account</button>
+                        <button class="site-nav__auth-btn">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</button>
                                         <div style="visibility: hidden" class="auth__submenu-wrapper">
                                             <partial name="AccountSubmenu" />
                                         </div>
