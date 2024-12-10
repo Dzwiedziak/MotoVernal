@@ -8,6 +8,7 @@ namespace BusinessLogic.Services.Interfaces
     {
         Result<int?, TopicErrorCode> Add(AddTopicDTO topic);
         Result<GetTopicDTO, TopicErrorCode> Get(int id);
+        List<GetTopicDTO> GetAllInSections(int sectionId);
         TopicErrorCode? Update(int id, UpdateTopicDTO user);
     }
 }
