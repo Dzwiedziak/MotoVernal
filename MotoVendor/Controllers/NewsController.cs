@@ -94,6 +94,11 @@ namespace MotoVendor.Controllers
             var result = _postService.Get(id);
             if(result.IsSuccess)
             {
+                var user = _userService.GetCurrentUser().Result;
+                if (user == null || user.Id != result?.Value?.Publisher.Id)
+                {
+                    return View("Error");
+                }
                 var updatePostDTO = CreateUpdatePostDTO(result.Value);
                 return View(updatePostDTO);
             }
