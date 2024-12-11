@@ -80,7 +80,7 @@ namespace BusinessLogic.Services
             Post? post = _postRepository.GetOne(id);
             if(post == null) 
                 return null;
-            return new PostComment(0, postComment.Content, post, publisher, DateTime.Now);
+            return new PostComment(0, postComment.Content, post, publisher, DateTime.Now, new List<PostCommentReaction>());
         }
         public PostCommentErrorCode? UpdatePostComment(int postCommentId, UpdatePostCommentDTO postComment)
         {

@@ -12,6 +12,6 @@ namespace BusinessLogic.Repositories.Interfaces
     {
         void Add(DB.Entities.PostComment postComment);
         void Update(DB.Entities.PostComment postComment);
-        DB.Entities.PostComment Get(int id);
+        DB.Entities.PostComment? Get(int id);
     }
 }

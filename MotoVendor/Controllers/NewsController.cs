@@ -1,8 +1,10 @@
 ﻿using BusinessLogic.DTO.Post;
 using BusinessLogic.DTO.PostComment;
+using BusinessLogic.DTO.PostCommentReaction;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DB.Entities;
+using DB.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -15,10 +17,14 @@ namespace MotoVendor.Controllers
     {
         IPostService _postService;
         IUserService _userService;
-        public NewsController(IPostService postService, IUserService userService)
+        IPostCommentReactionService _postCommentReactionService;
+        IPostCommentService _postCommentService;
+        public NewsController(IPostService postService, IUserService userService, IPostCommentReactionService postCommentReactionService, IPostCommentService postCommentService)
         {
             _postService = postService;
             _userService = userService;
+            _postCommentReactionService = postCommentReactionService;
+            _postCommentService = postCommentService;
         }
         /*
         public IActionResult PostsList()
@@ -124,7 +130,41 @@ namespace MotoVendor.Controllers
             _postService.AddPostComment(id, postComment);
             return RedirectToAction("PostsList");
         }
+        public IActionResult UpdatePostComment(int id, UpdatePostCommentDTO postComment)
+        {
+            _postService.UpdatePostComment(id, postComment);
+            return RedirectToAction("PostsList");
+        }
+        public IActionResult PostCommentLike(int postCommentId)
+        {
+            User? user = _userService.GetCurrentUser().Result;
+            if(user == null)
+            {
+                return View("Error");
+            }
+            var postCommentReaction = CreatePostCommentReaction(user, postCommentId, ReactionType.Like);
+            _postCommentReactionService.AddOrUpdate(postCommentReaction);
+            return RedirectToAction("PostsList");
+        }
+        public IActionResult PostCommentDislike(int postCommentId)
+        {
+            User? user = _userService.GetCurrentUser().Result;
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var postCommentReaction = CreatePostCommentReaction(user, postCommentId, ReactionType.Dislike);
+            _postCommentReactionService.AddOrUpdate(postCommentReaction);
+            return RedirectToAction("PostsList");
+        }
 
+        public PostCommentReactionDTO CreatePostCommentReaction(User user, int postCommentId, ReactionType reactionType)
+        {
+            PostComment? postComment = _postCommentService.Get(postCommentId);
+            if (postComment == null)
+                return null;
+            return new PostCommentReactionDTO(reactionType, user, postComment);
+        }
         public UpdatePostDTO CreateUpdatePostDTO(GetPostDTO post)
         {
             return new(post.Content, post.Image);

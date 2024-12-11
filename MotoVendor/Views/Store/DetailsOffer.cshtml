@@ -25,6 +25,7 @@
         .content {
             display: flex;
             gap: 40px;
+            padding-top: 15px;
         }
 
         .action-btns {
@@ -49,6 +50,7 @@
             height: 30px;
             display: flex;
             align-items: center;
+            font-weight: 600;
         }
 
         .product-info-2 {
@@ -106,19 +108,25 @@
             height: fit-content;
             padding: 20px;
             gap: 10px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
         }
 
         .price-amount {
             font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            gap: 5px;
         }
 
         .price-label {
             font-size: 12px;
+            font-weight: 700;
         }
 
         .negotiation-info {
             font-size: 13px;
             text-decoration: underline;
+            font-weight: 700;
         }
 
         .currency-options {
@@ -126,11 +134,15 @@
             background-color: black;
             border-radius: 20px;
             padding: 10px;
+            margin-top: 5px;
         }
 
         .photo-list__carousel {
             width: 100%;
             aspect-ratio: 16/9;
+            border: 1px solid black;
+            border-radius: 5px;
+            overflow: hidden;
         }
 
         .photo-list__move-left-img {
@@ -142,7 +154,9 @@
             z-index: 1;
             background-color: white;
             padding: 50px 5px;
-            border-radius: 5px;
+            border-radius: 0px 5px 5px 0px;
+            border: 1px solid black;
+            border-left: none;
         }
 
         .photo-list__carousel-list-container {
@@ -182,12 +196,15 @@
             z-index: 1;
             background-color: white;
             padding: 50px 5px;
-            border-radius: 5px;
+            border-radius: 5px 0px 0px 5px;
+            border: 1px solid black;
+            border-right: none;
         }
 
         .tabs-sections {
             height: 500px;
             width: 800px;
+            padding-left: 25px;
         }
         .profile-image {
             height: 150px;
@@ -262,22 +279,44 @@
                 tabSectionsChildrenArray[0].style.display = 'block';
 
             const sectionButtons = document.querySelectorAll('.section-btn');
+            const sectionButtonsArray = Array.from(sectionButtons);
             sectionButtons.forEach(sectionButton => {
                 sectionButton.addEventListener('click', () => {
                     const btnControlSectionAttribute = sectionButton.getAttribute('tab-section-btn');
                     hideAllSections();
+                    resetAllSectionButtons();
                     tabSectionsChildrenArray.forEach(tabSection => {
                         if (tabSection.getAttribute('tab-section') === btnControlSectionAttribute)
                             tabSection.style.display = 'block';
                     });
+                    sectionButton.classList.add('current-category');
                 });
             });
-        });
 
+            function resetAllSectionButtons() {
+                sectionButtons.forEach(sectionBtn => {
+                    sectionBtn.classList.remove('current-category');
+                });
+            }
+            resetAllSectionButtons();
+            if (sectionButtonsArray[0])
+                sectionButtonsArray[0].classList.add('current-category');
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const priceValueElement = document.querySelector('.price-value');
+            const priceValueNum = parseInt(priceValueElement.textContent, 10);
+            const formattedPrice = new Intl.NumberFormat('pl-PL', {
+                style: 'decimal',
+                useGrouping: true
+            }).format(priceValueNum);
+            priceValueElement.textContent = formattedPrice;
+        });
     </script>
 }
 
-<div>
+<div class="offer-details">
     <ul class="breadcrumb">
         <li>
             Offers
@@ -456,7 +495,12 @@
         <div class="product-price">
             <div class="price-group">
                 <div class="price-amount">
-                    @Model.Price PLN
+                    <div class="price-value">
+                        @Model.Price
+                    </div>
+                    <div class="price-currency">
+                        PLN
+                    </div>
                 </div>
                 <div class="price-label">
                     Cena brutto
