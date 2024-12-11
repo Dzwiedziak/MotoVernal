@@ -26,9 +26,9 @@ namespace MotoVendor.Controllers
         {
             if (sectionId == null)
             {
-                var sectionMain = _sectionService.Get(10);
-                var childSectionsMain = _sectionService.GetChildrenSections(10);
-                var topicSectionsMain = _topicService.GetAllInSections(10);
+                var sectionMain = _sectionService.Get(1);
+                var childSectionsMain = _sectionService.GetChildrenSections(1);
+                var topicSectionsMain = _topicService.GetAllInSections(1);
                 var vm = new SectionsAndTopicsListViewModel
                 {
                     SectionInfo = sectionMain.Value,
