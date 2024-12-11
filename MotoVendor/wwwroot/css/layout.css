@@ -45,6 +45,7 @@ a {
     font-size: 18px;
     border-top: 1px solid #D6D8DC;
     border-bottom: 1px solid #D6D8DC;
+    padding: 5px 30px;
 }
 
 .site-nav__list {
@@ -86,7 +87,7 @@ a {
 }
 
 .site-ft__sections {
-    padding: 30px;
+    padding: 20px 30px;
     display: flex;
     gap: 20px;
     justify-content: space-between;

@@ -114,6 +114,8 @@
         .price-amount {
             font-size: 26px;
             font-weight: 700;
+            display: flex;
+            gap: 5px;
         }
 
         .price-label {
@@ -300,7 +302,17 @@
             if (sectionButtonsArray[0])
                 sectionButtonsArray[0].classList.add('current-category');
         });
-
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const priceValueElement = document.querySelector('.price-value');
+            const priceValueNum = parseInt(priceValueElement.textContent, 10);
+            const formattedPrice = new Intl.NumberFormat('pl-PL', {
+                style: 'decimal',
+                useGrouping: true
+            }).format(priceValueNum);
+            priceValueElement.textContent = formattedPrice;
+        });
     </script>
 }
 
@@ -483,7 +495,12 @@
         <div class="product-price">
             <div class="price-group">
                 <div class="price-amount">
-                    @Model.Price PLN
+                    <div class="price-value">
+                        @Model.Price
+                    </div>
+                    <div class="price-currency">
+                        PLN
+                    </div>
                 </div>
                 <div class="price-label">
                     Cena brutto

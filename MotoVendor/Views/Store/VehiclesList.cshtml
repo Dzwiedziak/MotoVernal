@@ -197,6 +197,19 @@
             border: none;
             color: #0066FF;
             font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            -webkit-appearance: none;
+        }
+
+        .filter__submit-btn {
+            aspect-ratio: 7/1;
+            color: black;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #CCCCCC;
+            font-weight: 700;
+            margin-top: 20px;
         }
     </style>
     <style>
@@ -289,6 +302,11 @@
             color: #20DA32;
             border-radius: 7px;
             background-color: #b4F8b2;
+        }
+        .aside-sorter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 }
@@ -440,29 +458,37 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const customCheckBoxes = document.querySelectorAll('.filter__toggle-btn');
-
-            function update(customCheckBox) {
-                const customCheckBoxContent = customCheckBox.querySelector('.filter__toggle-btn__content');
-                const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
-
-                if (customCheckBoxInput.checked) {
-                    customCheckBox.classList.add('filter__toggle-btn--on');
-                    customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
-                } else {
-                    customCheckBox.classList.remove('filter__toggle-btn--on');
-                    customCheckBoxContent.classList.remove('filter__toggle-btn__content--on');
+            const containersWithCheckboxes = document.querySelectorAll('.checkboxes');
+            containersWithCheckboxes.forEach(containerWithCheckboxes => {
+                const checkBoxesCountElement = containerWithCheckboxes.querySelector('.checkboxesCount');
+                const customCheckBoxes = containerWithCheckboxes.querySelectorAll('.filter__toggle-btn');
+                function countCheckedCheckboxes() {
+                    let checkedCheckboxesCount = 0;
+                    customCheckBoxes.forEach(customCheckBox => {
+                        const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
+                        if (customCheckBoxInput.checked)
+                            checkedCheckboxesCount++;
+                    });
+                    return checkedCheckboxesCount;
                 }
-            }
-
-            customCheckBoxes.forEach(customCheckBox => update(customCheckBox));
-
-            customCheckBoxes.forEach(customCheckBox => {
-                customCheckBox.addEventListener('click', () => {
+                customCheckBoxes.forEach(customCheckBox => {
+                    const customCheckBoxContent = customCheckBox.querySelector('.filter__toggle-btn__content');
                     const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
-                    customCheckBoxInput.checked = !customCheckBoxInput.checked;
-                    update(customCheckBox);
+                    customCheckBox.addEventListener('click', () => {
+                        if (customCheckBoxInput.checked) {
+                            customCheckBox.classList.remove('filter__toggle-btn--on');
+                            customCheckBoxContent.classList.remove('filter__toggle-btn__content--on');
+                            customCheckBoxInput.checked = false;
+                        }
+                        else {
+                            customCheckBox.classList.add('filter__toggle-btn--on');
+                            customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
+                            customCheckBoxInput.checked = true;
+                        }
+                        checkBoxesCountElement.textContent = countCheckedCheckboxes();
+                    });
                 });
+                checkBoxesCountElement.textContent = countCheckedCheckboxes();
             });
         });
     </script>
@@ -472,8 +498,8 @@
     <div class="title">
         Listings of your search
     </div>
-    <div class="content">
-        <form class="filter" method="get">
+    <form class="content">
+        <div class="filter" method="get">
             <div class="filter__search-component">
                 <img class="filter__search-icon" src="~/images/search.svg" />
                 <input class="filter__search-input" placeholder="Search" />
@@ -508,15 +534,15 @@
                 }
                 else if(property.PropertyType.IsEnum)
                 {
-                    <div class="filter__dropdown-component">
+                    <div class="filter__dropdown-component checkboxes">
                         <div class="filter__dropdown-base">
                             <div class="filter__dropdown-base__left">
                                 <div class="filter__dropdown-base__title">
                                     @property.Name
                                 </div>
                                 <div class="filter__dropdown-base__count-container">
-                                    <div class="filter__dropdown-base__count">
-                                        3
+                                    <div class="filter__dropdown-base__count checkboxesCount">
+                                        0
                                     </div>
                                 </div>
                             </div>
@@ -626,25 +652,24 @@
                 }
                 <div class="horizontal-line"></div>
             }
-            <div class="filter__section">
-                <div>Sort by:</div>
-                <select name="sort_by" class="filter__sort-by">
-                    @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
-                    {
-                        var isSortable = property.GetCustomAttribute<FilterableAttribute>() != null;
-                        if (!isSortable) continue;
-                        <option value="@(property.Name)[asc]">@(property.Name) (Asc)</option>
-                        <option value="@(property.Name)[desc]">@(property.Name) (Desc)</option>
-                    }
-                </select>
-            </div>
-            <div class="horizontal-line"></div>
-            <button type="submit">Filter</button>
-        </form>
+            <button type="submit" class="filter__submit-btn">Filter</button>
+        </div>
         <div class="results">
             <div class="results-global">
                 <div class="results-count">
                     Showing 1-30 of 90 Listings
+                </div>
+                <div class="aside-sorter">
+                    <div>Sort by:</div>
+                    <select name="sort_by" class="filter__sort-by">
+                        @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
+                        {
+                            var isSortable = property.GetCustomAttribute<FilterableAttribute>() != null;
+                            if (!isSortable) continue;
+                            <option value="@(property.Name)[asc]">@(property.Name) (Asc)</option>
+                            <option value="@(property.Name)[desc]">@(property.Name) (Desc)</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="results-main">
@@ -694,5 +719,5 @@
                 }
             </div>
         </div>
-    </div>
+    </form>
 </div>
