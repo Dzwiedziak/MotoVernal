@@ -474,6 +474,14 @@
                 customCheckBoxes.forEach(customCheckBox => {
                     const customCheckBoxContent = customCheckBox.querySelector('.filter__toggle-btn__content');
                     const customCheckBoxInput = customCheckBox.querySelector('.filter__toggle-btn__input');
+                    if (customCheckBoxInput.checked) {
+                        customCheckBox.classList.add('filter__toggle-btn--on');
+                        customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
+                    }
+                    else {
+                        customCheckBox.classList.remove('filter__toggle-btn--on');
+                        customCheckBoxContent.classList.remove('filter__toggle-btn__content--on');
+                    }
                     customCheckBox.addEventListener('click', () => {
                         if (customCheckBoxInput.checked) {
                             customCheckBox.classList.remove('filter__toggle-btn--on');
@@ -492,13 +500,21 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sorter = document.querySelector('.filter__sort-by');
+            sorter.addEventListener('change', () => {
+                document.querySelector('#data-manipulation-form').submit();
+            });
+        });
+    </script>
 }
 
 <div class="main">
     <div class="title">
         Listings of your search
     </div>
-    <form class="content">
+    <form class="content" id="data-manipulation-form">
         <div class="filter" method="get">
             <div class="filter__search-component">
                 <img class="filter__search-icon" src="~/images/search.svg" />
@@ -514,6 +530,9 @@
                         <div class="filter__dropdown-base">
                             <div class="filter__dropdown-base__title">
                                 @property.Name
+                            </div>
+                            <div class="filter__dropdown-base__right">
+                                <img class="filter__dropdown-arrow" src="~/images/triangle-arrow.svg" />
                             </div>
                         </div>
                         <div class="filter__dropdown-collapsible">
@@ -657,7 +676,7 @@
         <div class="results">
             <div class="results-global">
                 <div class="results-count">
-                    Showing 1-30 of 90 Listings
+                    Showing @(ViewBag.PageIndex * ViewBag.PageSize + 1)-@(ViewBag.PageIndex * ViewBag.PageSize + Model.Count) of @ViewBag.TotalItemsCount Listings
                 </div>
                 <div class="aside-sorter">
                     <div>Sort by:</div>
@@ -666,8 +685,14 @@
                         {
                             var isSortable = property.GetCustomAttribute<FilterableAttribute>() != null;
                             if (!isSortable) continue;
-                            <option value="@(property.Name)[asc]">@(property.Name) (Asc)</option>
-                            <option value="@(property.Name)[desc]">@(property.Name) (Desc)</option>
+                            <!option value="@(property.Name + "[asc]")"
+                                    @(ViewBag.SortBy == (property.Name + "[asc]") ? "selected" : "")>
+                                @(property.Name) (Asc)
+                            </!option>
+                            <!option value="@(property.Name + "[desc]")"
+                                    @(ViewBag.SortBy == (property.Name + "[desc]") ? "selected" : "")>
+                                @(property.Name) (Desc)
+                            </!option>
                         }
                     </select>
                 </div>
@@ -710,9 +735,9 @@
                                     <img src="~/images/location.svg" alt="fetch failed" />
                                     @vehicleOffer.Location
                                 </div>
-                                <div class="offer__owner">
-                                    @@Heniek144
-                                </div>
+                                <a class="offer__owner" asp-action="ProfileView" asp-controller="User" asp-route-id="@vehicleOffer.User.Id">
+                                    @vehicleOffer.User.UserName
+                                </a>
                             </div>
                         </div>
                     </div>

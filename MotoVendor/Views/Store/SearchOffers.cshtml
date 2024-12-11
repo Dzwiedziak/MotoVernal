@@ -11,39 +11,33 @@
     <script src="~/js/searchOffers.js"></script>
 }
 <div class="search-offers">
-    <div class="search-box">
+    <form class="search-box" asp-action="VehiclesList" method="get">
         <div class="search-type-selection">
             <div class="search-type-group">
                 <img src="~/images/car.svg" alt="">
                 <div>Vehicles</div>
-            </div>
-            <div class="search-type-group">
-                <img src="~/images/part.svg" alt="">
-                <div>Parts</div>
             </div>
         </div>
         <div class="search-box-content">
             <div class="search-box-content__column">
                 <div class="search-key-group">
                     <div class="search-key">
-                        <input type="text" placeholder="Brand" />
+                        <input type="text" placeholder="Brand" name="Brand"/>
                         <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
                 <div class="search-key-group">
                     <div class="search-key">
-                        <input type="number" placeholder="Price from" />
+                        <input type="number" placeholder="Price from" name="Price[gte]"/>
                     </div>
                     <div class="search-key">
-                        <input type="number" placeholder="Price to" />
+                        <input type="number" placeholder="Price to" name="Price[lte]"/>
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <select id="condition-select">
+                        <select id="condition-select" asp-items="Html.GetEnumSelectList<DB.Enums.VehicleCondition>()" name="Condition">
                             <option value="" disabled selected>Condition</option>
-                            <option value="new">Nowy</option>
-                            <option value="used">Używany</option>
                         </select>
                         <img src="~/images/arrow-down-empty.svg">
                     </div>
@@ -52,36 +46,27 @@
             <div class="search-box-content__column">
                 <div class="search-key-group">
                     <div class="search-key">
-                        <input type="text" placeholder="Model" />
+                        <input type="text" placeholder="Model" name="Model"/>
                         <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
                 <div class="search-key-group">
                     <div class="search-key">
-                        <select id="body-select">
+                        <select id="body-select" asp-items="Html.GetEnumSelectList<DB.Enums.BodyType>()" name="Body">
                             <option value="" disabled selected>Body</option>
-                            <option value="sedan">Sedan</option>
-                            <option value="suv">SUV</option>
-                            <option value="hatchback">Hatchback</option>
                         </select>
                         <img src="~/images/arrow-down-empty.svg">
                     </div>
                     <div class="search-key">
-                        <select id="type-select">
+                        <select id="type-select" asp-items="Html.GetEnumSelectList<DB.Enums.TransmissionType>()" name="Transmission">
                             <option value="" disabled selected>Type</option>
-                            <option value="type1">Typ 1</option>
-                            <option value="type2">Typ 2</option>
                         </select>
                         <img src="~/images/arrow-down-empty.svg">
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <select id="location-select">
-                            <option value="" disabled selected>Location</option>
-                            <option value="location1">Lokalizacja 1</option>
-                            <option value="location2">Lokalizacja 2</option>
-                        </select>
+                        <input type="text" placeholder="Location" name="Location" />
                         <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
@@ -89,24 +74,24 @@
             <div class="search-box-content__column">
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <input type="text" placeholder="Generation" />
+                        <input type="text" placeholder="Generation" name="Generation"/>
                         <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <input type="number" placeholder="Mileage from" />
+                        <input type="number" placeholder="Mileage from" name="Mileage[gte]"/>
                     </div>
                     <div class="search-key">
-                        <input type="number" placeholder="Mileage to" />
+                        <input type="number" placeholder="Mileage to" name="Mileage[lte]"/>
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <input type="number" placeholder="Year from" />
+                        <input type="number" placeholder="Year from" name="YearOfProduction[gte]"/>
                     </div>
                     <div class="search-key">
-                        <input type="number" placeholder="Year from" />
+                        <input type="number" placeholder="Year from" name="YearOfProduction[lte]"/>
                     </div>
                 </div>
             </div>
@@ -116,9 +101,9 @@
                 <img src="~/images/advanced-search-icon.svg">
                 <div>Advanced search</div>
             </button>
-            <button id="submit-button">
+            <button id="submit-button" type="submit">
                 Search
             </button>
         </div>
-    </div>
+    </form>
 </div>

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace MotoVendor
@@ -125,6 +126,11 @@ namespace MotoVendor
                 "desc" => dbList.AsQueryable().OrderByDescending(keySelector).ToList(),
                 _ => throw new ArgumentException($"Invalid sort order '{sortOrder}'. Expected 'asc' or 'desc'.")
             };
+        }
+        public static List<T> GetPaginatedList<T>(List<T> elements, int pageIndex, int pageSize)
+        {
+            var paginatedElements = elements.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            return paginatedElements;
         }
     }
 }

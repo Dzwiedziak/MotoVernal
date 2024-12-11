@@ -38,7 +38,7 @@ namespace MotoVendor.Controllers
             return RedirectToAction("VehiclesList");
         }
         [HttpGet]
-        public IActionResult VehiclesList()
+        public IActionResult VehiclesList(int pageIndex = 0, int pageSize = 30)
         {
             var query = HttpContext.Request.Query;
             var filters = new Dictionary<string, HashSet<string>>();
@@ -64,9 +64,13 @@ namespace MotoVendor.Controllers
             List<GetVehicleOfferDTO> getVehicleOfferDTOs = _vehicleOfferService.GetAll();
             List<GetVehicleOfferDTO> filteredGetVehicleOfferDTOs = ListFilter.FilterList(getVehicleOfferDTOs, filters);
             List<GetVehicleOfferDTO> sortedList = ListFilter.SortList(filteredGetVehicleOfferDTOs, sort_by);
+            var paginatedList = ListFilter.GetPaginatedList(sortedList, pageIndex, pageSize);
             ViewBag.FilterValues = filters;
             ViewBag.SortBy = sort_by;
-            return View(sortedList);
+            ViewBag.PageIndex = pageIndex;
+            ViewBag.PageSize = pageSize;
+            @ViewBag.TotalItemsCount = filteredGetVehicleOfferDTOs.Count;
+            return View(paginatedList);
         }
         public IActionResult SearchOffers()
         {
