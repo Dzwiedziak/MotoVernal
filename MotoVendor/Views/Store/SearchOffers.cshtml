@@ -10,7 +10,7 @@
 @section Scripts {
     <script src="~/js/searchOffers.js"></script>
 }
-<main>
+<div class="search-offers">
     <div class="search-box">
         <div class="search-type-selection">
             <div class="search-type-group">
@@ -26,35 +26,16 @@
             <div class="search-box-content__column">
                 <div class="search-key-group">
                     <div class="search-key">
-                        <select id="brand-select">
-                            <option value="" disabled selected>Brand</option>
-                            <option value="brand1">Marka 1</option>
-                            <option value="brand2">Marka 2</option>
-                            <option value="brand3">Marka 3</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="text" placeholder="Brand" />
+                        <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
                 <div class="search-key-group">
                     <div class="search-key">
-                        <select id="price-from">
-                            <option value="" disabled selected>Price from</option>
-                            <option value="0">0</option>
-                            <option value="5000">5000</option>
-                            <option value="10000">10000</option>
-                            <option value="15000">15000</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="number" placeholder="Price from" />
                     </div>
                     <div class="search-key">
-                        <select id="price-to">
-                            <option value="" disabled selected>Price to</option>
-                            <option value="5000">5000</option>
-                            <option value="10000">10000</option>
-                            <option value="15000">15000</option>
-                            <option value="20000">20000</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="number" placeholder="Price to" />
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
@@ -71,13 +52,8 @@
             <div class="search-box-content__column">
                 <div class="search-key-group">
                     <div class="search-key">
-                        <select id="model-select">
-                            <option value="" disabled selected>Model</option>
-                            <option value="model1">Model 1</option>
-                            <option value="model2">Model 2</option>
-                            <option value="model3">Model 3</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="text" placeholder="Model" />
+                        <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
                 <div class="search-key-group">
@@ -106,68 +82,31 @@
                             <option value="location1">Lokalizacja 1</option>
                             <option value="location2">Lokalizacja 2</option>
                         </select>
-                        <img src="~/images/arrow-down-empty.svg">
-                    </div>
-                    <div class="search-key">
-                        <select id="radius-select">
-                            <option value="" disabled selected>Radius</option>
-                            <option value="5">5 km</option>
-                            <option value="10">10 km</option>
-                            <option value="20">20 km</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
             </div>
             <div class="search-box-content__column">
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <select id="generation-select">
-                            <option value="" disabled selected>Generation</option>
-                            <option value="gen1">Generacja 1</option>
-                            <option value="gen2">Generacja 2</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="text" placeholder="Generation" />
+                        <img class="filter__search-icon" src="~/images/search.svg" />
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <select id="mileage-from">
-                            <option value="" disabled selected>Mileage from</option>
-                            <option value="0">0 km</option>
-                            <option value="10000">10000 km</option>
-                            <option value="20000">20000 km</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="number" placeholder="Mileage from" />
                     </div>
                     <div class="search-key">
-                        <select id="mileage-to">
-                            <option value="" disabled selected>Mileage to</option>
-                            <option value="10000">10000 km</option>
-                            <option value="20000">20000 km</option>
-                            <option value="30000">30000 km</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="number" placeholder="Mileage to" />
                     </div>
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <select id="year-from">
-                            <option value="" disabled selected>Year from</option>
-                            <option value="2000">2000</option>
-                            <option value="2005">2005</option>
-                            <option value="2010">2010</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="number" placeholder="Year from" />
                     </div>
                     <div class="search-key">
-                        <select id="year-to">
-                            <option value="" disabled selected>Year to</option>
-                            <option value="2010">2010</option>
-                            <option value="2015">2015</option>
-                            <option value="2020">2020</option>
-                        </select>
-                        <img src="~/images/arrow-down-empty.svg">
+                        <input type="number" placeholder="Year from" />
                     </div>
                 </div>
             </div>
@@ -177,9 +116,9 @@
                 <img src="~/images/advanced-search-icon.svg">
                 <div>Advanced search</div>
             </button>
-            <button id="submit-button" onclick="window.location.href='/Store/VehiclesList'">
+            <button id="submit-button">
                 Search
             </button>
         </div>
     </div>
-</main>
+</div>

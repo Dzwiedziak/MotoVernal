@@ -660,9 +660,9 @@
                             </div>
                         </div>
                         <div class="offer__photo-main">
-                            <button class="img-button" onclick="window.location.href='/store/DetailsOffer?id=@vehicleOffer.Id'">
+                            <a class="img-button" asp-action="DetailsOffer" asp-route-id="@vehicleOffer.Id">
                                 <img src="data:image/@vehicleOffer.Images?[0].Extension;base64,@vehicleOffer.Images?[0].Base64" alt="fetch failed" />
-                            </button>
+                            </a>
                         </div>
                         <div class="offer__bottom">
                             <div class="offer__brand">

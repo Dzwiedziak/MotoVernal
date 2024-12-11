@@ -22,6 +22,7 @@ button {
     border: none;
     cursor: pointer;
     background-color: transparent;
+    border-style: none;
 }
 
 a {
@@ -115,5 +116,9 @@ a {
 .socials {
     display: flex;
     gap: 30px;
+}
+
+.socials li img {
+    filter: invert(1);
 }
 

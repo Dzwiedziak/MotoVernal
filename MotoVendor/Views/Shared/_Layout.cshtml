@@ -35,29 +35,29 @@
                     @{
                         if(user is null)
                         {
-                                        <button class="site-nav__auth-btn">Log in</button>
+                            <button class="site-nav__auth-btn">Log in</button>
                         }
 
                         else
                         {
                         <button class="site-nav__auth-btn">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</button>
-                                        <div style="visibility: hidden" class="auth__submenu-wrapper">
-                                            <partial name="AccountSubmenu" />
-                                        </div>
-                                        <script>
-                                            let visibility = false;
-                                            let accountButton = document.querySelector('.site-nav__auth-btn');
-                                            let accountSubmenu = document.querySelector('.auth__submenu-wrapper');
+                            <div style="visibility: hidden" class="auth__submenu-wrapper">
+                                <partial name="AccountSubmenu" />
+                            </div>
+                            <script>
+                                let visibility = false;
+                                let accountButton = document.querySelector('.site-nav__auth-btn');
+                                let accountSubmenu = document.querySelector('.auth__submenu-wrapper');
 
-                                            accountButton.onclick = function () {
-                                                visibility = !visibility;
-                                                if (visibility) {
-                                                    accountSubmenu.style.visibility = 'visible';
-                                                } else {
-                                                    accountSubmenu.style.visibility = 'hidden';
-                                                }
-                                            };
-                                        </script>                    
+                                accountButton.onclick = function () {
+                                    visibility = !visibility;
+                                    if (visibility) {
+                                        accountSubmenu.style.visibility = 'visible';
+                                    } else {
+                                        accountSubmenu.style.visibility = 'hidden';
+                                    }
+                                };
+                            </script>                    
                         }
                     }
                 </nav>

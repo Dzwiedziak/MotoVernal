@@ -104,6 +104,12 @@
     .register__google img {
         width: 100%;
     }
+
+    .register__alternative-auth-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 </style>
 
 <div class="register">
@@ -135,10 +141,12 @@
             or
         </div>
     </div>
-    <div class="register__google">
-        <img src="~/images/google-continue.svg" />
+    <div class="register__alternative-auth-section">
+        <div class="register__google">
+            <img src="~/images/google-continue.svg" />
+        </div>
+        <button onclick='switchAuth("register")' class="sign_in-btn">
+            Register
+        </button>
     </div>
-    <button onclick='switchAuth("register")' class="sign_in-btn">
-        Register
-    </button>
 </div>
