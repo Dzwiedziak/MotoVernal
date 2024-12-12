@@ -123,7 +123,7 @@ namespace MotoVendor.Controllers
         }
         public IActionResult ToggleOfferObservation(int offerId)
         {
-            return View();
+            
         }
 
     }

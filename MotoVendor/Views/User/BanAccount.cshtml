@@ -43,11 +43,11 @@
             <input id="photo-select__file" type="file" accept="image/*" style="display: none;">
 
             <div class="current-image" style="display: @(!string.IsNullOrEmpty(Model.Image?.Base64) ? "block" : "none")">
-                <img id="image-preview" src="@(string.IsNullOrEmpty(Model.Image?.Base64) ? "" : $"data:image/{Model.Image.Extension};base64,{Model.Image.Base64}")" alt="Preview of uploaded image" style="width: 200px; height: auto;">
+                <img id="image-preview" src="@(string.IsNullOrEmpty(Model.Image?.Base64) ? "#" : $"data:image/{Model.Image.Extension};base64,{Model.Image.Base64}")" alt="Preview of uploaded image" style="width: 200px; height: auto;">
             </div>
 
-            <input type="hidden" id="base64" name="Image.Base64" asp-for="Image.Base64" value="@Model.Image?.Base64" />
-            <input type="hidden" id="extension" name="Image.Extension" asp-for="Image.Extension" value="@Model.Image?.Extension" />
+            <input type="hidden" id="base64" name="Image.Base64" value="@Model.Image?.Base64" />
+            <input type="hidden" id="extension" name="Image.Extension" value="@Model.Image?.Extension" />
         </div>
 
         <div class="form-actions">
