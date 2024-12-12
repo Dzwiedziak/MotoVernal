@@ -21,8 +21,10 @@ namespace BusinessLogic.DTO.VehicleOffer
         public OwnerType FirstOwner { get; set; }
         public string VIN { get; set; }
 
-        public UpdateVehicleOfferDTO(string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body, string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vIN, string description, Location location, bool isReserved, string email, Phone phone, Price price, List<Entities.File> images)
-            : base(description, location, isReserved, email, phone, price, images)
+        public UpdateVehicleOfferDTO() { }
+
+        public UpdateVehicleOfferDTO(string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body, string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vIN, int id, string description, string location, bool isReserved, string email, string phone, int price, List<Entities.File> images)
+            : base(id, description, location, isReserved, email, phone, price, images)
         {
             Brand = brand;
             Model = model;

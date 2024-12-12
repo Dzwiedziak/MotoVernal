@@ -9,6 +9,7 @@ namespace BusinessLogic.Services.Interfaces
         Result<int?, VehicleOfferErrorCode> Add(AddVehicleOfferDTO vehicleOffer);
         Result<GetVehicleOfferDTO?, VehicleOfferErrorCode> Get(int id);
         List<GetVehicleOfferDTO> GetAll();
-        VehicleOfferErrorCode? Update(int id, UpdateVehicleOfferDTO vehicleOffer);
+        VehicleOfferErrorCode? Update(UpdateVehicleOfferDTO vehicleOffer);
+        UpdateVehicleOfferDTO? GetUpdateDTO(int id);
     }
 }

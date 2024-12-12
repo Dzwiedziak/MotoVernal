@@ -1,0 +1,726 @@
+﻿@using DB.Enums;
+
+@model BusinessLogic.DTO.VehicleOffer.UpdateVehicleOfferDTO;
+@{
+    ViewData["Title"] = "Store - Edit Offer";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/addOffer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        .main-cnt {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .add-offer {
+            display: flex;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #CCCCCC;
+            padding: 30px;
+            width: 650px;
+            height: 520px;
+            gap: 30px;
+            margin: 30px;
+        }
+
+        .offer-add__sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .offer-add__side-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .offer-add__side-menu__section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .offer-add__side-menu__section-title {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #7D7C83;
+        }
+
+            .offer-add__side-menu__section-title::before,
+            .offer-add__side-menu__section-title::after {
+                content: "";
+                flex-grow: 1;
+                background-color: #CCCCCC;
+                height: 1px;
+            }
+
+        .offer-add__side-menu__section-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .offer-add__side-menu__section-btn {
+            font-size: 16px;
+        }
+
+        .offer-add__form {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .offer-add__control-sections {
+            flex-grow: 1;
+        }
+
+        .offer-add__control-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .offer-add__control-section__description {
+            font-weight: 300;
+        }
+
+        .offer-add__control-section__controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+            .offer-add__control-section__controls > * {
+                padding: 10px;
+                padding-left: 20px;
+                color: black;
+                border-radius: 5px;
+                border: 1px solid #7D7C83;
+                font-family: 'Inter', sans-serif;
+            }
+
+        .offer-add__control-section__textarea {
+            height: 400px;
+        }
+        .add-offer__submit-btn {
+            color: white;
+            background-color: #1a75ff;
+            font-family: 'Inter', sans-serif;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    </style>
+    <style>
+        .photo-list {
+            width: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .photo-list__nav-left {
+            float: left;
+            cursor: pointer;
+        }
+
+        .photo-list__nav-right {
+            float: right;
+            cursor: pointer;
+        }
+
+        .photo-list__nav-icon {
+            width: 50px;
+            border-radius: 100%;
+        }
+
+        .photo-list__nav-icon--selected {
+            background-color: #CCCCCC;
+        }
+
+        .photo-list__carousel {
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        .photo-list__move-left-img {
+            width: 50px;
+            position: absolute;
+            left: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            background-color: white;
+            padding: 50px 5px;
+            border-radius: 5px;
+        }
+
+        .photo-list__carousel-list-container {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        .photo-list__carousel-list {
+            display: flex;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .photo-list__carousel-element {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+
+        .photo-list__carousel-content--empty {
+            height: 80%;
+        }
+
+        .photo-list__carousel-content {
+            height: 100%;
+            width: 100%;
+        }
+
+        .photo-list__move-right-img {
+            width: 50px;
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            background-color: white;
+            padding: 50px 5px;
+            border-radius: 5px;
+        }
+
+        .photo-list__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+            width: 100%;
+            aspect-ratio: 16/9;
+            box-sizing: border-box;
+        }
+
+        .photo-list__grid-element {
+            width: 100%;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+
+        .photo-list__grid-content {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+}
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const controlSectionsElement = document.querySelector('.offer-add__control-sections');
+            const controlSectionsElementChildrenArray = Array.from(controlSectionsElement.children);
+            hideAllControlSections = function () {
+                controlSectionsElementChildrenArray.forEach(controlSectionContainer => {
+                    controlSectionContainer.style.display = 'none';
+                });
+            }
+            hideAllControlSections();
+            if (controlSectionsElementChildrenArray[0])
+                controlSectionsElementChildrenArray[0].style.display = 'block';
+
+            const sideMenuSectionButtons = document.querySelectorAll('.offer-add__side-menu__section-btn');
+            sideMenuSectionButtons.forEach(sideMenuSectionButton => {
+                sideMenuSectionButton.addEventListener('click', () => {
+                    const btnControlSectionAttribute = sideMenuSectionButton.getAttribute('btn-for-control-section');
+                    hideAllControlSections();
+                    controlSectionsElementChildrenArray.forEach(controlSection => {
+                        if (controlSection.getAttribute('control-section') === btnControlSectionAttribute)
+                            controlSection.style.display = 'block';
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const gridButton = document.querySelector('.photo-list__grid-btn');
+            const listButton = document.querySelector('.photo-list__list-btn');
+            const gridContainer = document.querySelector('.photo-list__grid');
+            const listContainer = document.querySelector('.photo-list__carousel');
+
+            function switchToCarousel() {
+                listButton.classList.add('photo-list__nav-icon--selected');
+                gridButton.classList.remove('photo-list__nav-icon--selected');
+                listContainer.style.display = 'block';
+                gridContainer.style.display = 'none';
+            }
+            function switchToGrid() {
+                gridButton.classList.add('photo-list__nav-icon--selected');
+                listButton.classList.remove('photo-list__nav-icon--selected');
+                gridContainer.style.display = 'grid';
+                listContainer.style.display = 'none';
+            }
+
+            gridButton.addEventListener('click', () => {
+                switchToGrid();
+            });
+            listButton.addEventListener('click', () => {
+                switchToCarousel();
+            });
+
+
+            const carouselList = document.querySelector('.photo-list__carousel-list');
+            let currentIndex = 0;
+            function updateCarouselPosition(targetIndex) {
+                let carouselItemsCount = carouselList.children.length;
+                if (targetIndex >= 0 && targetIndex < carouselItemsCount) {
+                    currentIndex = targetIndex;
+                    carouselList.style.left = (-currentIndex * 100) + "%";
+                    updateArrowsVisibility();
+                }
+            }
+
+            const carouselMoveLeft = document.querySelector('.photo-list__move-left-img');
+            carouselMoveLeft.addEventListener('click', () => {
+                updateCarouselPosition(currentIndex - 1);
+            });
+            const carouselMoveRight = document.querySelector('.photo-list__move-right-img');
+            carouselMoveRight.addEventListener('click', () => {
+                updateCarouselPosition(currentIndex + 1);
+            });
+
+            function updateArrowsVisibility() {
+                let carouselItemsCount = carouselList.children.length;
+                if (currentIndex <= 0) {
+                    carouselMoveLeft.style.display = 'none';
+                }
+                else {
+                    carouselMoveLeft.style.display = 'block';
+                }
+                if (currentIndex >= carouselItemsCount - 1) {
+                    carouselMoveRight.style.display = 'none';
+                }
+                else {
+                    carouselMoveRight.style.display = 'block';
+                }
+            }
+
+
+            function insertElementIntoCarousel(element, index) {
+                if (carouselList.children.length === 0) {
+                    carouselList.appendChild(element);
+                    updateArrowsVisibility();
+                    return;
+                }
+                const referenceChild = carouselList.children[index];
+                if (referenceChild)
+                    carouselList.insertBefore(element, referenceChild);
+                updateArrowsVisibility();
+            }
+            function deleteElementFromCarousel(index) {
+                const element = carouselList.children[index];
+                if (element)
+                    carouselList.removeChild(element);
+                updateArrowsVisibility();
+            }
+            const gridList = document.querySelector('.photo-list__grid');
+            function insertElementIntoGrid(element, index) {
+                if (gridList.children.length === 0 || gridList.children.length === index) {
+                    gridList.appendChild(element);
+                    return;
+                }
+                const referenceChild = gridList.children[index];
+                if (referenceChild)
+                    gridList.insertBefore(element, referenceChild);
+            }
+            function deleteElementFromGrid(index) {
+                const element = gridList.children[index];
+                if (element)
+                    gridList.removeChild(element);
+            }
+            const postBody = document.querySelector('.photo-list__post-body');
+            function insertElementIntoPostBody(element, index) {
+                if (postBody.children.length === 0 || gridList.children.length === index) {
+                    postBody.appendChild(element);
+                    return;
+                }
+                const referenceChild = postBody.children[index];
+                if (referenceChild)
+                    postBody.insertBefore(element, referenceChild);
+            }
+            function deleteElementFromPostBody(index) {
+                const element = postBody.children[index];
+                if (element)
+                    postBody.removeChild(element);
+            }
+            function insertImgIntoPhotoList(fileType, imgSrc, index) {
+                const carouselElement = document.createElement('div');
+                carouselElement.classList.add('photo-list__carousel-element');
+                carouselElement.addEventListener('click', () => {
+                    deleteElementFromCarousel(index);
+                    deleteElementFromGrid(index);
+                    deleteElementFromPostBody(index);
+                })
+                const carouselElementContent = document.createElement('img');
+                carouselElementContent.classList.add('photo-list__carousel-content');
+                carouselElementContent.src = imgSrc;
+                carouselElement.appendChild(carouselElementContent);
+                insertElementIntoCarousel(carouselElement, index);
+
+                const gridElement = document.createElement('div');
+                gridElement.classList.add('photo-list__grid-element');
+                gridElement.addEventListener('click', () => {
+                    updateCarouselPosition(index);
+                    switchToCarousel();
+                });
+                const gridImage = document.createElement('img');
+                gridImage.classList.add('photo-list__grid-content');
+                gridImage.src = imgSrc;
+                gridElement.appendChild(gridImage);
+                insertElementIntoGrid(gridElement, index);
+
+                const inputsContainer = document.createElement('div');
+                const extension = document.createElement('input');
+                extension.type = 'hidden';
+                extension.value = fileType.split('/')[1];
+                extension.name = `Images[${index}].Extension`;
+                extension.setAttribute('extension', '');
+                const base64 = document.createElement('input');
+                base64.type = 'hidden';
+                base64.value = imgSrc.split(',')[1];
+                base64.name = `Images[${index}].Base64`;
+                base64.setAttribute('base64', '');
+                inputsContainer.append(extension, base64);
+                insertElementIntoPostBody(inputsContainer, index);
+            }
+            function synchroniseComponentWithInputs() {
+                Array.from(postBody.children).forEach(imageInputs => {
+                    const carouselNoPhotoImageElement = document.querySelector('.photo-list__carousel-element--empty');
+                    const index = Array.from(carouselList.children).indexOf(carouselNoPhotoImageElement);
+                    const extensionInput = imageInputs.querySelector('[extension]');
+                    const base64Input = imageInputs.querySelector('[base64]');
+
+                    if (extensionInput && base64Input) {
+                        const imgSrc = `data:image/${extensionInput.value};base64,${base64Input.value}`;
+
+                        const carouselElement = document.createElement('div');
+                        carouselElement.classList.add('photo-list__carousel-element');
+                        carouselElement.addEventListener('click', () => {
+                            deleteElementFromCarousel(index);
+                            deleteElementFromGrid(index);
+                            deleteElementFromPostBody(index);
+                        });
+                        const carouselElementContent = document.createElement('img');
+                        carouselElementContent.classList.add('photo-list__carousel-content');
+                        carouselElementContent.src = imgSrc;
+                        carouselElement.appendChild(carouselElementContent);
+                        insertElementIntoCarousel(carouselElement, index);
+
+                        const gridElement = document.createElement('div');
+                        gridElement.classList.add('photo-list__grid-element');
+                        gridElement.addEventListener('click', () => {
+                            updateCarouselPosition(index);
+                            switchToCarousel();
+                        });
+                        const gridImage = document.createElement('img');
+                        gridImage.classList.add('photo-list__grid-content');
+                        gridImage.src = imgSrc;
+                        gridElement.appendChild(gridImage);
+                        insertElementIntoGrid(gridElement, index);
+                    }
+                    arrayIndex++;
+                });
+            }
+
+            const fileInput = document.querySelector('.photo-list__file-input');
+            const emptyImageElement = document.querySelector('.photo-list__carousel-element--empty');
+            emptyImageElement.addEventListener('click', () => {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const carouselList = document.querySelector('.photo-list__carousel-list');
+                        const carouselNoPhotoImageElement = document.querySelector('.photo-list__carousel-element--empty');
+                        const index = Array.from(carouselList.children).indexOf(carouselNoPhotoImageElement);
+                        insertImgIntoPhotoList(file.type, e.target.result, index);
+                        fileInput.value = '';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            synchroniseComponentWithInputs();
+            updateArrowsVisibility();
+        });
+    </script>
+}
+<div class="main-cnt">
+    <div class="add-offer">
+        <div class="offer-add__sidebar">
+            <div class="offer-add__vehicle-model">
+                <div class="offer-add__photo">
+                    <img style="height: 100%; width: 100%" src="~/images/example-vehicle.png" />
+                </div>
+                <div class="offer-add__mark">
+                    Audi
+                </div>
+                <div class="offer-add__model">
+                    A6 C7 3.0tdi
+                </div>
+            </div>
+            <div class="offer-add__side-menu">
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Specification
+                    </div>
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="vehicle-base-information">
+                            Vehicle base informations
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="additional-features">
+                            Additional features
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Vehicle's life
+                    </div>
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="vehicle-state-information">
+                            Vehicle state information
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Directly provided
+                    </div>
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="description">
+                            Description
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="photos">
+                            Photos
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Personal
+                    </div>
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="contact">
+                            Contact informations
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="location">
+                            Location
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="price">
+                            Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="offer-add__form" method="post" asp-action="EditOffer">
+            <div class="offer-add__control-sections">
+                <div class="offer-add__control-section-container" control-section="vehicle-base-information">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Vehicle base information
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Provide us basic inforamations about your vehicle
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <input asp-for="Brand" type="text" placeholder="Brand" />
+                            <input asp-for="Model" type="text" placeholder="Model" />
+                            <input asp-for="Generation" type="text" placeholder="Generation" />
+                            <input asp-for="Version" type="text" placeholder="Version" />
+                            <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<TransmissionType>()">
+                                <option disabled selected value="null">Transmission</option>
+                            </select>
+                            <select asp-for="Drive" asp-items="Html.GetEnumSelectList<VehicleDriveType>()">
+                                <option disabled selected value="null">Drive</option>
+                            </select>
+                            <select asp-for="Body" asp-items="Html.GetEnumSelectList<BodyType>()">
+                                <option disabled selected value="null">Body</option>
+                            </select>
+                            <input asp-for="NumberOfSeats" type="number" placeholder="NumberOfSeats" />
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="additional-features">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Additional features
+                            </div>
+                            <div class="offer-add__control-section__description">
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="vehicle-state-information">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Vehicle State Informations
+                            </div>
+                            <div class="offer-add__control-section__description">
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <select asp-for="FirstOwner" asp-items="Html.GetEnumSelectList<OwnerType>()">
+                                <option disabled selected value="null">FirstOwner</option>
+                            </select>
+                            <input asp-for="YearOfProduction" type="number" placeholder="YearOfProduction" />
+                            <input asp-for="Mileage" type="number" placeholder="Mileage" />
+                            <input asp-for="VIN" type="text" placeholder="Vin" />
+                            <input asp-for="Color" type="text" placeholder="Color" />
+                            <select asp-for="Condition" placeholder="Condition" asp-items="Html.GetEnumSelectList<VehicleCondition>()">
+                                <option disabled selected value="null">Condition</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="description">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Description
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Give us informations about your offer
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <textarea asp-for="Description" class="offer-add__control-section__textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="photos">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Photos
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Give us some visuals of your offer
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="photo-list">
+                                <div class="photo-list__nav">
+                                    <div class="photo-list__nav-left">
+                                        <img class="photo-list__nav-icon photo-list__nav-icon--selected photo-list__list-btn" src="~/images/carousel.svg" />
+                                        <img class="photo-list__nav-icon photo-list__grid-btn" src="~/images/grid.svg" />
+                                    </div>
+                                    <div class="photo-list__nav-right">
+                                        <!--<img class="photo-list__nav-icon" src="~/images/exit.svg" />-->
+                                    </div>
+                                </div>
+                                <div style="display: block;" class="photo-list__carousel">
+                                    <div class="photo-list__carousel-list-container">
+                                        <img class="photo-list__move-left-img" src="~/images/arrow-left.svg" />
+                                        <div style="left: 0%;" class="photo-list__carousel-list">
+                                            <div class="photo-list__carousel-element photo-list__carousel-element--empty">
+                                                <img class="photo-list__carousel-content--empty" src="~/images/no-image.svg" />
+                                            </div>
+                                        </div>
+                                        <img class="photo-list__move-right-img" src="~/images/arrow-right.svg" />
+                                        <input style="display: none;" type="file" class="photo-list__file-input" accept="image/*" />
+                                    </div>
+                                </div>
+                                <div style="display: none;" class="photo-list__grid"></div>
+                                <div class="photo-list__post-body">
+                                    @if (Model?.Images != null)
+                                        @for (int i = 0; i < Model.Images.Count; i++)
+                                        {
+                                            <div>
+                                                <input style="display: none" type="text" asp-for="@Model.Images[i].Extension" extension />
+                                                <input style="display: none" type="text" asp-for="@Model.Images[i].Base64" base64 />
+                                            </div>
+                                        }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="contact">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Contact Informations
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                How potential buyer can contact you
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <input asp-for="Email" type="email" placeholder="Email" />
+                            <input asp-for="Phone" type="text" placeholder="Phone" />
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="location">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Location
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Provide us information about your's offer location
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <input asp-for="Location" type="text" placeholder="Location" />
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-add__control-section-container" control-section="price">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Price
+                            </div>
+                            <div class="offer-add__control-section__description">
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <input asp-for="Price" type="number" placeholder="Price" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="add-offer__submit-btn" type="submit">Edit offer</button>
+        </form>
+    </div>
+</div>
