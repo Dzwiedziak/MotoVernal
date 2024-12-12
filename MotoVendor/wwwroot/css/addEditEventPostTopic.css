@@ -165,5 +165,15 @@ input, select, textarea {
 }
 .validate{
     margin-top:-15px;
-    margin-bottom:15px;
+    margin-bottom:30px;
+}
+.load-image-label {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #4285F4;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
 }
