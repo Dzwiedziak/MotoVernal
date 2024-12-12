@@ -1,4 +1,5 @@
-﻿using Entities = DB.Entities;
+﻿using BusinessLogic.Decorators;
+using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Post
 {
@@ -12,7 +13,7 @@ namespace BusinessLogic.DTO.Post
         public List<Entities.PostComment> PostComments { get; set; }
 
 
-        public GetPostDTO(int id, Entities.User publisher, string content, DateTime publicationTime, Entities.File? image, List<Entities.PostComment> postComments)
+        public GetPostDTO(int id,Entities.User publisher, string content, DateTime publicationTime, Entities.File? image, List<Entities.PostComment> postComments)
         {
             Id = id;
             Publisher = publisher;

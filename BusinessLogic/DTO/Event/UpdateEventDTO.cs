@@ -28,7 +28,7 @@ namespace BusinessLogic.DTO.Event
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Description must be between 10 and 1000 characters.")]
         public string Description { get; set; }
         public Entities.File? Image { get; set; }
-
+        
         public UpdateEventDTO() { }
         public UpdateEventDTO(int id, EventType eventType, DateTime timeFrom, DateTime timeTo, string title, string location, string description, Entities.File? image)
         {

@@ -41,6 +41,39 @@ namespace BusinessLogic.Services
             List<Section> childSections = sections.FindAll(s => s.Parent != null && s.Parent.Id == id);
             return childSections.Select(s => CreateGetSectionDTO(s)).ToList();
         }
+        public Result<List<GetSectionDTO>, SectionErrorCode> GetParentSections(int id)
+        {
+            if (!CheckExistance(id))
+                return SectionErrorCode.SectionNotFound;
+
+            Section currentSection = _sectionRepository.GetOne(id);
+            if (currentSection == null)
+                return SectionErrorCode.SectionNotFound;
+
+            List<GetSectionDTO> parentSections = new List<GetSectionDTO>();
+
+            while (currentSection.Parent != null)
+            {
+                currentSection = currentSection.Parent;
+                parentSections.Add(CreateGetSectionDTO(currentSection));
+            }
+
+            parentSections.Reverse();
+
+            return parentSections;
+        }
+        public Result<GetSectionDTO, SectionErrorCode> GetRootSection()
+        {
+            var rootSection = _sectionRepository.GetAll().FirstOrDefault(s => s.Parent == null);
+            if (rootSection == null)
+            {
+                return SectionErrorCode.SectionNotFound;
+            }
+
+            return CreateGetSectionDTO(rootSection);
+        }
+
+
 
         private bool CheckExistance(int id) =>
             _sectionRepository.GetOne(id) != null;
@@ -49,6 +82,6 @@ namespace BusinessLogic.Services
             new(section.Title, section.Parent, section.Image);
 
         private GetSectionDTO CreateGetSectionDTO(Section section) =>
-            new(section.Id, section.Title, section.Parent, section.Image);
+            new(section.Id,section.Title, section.Parent, section.Image);
     }
 }

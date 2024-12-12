@@ -19,7 +19,7 @@ namespace BusinessLogic.Repositories
 
         public void Delete(VehicleOfferObservation vehicleOfferObservation)
         {
-            _context.VehicleOfferObservations.Remove(vehicleOfferObservation);
+            _context.VehicleOfferObservations.Remove(vehicleOfferObservation);    
         }
 
         public List<VehicleOfferObservation> GetAll()

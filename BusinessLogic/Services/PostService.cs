@@ -67,7 +67,7 @@ namespace BusinessLogic.Services
         public PostCommentErrorCode? AddPostComment(int id, AddPostCommentDTO postComment)
         {
             PostComment? addingPostComment = CreatePostComment(id, postComment);
-            if (addingPostComment is null)
+            if(addingPostComment is null)
                 return PostCommentErrorCode.PostDoesNotExist;
             _postCommentRepository.Add(addingPostComment);
             return null;
@@ -78,14 +78,14 @@ namespace BusinessLogic.Services
             if (publisher is null)
                 return null;
             Post? post = _postRepository.GetOne(id);
-            if (post == null)
+            if(post == null) 
                 return null;
             return new PostComment(0, postComment.Content, post, publisher, DateTime.Now, new List<PostCommentReaction>());
         }
         public PostCommentErrorCode? UpdatePostComment(int postCommentId, UpdatePostCommentDTO postComment)
         {
             PostComment dbPostComment = _postCommentRepository.Get(postCommentId);
-            if (dbPostComment is null)
+            if(dbPostComment is null)
             {
                 return PostCommentErrorCode.PostCommentDoesNotExist;
             }

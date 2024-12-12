@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.DTO.User;
 using BusinessLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MotoVendor.Components
