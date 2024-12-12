@@ -18,7 +18,7 @@ namespace BusinessLogic.Services
 
         public Result<int, VehicleOfferObservationErrorCode> AddVehicleOfferObservation(AddVehicleOfferObservationDTO vehicleOfferObservation)
         {
-            throw new NotImplementedException();
+            
         }
 
         public VehicleOfferObservationErrorCode? DeleteVehicleOfferObservation(int id)
@@ -28,7 +28,7 @@ namespace BusinessLogic.Services
 
         public VehicleOfferObservation Find(int userId, int offerId)
         {
-            throw new NotImplementedException();    
+            throw new NotImplementedException();
         }
     }
 }

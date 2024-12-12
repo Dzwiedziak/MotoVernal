@@ -4,7 +4,7 @@ using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Ban
 {
-    public class BanUserDTO 
+    public class BanUserDTO
     {
         [Required(ErrorMessage = "Banned user is required.")]
         public Entities.User Banned { get; set; }

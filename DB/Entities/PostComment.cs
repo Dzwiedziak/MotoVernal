@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DB.Entities
+﻿namespace DB.Entities
 {
     public class PostComment
     {
@@ -12,7 +6,7 @@ namespace DB.Entities
         public string Content { get; set; }
         public Post Post { get; set; }
         public User Publisher { get; set; }
-        public DateTime CreationTime { get; set; }  
+        public DateTime CreationTime { get; set; }
         public List<PostCommentReaction> Reactions { get; set; }
 
         public PostComment() { }

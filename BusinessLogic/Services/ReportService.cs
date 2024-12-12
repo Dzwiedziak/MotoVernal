@@ -1,6 +1,5 @@
 ﻿using BusinessLogic.DTO.Report;
 using BusinessLogic.Errors;
-using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
@@ -38,7 +37,7 @@ namespace BusinessLogic.Services
         }
         public void RejectReport(int id)
         {
-           _reportRepository.Delete(id);
+            _reportRepository.Delete(id);
         }
         private Report CreateNewReport(ReportUserDTO report) =>
             new(report.Reporter, report.Reported, report.Description, DateTime.Now, report.Image);

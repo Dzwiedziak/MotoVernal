@@ -24,8 +24,8 @@ namespace BusinessLogic.Repositories
         public List<UserObservation> Get(string ObserverId)
         {
             return _context.UserObservations
-                .Include(uo => uo.Observer) 
-                .Include(uo => uo.Observed) 
+                .Include(uo => uo.Observer)
+                .Include(uo => uo.Observed)
                 .Where(uo => uo.Observer.Id == ObserverId)
                 .ToList();
         }

@@ -1,5 +1,4 @@
-﻿using DB.Entities;
-using Entities = DB.Entities;
+﻿using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Offer
 {

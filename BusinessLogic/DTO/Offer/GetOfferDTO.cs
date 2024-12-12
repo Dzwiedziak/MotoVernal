@@ -1,5 +1,4 @@
 ﻿using BusinessLogic.Decorators;
-using DB.Entities;
 using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Offer
@@ -15,7 +14,7 @@ namespace BusinessLogic.DTO.Offer
         public Entities.User User { get; set; }
         public bool IsReserved { get; set; }
         public string Email { get; set; }
-        public string Phone { get; set; }  
+        public string Phone { get; set; }
         //public Entities.Phone Phone { get; set; }
         public int Price { get; set; }
         //public Entities.Price Price { get; set; }

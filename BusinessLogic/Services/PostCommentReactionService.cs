@@ -1,13 +1,7 @@
 ﻿using BusinessLogic.DTO.PostCommentReaction;
-using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using DB.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
@@ -21,11 +15,11 @@ namespace BusinessLogic.Services
         public void AddOrUpdate(PostCommentReactionDTO postCommentReaction)
         {
             List<PostCommentReaction> dbPostCommentReactions = _postCommentReactionRepository.GetAll();
-            PostCommentReaction? userReactionOnSpecificComment = 
+            PostCommentReaction? userReactionOnSpecificComment =
                 dbPostCommentReactions.Where(ur => ur.User.Id == postCommentReaction.User.Id)
                 .Where(ur => ur.PostComment.Id == postCommentReaction.PostComment.Id)
                 .FirstOrDefault();
-            if(userReactionOnSpecificComment != null)
+            if (userReactionOnSpecificComment != null)
             {
                 UpdatePostCommentReaction(ref userReactionOnSpecificComment, postCommentReaction);
                 _postCommentReactionRepository.Update(userReactionOnSpecificComment);
