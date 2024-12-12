@@ -4,8 +4,10 @@ using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MotoVendor.Authorizations.Handlers;
 
 internal class Program
 {
@@ -16,7 +18,8 @@ internal class Program
         InjectRepositories(builder);
         InjectServices(builder);
         InjectDbContext(builder);
-        // Add services to the container.
+        builder.Services.AddScoped<IAuthorizationHandler, IsVehicleOfferOwnerHandler>();
+
         builder.Services.AddControllersWithViews();
         builder.Services.AddIdentity<User, IdentityRole>(options =>
         {

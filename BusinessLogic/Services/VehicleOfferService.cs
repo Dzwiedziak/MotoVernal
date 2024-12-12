@@ -48,9 +48,9 @@ namespace BusinessLogic.Services
                    .ToList();
         }
 
-        public VehicleOfferErrorCode? Update(int id, UpdateVehicleOfferDTO vehicleOffer)
+        public VehicleOfferErrorCode? Update(UpdateVehicleOfferDTO vehicleOffer)
         {
-            VehicleOffer? dbVehicleOffer = _vehicleOfferRepository.GetOne(id);
+            VehicleOffer? dbVehicleOffer = _vehicleOfferRepository.GetOne(vehicleOffer.Id);
             if (dbVehicleOffer is null)
                 return VehicleOfferErrorCode.VehicleNotFound;
 
@@ -63,6 +63,19 @@ namespace BusinessLogic.Services
             UpdateVehicleOffer(ref dbVehicleOffer, vehicleOffer);
             _vehicleOfferRepository.Update(dbVehicleOffer);
             return null;
+        }
+
+        public UpdateVehicleOfferDTO? GetUpdateDTO(int id)
+        {
+            VehicleOffer? dbVehicleOffer = _vehicleOfferRepository.GetOne(id);
+            if(dbVehicleOffer is null)
+                return null;
+            return CreateUpdateDTO(dbVehicleOffer);
+        }
+
+        private UpdateVehicleOfferDTO CreateUpdateDTO(VehicleOffer vehicleOffer)
+        {
+            return new(vehicleOffer.Brand, vehicleOffer.Model, vehicleOffer.Generation, vehicleOffer.Version, vehicleOffer.Transmission, vehicleOffer.Drive, vehicleOffer.Body, vehicleOffer.Color, vehicleOffer.Condition, vehicleOffer.NumberOfSeats, vehicleOffer.YearOfProduction, vehicleOffer.Mileage, vehicleOffer.FirstOwner, vehicleOffer.VIN, vehicleOffer.Id, vehicleOffer.Description, vehicleOffer.Location, vehicleOffer.IsReserved, vehicleOffer.Email, vehicleOffer.Phone, vehicleOffer.Price, vehicleOffer.Images);
         }
 
         private VehicleOffer? FindVehicleWithSameVIN(string vin, List<VehicleOffer> vehicleOffers) =>

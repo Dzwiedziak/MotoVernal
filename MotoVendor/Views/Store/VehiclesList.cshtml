@@ -1,9 +1,11 @@
-﻿@using BusinessLogic.DTO.VehicleOffer;
+﻿@inject BusinessLogic.Services.Interfaces.IUserService userService;
+@using BusinessLogic.DTO.VehicleOffer;
 @using BusinessLogic.Decorators;
 @using System.Reflection;
 @model List<GetVehicleOfferDTO>;
 @{
     ViewData["Title"] = "Store - Vehicles List";
+    var user = userService.GetCurrentUser().Result;
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/vehiclesList.css">
@@ -308,6 +310,10 @@
             align-items: center;
             gap: 10px;
         }
+
+        .offer__actions-section {
+            display: flex;
+        }
     </style>
 }
 
@@ -461,6 +467,7 @@
             const containersWithCheckboxes = document.querySelectorAll('.checkboxes');
             containersWithCheckboxes.forEach(containerWithCheckboxes => {
                 const checkBoxesCountElement = containerWithCheckboxes.querySelector('.checkboxesCount');
+                const checkBoxesCountContainer = containerWithCheckboxes.querySelector('.checkboxesCountContainer');
                 const customCheckBoxes = containerWithCheckboxes.querySelectorAll('.filter__toggle-btn');
                 function countCheckedCheckboxes() {
                     let checkedCheckboxesCount = 0;
@@ -470,6 +477,15 @@
                             checkedCheckboxesCount++;
                     });
                     return checkedCheckboxesCount;
+                }
+                function UpdateCheckBoxCountState(count) {
+                    if (count == 0) {
+                        checkBoxesCountContainer.style.display = 'none';
+                    }
+                    else {
+                        checkBoxesCountContainer.style.display = 'flex';
+                    }
+                    checkBoxesCountElement.textContent = count;
                 }
                 customCheckBoxes.forEach(customCheckBox => {
                     const customCheckBoxContent = customCheckBox.querySelector('.filter__toggle-btn__content');
@@ -493,10 +509,10 @@
                             customCheckBoxContent.classList.add('filter__toggle-btn__content--on');
                             customCheckBoxInput.checked = true;
                         }
-                        checkBoxesCountElement.textContent = countCheckedCheckboxes();
+                        UpdateCheckBoxCountState(countCheckedCheckboxes());
                     });
                 });
-                checkBoxesCountElement.textContent = countCheckedCheckboxes();
+                UpdateCheckBoxCountState(countCheckedCheckboxes());
             });
         });
     </script>
@@ -559,7 +575,7 @@
                                 <div class="filter__dropdown-base__title">
                                     @property.Name
                                 </div>
-                                <div class="filter__dropdown-base__count-container">
+                                <div class="filter__dropdown-base__count-container checkboxesCountContainer">
                                     <div class="filter__dropdown-base__count checkboxesCount">
                                         0
                                     </div>
@@ -705,8 +721,18 @@
                             <div class="offer__reservation-status">
                                 Not reserved
                             </div>
-                            <div class="offer__observation-status">
-                                <img src="~/images/pin.svg" alt="pin offer" />
+                            <div class="offer__actions-section">
+                                @if(user != null && user.Id == vehicleOffer.User?.Id)
+                                {
+                                    <div class="offer__edit-btn-wrp">
+                                        <a class="offer__edit-link" asp-action="EditOffer" asp-route-id="@vehicleOffer.Id">
+                                            <img src="~/images/edit-icon.svg" />
+                                        </a>
+                                    </div>
+                                }
+                                <div class="offer__observation-status">
+                                    <img src="~/images/pin.svg" alt="pin offer" />
+                                </div>
                             </div>
                         </div>
                         <div class="offer__photo-main">
