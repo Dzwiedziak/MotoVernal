@@ -347,14 +347,6 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> BanAccount(BanUserDTO model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
-            {
-                model.Image = null;
-            }
 
             var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
@@ -368,6 +360,14 @@ namespace MotoVendor.Controllers
 
             model.Banned = bannedUser;
             model.Banner = bannerUser;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
 
             var result = _banService.BanUser(model);
             if (result.Error == BanErrorCode.UserAlreadyBanned)
