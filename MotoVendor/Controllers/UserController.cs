@@ -8,7 +8,6 @@ using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data;
 using System.Security.Claims;
@@ -345,8 +344,8 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> BanAccount(BanUserDTO model)
         {
-            
-            var bannedUser = _userService.GetUser(model.Banned.Id);
+
+            var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
 
             var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
@@ -463,7 +462,7 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> ReportAccount(ReportUserDTO model)
         {
-            var reportedUser = _userService.GetUser(model.Reported.Id);
+            var reportedUser = await _userManager.FindByIdAsync(model.Reported.Id);
             var reporterUser = await _userManager.GetUserAsync(User);
 
             model.Reporter = reporterUser;

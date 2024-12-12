@@ -114,5 +114,10 @@ namespace MotoVendor.Controllers
                 return View(model.Value);
             return View("Error");
         }
+        public IActionResult ToggleOfferObservation(int offerId)
+        {
+            
+        }
+
     }
 }
