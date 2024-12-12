@@ -9,7 +9,12 @@
 <section>
     <div class="up-section">
         <div class="nav-tree">
-            <label for="place">@Model.SectionInfo.Title</label>
+            @foreach (var parent in Model.ParentSections)
+            {
+                <a href="/Forum/SectionsAndTopicsList/?sectionId=@parent.Id">@parent.Title</a>
+                <span> > </span>
+            }
+            <span>@Model.SectionInfo.Title</span>
         </div>
         <div class="sort">
             <label for="sort_by">Sort By</label>
@@ -24,11 +29,14 @@
             <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
             <input type="text" id="search" placeholder="Search">
         </div>
-        <div class="adding-section">
-            <button class="add-section">
-                Add new section
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="adding-section">
+                <button class="add-section">
+                 Add new section
             </button>
         </div>
+        }
     </div>
 </section>
 <div class="main-cnt">
@@ -36,44 +44,25 @@
         @foreach (var sectionC in Model.ChildSections)
         {
             <li>
+            <div class="section_with_edit">
             @if (sectionC.Image != null && !string.IsNullOrEmpty(sectionC.Image.Base64) && !string.IsNullOrEmpty(sectionC.Image.Extension))
             {
+               <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
                     <img alt="car" class="section-image" id="section-image" src="data:image/@sectionC.Image.Extension;base64,@sectionC.Image.Base64" />
+               </button>
             }
-
             <div class="section-info">
-                <div class="section-buttons">
-                        <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
                 <label>@sectionC.Title</label>
             </div>
-        </li>
-        }
-        <li>
-            <img src="~/images/auto-z-usa-autobaza.jpg" alt="car" class="section-image" id="section-image">
-            <div class="section-info">
-                <div class="section-buttons">
-                    <button class="go_in-btn" id="go_in-section">
-                        <img src="~/images/go_in.png" alt="go_in" class="go_in-image" id="go_in-image">
-                    </button>
-                    <button class="hide-btn" id="hide-button">
-                        <img src="~/images/hidden_4983669.png" alt="hide" class="hide-image" id="hide-image">
-                    </button>
-                    <button class="edit-btn" id="edit-button">
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                    </button>
-                </div>
-                <label>Electric Cars</label>
             </div>
-        </li>
+            @if (User.IsInRole("Admin"))
+            {
+                <button class="edit-btn" id="edit-button">
+                    <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
+                </button>
+            }
+            </li>
+        }
     </ul>
 </div>
 
