@@ -1,5 +1,4 @@
 ﻿.main-cnt ul {
-    min-height: 66vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -13,37 +12,38 @@
 
 .main-cnt li {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     box-sizing: border-box;
-    width: 350px;
-    height: 500px;
-    border-bottom: 5px solid #4285F4;
-    border-radius: 50px;
+    align-items:center;
+    height: auto;
+    gap:2px;
 }
-
-.main-cnt li > img {
-    width: 350px;
-    height: 350px;
-}
-
-.section-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    align-content: flex-start;
-    padding: 25px 50px;
-    gap: 25px 50px;
-}
-
-    .section-buttons > button {
-        cursor: pointer;
+    .main-cnt li .section_with_edit > button {
+        width: 350px;
+        height: 350px;
+        padding-block: 0px;
+        padding-inline: 0px;
     }
 
-    .section-buttons img {
-        width: 50px;
-        height: 50px;
+    .main-cnt li .section_with_edit > button > img {
+        width: 100%;
+        height: 100%;
+    }
+.section_with_edit{
+    display:flex;
+    flex-direction:column;
+}
+.main-cnt li button.edit-btn {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    padding-block: 0px;
+    padding-inline: 0px;
+}
+    .main-cnt li button.edit-btn > img {
+        width: 100%;
+        height: 100%;
     }
 
 .section-info {
@@ -52,9 +52,9 @@
     justify-content: center;
     align-items: center;
     width: 350px;
-    height: 150px;
+    height: auto;
     background: #C6DBFF;
-    ;
+    border-bottom: 5px solid #4285F4;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
 }
@@ -131,6 +131,7 @@ section {
     align-items: center;
     color: #000000;
     padding-left: 10px;
+    gap:10px;
 }
 
 .sort {
@@ -513,6 +514,8 @@ section {
         border: 1px solid rgba(0, 0, 0, 0.5);
         flex: none;
         border-radius: 100%;
+        padding-block: 0px;
+        padding-inline: 0px;
     }
 
 .action-buttons {
@@ -527,6 +530,8 @@ section {
         height: 30px;
         flex: none;
         border-radius: 100%;
+        padding-block: 0px;
+        padding-inline: 0px;
     }
 
 .extra-info > img {
@@ -549,7 +554,7 @@ section {
     margin-right: 5px;
 }
 
-button > img {
+.main-down-cnt button > img {
     width: 100%;
     height: 100%;
     border-radius: 100%;

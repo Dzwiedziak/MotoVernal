@@ -9,5 +9,7 @@ namespace BusinessLogic.Services.Interfaces
         Result<int?, SectionErrorCode> Add(AddSectionDTO section);
         Result<GetSectionDTO, SectionErrorCode> Get(int id);
         Result<List<GetSectionDTO>, SectionErrorCode> GetChildrenSections(int id);
+        Result<List<GetSectionDTO>, SectionErrorCode> GetParentSections(int id);
+        Result<GetSectionDTO, SectionErrorCode> GetRootSection();
     }
 }

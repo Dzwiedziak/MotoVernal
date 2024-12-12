@@ -24,36 +24,34 @@ namespace MotoVendor.Controllers
         }
         public IActionResult SectionsAndTopicsList(int? sectionId)
         {
-            if (sectionId == null)
+            // Pobierz ID głównej sekcji, jeśli sectionId nie zostało podane
+            var rootSectionResult = _sectionService.GetRootSection();
+            if (!rootSectionResult.IsSuccess)
             {
-                var sectionMain = _sectionService.Get(1);
-                var childSectionsMain = _sectionService.GetChildrenSections(1);
-                var topicSectionsMain = _topicService.GetAllInSections(1);
-                var vm = new SectionsAndTopicsListViewModel
-                {
-                    SectionInfo = sectionMain.Value,
-                    ChildSections = childSectionsMain.Value,
-                    TopicsList = topicSectionsMain
-
-                };
-                return View(vm);
-            }
-            var section = _sectionService.Get(sectionId.Value);
-            if(section.Value == null)
-            {
-                TempData["ErrorMessage"] = "Section of this id not exist";
+                TempData["ErrorMessage"] = "Root section not found";
                 return RedirectToAction("Error", "Home");
             }
-            var childSections = _sectionService.GetChildrenSections(sectionId.Value);
-            var topicSections = _topicService.GetAllInSections(sectionId.Value);
-            var viewModel = new SectionsAndTopicsListViewModel
+
+            var activeSectionId = sectionId ?? rootSectionResult.Value.Id;
+
+            // Pobierz informacje o sekcji i powiązane dane
+            var sectionInfo = _sectionService.Get(activeSectionId);
+            var childSections = _sectionService.GetChildrenSections(activeSectionId);
+            var parentSections = _sectionService.GetParentSections(activeSectionId);
+            var topics = _topicService.GetAllInSections(activeSectionId);
+
+            // Utwórz ViewModel
+            var vm = new SectionsAndTopicsListViewModel
             {
-                SectionInfo = section.Value,
+                SectionInfo = sectionInfo.Value,
                 ChildSections = childSections.Value,
-                TopicsList = topicSections
+                ParentSections = parentSections.Value,
+                TopicsList = topics
             };
-            return View(viewModel);
+
+            return View(vm);
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult AddSection()

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MotoVendor.ViewModels;
+using System.Drawing;
 using System.Security.Claims;
 
 namespace MotoVendor.Controllers
@@ -41,6 +42,7 @@ namespace MotoVendor.Controllers
                 Location = e.Location,
                 TimeFrom = e.TimeFrom,
                 TimeTo = e.TimeTo,
+                Image = e.Image,
                 InterestedCount = _eventService.GetAllInterestByEvent(e.Id).Count()
             }).ToList();
 
@@ -75,15 +77,7 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEvent(AddEventDTO model)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-
-            var isBanned = _banService.GetActiveBan(currentUser.Id);
-            if (isBanned != null)
-            {
-                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
-                return RedirectToAction("Error", "Home");
-            }
-
+            var currentUser = await _userManager.FindByIdAsync(model.Publisher.Id);
             model.Publisher = currentUser;
             if (!ModelState.IsValid)
             {
@@ -94,6 +88,13 @@ namespace MotoVendor.Controllers
                 model.Image = null;
             }
 
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
+            model.Publisher = currentUser;
             _eventService.Add(model);
             return RedirectToAction("EventsList");
         }
@@ -122,7 +123,6 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You are not a owner of this event";
                 return RedirectToAction("Error", "Home");
             }
-
             var model = new UpdateEventDTO
             {
                 Id = id,
@@ -140,6 +140,15 @@ namespace MotoVendor.Controllers
         [Authorize]
         public async Task<IActionResult> EditEvent(UpdateEventDTO updateEventDTO)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View(updateEventDTO);
+            }
+            if (updateEventDTO.Image?.Base64 == "defaultBase64Value" && updateEventDTO.Image?.Extension == "defaultExtension")
+            {
+                updateEventDTO.Image = null;
+            }
             var currentUser = await _userManager.GetUserAsync(User);
 
             var resultBan = _banService.GetActiveBan(currentUser.Id);
@@ -158,15 +167,6 @@ namespace MotoVendor.Controllers
             {
                 TempData["ErrorMessage"] = "You are not a owner of this event";
                 return RedirectToAction("Error", "Home");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(updateEventDTO);
-            }
-            if (updateEventDTO.Image?.Base64 == "defaultBase64Value" && updateEventDTO.Image?.Extension == "defaultExtension")
-            {
-                updateEventDTO.Image = null;
             }
 
             _eventService.Update(updateEventDTO.Id, updateEventDTO);
