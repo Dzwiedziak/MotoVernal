@@ -1,4 +1,6 @@
-﻿using BusinessLogic.Services.Interfaces;
+﻿using BusinessLogic.DTO.Event;
+using BusinessLogic.DTO.Section;
+using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +26,7 @@ namespace MotoVendor.Controllers
         }
         public IActionResult SectionsAndTopicsList(int? sectionId)
         {
-            // Pobierz ID głównej sekcji, jeśli sectionId nie zostało podane
+            
             var rootSectionResult = _sectionService.GetRootSection();
             if (!rootSectionResult.IsSuccess)
             {
@@ -34,13 +36,11 @@ namespace MotoVendor.Controllers
 
             var activeSectionId = sectionId ?? rootSectionResult.Value.Id;
 
-            // Pobierz informacje o sekcji i powiązane dane
             var sectionInfo = _sectionService.Get(activeSectionId);
             var childSections = _sectionService.GetChildrenSections(activeSectionId);
             var parentSections = _sectionService.GetParentSections(activeSectionId);
             var topics = _topicService.GetAllInSections(activeSectionId);
 
-            // Utwórz ViewModel
             var vm = new SectionsAndTopicsListViewModel
             {
                 SectionInfo = sectionInfo.Value,
@@ -54,9 +54,21 @@ namespace MotoVendor.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult AddSection()
+        public IActionResult AddSection(int sectionId)
         {
-            return View();
+            var parentSection = _sectionService.GetOne(sectionId);
+            if (parentSection == null)
+            {
+                TempData["ErrorMessage"] = "Parent section not found";
+                return RedirectToAction("Error", "Home");
+            }
+            var model = new AddSectionDTO
+            {
+                Title = string.Empty,
+                Parent = parentSection,
+                Image = null
+            };
+            return View(model);
         }
         public IActionResult EditSection()
         {

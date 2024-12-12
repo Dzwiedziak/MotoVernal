@@ -31,6 +31,10 @@ namespace BusinessLogic.Services
 
             return CreateGetSectionDTO(dbSection);
         }
+        public Section GetOne(int id)
+        {
+            return _sectionRepository.GetOne(id);
+        }
 
         public Result<List<GetSectionDTO>, SectionErrorCode> GetChildrenSections(int id)
         {

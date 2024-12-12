@@ -32,7 +32,7 @@
         @if (User.IsInRole("Admin"))
         {
             <div class="adding-section">
-                <button class="add-section">
+                <button class="add-section" onclick="window.location.href='/Forum/AddSection?sectionId=@Model.SectionInfo.Id'">
                  Add new section
             </button>
         </div>

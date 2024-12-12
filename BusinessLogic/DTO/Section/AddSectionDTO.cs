@@ -8,6 +8,7 @@ namespace BusinessLogic.DTO.Section
         public Entities.Section Parent { get; set; }
         public Entities.File? Image { get; set; }
 
+        public AddSectionDTO() { }
         public AddSectionDTO(string title, Entities.Section parent, Entities.File? image)
         {
             Title = title;
