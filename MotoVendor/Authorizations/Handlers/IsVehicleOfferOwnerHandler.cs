@@ -1,11 +1,9 @@
-﻿using BusinessLogic.Services;
+﻿using BusinessLogic.Services.Interfaces;
 using DB;
-using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using MotoVendor.Authorizations.Requirements;
-using BusinessLogic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MotoVendor.Authorizations.Requirements;
+using System.Security.Claims;
 
 namespace MotoVendor.Authorizations.Handlers
 {
@@ -25,7 +23,7 @@ namespace MotoVendor.Authorizations.Handlers
             if (userId == null)
                 return;
             var vehicleOffer = await _context.VehicleOffers.Include(vo => vo.User).FirstOrDefaultAsync(vo => vo.Id == requirement.VehicleOfferId);
-            if(vehicleOffer != null && vehicleOffer.User.Id == userId)
+            if (vehicleOffer != null && vehicleOffer.User.Id == userId)
             {
                 context.Succeed(requirement);
             }

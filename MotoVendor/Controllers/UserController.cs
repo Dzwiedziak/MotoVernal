@@ -3,9 +3,7 @@ using BusinessLogic.DTO.Report;
 using BusinessLogic.DTO.User;
 using BusinessLogic.DTO.UserObservation;
 using BusinessLogic.Errors;
-using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
-using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data;
-using System.Drawing;
 using System.Security.Claims;
 
 
@@ -238,7 +235,7 @@ namespace MotoVendor.Controllers
             var isCurrentUser = result.Value.UserName == currentUser;
             bool isAdmin = User.IsInRole("Admin");
 
-            var activeBan = _banService.GetActiveBan(id);  
+            var activeBan = _banService.GetActiveBan(id);
 
             if (activeBan != null)
             {
@@ -256,7 +253,7 @@ namespace MotoVendor.Controllers
 
             return View(result.Value);
         }
-      
+
         [HttpGet]
         [Authorize]
         public IActionResult EditProfile(string id)
@@ -314,12 +311,12 @@ namespace MotoVendor.Controllers
             var bannerUser = await _userManager.GetUserAsync(User);
 
             var result = _banService.GetActiveBan(id);
-            if(result != null)
+            if (result != null)
             {
                 TempData["ErrorMessage"] = "This user is aldready banned.";
                 return RedirectToAction("Error", "Home");
             }
-       
+
             if (bannedUser == bannerUser)
             {
                 TempData["ErrorMessage"] = "You can't ban yourself.";
@@ -336,14 +333,14 @@ namespace MotoVendor.Controllers
             var model = new BanUserDTO
             {
                 Banned = bannedUser,
-                Banner = bannerUser, 
+                Banner = bannerUser,
                 ExpirationTime = DateTime.Today.AddDays(1),
-                Reason = string.Empty, 
-                Image = null  
+                Reason = string.Empty,
+                Image = null
             };
             return View(model);
         }
-        
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> BanAccount(BanUserDTO model)
@@ -351,7 +348,7 @@ namespace MotoVendor.Controllers
             
             var bannedUser = _userService.GetUser(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
-            
+
             var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
             if (isBannedUserAdmin)
             {
@@ -369,14 +366,14 @@ namespace MotoVendor.Controllers
             {
                 return View(model);
             }
-            
+
             var result = _banService.BanUser(model);
             if (result.Error == BanErrorCode.UserAlreadyBanned)
             {
                 TempData["ErrorMessage"] = "User is already banned";
                 return RedirectToAction("Error", "Home");
             }
-            return RedirectToAction("ProfileView", new {id = model.Banned.Id});
+            return RedirectToAction("ProfileView", new { id = model.Banned.Id });
         }
 
         [HttpGet]
@@ -402,7 +399,7 @@ namespace MotoVendor.Controllers
         public IActionResult RemoveBanConfirmed(string id)
         {
             var result = _banService.UnbanUser(id);
-            if(result.Error == BanErrorCode.NoActiveBan)
+            if (result.Error == BanErrorCode.NoActiveBan)
             {
                 TempData["ErrorMessage"] = "No active ban found for the user.";
                 return RedirectToAction("Error", "Home");
@@ -526,7 +523,7 @@ namespace MotoVendor.Controllers
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var report = _reportService.GetReportById(id);
-            
+
             ViewBag.currentUserId = currentUserId;
 
             if (!(User.IsInRole("Admin") || currentUserId == report.Reporter.Id))
@@ -555,7 +552,7 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You are not authorized to reject this report.";
                 return RedirectToAction("Error", "Home");
             }
-            if(report == null)
+            if (report == null)
             {
                 TempData["ErrorMessage"] = "No report found for this Id.";
                 return RedirectToAction("Error", "Home");
@@ -569,7 +566,7 @@ namespace MotoVendor.Controllers
         {
             var observedUser = _userService.GetUser(id);
             var observerUser = await _userManager.GetUserAsync(User);
-            
+
             if (observerUser == observedUser)
             {
                 TempData["ErrorMessage"] = "You cannot follow yourself.";
@@ -606,8 +603,8 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You cannot unfollow yourself.";
                 return RedirectToAction("Error", "Home");
             }
-            
-            var result = _userService.StopObservingUser(currentUserId,id);
+
+            var result = _userService.StopObservingUser(currentUserId, id);
             if (result == UserObservationErrorCode.UserObservationNotFound)
             {
                 TempData["ErrorMessage"] = "You are not observing this user.";

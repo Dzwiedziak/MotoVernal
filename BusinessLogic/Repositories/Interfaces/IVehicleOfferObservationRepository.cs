@@ -1,9 +1,4 @@
 ﻿using DB.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Repositories.Interfaces
 {
@@ -12,5 +7,6 @@ namespace BusinessLogic.Repositories.Interfaces
         void Add(VehicleOfferObservation vehicleOfferObservation);
         void Delete(VehicleOfferObservation vehicleOfferObservation);
         List<VehicleOfferObservation> GetAll();
+        VehicleOfferObservation? GetForUserAndOffer(string userId, int offerId);
     }
 }

@@ -1,7 +1,7 @@
-﻿using BusinessLogic.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using BusinessLogic.DTO.VehicleOfferObservation;
+﻿using BusinessLogic.DTO.VehicleOfferObservation;
 using BusinessLogic.Errors;
+using BusinessLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MotoVendor.Controllers.Api
 {
@@ -16,14 +16,14 @@ namespace MotoVendor.Controllers.Api
             _vehicleOfferObservationService = vehicleOfferObservationService;
         }
 
-        public IActionResult AddOfferObservation(AddVehicleOfferObservationDTO vehicleOfferObservation)
+        public IActionResult Add(AddVehicleOfferObservationDTO vehicleOfferObservation)
         {
             var result = _vehicleOfferObservationService.AddVehicleOfferObservation(vehicleOfferObservation);
-            if(result.IsSuccess)
+            if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
-            switch(result.Error)
+            switch (result.Error)
             {
                 case VehicleOfferObservationErrorCode.RelationAlreadyExists:
                     return StatusCode(409, "User is already observing this offer");
@@ -31,14 +31,14 @@ namespace MotoVendor.Controllers.Api
                     return StatusCode(500, "Unknown error has occured");
             }
         }
-        public IActionResult DeleteUserObservation(int id)
+        public IActionResult Delete(int id)
         {
             var error = _vehicleOfferObservationService.DeleteVehicleOfferObservation(id);
-            if(error == null)
+            if (error == null)
             {
                 return Ok();
             }
-            switch(error)
+            switch (error)
             {
                 case VehicleOfferObservationErrorCode.RelationNotExists:
                     return StatusCode(409, "User is already not observing this offer");

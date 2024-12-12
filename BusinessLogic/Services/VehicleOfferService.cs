@@ -68,7 +68,7 @@ namespace BusinessLogic.Services
         public UpdateVehicleOfferDTO? GetUpdateDTO(int id)
         {
             VehicleOffer? dbVehicleOffer = _vehicleOfferRepository.GetOne(id);
-            if(dbVehicleOffer is null)
+            if (dbVehicleOffer is null)
                 return null;
             return CreateUpdateDTO(dbVehicleOffer);
         }

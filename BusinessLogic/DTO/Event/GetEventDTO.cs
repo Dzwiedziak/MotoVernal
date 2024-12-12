@@ -1,5 +1,4 @@
 ﻿using DB.Enums;
-using System.ComponentModel.DataAnnotations;
 using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Event
