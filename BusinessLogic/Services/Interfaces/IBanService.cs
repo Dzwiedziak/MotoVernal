@@ -12,6 +12,6 @@ namespace BusinessLogic.Services.Interfaces
         Ban? GetActiveBan(string userId);
         List<Ban> GetBansByUser(string userId);
         Ban GetBanById(int banId);
-        List<Ban> GetAllBans();
+        List<Ban> GetAllBans ();
     }
 }

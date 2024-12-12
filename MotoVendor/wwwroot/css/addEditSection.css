@@ -34,7 +34,9 @@ h2 {
     text-align: center;
     padding-bottom: 5px;
 }
-
+.form-title {
+    padding: 5px 12px 5px 5px;
+}
 .form-title input {
     font-family: 'Istok Web';
     font-style: normal;
@@ -49,6 +51,8 @@ h2 {
     border-radius: 25px;
     text-align: center;
     margin: 5px;
+    padding-block: 0px;
+    padding-inline: 0px;
 }
 
 .upload-section {
@@ -107,7 +111,7 @@ h2 {
     border-bottom-left-radius: 25px;
 }
 
-select {
+.category-list span {
     border: none;
     font-family: 'Istok Web';
     font-style: normal;
@@ -115,22 +119,6 @@ select {
     font-size: 18px;
     line-height: 26px;
     width: 100%;
-    background: #EAF2FF;
-}
-
-option {
-    font-family: 'Istok Web';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 26px;
-    display: flex;
-    align-items: center;
-    color: #000000;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-    border: none;
-    width: 75%;
     background: #EAF2FF;
 }
 
@@ -158,6 +146,7 @@ label {
     cursor: pointer;
     background: #0066FF;
     border-radius: 7.5px;
+    margin-top:15px;
 }
 
 .cancel-btn {
@@ -180,4 +169,33 @@ label {
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
+}
+.form-group.image-upload{
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+}
+.text-danger {
+    color: red;
+    text-align: center;
+    padding: 0px 0px 0px 10px;
+}
+
+.validate {
+    margin: 0px 0px 10px 0px;
+}
+
+.load-image-label {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #4285F4;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.current-image {
 }

@@ -10,7 +10,7 @@
         public User User { get; set; }
         public bool IsReserved { get; set; }
         public string Email { get; set; }
-        public string Phone { get; set; }
+        public string Phone {  get; set; }
         //public Phone Phone { get; set; }
         public int Price { get; set; }
         //public Price Price { get; set; }

@@ -5,6 +5,8 @@
     const previewContainer = document.querySelector('.current-image');
     const previewImage = previewContainer ? previewContainer.querySelector('img') : null;
 
+    const MAX_FILE_SIZE = 4 * 1024 * 1024;
+
     if (base64Input.value === '') {
         base64Input.value = 'defaultBase64Value';
     }
@@ -29,6 +31,14 @@
         const file = event.target.files[0];
 
         if (file) {
+            if(file.size > MAX_FILE_SIZE) {
+                alert("The file size exceeds the maximum limit of 4MB.");
+                fileUpload.value = '';
+                base64Input.value = 'defaultBase64Value';
+                extensionInput.value = 'defaultExtension';
+                updateImagePreview(base64Input.value, extensionInput.value);
+                return;
+            }
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
@@ -50,7 +60,4 @@
             updateImagePreview(base64Input.value, extensionInput.value);
         }
     });
-
-   
-
 });
