@@ -3,6 +3,8 @@
     public enum VehicleOfferObservationErrorCode
     {
         RelationAlreadyExists,
-        RelationNotExists
+        RelationNotExists,
+        UserNotExists,
+        OfferNotExists
     }
 }

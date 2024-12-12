@@ -39,7 +39,19 @@ namespace DB
             modelBuilder.Entity<Topic>()
                 .HasOne(s => s.Publisher)
                 .WithMany()
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.ClientCascade)
+                ;
+            modelBuilder.Entity<VehicleOfferObservation>()
+                .HasOne(o => o.Observer)               
+                .WithMany()                            
+                .HasForeignKey("ObserverId")           
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<VehicleOfferObservation>()
+                .HasOne(o => o.VehicleOffer)         
+                .WithMany()                           
+                .HasForeignKey("VehicleOfferId")       
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -50,5 +50,15 @@ namespace BusinessLogic.Services
 
         private GetSectionDTO CreateGetSectionDTO(Section section) =>
             new(section.Id, section.Title, section.Parent, section.Image);
+
+        public Result<List<GetSectionDTO>, SectionErrorCode> GetParentSections(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result<GetSectionDTO, SectionErrorCode> GetRootSection()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

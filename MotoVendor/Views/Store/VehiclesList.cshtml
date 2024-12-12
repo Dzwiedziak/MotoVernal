@@ -1,4 +1,5 @@
 ﻿@inject BusinessLogic.Services.Interfaces.IUserService userService;
+@inject BusinessLogic.Services.Interfaces.IVehicleOfferObservationService offerObservationService;
 @using BusinessLogic.DTO.VehicleOffer;
 @using BusinessLogic.Decorators;
 @using System.Reflection;
@@ -314,6 +315,10 @@
         .offer__actions-section {
             display: flex;
         }
+
+        .offer__observation-status--observing {
+            filter: invert(40%) sepia(100%) saturate(300%) hue-rotate(311deg);
+        }
     </style>
 }
 
@@ -524,6 +529,70 @@
             });
         });
     </script>
+    <script>
+        async function addOfferObservation(object) {
+            const response = await fetch('/api/offers/observations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(object)
+            });
+
+            if (response.ok) {
+                return await response.text();
+            }
+            throw new Error('Failed to add observation');
+        }
+
+        async function deleteOfferObservation(id) {
+            const response = await fetch(`/api/offers/observations/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                return await response.text();
+            }
+            throw new Error('Failed to delete observation');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const offerObservations = document.querySelectorAll('.offer__observation-status');
+
+            offerObservations.forEach(observation => {
+                let observationId = observation.getAttribute('observation-id');
+                if (observationId) {
+                    observation.classList.add('offer__observation-status--observing');
+                }
+                const userId = observation.getAttribute('user-id');
+                const offerId = observation.getAttribute('offer-id');
+
+                observation.addEventListener('click', async () => {
+                    try {
+                        if (observationId == null) {
+
+                            const postJson = {
+                                "UserId": userId,
+                                "OfferId": offerId
+                            }
+
+                            const newObservationId = await addOfferObservation(postJson);
+                            observationId = newObservationId;
+                            observation.setAttribute('observation-id', newObservationId);
+                            observation.classList.add('offer__observation-status--observing');
+                        } else {
+                            await deleteOfferObservation(observationId);
+                            observation.removeAttribute('observation-id');
+                            observationId = null;
+                            observation.classList.remove('offer__observation-status--observing');
+                        }
+                    } catch (error) {
+                        console.error(error.message);
+                    }
+                });
+            });
+        });
+    </script>
 }
 
 <div class="main">
@@ -730,9 +799,13 @@
                                         </a>
                                     </div>
                                 }
-                                <div class="offer__observation-status">
-                                    <img src="~/images/pin.svg" alt="pin offer" />
-                                </div>
+                                @if(user != null)
+                                {
+                                    var offerObservation = offerObservationService.FindByUserAndOffer(user.Id, vehicleOffer.Id);
+                                    <button type="button" class="offer__observation-status" user-id="@user.Id" offer-id="@vehicleOffer.Id" @(offerObservation != null ? $"observation-id={offerObservation.Id}" : "")>
+                                        <img src="~/images/pin.svg" alt="pin offer" />
+                                    </button>
+                                }
                             </div>
                         </div>
                         <div class="offer__photo-main">

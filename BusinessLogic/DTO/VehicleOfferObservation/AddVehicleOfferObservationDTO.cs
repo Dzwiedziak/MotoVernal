@@ -4,14 +4,15 @@ namespace BusinessLogic.DTO.VehicleOfferObservation
 {
     public class AddVehicleOfferObservationDTO
     {
-        public Entities.User Observer { get; set; }
-        public Entities.VehicleOffer VehicleOffer { get; set; }
+        public string UserId { get; set; }
+        public int OfferId { get; set; }
 
         public AddVehicleOfferObservationDTO() { }
-        public AddVehicleOfferObservationDTO(Entities.User observer, Entities.VehicleOffer vehicleOffer)
+
+        public AddVehicleOfferObservationDTO(string userId, int offerId)
         {
-            Observer = observer;
-            VehicleOffer = vehicleOffer;
+            UserId = userId;
+            OfferId = offerId;
         }
     }
 }

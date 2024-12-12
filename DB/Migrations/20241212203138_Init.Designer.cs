@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB.Migrations
 {
     [DbContext(typeof(MVAppContext))]
-    [Migration("20241111171148_file-add")]
-    partial class fileadd
+    [Migration("20241212203138_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace DB.Migrations
                     b.Property<DateTime>("ExpirationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -54,6 +57,8 @@ namespace DB.Migrations
                     b.HasIndex("BannedId");
 
                     b.HasIndex("BannerId");
+
+                    b.HasIndex("ImageId");
 
                     b.ToTable("Bans");
                 });
@@ -73,10 +78,15 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ReporterId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("ReporterId");
 
@@ -98,6 +108,13 @@ namespace DB.Migrations
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PublisherId")
                         .HasColumnType("nvarchar(450)");
 
@@ -107,11 +124,40 @@ namespace DB.Migrations
                     b.Property<DateTime>("TimeTo")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("DB.Entities.EventInterest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EventInterests");
                 });
 
             modelBuilder.Entity("DB.Entities.File", b =>
@@ -130,7 +176,12 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("VehicleOfferId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("VehicleOfferId");
 
                     b.ToTable("Files");
                 });
@@ -217,6 +268,9 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PublicationTime")
                         .HasColumnType("datetime2");
 
@@ -225,9 +279,67 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ImageId");
+
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("DB.Entities.PostComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PublisherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("PublisherId");
+
+                    b.ToTable("PostComments");
+                });
+
+            modelBuilder.Entity("DB.Entities.PostCommentReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReactionType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostCommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PostCommentReactions");
                 });
 
             modelBuilder.Entity("DB.Entities.Price", b =>
@@ -265,6 +377,9 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ReportedId")
                         .HasColumnType("nvarchar(450)");
 
@@ -272,6 +387,8 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("ReportedId");
 
@@ -288,6 +405,9 @@ namespace DB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
@@ -296,6 +416,8 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("ParentId");
 
@@ -317,6 +439,9 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PublisherId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -329,6 +454,8 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("PublisherId");
 
@@ -352,6 +479,9 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -359,6 +489,8 @@ namespace DB.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("OwnerId");
 
@@ -386,7 +518,6 @@ namespace DB.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -422,6 +553,9 @@ namespace DB.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ProfileImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -441,6 +575,8 @@ namespace DB.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ProfileImageId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -514,8 +650,9 @@ namespace DB.Migrations
                     b.Property<bool>("IsReserved")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Mileage")
                         .HasColumnType("int");
@@ -527,10 +664,11 @@ namespace DB.Migrations
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("int");
 
-                    b.Property<int>("PhoneId")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PriceId")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<int>("Transmission")
@@ -553,15 +691,33 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("PhoneId");
-
-                    b.HasIndex("PriceId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("VehicleOffers");
+                });
+
+            modelBuilder.Entity("DB.Entities.VehicleOfferObservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ObserverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("VehicleOfferId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObserverId");
+
+                    b.HasIndex("VehicleOfferId");
+
+                    b.ToTable("VehicleOfferObservations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -707,27 +863,69 @@ namespace DB.Migrations
                         .WithMany()
                         .HasForeignKey("BannerId");
 
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.Navigation("Banned");
 
                     b.Navigation("Banner");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("DB.Entities.BugReport", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.User", "Reporter")
                         .WithMany()
                         .HasForeignKey("ReporterId");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Reporter");
                 });
 
             modelBuilder.Entity("DB.Entities.Event", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.User", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
 
+                    b.Navigation("Image");
+
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("DB.Entities.EventInterest", b =>
+                {
+                    b.HasOne("DB.Entities.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DB.Entities.File", b =>
+                {
+                    b.HasOne("DB.Entities.VehicleOffer", null)
+                        .WithMany("Images")
+                        .HasForeignKey("VehicleOfferId");
                 });
 
             modelBuilder.Entity("DB.Entities.Message", b =>
@@ -747,15 +945,59 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.Post", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.User", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
 
+                    b.Navigation("Image");
+
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("DB.Entities.PostComment", b =>
+                {
+                    b.HasOne("DB.Entities.Post", "Post")
+                        .WithMany("PostComments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.Entities.User", "Publisher")
+                        .WithMany()
+                        .HasForeignKey("PublisherId");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("DB.Entities.PostCommentReaction", b =>
+                {
+                    b.HasOne("DB.Entities.PostComment", "PostComment")
+                        .WithMany("Reactions")
+                        .HasForeignKey("PostCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("PostComment");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DB.Entities.Report", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.User", "Reported")
                         .WithMany()
                         .HasForeignKey("ReportedId");
@@ -764,6 +1006,8 @@ namespace DB.Migrations
                         .WithMany()
                         .HasForeignKey("ReporterId");
 
+                    b.Navigation("Image");
+
                     b.Navigation("Reported");
 
                     b.Navigation("Reporter");
@@ -771,16 +1015,26 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.Section", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.Section", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Image");
 
                     b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("DB.Entities.Topic", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.User", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId")
@@ -793,6 +1047,8 @@ namespace DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Image");
+
                     b.Navigation("Publisher");
 
                     b.Navigation("Section");
@@ -800,6 +1056,10 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.TopicResponse", b =>
                 {
+                    b.HasOne("DB.Entities.File", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("DB.Entities.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
@@ -810,9 +1070,20 @@ namespace DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Image");
+
                     b.Navigation("Owner");
 
                     b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("DB.Entities.User", b =>
+                {
+                    b.HasOne("DB.Entities.File", "ProfileImage")
+                        .WithMany()
+                        .HasForeignKey("ProfileImageId");
+
+                    b.Navigation("ProfileImage");
                 });
 
             modelBuilder.Entity("DB.Entities.UserObservation", b =>
@@ -832,37 +1103,32 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Entities.VehicleOffer", b =>
                 {
-                    b.HasOne("DB.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DB.Entities.Phone", "Phone")
-                        .WithMany()
-                        .HasForeignKey("PhoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DB.Entities.Price", "Price")
-                        .WithMany()
-                        .HasForeignKey("PriceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DB.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Location");
-
-                    b.Navigation("Phone");
-
-                    b.Navigation("Price");
-
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DB.Entities.VehicleOfferObservation", b =>
+                {
+                    b.HasOne("DB.Entities.User", "Observer")
+                        .WithMany()
+                        .HasForeignKey("ObserverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DB.Entities.VehicleOffer", "VehicleOffer")
+                        .WithMany()
+                        .HasForeignKey("VehicleOfferId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Observer");
+
+                    b.Navigation("VehicleOffer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -914,6 +1180,21 @@ namespace DB.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DB.Entities.Post", b =>
+                {
+                    b.Navigation("PostComments");
+                });
+
+            modelBuilder.Entity("DB.Entities.PostComment", b =>
+                {
+                    b.Navigation("Reactions");
+                });
+
+            modelBuilder.Entity("DB.Entities.VehicleOffer", b =>
+                {
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

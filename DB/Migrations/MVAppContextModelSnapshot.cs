@@ -693,6 +693,30 @@ namespace DB.Migrations
                     b.ToTable("VehicleOffers");
                 });
 
+            modelBuilder.Entity("DB.Entities.VehicleOfferObservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ObserverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("VehicleOfferId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObserverId");
+
+                    b.HasIndex("VehicleOfferId");
+
+                    b.ToTable("VehicleOfferObservations");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1083,6 +1107,25 @@ namespace DB.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DB.Entities.VehicleOfferObservation", b =>
+                {
+                    b.HasOne("DB.Entities.User", "Observer")
+                        .WithMany()
+                        .HasForeignKey("ObserverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DB.Entities.VehicleOffer", "VehicleOffer")
+                        .WithMany()
+                        .HasForeignKey("VehicleOfferId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Observer");
+
+                    b.Navigation("VehicleOffer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

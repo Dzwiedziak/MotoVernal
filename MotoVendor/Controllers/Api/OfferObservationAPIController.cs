@@ -1,24 +1,26 @@
-﻿using BusinessLogic.DTO.VehicleOfferObservation;
+﻿using BusinessLogic.DTO.API;
+using BusinessLogic.DTO.VehicleOfferObservation;
 using BusinessLogic.Errors;
 using BusinessLogic.Services.Interfaces;
+using DB.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MotoVendor.Controllers.Api
 {
-    [Route("api/vehicleoffers/observations")]
+    [Route("api/offers/observations")]
     [ApiController]
     public class OfferObservationAPIController : ControllerBase
     {
-        readonly IVehicleOfferObservationService _vehicleOfferObservationService;
-
-        public OfferObservationAPIController(IVehicleOfferObservationService vehicleOfferObservationService)
+        readonly IVehicleOfferObservationService _service;
+        public OfferObservationAPIController(IVehicleOfferObservationService service)
         {
-            _vehicleOfferObservationService = vehicleOfferObservationService;
+            _service = service;
         }
 
-        public IActionResult Add(AddVehicleOfferObservationDTO vehicleOfferObservation)
+        [HttpPost]
+        public IActionResult Add(AddVehicleOfferObservationDTO offerObservation)
         {
-            var result = _vehicleOfferObservationService.AddVehicleOfferObservation(vehicleOfferObservation);
+            var result = _service.Add(offerObservation);
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
@@ -31,15 +33,14 @@ namespace MotoVendor.Controllers.Api
                     return StatusCode(500, "Unknown error has occured");
             }
         }
-        public IActionResult Delete(int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute] int id)
         {
-            var error = _vehicleOfferObservationService.DeleteVehicleOfferObservation(id);
-            if (error == null)
-            {
-                return Ok();
-            }
+            var error = _service.Delete(id);
             switch (error)
             {
+                case null:
+                    return Ok();
                 case VehicleOfferObservationErrorCode.RelationNotExists:
                     return StatusCode(409, "User is already not observing this offer");
                 default:

@@ -9,26 +9,48 @@ namespace BusinessLogic.Services
 {
     public class VehicleOfferObservationService : IVehicleOfferObservationService
     {
-        readonly IVehicleOfferObservationRepository _vehicleOfferObservationRepository;
+        readonly IVehicleOfferObservationRepository _repository;
+        readonly IUserRepository _userRepository;
+        readonly IVehicleOfferRepository _vehicleOfferRepository;
 
-        public VehicleOfferObservationService(IVehicleOfferObservationRepository vehicleOfferObservationRepository)
+        public VehicleOfferObservationService(IVehicleOfferObservationRepository repository, IUserRepository userRepository, IVehicleOfferRepository vehicleOfferRepository)
         {
-            _vehicleOfferObservationRepository = vehicleOfferObservationRepository;
+            _repository = repository;
+            _userRepository = userRepository;
+            _vehicleOfferRepository = vehicleOfferRepository;
         }
 
-        public Result<int, VehicleOfferObservationErrorCode> AddVehicleOfferObservation(AddVehicleOfferObservationDTO vehicleOfferObservation)
+        public Result<int, VehicleOfferObservationErrorCode> Add(AddVehicleOfferObservationDTO entityAddDTO)
         {
-            
+            var dbEntity = _repository.GetForUserAndOffer(entityAddDTO.UserId, entityAddDTO.OfferId);
+            if(dbEntity != null)
+                return VehicleOfferObservationErrorCode.RelationAlreadyExists;
+
+            var dbUser = _userRepository.GetOne(entityAddDTO.UserId);
+            if(dbUser == null)
+                return VehicleOfferObservationErrorCode.UserNotExists;
+
+            var dbVehicleOffer = _vehicleOfferRepository.GetOne(entityAddDTO.OfferId);
+            if(dbVehicleOffer == null)
+                return VehicleOfferObservationErrorCode.OfferNotExists;
+
+            var newEntity = new VehicleOfferObservation(0, dbUser, dbVehicleOffer);
+            _repository.Add(newEntity);
+            return newEntity.Id;
         }
 
-        public VehicleOfferObservationErrorCode? DeleteVehicleOfferObservation(int id)
+        public VehicleOfferObservationErrorCode? Delete(int id)
         {
-            throw new NotImplementedException();
+            var dbEntitiy = _repository.Get(id);
+            if(dbEntitiy == null)
+                return VehicleOfferObservationErrorCode.RelationNotExists;
+            _repository.Delete(dbEntitiy);
+            return null;
         }
 
-        public VehicleOfferObservation Find(int userId, int offerId)
+        public VehicleOfferObservation? FindByUserAndOffer(string userId, int offerId)
         {
-            throw new NotImplementedException();
+            return _repository.GetForUserAndOffer(userId, offerId);
         }
     }
 }
