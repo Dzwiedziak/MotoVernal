@@ -24,6 +24,7 @@ namespace DB
         public DbSet<EventInterest> EventInterests { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
         public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
+        public DbSet<VehicleOfferObservation> VehicleOfferObservations { get; set; }
 
         public MVAppContext(DbContextOptions<MVAppContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

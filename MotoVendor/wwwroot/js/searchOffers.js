@@ -1,12 +1,18 @@
 ﻿let advancedSearch = false
 function switchAdvancedSearch() {
     advancedSearch = !advancedSearch
-    const advancedKeyGroup = document.querySelectorAll('.advanced-key-group')
-    advancedKeyGroup.forEach(function (element) {
+    const advancedKeyGroups = document.querySelectorAll('.advanced-key-group')
+    advancedKeyGroups.forEach(function (group) {
         if (advancedSearch) {
-            element.classList.remove('hidden')
+            group.classList.remove('hidden');
+            group.querySelectorAll('input, select').forEach(element => {
+                element.disabled = false;
+            });
         } else {
-            element.classList.add('hidden')
+            group.classList.add('hidden')
+            group.querySelectorAll('input, select').forEach(element => {
+                element.disabled = true;
+            });
         }
     });
 }
