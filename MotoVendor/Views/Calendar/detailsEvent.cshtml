@@ -95,6 +95,8 @@
             <button class="go-back" onclick="window.location.href='/Calendar/EventsList'">
                 <span>Take me back</span>
             </button>
+            @if (!ViewBag.isOwner)
+            {
             @if (ViewBag.IsCurrentUserInterested)
             {
                 <form asp-action="UninterestEvent" method="post">
@@ -112,6 +114,7 @@
                         <span>I'm interested</span>
                     </button>
                 </form>
+            }
             }
         </div>
     </div>
