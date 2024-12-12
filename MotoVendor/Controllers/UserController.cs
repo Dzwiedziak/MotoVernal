@@ -348,7 +348,7 @@ namespace MotoVendor.Controllers
         public async Task<IActionResult> BanAccount(BanUserDTO model)
         {
 
-            var bannedUser = await _userManager.FindByIdAsync(model.Banned.Id);
+            var bannedUser = _userService.GetUser(model.Banned.Id);
             var bannerUser = await _userManager.GetUserAsync(User);
             
             var isBannedUserAdmin = await _userManager.IsInRoleAsync(bannedUser, "Admin");
@@ -465,7 +465,7 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> ReportAccount(ReportUserDTO model)
         {
-            var reportedUser = await _userManager.FindByIdAsync(model.Reported.Id);
+            var reportedUser = _userService.GetUser(model.Reported.Id);
             var reporterUser = await _userManager.GetUserAsync(User);
 
             model.Reporter = reporterUser;
