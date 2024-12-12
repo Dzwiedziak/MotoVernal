@@ -79,15 +79,15 @@ namespace MotoVendor.Controllers
         {
             var currentUser = await _userManager.FindByIdAsync(model.Publisher.Id);
             model.Publisher = currentUser;
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
             if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
             {
                 model.Image = null;
             }
-
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
             var isBanned = _banService.GetActiveBan(currentUser.Id);
             if (isBanned != null)
             {
@@ -140,14 +140,13 @@ namespace MotoVendor.Controllers
         [Authorize]
         public async Task<IActionResult> EditEvent(UpdateEventDTO updateEventDTO)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return View(updateEventDTO);
-            }
             if (updateEventDTO.Image?.Base64 == "defaultBase64Value" && updateEventDTO.Image?.Extension == "defaultExtension")
             {
                 updateEventDTO.Image = null;
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(updateEventDTO);
             }
             var currentUser = await _userManager.GetUserAsync(User);
 

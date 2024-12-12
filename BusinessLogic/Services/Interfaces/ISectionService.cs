@@ -13,5 +13,6 @@ namespace BusinessLogic.Services.Interfaces
         Result<List<GetSectionDTO>, SectionErrorCode> GetChildrenSections(int id);
         Result<List<GetSectionDTO>, SectionErrorCode> GetParentSections(int id);
         Result<GetSectionDTO, SectionErrorCode> GetRootSection();
+        SectionErrorCode? Update(UpdateSectionDTO section);
     }
 }

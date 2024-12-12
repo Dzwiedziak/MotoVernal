@@ -51,13 +51,19 @@
                     <img alt="car" class="section-image" id="section-image" src="data:image/@sectionC.Image.Extension;base64,@sectionC.Image.Base64" />
                </button>
             }
+            else
+            {
+                <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
+                    <img alt="car" class="section-image" id="section-image" src="~/images/default_car.png" />
+               </button>
+            }
             <div class="section-info">
                 <label>@sectionC.Title</label>
             </div>
             </div>
             @if (User.IsInRole("Admin"))
             {
-                <button class="edit-btn" id="edit-button">
+                    <button class="edit-btn" id="edit-button" onclick="window.location.href='/Forum/EditSection?Id=@sectionC.Id'">
                     <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
                 </button>
             }

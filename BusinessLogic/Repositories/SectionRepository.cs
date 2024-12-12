@@ -19,6 +19,7 @@ namespace BusinessLogic.Repositories
             .ToList();
         public Section? GetOne(int id) => _context.Sections
             .Include(s => s.Image)
+            .Include(s => s.Parent)
             .FirstOrDefault(s => s.Id == id);
         public void Add(Section section) { _context.Sections.Add(section); _context.SaveChanges(); }
         public void Update(Section section) { _context.Sections.Update(section); _context.SaveChanges(); }

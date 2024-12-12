@@ -1,5 +1,7 @@
-﻿using BusinessLogic.DTO.Section;
+﻿using BusinessLogic.DTO.Event;
+using BusinessLogic.DTO.Section;
 using BusinessLogic.Errors;
+using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
@@ -34,6 +36,16 @@ namespace BusinessLogic.Services
         public Section GetOne(int id)
         {
             return _sectionRepository.GetOne(id);
+        }
+        public SectionErrorCode? Update(UpdateSectionDTO section)
+        {
+            Section? dbSection = _sectionRepository.GetOne(section.Id);
+            if (dbSection is null)
+                return SectionErrorCode.SectionNotFound;
+
+            UpdateSection(ref dbSection, section);
+            _sectionRepository.Update(dbSection);
+            return null;
         }
 
         public Result<List<GetSectionDTO>, SectionErrorCode> GetChildrenSections(int id)
@@ -77,7 +89,11 @@ namespace BusinessLogic.Services
             return CreateGetSectionDTO(rootSection);
         }
 
-
+        public void UpdateSection(ref Section oldSection, UpdateSectionDTO @section)
+        {
+            oldSection.Title = @section.Title;
+            oldSection.Image = @section.Image;
+        }
 
         private bool CheckExistance(int id) =>
             _sectionRepository.GetOne(id) != null;

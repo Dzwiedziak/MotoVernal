@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MotoVendor.ViewModels;
+using static System.Collections.Specialized.BitVector32;
 
 namespace MotoVendor.Controllers
 {
@@ -70,9 +71,70 @@ namespace MotoVendor.Controllers
             };
             return View(model);
         }
-        public IActionResult EditSection()
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult AddSection(AddSectionDTO model)
         {
-            return View();
+            var parentSection = _sectionService.GetOne(model.Parent.Id);
+            model.Parent = parentSection;
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            _sectionService.Add(model);
+            return RedirectToAction("SectionsAndTopicsList", new { sectionId = model.Parent.Id });
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult EditSection(int Id)
+        {
+            var sectionToEdit = _sectionService.GetOne(Id);
+            if(sectionToEdit == null)
+            {
+                TempData["ErrorMessage"] = "Section of this id not found";
+                return RedirectToAction("Error", "Home");
+            }
+            /*var parentSection = _sectionService.GetOne(sectionToEdit.Parent);
+            if (parentSection == null)
+            {
+                TempData["ErrorMessage"] = "Parent section not found";
+                return RedirectToAction("Error", "Home");
+            }*/
+            var model = new UpdateSectionDTO
+            {
+                Id = sectionToEdit.Id,
+                Title = sectionToEdit.Title,
+                Parent = sectionToEdit.Parent,
+                Image = sectionToEdit.Image
+            };
+            return View(model);
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult EditSection(UpdateSectionDTO model)
+        {
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
+            {
+                model.Image = null;
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var result = _sectionService.Update(model);
+            if(result == null)
+            {
+                return RedirectToAction("SectionsAndTopicsList", new { sectionId = model.Parent.Id });
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Section of this id not found";
+                return RedirectToAction("Error", "Home");
+            }
         }
         public IActionResult AddTopic()
         {
