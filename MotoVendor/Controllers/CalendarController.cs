@@ -77,6 +77,8 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEvent(AddEventDTO model)
         {
+            var currentUser = await _userManager.FindByIdAsync(model.Publisher.Id);
+            model.Publisher = currentUser;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -85,7 +87,6 @@ namespace MotoVendor.Controllers
             {
                 model.Image = null;
             }
-            var currentUser = await _userManager.FindByIdAsync(model.Publisher.Id);
 
             var isBanned = _banService.GetActiveBan(currentUser.Id);
             if (isBanned != null)
@@ -122,14 +123,6 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You are not a owner of this event";
                 return RedirectToAction("Error", "Home");
             }
-            /*if(result.Value.Image == null)
-            {
-                DB.Entities.File file = new DB.Entities.File();
-                file.Extension = "defaultExtension";
-                file.Base64 = "defaultBase64Value";
-                result.Value.Image = file;
-                
-            }*/
             var model = new UpdateEventDTO
             {
                 Id = id,

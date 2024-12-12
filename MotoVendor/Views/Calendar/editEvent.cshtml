@@ -70,8 +70,8 @@
                 <img id="image-preview" src="@(string.IsNullOrEmpty(Model.Image?.Base64) ? "#" : $"data:image/{Model.Image.Extension};base64,{Model.Image.Base64}")" alt="Preview of uploaded image" style="width: 200px; height: auto;">
             </div>
 
-            <input type="hidden" id="base64" name="Image.Base64" value="@Model.Image?.Base64" />
-            <input type="hidden" id="extension" name="Image.Extension" value="@Model.Image?.Extension" />
+            <input type="hidden" id="base64" name="Image.Base64" asp-for="Image.Base64" value="@Model.Image?.Base64" />
+            <input type="hidden" id="extension" name="Image.Extension" asp-for="Image.Extension" value="@Model.Image?.Extension" />
         </div>
         <div class="form-actions">
             <button type="button" class="cancel-btn" onclick="window.location.href='/Calendar/detailsEvent?id=@Model.Id'">Cancel</button>
