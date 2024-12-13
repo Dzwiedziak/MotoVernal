@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MotoVendor.ViewModels.TopicDetailsViewModel;
+@{
     ViewData["Title"] = "Forum - Details Topic";
 }
 @section Styles {
@@ -7,46 +8,58 @@
 @section Scripts {
     <script src="~/js/topicComments.js"></script>
 }
-<section>
-    <div class="up-section">
-        <div class="nav-tree">
-            <label for="place">Forum</label>
-        </div>
-    </div>
-</section>
-<main>
+<div class="main-cnt">
     <div class="basic-info">
-        <span>Problem ze skrzynią biegów VW GOLF 5</span>
+        <span>@Model.TopicInfo.Title</span>
         <div class="extra-info">
-            <button class="profile">
-                <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
+            <button class="profile" onclick="window.location.href='/user/ProfileView?id=@Model.TopicInfo.Publisher.Id'">
+                @if (Model.TopicInfo.Publisher.ProfileImage != null && !string.IsNullOrEmpty(Model.TopicInfo.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.TopicInfo.Publisher.ProfileImage.Extension))
+                {
+                    <img class="profil-img" src="data:image/@Model.TopicInfo.Publisher.ProfileImage.Extension;base64,@Model.TopicInfo.Publisher.ProfileImage.Base64" />
+                }
+                else
+                {
+                    <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                }
             </button>
-            <span class="nickname">RoyBig</span>
+            <span class="nickname">@Model.TopicInfo.Publisher.UserName</span>
             <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
-            <span class="hour">12:44</span>
-            <span class="date">30-01-2022</span>
-            <button class="go-back">
+            <span class="hour">@Model.TopicInfo.CreationTime.ToString("HH:mm")</span>
+            <span class="date">@Model.TopicInfo.CreationTime.ToString("dd-MM-yyyy")</span>
+            <button class="go-back" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@Model.TopicInfo.Section.Id'">
                 <img src="~/images/undo.png" alt="go_back-img" class="go-back-img">
             </button>
         </div>
     </div>
     <div class="main-info">
         <div class="description-info-item">
-            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+            <span>
+                <pre>@Model.TopicInfo.Description</pre>
+            </span>
         </div>
-        <img src="~/images/pol_pl_Dyfuzor-Tylny-VW-Golf-5-R32-1807_1.jpg" alt="topic-img" class="topic-img">
+        @if (Model.TopicInfo.Image != null && !string.IsNullOrEmpty(Model.TopicInfo.Image.Base64) && !string.IsNullOrEmpty(Model.TopicInfo.Image.Extension))
+        {
+            <img alt="topic-img" class="topic-img" src="data:image/@Model.TopicInfo.Image.Extension;base64,@Model.TopicInfo.Image.Base64" />
+        }
+        else
+        {
+            <img src="~/images/default_car.png" id="topic-img" alt="topic-img" class="topic-img">
+        }
         <div class="action-buttons">
-            <button class="edit-button">
-                <label>Edit</label>
-                <img src="~/images//draw.png" alt="edit" class="edit-image" id="edit-image">
-            </button>
+            @if (ViewBag.isOwner)
+            {
+                <button class="edit-button" onclick="window.location.href='/Forum/EditTopic?id=@Model.TopicInfo.Id'">
+                    <label>Edit</label>
+                    <img src="~/images//draw.png" alt="edit" class="edit-image" id="edit-image">
+                </button>
+                <button class="delete-button">
+                    <label>Delete</label>
+                <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image">
+                </button>
+            }
             <button class="follow-button">
                 <label>Follow</label>
                 <img src="~/images/star.png" alt="follow" class="star-image" id="star-image">
-            </button>
-            <button class="delete-button">
-                <label>Delete</label>
-                <img src="~/images/x-button.png" alt="delete" class="x-image" id="x-image">
             </button>
         </div>
     </div>
@@ -185,4 +198,4 @@
             </div>
         </div>
     </div>
-</main>
+</div>

@@ -177,4 +177,10 @@ input, select, textarea {
 .current-image{
     margin-top:15px;
 }
+.section-title {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: -25px;
+}
 
