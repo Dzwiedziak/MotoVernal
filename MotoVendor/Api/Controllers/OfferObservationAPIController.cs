@@ -5,7 +5,7 @@ using BusinessLogic.Services.Interfaces;
 using DB.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MotoVendor.Controllers.Api
+namespace MotoVendor.Api.Controllers
 {
     [Route("api/offers/observations")]
     [ApiController]

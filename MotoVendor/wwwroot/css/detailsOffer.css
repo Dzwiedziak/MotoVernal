@@ -1,6 +1,8 @@
 ﻿.offer-details {
     font-family: "Inter", sans-serif;
     padding: 20px 5vw;
+    display: flex;
+    justify-content: space-around;
 }
 
 .offer-details h1 {
@@ -91,6 +93,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
+    width: fit-content;
 }
 
 .info-categories {
@@ -108,7 +111,7 @@ h1 {
 .overview {
     display: flex;
     gap: 50px;
-    padding-top: 20px;
+    flex-wrap: wrap;
 }
 
 .overview ul {
@@ -173,4 +176,20 @@ h1 {
     font-size: 20px;
     font-weight: 600;
     color: #CCCCCC;
+}
+
+.offer-details__inner {
+    width: fit-content;
+}
+
+.finalization-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 24px;
+    gap: 20px;
+}
+
+.finalization-label {
+    font-weight: 500;
+    color: #646364;
 }

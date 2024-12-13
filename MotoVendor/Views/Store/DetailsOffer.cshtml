@@ -23,9 +23,10 @@
         }
 
         .content {
-            display: flex;
+            display: grid;
             gap: 40px;
             padding-top: 15px;
+            grid-template-columns: 1fr fit-content(300px);
         }
 
         .action-btns {
@@ -33,6 +34,8 @@
             flex-direction: column;
             gap: 20px;
             justify-content: center;
+            width: 100%;
+            align-items: center;
         }
 
         .action-btn {
@@ -53,13 +56,6 @@
             font-weight: 600;
         }
 
-        .product-info-2 {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 30px;
-            gap: 20px;
-        }
-
         .info-categories {
             border-bottom: 1px solid #CCCCCC;
             color: #CCCCCC;
@@ -71,12 +67,6 @@
             border-bottom: 3px solid #0066FF;
             padding-bottom: 10px;
             color: #0066FF;
-        }
-
-        .overview {
-            display: flex;
-            gap: 50px;
-            padding-top: 20px;
         }
 
         .overview ul {
@@ -143,6 +133,7 @@
             border: 1px solid black;
             border-radius: 5px;
             overflow: hidden;
+            max-width: 900px;
         }
 
         .photo-list__move-left-img {
@@ -318,200 +309,200 @@
 }
 
 <div class="offer-details">
-    <ul class="breadcrumb">
-        <li>
-            Offers
-        </li>
-        <li>
-            Vehicle
-        </li>
-        <li>
-            Audi
-        </li>
-        <li>
-            A6
-        </li>
-        <li>
-            C7
-        </li>
-    </ul>
-    <h1>
-        Used Audi A6 C7 Allroad Quattro
-    </h1>
-    <div class="content">
-        <div style="display: block;" class="photo-list__carousel">
-            <div class="photo-list__carousel-list-container">
-                <img class="photo-list__move-left-img" src="~/images/arrow-triange-left.svg" />
-                <div style="left: 0%;" class="photo-list__carousel-list">
-                    @if(Model?.Images != null)
-                    @foreach(var image in Model.Images)
-                    {
-                        <div class="photo-list__carousel-element">
-                            <img class="photo-list__carousel-content" src="data:/images/@image.Extension;base64,@image.Base64" />
-                        </div>
-                    }
-                </div>
-                <img class="photo-list__move-right-img" src="~/images/arrow-triangle-right.svg" />
-            </div>
-        </div>
-        <div class="action-btns">
-            <div class="action-btn">
-                <div class="action-text">
-                    Save offer
-                </div>
-                <div class="action-icon">
-                    <img src="~/images/pin-black.svg" />
+    <div class="offer-details__inner">
+        <h1>
+            Used Audi A6 C7 Allroad Quattro
+        </h1>
+        <div class="content">
+            <div style="display: block;" class="photo-list__carousel">
+                <div class="photo-list__carousel-list-container">
+                    <img class="photo-list__move-left-img" src="~/images/arrow-triange-left.svg" />
+                    <div style="left: 0%;" class="photo-list__carousel-list">
+                        @if (Model?.Images != null)
+                        {
+                            @foreach (var image in Model.Images)
+                            {
+                                <div class="photo-list__carousel-element">
+                                    <img class="photo-list__carousel-content" src="data:/images/@image.Extension;base64,@image.Base64" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <img class="photo-list__move-right-img" src="~/images/arrow-triangle-right.svg" />
                 </div>
             </div>
-            <div class="action-btn">
-                <div class="action-text">
-                    Share
-                </div>
-                <div class="action-icon">
-                    <img src="~/images/share.svg" />
-                </div>
-            </div>
-            <div class="action-btn">
-                <div class="action-text">
-                    Report
-                </div>
-                <div class="action-icon">
-                    <img src="~/images/flag.svg" />
-                </div>
-            </div>
-            <div class="action-btn">
-                <div class="action-text">
-                    Contact user
-                </div>
-                <div class="action-icon">
-                    <img src="~/images/envelope.svg" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="product-info-2">
-        <div class="category-info">
-            <div class="info-categories">
-                <button class="section-btn current-category" tab-section-btn="overview">
-                    Overview
-                </button>
-                <button class="section-btn" tab-section-btn="description">
-                    Description
-                </button>
-                <button class="section-btn" tab-section-btn="seller-info">
-                    Seller
-                </button>
-            </div>
-            <div class="tabs-sections">
-                <div class="tab-section" tab-section="overview">
-                    <div class="overview">
-                        <ul class="properties">
-                            <li>
-                                <div class="label">Brand</div>
-                                <div class="value">@Model.Brand</div>
-                            </li>
-                            <li>
-                                <div class="label">Model</div>
-                                <div class="value">@Model.Model</div>
-                            </li>
-                            <li>
-                                <div class="label">Generation</div>
-                                <div class="value">@Model.Generation</div>
-                            </li>
-                            <li>
-                                <div class="label">Version</div>
-                                <div class="value">@Model.Version</div>
-                            </li>
-                            <li>
-                                <div class="label">Transmission</div>
-                                <div class="value">@Model.Transmission</div>
-                            </li>
-                            <li>
-                                <div class="label">Engine</div>
-                                <div class="value">Unknown</div>
-                            </li>
-                            <li>
-                                <div class="label">Drive</div>
-                                <div class="value">@Model.Drive</div>
-                            </li>
-                            <li>
-                                <div class="label">Body</div>
-                                <div class="value">@Model.Body</div>
-                            </li>
-                            <li>
-                                <div class="label">Color</div>
-                                <div class="value">@Model.Color</div>
-                            </li>
-                        </ul>
-                        <ul class="properties">
-                            <li>
-                                <div class="label">Condition</div>
-                                <div class="value">@Model.Condition</div>
-                            </li>
-                            <li>
-                                <div class="label">Number of seats</div>
-                                <div class="value">@Model.NumberOfSeats</div>
-                            </li>
-                            <li>
-                                <div class="label">Year of production</div>
-                                <div class="value">@Model.YearOfProduction</div>
-                            </li>
-                            <li>
-                                <div class="label">Mileage</div>
-                                <div class="value">@Model.Mileage km</div>
-                            </li>
-                            <li>
-                                <div class="label">First owner</div>
-                                <div class="value">@Model.FirstOwner</div>
-                            </li>
-                            <li>
-                                <div class="label">VIN</div>
-                                <div class="value">@Model.VIN</div>
-                            </li>
-                        </ul>
+            <div class="action-btns">
+                <div class="action-btn">
+                    <div class="action-text">
+                        Save offer
+                    </div>
+                    <div class="action-icon">
+                        <img src="~/images/pin-black.svg" />
                     </div>
                 </div>
-                <div class="tab-section" tab-section="description">
-                    <div class="tab-section__description">
-                        @Model.Description
+                <div class="action-btn">
+                    <div class="action-text">
+                        Share
+                    </div>
+                    <div class="action-icon">
+                        <img src="~/images/share.svg" />
                     </div>
                 </div>
-                <div class="tab-section" tab-section="seller-info">
-                    <div class="seller-info">
-                        <div>
-                            <img class="profile-image" src="data:image/@Model.User.ProfileImage.Extension;base64,@Model.User.ProfileImage.Base64" />
+                <div class="action-btn">
+                    <div class="action-text">
+                        Report
+                    </div>
+                    <div class="action-icon">
+                        <img src="~/images/flag.svg" />
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <div class="action-text">
+                        Contact user
+                    </div>
+                    <div class="action-icon">
+                        <img src="~/images/envelope.svg" />
+                    </div>
+                </div>
+            </div>
+            <div class="category-info">
+                <div class="info-categories">
+                    <button class="section-btn current-category" tab-section-btn="overview">
+                        Overview
+                    </button>
+                    <button class="section-btn" tab-section-btn="description">
+                        Description
+                    </button>
+                    <button class="section-btn" tab-section-btn="seller-info">
+                        Seller
+                    </button>
+                    <button class="section-btn" tab-section-btn="contact-info">
+                        Finalization
+                    </button>
+                </div>
+                <div class="tabs-sections">
+                    <div class="tab-section" tab-section="overview">
+                        <div class="overview">
+                            <ul class="properties">
+                                <li>
+                                    <div class="label">Brand</div>
+                                    <div class="value">@Model.Brand</div>
+                                </li>
+                                <li>
+                                    <div class="label">Model</div>
+                                    <div class="value">@Model.Model</div>
+                                </li>
+                                <li>
+                                    <div class="label">Generation</div>
+                                    <div class="value">@Model.Generation</div>
+                                </li>
+                                <li>
+                                    <div class="label">Version</div>
+                                    <div class="value">@Model.Version</div>
+                                </li>
+                                <li>
+                                    <div class="label">Transmission</div>
+                                    <div class="value">@Model.Transmission</div>
+                                </li>
+                                <li>
+                                    <div class="label">Engine</div>
+                                    <div class="value">Unknown</div>
+                                </li>
+                                <li>
+                                    <div class="label">Drive</div>
+                                    <div class="value">@Model.Drive</div>
+                                </li>
+                                <li>
+                                    <div class="label">Body</div>
+                                    <div class="value">@Model.Body</div>
+                                </li>
+                                <li>
+                                    <div class="label">Color</div>
+                                    <div class="value">@Model.Color</div>
+                                </li>
+                            </ul>
+                            <ul class="properties">
+                                <li>
+                                    <div class="label">Condition</div>
+                                    <div class="value">@Model.Condition</div>
+                                </li>
+                                <li>
+                                    <div class="label">Number of seats</div>
+                                    <div class="value">@Model.NumberOfSeats</div>
+                                </li>
+                                <li>
+                                    <div class="label">Year of production</div>
+                                    <div class="value">@Model.YearOfProduction</div>
+                                </li>
+                                <li>
+                                    <div class="label">Mileage</div>
+                                    <div class="value">@Model.Mileage km</div>
+                                </li>
+                                <li>
+                                    <div class="label">First owner</div>
+                                    <div class="value">@Model.FirstOwner</div>
+                                </li>
+                                <li>
+                                    <div class="label">VIN</div>
+                                    <div class="value">@Model.VIN</div>
+                                </li>
+                            </ul>
                         </div>
-                        <div>
-                            <div class="profile-username">
-                                @Model.User.UserName
+                    </div>
+                    <div class="tab-section" tab-section="description">
+                        <div class="tab-section__description">
+                            @Model.Description
+                        </div>
+                    </div>
+                    <div class="tab-section" tab-section="seller-info">
+                        <div class="seller-info">
+                            <div>
+                                @if (Model.User.ProfileImage != null)
+                                {
+                                    <img class="profile-image" src="data:image/@Model.User.ProfileImage.Extension;base64,@Model.User.ProfileImage.Base64" />
+                                }
                             </div>
-                            <div class="profile-description">
-                                @Model.User.Description
+                            <div>
+                                <div class="profile-username">
+                                    @Model.User.UserName
+                                </div>
+                                <div class="profile-description">
+                                    @Model.User.Description
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="product-price">
-            <div class="price-group">
-                <div class="price-amount">
-                    <div class="price-value">
-                        @Model.Price
-                    </div>
-                    <div class="price-currency">
-                        PLN
+                    <div class="tab-section" tab-section="contact-info">
+                        <div class="finalization-container">
+                            <div class="finalization-label">Phone number:</div><div class="finalization-value">@Model.Phone</div>
+                            <div class="finalization-label">E-mail:</div><div class="finalization-value">@Model.Phone</div>
+                            <div class="finalization-label">Location:</div><div class="finalization-value">@Model.Location</div>
+                        </div>
                     </div>
                 </div>
-                <div class="price-label">
-                    Cena brutto
+            </div>
+            <div class="product-info-2">
+                <div class="product-price">
+                    <div class="price-group">
+                        <div class="price-amount">
+                            <div class="price-value">
+                                @Model.Price
+                            </div>
+                            <div class="price-currency">
+                                PLN
+                            </div>
+                        </div>
+                        <div class="price-label">
+                            Cena brutto
+                        </div>
+                    </div>
+                    <div class="negotiation-info">
+                        Cena podlega negocjacji
+                    </div>
+                    <div class="currency-options">
+                        Check in different currency
+                    </div>
                 </div>
-            </div>
-            <div class="negotiation-info">
-                Cena podlega negocjacji
-            </div>
-            <div class="currency-options">
-                Check in different currency
             </div>
         </div>
     </div>

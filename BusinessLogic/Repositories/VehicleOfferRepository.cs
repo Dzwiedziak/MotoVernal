@@ -18,5 +18,10 @@ namespace BusinessLogic.Repositories
         public VehicleOffer? GetOne(int id) => _context.VehicleOffers.Include(vo => vo.Images).Include(vo => vo.User).ThenInclude(u => u.ProfileImage).FirstOrDefault(vo => vo.Id == id);
         public void Add(VehicleOffer offer) { _context.VehicleOffers.Add(offer); _context.SaveChanges(); }
         public void Update(VehicleOffer offer) { _context.VehicleOffers.Update(offer); _context.SaveChanges(); }
+
+        public List<VehicleOffer> GetAllOwners(string userId)
+        {
+            return _context.VehicleOffers.Where(o => o.User.Id == userId).ToList();
+        }
     }
 }

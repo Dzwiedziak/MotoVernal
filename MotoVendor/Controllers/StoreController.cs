@@ -76,38 +76,79 @@ namespace MotoVendor.Controllers
         [HttpGet]
         public IActionResult VehiclesList(int pageIndex = 0, int pageSize = 30)
         {
+            var user = _userService.GetCurrentUser().Result;
             var query = HttpContext.Request.Query;
+
             var filters = new Dictionary<string, HashSet<string>>();
-            string sort_by = null;
-            foreach(var key in query.Keys)
+            string? sortBy = null;
+            string? isOwnerQuery = null;
+
+            foreach (var key in query.Keys)
             {
-                var value = query[key];
-                if(key == "sort_by")
-                    sort_by = value;
+                var values = query[key];
+                if (key.Equals("sort_by", StringComparison.OrdinalIgnoreCase))
+                {
+                    sortBy = values.FirstOrDefault();
+                }
+                else if (key.Equals("isOwner", StringComparison.OrdinalIgnoreCase))
+                {
+                    isOwnerQuery = values.FirstOrDefault();
+                }
                 else
                 {
-                    foreach (var keyvalue in value)
+                    foreach (var value in values)
                     {
-                        if (!filters.ContainsKey(key))
+                        if (!string.IsNullOrWhiteSpace(value))
                         {
-                            filters[key] = new HashSet<string>();
+                            if (!filters.ContainsKey(key))
+                            {
+                                filters[key] = new HashSet<string>();
+                            }
+                            filters[key].Add(value);
                         }
-                        if (!keyvalue.IsNullOrEmpty())
-                            filters[key].Add(keyvalue);
                     }
                 }
             }
-            List<GetVehicleOfferDTO> getVehicleOfferDTOs = _vehicleOfferService.GetAll();
-            List<GetVehicleOfferDTO> filteredGetVehicleOfferDTOs = ListFilter.FilterList(getVehicleOfferDTOs, filters);
-            List<GetVehicleOfferDTO> sortedList = ListFilter.SortList(filteredGetVehicleOfferDTOs, sort_by);
-            var paginatedList = ListFilter.GetPaginatedList(sortedList, pageIndex, pageSize);
+
+            var vehicleOffers = _vehicleOfferService.GetAll();
+
+            var filteredOffers = ListFilter.FilterList(vehicleOffers, filters);
+
+            if (bool.TryParse(isOwnerQuery, out var isOwner))
+            {
+                if (isOwner)
+                {
+                    if (user == null)
+                    {
+                        return View(new List<GetVehicleOfferDTO>());
+                    }
+
+                    filteredOffers = filteredOffers.Where(o => o.User.Id == user.Id).ToList();
+                }
+                else
+                {
+                    if (user != null)
+                    {
+                        filteredOffers = filteredOffers.Where(o => o.User.Id != user.Id).ToList();
+                    }
+                }
+            }
+
+            var sortedOffers = ListFilter.SortList(filteredOffers, sortBy);
+
+            var paginatedOffers = ListFilter.GetPaginatedList(sortedOffers, pageIndex, pageSize);
+
             ViewBag.FilterValues = filters;
-            ViewBag.SortBy = sort_by;
+            ViewBag.SortBy = sortBy;
+            ViewBag.IsOwner = isOwnerQuery;
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageSize = pageSize;
-            @ViewBag.TotalItemsCount = filteredGetVehicleOfferDTOs.Count;
-            return View(paginatedList);
+            ViewBag.TotalItemsCount = filteredOffers.Count;
+
+            return View(paginatedOffers);
         }
+
+
         [HttpGet]
         public IActionResult SearchOffers()
         {

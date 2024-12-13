@@ -36,7 +36,7 @@
                 </div>
                 <div class="search-key-group advanced-key-group hidden">
                     <div class="search-key">
-                        <select id="condition-select" asp-items="Html.GetEnumSelectList<DB.Enums.VehicleCondition>()" name="Condition">
+                        <select id="condition-select" asp-items="Html.GetEnumSelectListWithNames<DB.Enums.VehicleCondition>()" name="Condition">
                             <option value="" disabled selected>Condition</option>
                         </select>
                         <img src="~/images/arrow-down-empty.svg">
@@ -52,13 +52,13 @@
                 </div>
                 <div class="search-key-group">
                     <div class="search-key">
-                        <select id="body-select" asp-items="Html.GetEnumSelectList<DB.Enums.BodyType>()" name="Body">
+                        <select id="body-select" asp-items="Html.GetEnumSelectListWithNames<DB.Enums.BodyType>()" name="Body">
                             <option value="" disabled selected>Body</option>
                         </select>
                         <img src="~/images/arrow-down-empty.svg">
                     </div>
                     <div class="search-key">
-                        <select id="type-select" asp-items="Html.GetEnumSelectList<DB.Enums.TransmissionType>()" name="Transmission">
+                        <select id="type-select" asp-items="Html.GetEnumSelectListWithNames<DB.Enums.TransmissionType>()" name="Transmission">
                             <option value="" disabled selected>Type</option>
                         </select>
                         <img src="~/images/arrow-down-empty.svg">

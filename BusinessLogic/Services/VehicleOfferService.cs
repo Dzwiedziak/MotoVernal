@@ -118,7 +118,7 @@ namespace BusinessLogic.Services
                 creationTime: DateTime.Now,
                 location: vehicleOffer.Location,
                 user: vehicleOffer.User,
-                isReserved: false,
+                isReserved: vehicleOffer.IsReserved,
                 email: vehicleOffer.Email,
                 phone: vehicleOffer.Phone,
                 price: vehicleOffer.Price,
@@ -163,6 +163,24 @@ namespace BusinessLogic.Services
         {
             List<VehicleOffer> vehicleOffers = _vehicleOfferRepository.GetAll();
             return vehicleOffers.Select(vo => CreateGetVehicleOfferDTO(vo)).ToList();
+        }
+
+        public List<GetVehicleOfferDTO> GetAllOwners(string userId)
+        {
+            var offers = _vehicleOfferRepository.GetAllOwners(userId);
+            return offers.Select(CreateGetVehicleOfferDTO).ToList();
+        }
+
+        public VehicleOfferErrorCode? UpdateReservation(int id, bool isReserved)
+        {
+            var offer = _vehicleOfferRepository.GetOne(id);
+            if(offer == null)
+            {
+                return VehicleOfferErrorCode.VehicleNotFound;
+            }
+            offer.IsReserved = isReserved;
+            _vehicleOfferRepository.Update(offer);
+            return null;
         }
     }
 }

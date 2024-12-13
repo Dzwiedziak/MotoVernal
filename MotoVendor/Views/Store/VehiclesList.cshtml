@@ -305,6 +305,13 @@
             color: #20DA32;
             border-radius: 7px;
             background-color: #b4F8b2;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .offer__reservation-status--reserved {
+            background-color: red;
+            color: white;
         }
         .aside-sorter {
             display: flex;
@@ -317,9 +324,38 @@
         }
 
         .offer__observation-status--observing {
-            filter: invert(40%) sepia(100%) saturate(300%) hue-rotate(311deg);
+            filter: invert(40%) sepia(100%) saturate(1500%) hue-rotate(311deg);
         }
     </style>
+    <style>
+        .checkbox-container {
+            width: 100px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: gray;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            user-select: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .checkbox-container[data-state="true"] {
+            background-color: green;
+            color: white;
+        }
+
+        .checkbox-container[data-state="false"] {
+            background-color: rgb(255, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+
+        .hidden-input {
+            display: none;
+        }
+      </style>
 }
 
 @section Scripts {
@@ -593,6 +629,111 @@
             });
         });
     </script>
+    <script>
+        function toggleState(container) {
+            const currentState = container.getAttribute('data-state');
+            let newState;
+            const hiddenInput = container.querySelector('.hidden-input');
+
+            switch (currentState) {
+                case 'disabled':
+                    newState = 'true';
+                    hiddenInput.disabled = false;
+                    hiddenInput.value = 'true';
+                    break;
+                case 'true':
+                    newState = 'false';
+                    hiddenInput.disabled = false;
+                    hiddenInput.value = 'false';
+                    break;
+                case 'false':
+                    newState = 'disabled';
+                    hiddenInput.disabled = true;
+                    break;
+                default:
+                    newState = 'disabled';
+            }
+
+            container.setAttribute('data-state', newState);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxContainer = document.querySelector('.checkbox-container');
+            const currentState = checkboxContainer.getAttribute('data-state');
+            const hiddenInput = checkboxContainer.querySelector('.hidden-input');
+            hiddenInput.checked = true
+
+            if (currentState === 'true') {
+                hiddenInput.disabled = false;
+                hiddenInput.value = 'true';
+            } else if (currentState === 'false') {
+                hiddenInput.disabled = false;
+                hiddenInput.value = 'false';
+            } else {
+                hiddenInput.disabled = true;
+                hiddenInput.value = 'false';
+            }
+        });
+    </script>
+    <script>
+        const reservations = document.querySelectorAll('.offer__reservation-status');
+        reservations.forEach(reservation => {
+            const reservedAttribute = reservation.getAttribute('reserved');
+            let isReserved = reservedAttribute !== null;
+            updateVisuals(reservation, isReserved);
+        });
+        function changeReservation(element, id) {
+            const reservedAttribute = element.getAttribute('reserved');
+            let isReserved = reservedAttribute !== null;
+
+            toggleReservationState(id, isReserved);
+
+            async function changeReservationFetch(id, object) {
+                const response = await fetch(`/api/offers/${id}/isreserved`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(object)
+                });
+
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error("Changing reservation failed");
+            }
+            async function toggleReservationState(id, isReserved) {
+                isReserved = !isReserved;
+
+                const fetchBody = { isReserved: isReserved };
+
+                try {
+                    await changeReservationFetch(id, fetchBody);
+                    updateElementState(element, isReserved);
+                    updateVisuals(element, isReserved);
+                } catch (error) {
+                    console.error(error.message);
+                    alert("Failed to update reservation status.");
+                }
+            }
+
+            function updateElementState(element, isReserved) {
+                if (isReserved) {
+                    element.setAttribute('reserved', '');
+                } else {
+                    element.removeAttribute('reserved');
+                }
+            }
+        }
+        function updateVisuals(element, isReserved) {
+            if (isReserved) {
+                element.textContent = 'Reserved';
+                element.classList.add('offer__reservation-status--reserved');
+            } else {
+                element.textContent = 'Not reserved';
+                element.classList.remove('offer__reservation-status--reserved');
+            }
+        }
+    </script>
 }
 
 <div class="main">
@@ -756,6 +897,29 @@
                 }
                 <div class="horizontal-line"></div>
             }
+            <div class="filter__dropdown-component">
+                <div class="filter__dropdown-base">
+                    <div class="filter__dropdown-base__left">
+                        <div class="filter__dropdown-base__title">
+                            Owner Filter
+                        </div>
+                    </div>
+                    <div class="filter__dropdown-base__right">
+                        <img class="filter__dropdown-arrow" src="~/images/triangle-arrow.svg" />
+                    </div>
+                </div>
+                <div class="filter__dropdown-collapsible">
+                    <div class="filter__dropdown-collapsible__content">
+                        <div class="checkbox-container"
+                             data-state=@((ViewBag.IsOwner == null) ? "disabled" : (ViewBag.IsOwner == "true" ? "true" : "false"))
+                             onclick="toggleState(this)">
+                            <input type="checkbox" class="hidden-input" name="IsOwner">
+                            IsOwner
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="horizontal-line"></div>
             <button type="submit" class="filter__submit-btn">Filter</button>
         </div>
         <div class="results">
@@ -763,23 +927,28 @@
                 <div class="results-count">
                     Showing @(ViewBag.PageIndex * ViewBag.PageSize + 1)-@(ViewBag.PageIndex * ViewBag.PageSize + Model.Count) of @ViewBag.TotalItemsCount Listings
                 </div>
-                <div class="aside-sorter">
-                    <div>Sort by:</div>
-                    <select name="sort_by" class="filter__sort-by">
-                        @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
-                        {
-                            var isSortable = property.GetCustomAttribute<FilterableAttribute>() != null;
-                            if (!isSortable) continue;
-                            <!option value="@(property.Name + "[asc]")"
-                                    @(ViewBag.SortBy == (property.Name + "[asc]") ? "selected" : "")>
-                                @(property.Name) (Asc)
-                            </!option>
-                            <!option value="@(property.Name + "[desc]")"
-                                    @(ViewBag.SortBy == (property.Name + "[desc]") ? "selected" : "")>
-                                @(property.Name) (Desc)
-                            </!option>
-                        }
-                    </select>
+                <div class="result-global__right-side">
+                    <a class="offers__add" asp-action="AddOffer">
+                        Add offer
+                    </a>
+                    <div class="aside-sorter">
+                        <div>Sort by:</div>
+                        <select name="sort_by" class="filter__sort-by">
+                            @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
+                            {
+                                var isSortable = property.GetCustomAttribute<FilterableAttribute>() != null;
+                                if (!isSortable) continue;
+                                <!option value="@(property.Name + "[asc]")"
+                                @(ViewBag.SortBy == (property.Name + "[asc]") ? "selected" : "")>
+                                    @(property.Name) (Asc)
+                                </!option>
+                                <!option value="@(property.Name + "[desc]")"
+                                @(ViewBag.SortBy == (property.Name + "[desc]") ? "selected" : "")>
+                                    @(property.Name) (Desc)
+                                </!option>
+                            }
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="results-main">
@@ -787,9 +956,18 @@
                 {
                     <div class="offer">
                         <div class="offer__upper">
-                            <div class="offer__reservation-status">
-                                Not reserved
-                            </div>
+                            @if(user != null && user.Id == vehicleOffer.User?.Id)
+                            {
+                                <button type="button" class="offer__reservation-status" offer-id="@vehicleOffer.Id" onclick="changeReservation(this,@vehicleOffer.Id)" @(vehicleOffer.IsReserved ? "reserved" : "")>
+                                    
+                                </button>
+                            }
+                            else
+                            {
+                                <div class="offer__reservation-status">
+                                    Not reserved
+                                </div>
+                            }
                             <div class="offer__actions-section">
                                 @if(user != null && user.Id == vehicleOffer.User?.Id)
                                 {
