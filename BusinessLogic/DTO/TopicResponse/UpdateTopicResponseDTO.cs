@@ -7,6 +7,7 @@ namespace BusinessLogic.DTO.TopicResponse
         public string Description { get; set; }
         public Entities.File? Image { get; set; }
 
+        public UpdateTopicResponseDTO() { }
         public UpdateTopicResponseDTO(string description, Entities.File? image)
         {
             Description = description;

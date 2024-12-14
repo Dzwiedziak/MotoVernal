@@ -10,6 +10,7 @@ using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MotoVendor.Authorizations.Requirements;
 using MotoVendor.ViewModels;
 using static System.Collections.Specialized.BitVector32;
 
@@ -22,14 +23,16 @@ namespace MotoVendor.Controllers
         private readonly ITopicResponseService _topicResponseService;
         private readonly IBanService _banService;
         private readonly UserManager<User> _userManager;
+        private readonly IAuthorizationService _authorizationService;
 
-        public ForumController(ISectionService sectionService, ITopicService topicService, ITopicResponseService topicResponseService, IBanService banService, UserManager<User> userManager)
+        public ForumController(ISectionService sectionService, ITopicService topicService, ITopicResponseService topicResponseService, IBanService banService, UserManager<User> userManager, IAuthorizationService authorizationService)
         {
             _sectionService = sectionService;
             _topicService = topicService;
             _topicResponseService = topicResponseService;
             _banService = banService;
             _userManager = userManager;
+            _authorizationService = authorizationService;
         }
         public IActionResult SectionsAndTopicsList(int? sectionId)
         {
@@ -311,6 +314,33 @@ namespace MotoVendor.Controllers
             }
             _topicResponseService.Add(model);
             return RedirectToAction("DetailsTopic", new { Id = model.Topic.Id });
+        }
+        [Authorize]
+        [HttpPost]
+        [Route("/EditResponse/{id}")]
+        public async Task<IActionResult> EditResponse([FromRoute] int id, UpdateTopicResponseDTO model)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var updateDTO = new UpdateTopicResponseDTO(model.Description, model.Image);
+            if (currentUser == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            var permission = await _authorizationService.AuthorizeAsync(User, null, new IsTopicResponseOwnerRequirement(id));
+            if (!permission.Succeeded)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            var result = _topicResponseService.Update(id, updateDTO);
+            switch (result)
+            {
+                case null:
+                    var topicResponse = _topicResponseService.GetOne(id);
+                    var topic = _topicService.GetOne(topicResponse.Topic.Id);
+                    return RedirectToAction("DetailsTopic", new { Id = topic.Id });
+                default:
+                    return RedirectToAction("Error", "Home");
+            }
         }
         [Authorize]
         [HttpPost]

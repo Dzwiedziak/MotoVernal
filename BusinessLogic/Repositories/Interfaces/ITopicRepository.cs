@@ -9,6 +9,5 @@ namespace BusinessLogic.Repositories.Interfaces
         Topic? GetOne(int id);
         void Add(Topic topic);
         void Update(Topic topic);
-
     }
 }

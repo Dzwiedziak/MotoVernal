@@ -53,7 +53,7 @@ namespace BusinessLogic.Services
         }
 
         private Topic CreateNewTopic(AddTopicDTO topic) =>
-            new(topic.Title, topic.Description, DateTime.Now, topic.Publisher, topic.Section, topic.Image);
+            new(topic.Title, topic.Description, DateTime.Now, topic.Publisher, topic.Section, topic.Image, topic.Responses);
 
         private GetTopicDTO CreateGetTopicDTO(Topic topic) =>
             new(topic.Id, topic.Title, topic.Description, topic.CreationTime, topic.Publisher, topic.Section, topic.Image);
@@ -64,5 +64,6 @@ namespace BusinessLogic.Services
             oldTopic.Description = topic.Description;
             oldTopic.Image = topic.Image;
         }
+
     }
 }

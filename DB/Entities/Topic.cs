@@ -9,10 +9,11 @@
         public User Publisher { get; set; }
         public Section Section { get; set; }
         public File? Image { get; set; }
+        public List<TopicResponse> Responses { get; set; }
 
         public Topic() { }
 
-        public Topic(int id, string title, string description, DateTime creationTime, User publisher, Section section, File? image)
+        public Topic(int id, string title, string description, DateTime creationTime, User publisher, Section section, File? image, List<TopicResponse> responses)
         {
             Id = id;
             Title = title;
@@ -21,10 +22,11 @@
             Publisher = publisher;
             Section = section;
             Image = image;
+            Responses = responses;
         }
 
-        public Topic(string title, string description, DateTime creationTime, User publisher, Section section, File? image)
-            : this(0, title, description, creationTime, publisher, section, image) { }
+        public Topic(string title, string description, DateTime creationTime, User publisher, Section section, File? image, List<TopicResponse> responses)
+            : this(0, title, description, creationTime, publisher, section, image, responses) { }
 
     }
 }

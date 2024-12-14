@@ -30,5 +30,6 @@ namespace BusinessLogic.Repositories
             .FirstOrDefault(t => t.Id == id);
         public void Add(Topic topic) { _context.Attach(topic.Section); _context.Topics.Add(topic); _context.SaveChanges(); }
         public void Update(Topic topic) { _context.Topics.Update(topic); _context.SaveChanges(); }
+
     }
 }

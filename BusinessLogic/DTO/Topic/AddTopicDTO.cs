@@ -14,15 +14,17 @@ namespace BusinessLogic.DTO.Topic
         public Entities.User Publisher { get; set; }
         public Entities.Section Section { get; set; }
         public Entities.File? Image { get; set; }
+        public List<Entities.TopicResponse> Responses { get; set; }
 
         public AddTopicDTO() { }
-        public AddTopicDTO(string title, string description, Entities.User publisher, Entities.Section section, Entities.File? image)
+        public AddTopicDTO(string title, string description, Entities.User publisher, Entities.Section section, Entities.File? image, List<Entities.TopicResponse> responses)
         {
             Title = title;
             Description = description;
             Publisher = publisher;
             Section = section;
             Image = image;
+            Responses = responses;
         }
     }
 }
