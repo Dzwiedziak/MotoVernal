@@ -11,6 +11,17 @@
     const previewContainer = document.getElementById('current-image');
     const previewImage = previewContainer ? previewContainer.querySelector('img') : null;
 
+    const commentsInLoad = document.querySelectorAll('.editable-content');  // Zbierz wszystkie komentarze
+
+    commentsInLoad.forEach(comment => {
+        
+        let content = comment.innerHTML.trim();
+
+        content = content.replace(/\n/g, '<br>');
+
+        comment.innerHTML = content;
+    });
+
     const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
     if (base64Input.value === '') {
