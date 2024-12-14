@@ -354,9 +354,10 @@ button > img {
     justify-content: space-between;
     padding: 15px 20px;
     align-items: flex-start;
+    white-space: pre-line;
 }
 
-    .editable-post-content > span, textarea,pre {
+    .editable-post-content > span, textarea {
         font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
@@ -364,11 +365,7 @@ button > img {
         line-height: 26px;
         display: flex;
         align-items: center;
-        text-align: top;
         color: #000000;
-    }
-    .editable-post-content pre{
-        margin:0px;
     }
 
     .editable-post-content > textarea {

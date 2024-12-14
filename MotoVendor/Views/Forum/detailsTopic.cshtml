@@ -107,11 +107,13 @@
                         </span>
                         <div class="image-upload">
                             <label for="photo-select__file" class="load-image-label">Load image</label>
-                            <input type="file" accept="image/*" style="display: none;">
+                            <input class="photo-select__file" type="file" accept="image/*" style="display: none;">
 
                             <div class="current-image" style="display: @(!string.IsNullOrEmpty(comment.Image?.Base64) ? "block" : "none")">
                                 <img src="@(string.IsNullOrEmpty(comment.Image?.Base64) ? "" : $"data:image/{comment.Image.Extension};base64,{comment.Image.Base64}")" alt="Preview of uploaded image">
                             </div>
+                            <input type="hidden" class="base64" value="@comment.Image?.Base64" />
+                            <input type="hidden" class="extension" value="@comment.Image?.Extension" />
                         </div>
                     </div>
                     <div class="line-2">
