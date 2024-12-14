@@ -6,6 +6,9 @@
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/postsList.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 @section Scripts {
     <script src="~/js/postComments.js"></script>
@@ -168,84 +171,92 @@
                         </button>
                         <div class="commentsWindow-container">
                             <div id="commentsWindow" class="commentsWindow">
-                                @foreach(var comment in post.PostComments)
-                                {
-                                    <div class="comments-content"> 
-                                        @if(user != null && post.Publisher != null && comment.Publisher?.Id == user.Id)
-                                        {
-                                            <button style="display: block" id="edit-comment-btn" class="edit-comment-btn">
-                                                <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
-                                            </button>
-                                            <button style="display: none" id="cancel-edit-btn" class="cancel-edit-btn">
-                                                <img src="~/images/x-button.png" alt="cancel" class="cancel-icon" id="cancel-icon">
-                                            </button>
-                                        }
-                                        <div class="main-post">
-                                            <div class="post-info">
-                                                <div class="profile">
-                                                    <button class="profile-btn">
-                                                        <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img" id="profil-img">
+                                <div class="commentsWindow__inner">
+                                    @foreach(var comment in post.PostComments)
+                                    {
+                                        <div class="comments-content">
+                                            <div class="comments__btns-section">
+                                                @if(user != null && post.Publisher != null && comment.Publisher?.Id == user.Id)
+                                                {
+                                                    <button style="display: block" id="edit-comment-btn" class="edit-comment-btn">
+                                                        <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
                                                     </button>
-                                                    <span>@comment.Publisher?.UserName</span>
+                                                    <button style="display: none" id="cancel-edit-btn" class="cancel-edit-btn">
+                                                        <img src="~/images/x-button.png" alt="cancel" class="cancel-icon" id="cancel-icon">
+                                                    </button>
+                                                }
+                                            </div>
+                                            <div class="main-post">
+                                                <div class="post-info">
+                                                    <div class="profile">
+                                                        <button class="profile-btn">
+                                                            <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img" id="profil-img">
+                                                        </button>
+                                                        <span>@comment.Publisher?.UserName</span>
+                                                    </div>
+                                                    <div class="create-time">
+                                                        <img src="~/images/clock.png" alt="clock" class="clock-icon" id="clock-icon">
+                                                        <div class="date">
+                                                            @comment.CreationTime
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="create-time">
-                                                    <img src="~/images/clock.png" alt="clock" class="clock-icon" id="clock-icon">
-                                                    <div class="date">
-                                                        @comment.CreationTime
+                                                <div class="editable-post-content">
+                                                    <span id="editable-content" class="editable-content">
+                                                        @comment.Content
+                                                    </span>
+                                                    <form style="display: none" class="editable-content-section" asp-action="UpdatePostComment" asp-route-id="@comment.Id">
+                                                        <textarea name="Content">@comment.Content</textarea>
+                                                        <button type="submit">Update comment</button>
+                                                    </form>
+                                                </div>
+                                                <div class="line">
+                                                </div>
+                                                <div class="action-group">
+                                                    <div class="interacted-group">
+                                                        <a class="like-btn" asp-action="PostCommentLike" asp-route-postCommentId="@comment.Id">
+                                                            <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
+                                                        </a>
+                                                        @{
+                                                            var likeCount = 0;
+                                                            if (comment?.Reactions != null)
+                                                            {
+                                                                likeCount = comment.Reactions
+                                                                .Where(reaction => reaction.ReactionType == DB.Enums.ReactionType.Like)
+                                                                .Count();
+                                                            }
+                                                        }
+                                                        <span>@likeCount</span>
+                                                        <a class="dislike-btn" asp-action="PostCommentDislike" asp-route-postCommentId="@comment.Id">
+                                                            <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
+                                                        </a>
+                                                        @{
+                                                            var dislikeCount = 0;
+                                                            if (comment?.Reactions != null)
+                                                            {
+                                                                dislikeCount = comment.Reactions
+                                                                .Where(reaction => reaction.ReactionType == DB.Enums.ReactionType.Dislike)
+                                                                .Count();
+                                                            }
+                                                        }
+                                                        <span>@dislikeCount</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="editable-post-content">
-                                                <span id="editable-content" class="editable-content">
-                                                    @comment.Content
-                                                </span>
-                                                <form style="display: none" class="editable-content-section" asp-action="UpdatePostComment" asp-route-id="@comment.Id">
-                                                    <textarea name="Content">@comment.Content</textarea>
-                                                    <button type="submit">Update comment</button>
-                                                </form>
-                                            </div>
-                                            <div class="line">
-                                            </div>
-                                            <div class="action-group">
-                                                <div class="interacted-group">
-                                                    <a class="like-btn" asp-action="PostCommentLike" asp-route-postCommentId="@comment.Id">
-                                                        <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
-                                                    </a>
-                                                    @{
-                                                        var likeCount = 0;
-                                                        if (comment?.Reactions != null)
-                                                        {
-                                                            likeCount = comment.Reactions
-                                                            .Where(reaction => reaction.ReactionType == DB.Enums.ReactionType.Like)
-                                                            .Count();
-                                                        }
-                                                    }
-                                                    <span>@likeCount</span>
-                                                    <a class="dislike-btn" asp-action="PostCommentDislike" asp-route-postCommentId="@comment.Id">
-                                                        <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
-                                                    </a>
-                                                    @{
-                                                        var dislikeCount = 0;
-                                                        if (comment?.Reactions != null)
-                                                        {
-                                                            dislikeCount = comment.Reactions
-                                                            .Where(reaction => reaction.ReactionType == DB.Enums.ReactionType.Dislike)
-                                                            .Count();
-                                                        }
-                                                    }
-                                                    <span>@dislikeCount</span>
-                                                </div>
+                                            <div class="comments__right-aside">
+                                                <button class="x-btn">
+                                                    <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
+                                                </button>
                                             </div>
                                         </div>
-                                        <button class="x-btn">
-                                            <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
+                                    }
+                                </div>
+                                <form class="add-comment-content" asp-action="AddPostComment" asp-route-id="@post.Id" method="post">
+                                    <div class="comments__btns-section">
+                                        <button id="edit-comment-btn" class="edit-comment-btn">
+                                            <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
                                         </button>
                                     </div>
-                                }
-                                <form class="add-comment-content" asp-action="AddPostComment" asp-route-id="@post.Id" method="post">
-                                    <button id="edit-comment-btn" class="edit-comment-btn">
-                                        <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
-                                    </button>
                                     <div class="main-post">
                                         <div class="main-post__inner">
                                             <div class="post-content">
