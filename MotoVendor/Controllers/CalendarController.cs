@@ -94,7 +94,6 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
                 return RedirectToAction("Error", "Home");
             }
-            model.Publisher = currentUser;
             _eventService.Add(model);
             return RedirectToAction("EventsList");
         }

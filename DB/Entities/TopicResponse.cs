@@ -11,16 +11,17 @@
 
         public TopicResponse() { }
 
-        public TopicResponse(int id, Topic topic, User owner, string description, DateTime creationTime)
+        public TopicResponse(int id, Topic topic, User owner, string description, DateTime creationTime, File? image)
         {
             Id = id;
             Topic = topic;
             Owner = owner;
             Description = description;
             CreationTime = creationTime;
+            Image = image;
         }
 
-        public TopicResponse(Topic topic, User owner, string description, DateTime creationTime)
-            : this(0, topic, owner, description, creationTime) { }
+        public TopicResponse(Topic topic, User owner, string description, DateTime creationTime, File? image)
+            : this(0, topic, owner, description, creationTime,image) { }
     }
 }

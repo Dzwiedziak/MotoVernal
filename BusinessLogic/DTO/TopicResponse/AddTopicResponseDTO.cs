@@ -9,6 +9,7 @@ namespace BusinessLogic.DTO.TopicResponse
         public string Description { get; set; }
         public Entities.File Image { get; set; }
 
+        public AddTopicResponseDTO() { }
         public AddTopicResponseDTO(Entities.Topic topic, Entities.User owner, string description, Entities.File image)
         {
             Topic = topic;

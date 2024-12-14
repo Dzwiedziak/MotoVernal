@@ -4,6 +4,7 @@ namespace BusinessLogic.DTO.Topic
 {
     public class GetTopicDTO
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
@@ -11,8 +12,9 @@ namespace BusinessLogic.DTO.Topic
         public Entities.Section Section { get; set; }
         public Entities.File? Image { get; set; }
 
-        public GetTopicDTO(string title, string description, DateTime creationTime, Entities.User publisher, Entities.Section section, Entities.File? image)
+        public GetTopicDTO(int id,string title, string description, DateTime creationTime, Entities.User publisher, Entities.Section section, Entities.File? image)
         {
+            Id = id;
             Title = title;
             Description = description;
             CreationTime = creationTime;

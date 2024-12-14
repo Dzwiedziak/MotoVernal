@@ -1,41 +1,27 @@
-﻿var modal = document.getElementById("commentsWindow");
-
-var commentsBtns = document.querySelectorAll(".comments-btn");
-
-var mainContent = document.querySelector('.listNews');
-
-let scrollPosition = 0;
-
-commentsBtns.forEach(function (btn) {
-
-    btn.onclick = function () {
-        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-
-        document.body.style.overflow = 'hidden';
-        document.body.style.top = `-${scrollPosition}px`;
-
-        modal.style.display = "flex";
-        mainContent.classList.add('blur');
-    }
-});
-
-const textarea = document.getElementById('comment-textarea');
+﻿const textarea = document.getElementById('comment-textarea');
 const buttons = document.getElementById('new-comment-action');
 const cancelBtn = document.getElementById('cancel-btn');
-
+const loadImageLabel = document.getElementById('load_image_in_add')
+const lineAdd = document.getElementById('line_in_add')
 textarea.addEventListener('input', function () {
     this.style.height = 'auto';
     this.style.height = `${this.scrollHeight}px`;
     if (textarea.value.trim() !== '') {
         buttons.style.display = 'flex';
+        loadImageLabel.style.display = 'inline-block';
+        lineAdd.style.display = 'block';
     } else {
         buttons.style.display = 'none';
+        loadImageLabel.style.display = 'none';
+        lineAdd.style.display = 'none';
     }
 });
 cancelBtn.addEventListener('click', function () {
     textarea.value = '';
     textarea.style.height = `auto`;
     buttons.style.display = 'none';
+    loadImageLabel.style.display = 'none';
+    lineAdd.style.display = 'none';
 });
 
 const comments = document.querySelectorAll('.comments-content');
@@ -44,6 +30,7 @@ comments.forEach(comment => {
     const editButton = comment.querySelector('.edit-comment-btn');
     let editableSpan = comment.querySelector('.editable-content');
     const cancelEditButton = comment.querySelector('.cancel-edit-btn');
+    const loadImageLabel = comment.querySelector('.load-image-label');
 
     let isEditing = false;
     let editTextarea;
@@ -69,6 +56,8 @@ comments.forEach(comment => {
 
             editableSpan.parentNode.replaceChild(editTextarea, editableSpan);
 
+            loadImageLabel.style.display = 'inline-block';
+
             editButton.querySelector('img').src = "/images/accept.png";
             isEditing = true;
 
@@ -84,6 +73,9 @@ comments.forEach(comment => {
             editTextarea.parentNode.replaceChild(editableSpan, editTextarea);
 
             editButton.querySelector('img').src = '/images/draw.png';
+
+            loadImageLabel.style.display = 'none';
+
             isEditing = false;
 
             cancelEditButton.style.display = 'none';
@@ -98,26 +90,10 @@ comments.forEach(comment => {
 
         editTextarea.parentNode.replaceChild(editableSpan, editTextarea);
         isEditing = false;
-
+        loadImageLabel.style.display = 'none';
         cancelEditButton.style.display = 'none';
 
         editButton.querySelector('img').src = '/images/draw.png';
     });
 });
-document.getElementById('image-upload').addEventListener('change', function () {
-    var file = this.files[0];
-    var fileName = file ? file.name : 'Add image';
-    if (file && file.type.startsWith('image/')) {
-        document.getElementById('file-label').textContent = fileName;
-    } else {
-        alert("Please select a valid image file.");
-        this.value = "";
-        label.textContent = "Add image";
-    }
 
-});
-
-
-
-
-s
