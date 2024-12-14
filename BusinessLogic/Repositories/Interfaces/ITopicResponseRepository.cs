@@ -8,5 +8,6 @@ namespace BusinessLogic.Repositories.Interfaces
         TopicResponse? GetOne(int id);
         void Add(TopicResponse user);
         void Update(TopicResponse user);
+        void Delete(TopicResponse topicResponse);
     }
 }

@@ -292,15 +292,15 @@ namespace MotoVendor.Controllers
             }
             return View();
         }
-        /*[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddResponse(AddTopicResponseDTO model)
         {
-            var currentUser = await _userManager.FindByIdAsync(model.);
-            model.Publisher = currentUser;
-            if (!ModelState.IsValid)
+            var currentUser = await _userManager.FindByIdAsync(model.Owner.Id);
+            model.Owner = currentUser;
+            if (model.Image?.Base64 == "defaultBase64Value" && model.Image?.Extension == "defaultExtension")
             {
-                return View(model);
+                model.Image = null;
             }
 
             var isBanned = _banService.GetActiveBan(currentUser.Id);
@@ -309,9 +309,33 @@ namespace MotoVendor.Controllers
                 TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
                 return RedirectToAction("Error", "Home");
             }
-            _topicService.Add(model);
-            return RedirectToAction("SectionsAndTopicsList", new { sectionId = model.Section.Id });
-        }*/
+            _topicResponseService.Add(model);
+            return RedirectToAction("DetailsTopic", new { Id = model.Topic.Id });
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(int commentId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var comment = _topicResponseService.GetOne(commentId);
+
+            if (comment == null)
+            {
+                TempData["ErrorMessage"] = "Comment not found.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            if (comment.Owner.Id != currentUser.Id && !User.IsInRole("Admin"))
+            {
+                TempData["ErrorMessage"] = "You are not authorized to delete this comment.";
+                return RedirectToAction("Error", "Home");
+            }
+
+            _topicResponseService.Delete(commentId);
+
+            return RedirectToAction("DetailsTopic", new { Id = comment.Topic.Id }); 
+        }
+
 
     }
 }

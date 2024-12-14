@@ -33,6 +33,15 @@ namespace BusinessLogic.Services
 
             return CreateGetTopicResponseDTO(dbTopicResponse);
         }
+        public TopicResponse GetOne(int Id)
+        {
+            return _topicResponseRepository.GetOne(Id);
+        }
+        public void Delete(int Id)
+        {
+            TopicResponse topicR = _topicResponseRepository.GetOne(Id);
+            _topicResponseRepository.Delete(topicR);
+        }
         public List<GetTopicResponseDTO> GetAllResponsesInTopic(int id)
         {
 
@@ -56,7 +65,7 @@ namespace BusinessLogic.Services
             new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, DateTime.Now, topicResponse.Image);
 
         private GetTopicResponseDTO CreateGetTopicResponseDTO(TopicResponse topicResponse) =>
-            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime, topicResponse.Image);
+            new(topicResponse.Id, topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime, topicResponse.Image);
 
         private void UpdateTopicResponse(ref TopicResponse oldTopicResponse, UpdateTopicResponseDTO topicResponse)
         {

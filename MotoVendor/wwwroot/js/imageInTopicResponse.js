@@ -2,7 +2,7 @@
     const fileUpload = document.getElementById('photo-select__file');
     const base64Input = document.getElementById('base64');
     const extensionInput = document.getElementById('extension');
-    const previewContainer = document.querySelector('.current-image');
+    const previewContainer = document.getElementById('current-image');
     const previewImage = previewContainer ? previewContainer.querySelector('img') : null;
 
     const MAX_FILE_SIZE = 4 * 1024 * 1024;

@@ -154,7 +154,7 @@ button > img {
     margin-right: 15px;
 }
 
-    .description-info-item > span {
+    .description-info-item > span,pre {
         width: 550px;
         font-family: 'Inter';
         font-style: normal;
@@ -166,13 +166,16 @@ button > img {
         text-align: justify;
         color: #000000;
     }
+        .description-info-item  pre{
+            margin:0px;
+        }
 
-.main-info > img {
-    width: 500px;
-    height: 350px;
-    border: 3px solid #4285F4;
-    border-radius: 25px;
-}
+        .main-info > img {
+            width: 500px;
+            height: 350px;
+            border: 3px solid #4285F4;
+            border-radius: 25px;
+        }
 
 .action-buttons {
     display: flex;
@@ -353,7 +356,7 @@ button > img {
     align-items: flex-start;
 }
 
-    .editable-post-content > span, textarea {
+    .editable-post-content > span, textarea,pre {
         font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
@@ -363,6 +366,9 @@ button > img {
         align-items: center;
         text-align: top;
         color: #000000;
+    }
+    .editable-post-content pre{
+        margin:0px;
     }
 
     .editable-post-content > textarea {
@@ -523,4 +529,7 @@ textarea {
     }
 #load_image_in_add {
     margin-right:15px;
+}
+#image-preview {
+    margin-right: 15px;
 }

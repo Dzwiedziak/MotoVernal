@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="~/css/detailsTopic.css" />
 }
 @section Scripts {
-    <script src="~/js/topicComments.js"></script>
-    <script src="~/js/imageInTopicResponse.js"></script>
+    <script src="~/js/addingImage.js"></script>
 }
 <div class="main-cnt">
     <div class="basic-info">
@@ -104,14 +103,14 @@
                     </div>
                     <div class="editable-post-content">
                         <span id="editable-content" class="editable-content">
-                            @comment.Description
+                            <pre>@comment.Description</pre>
                         </span>
                         <div class="image-upload">
                             <label for="photo-select__file" class="load-image-label">Load image</label>
-                            <input id="photo-select__file" type="file" accept="image/*" style="display: none;">
+                            <input type="file" accept="image/*" style="display: none;">
 
                             <div class="current-image" style="display: @(!string.IsNullOrEmpty(comment.Image?.Base64) ? "block" : "none")">
-                                <img id="image-preview" src="@(string.IsNullOrEmpty(comment.Image?.Base64) ? "" : $"data:image/{comment.Image.Extension};base64,{comment.Image.Base64}")" alt="Preview of uploaded image">
+                                <img src="@(string.IsNullOrEmpty(comment.Image?.Base64) ? "" : $"data:image/{comment.Image.Extension};base64,{comment.Image.Base64}")" alt="Preview of uploaded image">
                             </div>
                         </div>
                     </div>
@@ -131,29 +130,35 @@
                         </div>
                     </div>
                 </div>
-                @if (ViewBag.CurrentUserId == comment.Owner.Id)
+                @if (ViewBag.CurrentUserId == comment.Owner.Id || User.IsInRole("Admin"))
                 {
+                    <form action="@Url.Action("DeleteComment", "Forum", new { commentId = comment.Id })" method="post">
                     <button class="x-btn">
                         <img src="~/images/trash-bin.png" alt="delete" class="x-icon" id="x-image">
                     </button>
+                    </form>
                 }
             </div>
         }
         <div class="add-comment-content">
             <form asp-action="AddResponse" method="post">
+                <input type="hidden" name="Topic.Id" asp-for="ResponseToAdd.Topic.Id" value="@Model.ResponseToAdd.Topic.Id" />
+                <input type="hidden" name="Owner.Id" asp-for="ResponseToAdd.Owner.Id" value="@Model.ResponseToAdd.Owner.Id" />
                 <button id="edit-comment-btn" class="edit-comment-btn">
                     <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
                 </button>
                 <div class="main-post">
                     <div class="post-content">
-                        <textarea id="comment-textarea" placeholder="Write to comment"></textarea>
+                        <textarea id="comment-textarea" placeholder="Write to comment" name="Description" asp-for="ResponseToAdd.Description"></textarea>
                         <div class="image-upload">
                             <label for="photo-select__file" id="load_image_in_add" class="load-image-label">Load image</label>
                             <input id="photo-select__file" type="file" accept="image/*" style="display: none;">
 
-                            <div class="current-image" style="display: @(!string.IsNullOrEmpty(Model.ResponseToAdd.Image?.Base64) ? "block" : "none")">
+                            <div id="current-image" class="current-image" style="display: @(!string.IsNullOrEmpty(Model.ResponseToAdd.Image?.Base64) ? "block" : "none")">
                                 <img id="image-preview" src="@(string.IsNullOrEmpty(Model.ResponseToAdd.Image?.Base64) ? "" : $"data:image/{Model.ResponseToAdd.Image.Extension};base64,{Model.ResponseToAdd.Image.Base64}")" alt="Preview of uploaded image">
                             </div>
+                            <input type="hidden" id="base64" name="Image.Base64" asp-for="ResponseToAdd.Image.Base64" value="@Model.ResponseToAdd.Image?.Base64" />
+                            <input type="hidden" id="extension" name="Image.Extension" asp-for="ResponseToAdd.Image.Extension" value="@Model.ResponseToAdd.Image?.Extension" />
                         </div>
                     </div>
                     <div class="line-2" id="line_in_add" style="display:none;">
