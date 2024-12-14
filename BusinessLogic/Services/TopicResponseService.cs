@@ -1,5 +1,7 @@
-﻿using BusinessLogic.DTO.TopicResponse;
+﻿using BusinessLogic.DTO.Section;
+using BusinessLogic.DTO.TopicResponse;
 using BusinessLogic.Errors;
+using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
@@ -31,6 +33,13 @@ namespace BusinessLogic.Services
 
             return CreateGetTopicResponseDTO(dbTopicResponse);
         }
+        public List<GetTopicResponseDTO> GetAllResponsesInTopic(int id)
+        {
+
+            List<TopicResponse> allResponses = _topicResponseRepository.GetAll();
+            List<TopicResponse> topicResponses = allResponses.Where(r => r.Topic.Id == id).ToList();
+            return topicResponses.Select(r => CreateGetTopicResponseDTO(r)).ToList();
+        }
 
         public TopicErrorCode? Update(int id, UpdateTopicResponseDTO topicResponse)
         {
@@ -44,7 +53,7 @@ namespace BusinessLogic.Services
         }
 
         private TopicResponse CreateNewTopicResponse(AddTopicResponseDTO topicResponse) =>
-            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, DateTime.Now);
+            new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, DateTime.Now, topicResponse.Image);
 
         private GetTopicResponseDTO CreateGetTopicResponseDTO(TopicResponse topicResponse) =>
             new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime, topicResponse.Image);

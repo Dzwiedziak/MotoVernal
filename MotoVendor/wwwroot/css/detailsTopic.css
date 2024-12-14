@@ -6,7 +6,7 @@
 
 .line-2 {
     width: 1150px;
-    margin-left: 25px;
+    margin-left: 20px;
     border: 3px solid #4285F4;
 }
 
@@ -329,7 +329,9 @@ button > img {
     }
 
 .post-content {
-    padding: 15px 42px 15px 15px;
+    display: flex;
+    align-items: flex-start;
+    padding: 15px 5px 15px 20px;
 }
 
     .post-content > span, textarea {
@@ -347,7 +349,8 @@ button > img {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 15px;
+    padding: 15px 20px;
+    align-items: flex-start;
 }
 
     .editable-post-content > span, textarea {
@@ -494,41 +497,30 @@ textarea {
     display: none;
 }
 
-.image-input {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
-    padding: 10px;
-    flex-shrink: 0;
-    gap: 5px;
-    height: 35px;
-    background: #FFF5F5;
-    border-width: 1px 1px 0px 0px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.5);
-    border-radius: 25px;
-    cursor: pointer;
+.image-upload{
+    display:flex;
+    flex-direction:column;
+    margin-left:15px;
+    gap:15px;
 }
-
-    .image-input img {
-        width: 35px;
-        height: 35px;
+.load-image-label {
+    display: none;
+    padding: 8px 15px;
+    background-color: #4285F4;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 170px;
+}
+.current-image {
+    display:block;
+}
+    .current-image > img {
+        width: 200px; 
+        height: auto;
     }
-
-    .image-input label {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 22px;
-        display: flex;
-        align-items: center;
-        text-align: justify;
-        color: #000000;
-    }
-
-    .image-input:hover {
-        background-color: #4285F4;
-    }
+#load_image_in_add {
+    margin-right:15px;
+}

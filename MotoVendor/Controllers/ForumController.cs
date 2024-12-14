@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.DTO.Event;
 using BusinessLogic.DTO.Section;
 using BusinessLogic.DTO.Topic;
+using BusinessLogic.DTO.TopicResponse;
 using BusinessLogic.Errors;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
@@ -18,13 +19,15 @@ namespace MotoVendor.Controllers
     {
         private readonly ISectionService _sectionService;
         private readonly ITopicService _topicService;
+        private readonly ITopicResponseService _topicResponseService;
         private readonly IBanService _banService;
         private readonly UserManager<User> _userManager;
 
-        public ForumController(ISectionService sectionService, ITopicService topicService, IBanService banService, UserManager<User> userManager)
+        public ForumController(ISectionService sectionService, ITopicService topicService, ITopicResponseService topicResponseService, IBanService banService, UserManager<User> userManager)
         {
             _sectionService = sectionService;
             _topicService = topicService;
+            _topicResponseService = topicResponseService;
             _banService = banService;
             _userManager = userManager;
         }
@@ -251,17 +254,25 @@ namespace MotoVendor.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IActionResult DetailsTopic(int Id)
+        public async Task<IActionResult> DetailsTopic(int Id)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
             var result = _topicService.Get(Id);
-            //var topicResponses = _topicService.Get
+            var topic = _topicService.GetOne(Id);
+            var topicResponses = _topicResponseService.GetAllResponsesInTopic(Id);
+            var addResponse = new AddTopicResponseDTO
+            {
+                Topic = topic,
+                Owner = currentUser,
+                Description = string.Empty,
+                Image = null
 
-            //ViewBag.EventID = Id;
+            };
 
             var currentUserId = _userManager.GetUserId(User);
             //bool isCurrentUserInterested = interestedUsers.Any(u => u.User.Id == currentUserId);
 
-            //ViewBag.IsCurrentUserInterested = isCurrentUserInterested;
+            ViewBag.CurrentUserId = currentUserId;
             if (result.Value != null)
             {
                 bool isOwner = currentUserId == result.Value.Publisher.Id;
@@ -269,6 +280,8 @@ namespace MotoVendor.Controllers
                 var viewModel = new TopicDetailsViewModel
                 {
                     TopicInfo = result.Value,
+                    Responses = topicResponses,
+                    ResponseToAdd = addResponse
                 };
                 return View(viewModel);
             }
@@ -279,5 +292,26 @@ namespace MotoVendor.Controllers
             }
             return View();
         }
+        /*[Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddResponse(AddTopicResponseDTO model)
+        {
+            var currentUser = await _userManager.FindByIdAsync(model.);
+            model.Publisher = currentUser;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
+            _topicService.Add(model);
+            return RedirectToAction("SectionsAndTopicsList", new { sectionId = model.Section.Id });
+        }*/
+
     }
 }
