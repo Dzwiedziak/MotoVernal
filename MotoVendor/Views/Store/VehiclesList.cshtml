@@ -116,6 +116,7 @@
             height: 20px;
             display: flex;
             align-items: center;
+            padding: 0px 10px;
         }
 
         .filter__slider-component__slider {
@@ -176,7 +177,7 @@
         }
 
         .filter__dropdown-base__title {
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .filter__dropdown-collapsible__content--row {
@@ -329,17 +330,18 @@
     </style>
     <style>
         .checkbox-container {
-            width: 100px;
-            height: 50px;
+            width: 80px;
+            height: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: gray;
-            color: rgb(255, 255, 255);
+            background-color: white;
+            color: #7D7C83;
             cursor: pointer;
             user-select: none;
             border-radius: 5px;
             transition: background-color 0.3s;
+            border: 1px solid #CCCCCC;
         }
 
         .checkbox-container[data-state="true"] {
@@ -920,6 +922,36 @@
                 </div>
             </div>
             <div class="horizontal-line"></div>
+            <div class="filter__dropdown-component checkboxes">
+                <div class="filter__dropdown-base">
+                    <div class="filter__dropdown-base__left">
+                        <div class="filter__dropdown-base__title">
+                            Is Observing
+                        </div>
+                    </div>
+                    <div class="filter__dropdown-base__right">
+                        <img class="filter__dropdown-arrow" src="~/images/triangle-arrow.svg" />
+                    </div>
+                </div>
+                <div class="filter__dropdown-collapsible">
+                    @{
+                        var isObservingChecked = ViewBag.IsObserving == "true";
+                    }
+                    <div class="filter__dropdown-collapsible__content filter__dropdown-collapsible__content--row">
+                        <div class="filter__toggle-btn @(isObservingChecked ? "filter__toggle-btn--on" : "")">
+                            <div class="filter__toggle-btn__content" @(isObservingChecked ? "filter__toggle-btn__content--on" : "")>
+                                Check
+                            </div>
+                            <input class="filter__toggle-btn__input"
+                                   style="display: none;"
+                                   type="checkbox"
+                                   name="isObserving"
+                                   value="true"
+                            @(isObservingChecked ? "checked" : "") />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button type="submit" class="filter__submit-btn">Filter</button>
         </div>
         <div class="results">
@@ -1000,7 +1032,7 @@
                                     @vehicleOffer.Model @vehicleOffer.Version
                                 </div>
                                 <div class="offer__price">
-                                    @vehicleOffer.Price PLN
+                                    @vehicleOffer.Price.ToString("N0") PLN
                                     <div class="offer__price-tag">
                                         Brutto
                                     </div>

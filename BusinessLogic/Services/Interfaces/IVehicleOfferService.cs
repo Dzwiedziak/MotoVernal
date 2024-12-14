@@ -14,5 +14,6 @@ namespace BusinessLogic.Services.Interfaces
         VehicleOfferErrorCode? Update(UpdateVehicleOfferDTO vehicleOffer);
         UpdateVehicleOfferDTO? GetUpdateDTO(int id);
         VehicleOfferErrorCode? UpdateReservation(int id, bool isReserved);
+        bool IsObservedBy(string userId, int offerId);
     }
 }

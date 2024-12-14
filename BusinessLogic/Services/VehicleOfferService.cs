@@ -11,11 +11,14 @@ namespace BusinessLogic.Services
     {
         private readonly IVehicleOfferRepository _vehicleOfferRepository;
         private readonly IUserService _userService;
+        private readonly IVehicleOfferObservationService _vehicleOfferObservationService;
         public VehicleOfferService(IVehicleOfferRepository vehicleOfferRepository,
-                                   IUserService userService)
+                                   IUserService userService, 
+                                   IVehicleOfferObservationService vehicleOfferObservationService)
         {
             _vehicleOfferRepository = vehicleOfferRepository;
             _userService = userService;
+            _vehicleOfferObservationService = vehicleOfferObservationService;
         }
 
         public Result<int?, VehicleOfferErrorCode> Add(AddVehicleOfferDTO vehicleOffer)
@@ -181,6 +184,11 @@ namespace BusinessLogic.Services
             offer.IsReserved = isReserved;
             _vehicleOfferRepository.Update(offer);
             return null;
+        }
+
+        public bool IsObservedBy(string userId, int offerId)
+        {
+            return _vehicleOfferObservationService.FindByUserAndOffer(userId, offerId) != null;
         }
     }
 }

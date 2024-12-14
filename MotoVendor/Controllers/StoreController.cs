@@ -82,6 +82,7 @@ namespace MotoVendor.Controllers
             var filters = new Dictionary<string, HashSet<string>>();
             string? sortBy = null;
             string? isOwnerQuery = null;
+            string? isObservingQuery = null;
 
             foreach (var key in query.Keys)
             {
@@ -93,6 +94,10 @@ namespace MotoVendor.Controllers
                 else if (key.Equals("isOwner", StringComparison.OrdinalIgnoreCase))
                 {
                     isOwnerQuery = values.FirstOrDefault();
+                }
+                else if(key.Equals("isObserving", StringComparison.OrdinalIgnoreCase))
+                {
+                    isObservingQuery = values.FirstOrDefault();
                 }
                 else
                 {
@@ -114,6 +119,7 @@ namespace MotoVendor.Controllers
 
             var filteredOffers = ListFilter.FilterList(vehicleOffers, filters);
 
+            ViewBag.IsOwner = isOwnerQuery;
             if (bool.TryParse(isOwnerQuery, out var isOwner))
             {
                 if (isOwner)
@@ -134,13 +140,33 @@ namespace MotoVendor.Controllers
                 }
             }
 
+            ViewBag.IsObserving = isObservingQuery;
+            if (bool.TryParse(isObservingQuery, out var isObserving))
+            {
+                if (isObserving)
+                {
+                    if (user == null)
+                    {
+                        return View(new List<GetVehicleOfferDTO>());
+                    }
+
+                    filteredOffers = filteredOffers.Where(o => _vehicleOfferService.IsObservedBy(user.Id, o.Id)).ToList();
+                }
+                else
+                {
+                    if (user != null)
+                    {
+                        filteredOffers = filteredOffers.Where(o => _vehicleOfferService.IsObservedBy(user.Id, o.Id)).ToList();
+                    }
+                }
+            }
+
             var sortedOffers = ListFilter.SortList(filteredOffers, sortBy);
 
             var paginatedOffers = ListFilter.GetPaginatedList(sortedOffers, pageIndex, pageSize);
 
             ViewBag.FilterValues = filters;
             ViewBag.SortBy = sortBy;
-            ViewBag.IsOwner = isOwnerQuery;
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageSize = pageSize;
             ViewBag.TotalItemsCount = filteredOffers.Count;
