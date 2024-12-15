@@ -1,7 +1,5 @@
-﻿using BusinessLogic.DTO.Event;
-using BusinessLogic.DTO.Section;
+﻿using BusinessLogic.DTO.Section;
 using BusinessLogic.Errors;
-using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
@@ -102,6 +100,6 @@ namespace BusinessLogic.Services
             new(section.Title, section.Parent, section.Image);
 
         private GetSectionDTO CreateGetSectionDTO(Section section) =>
-            new(section.Id,section.Title, section.Parent, section.Image);
+            new(section.Id, section.Title, section.Parent, section.Image);
     }
 }

@@ -2,7 +2,6 @@
 using DB;
 using DB.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BusinessLogic.Repositories
 {
@@ -30,8 +29,8 @@ namespace BusinessLogic.Repositories
         public void Update(TopicResponse response) { _context.TopicResponses.Update(response); _context.SaveChanges(); }
         public void Delete(TopicResponse topicResponse)
         {
-                _context.TopicResponses.Remove(topicResponse); 
-                _context.SaveChanges();
+            _context.TopicResponses.Remove(topicResponse);
+            _context.SaveChanges();
         }
     }
 }

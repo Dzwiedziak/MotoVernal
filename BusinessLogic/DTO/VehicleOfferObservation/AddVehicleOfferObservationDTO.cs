@@ -1,6 +1,4 @@
-﻿using Entities = DB.Entities;
-
-namespace BusinessLogic.DTO.VehicleOfferObservation
+﻿namespace BusinessLogic.DTO.VehicleOfferObservation
 {
     public class AddVehicleOfferObservationDTO
     {

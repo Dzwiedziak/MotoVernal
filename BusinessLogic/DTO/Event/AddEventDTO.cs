@@ -1,6 +1,6 @@
-﻿using DB.Enums;
+﻿using BusinessLogic.Decorators;
+using DB.Enums;
 using System.ComponentModel.DataAnnotations;
-using BusinessLogic.Decorators;
 using Entities = DB.Entities;
 
 namespace BusinessLogic.DTO.Event

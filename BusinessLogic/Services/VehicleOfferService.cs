@@ -13,7 +13,7 @@ namespace BusinessLogic.Services
         private readonly IUserService _userService;
         private readonly IVehicleOfferObservationService _vehicleOfferObservationService;
         public VehicleOfferService(IVehicleOfferRepository vehicleOfferRepository,
-                                   IUserService userService, 
+                                   IUserService userService,
                                    IVehicleOfferObservationService vehicleOfferObservationService)
         {
             _vehicleOfferRepository = vehicleOfferRepository;
@@ -71,7 +71,7 @@ namespace BusinessLogic.Services
         public UpdateVehicleOfferDTO? GetUpdateDTO(int id)
         {
             VehicleOffer? dbVehicleOffer = _vehicleOfferRepository.GetOne(id);
-            if(dbVehicleOffer is null)
+            if (dbVehicleOffer is null)
                 return null;
             return CreateUpdateDTO(dbVehicleOffer);
         }
@@ -177,7 +177,7 @@ namespace BusinessLogic.Services
         public VehicleOfferErrorCode? UpdateReservation(int id, bool isReserved)
         {
             var offer = _vehicleOfferRepository.GetOne(id);
-            if(offer == null)
+            if (offer == null)
             {
                 return VehicleOfferErrorCode.VehicleNotFound;
             }

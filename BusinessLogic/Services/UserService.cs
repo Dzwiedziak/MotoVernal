@@ -7,7 +7,6 @@ using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace BusinessLogic.Services
 {
@@ -59,7 +58,7 @@ namespace BusinessLogic.Services
             if (dbUser is null)
                 return UserErrorCode.UserNotFound;
 
-            return CreateGetUserDTO(dbUser,false);
+            return CreateGetUserDTO(dbUser, false);
         }
 
         public UserErrorCode? Update(string id, UpdateUserDTO user)
@@ -85,9 +84,9 @@ namespace BusinessLogic.Services
             _userObservationRepository.Add(newUserObservation);
             return newUserObservation.Id;
         }
-       
+
         public UserObservationErrorCode? StopObservingUser(string observerId, string observedId)
-        { 
+        {
             UserObservation? userObservation = _userObservationRepository.Get(observerId, observedId);
 
             if (userObservation is null)
@@ -124,10 +123,10 @@ namespace BusinessLogic.Services
         private User CreateNewUser(AddUserDTO user) =>
             new(user.UserName, user.Email, null, null, DateTime.Now, "");
 
-        private GetUserDTO CreateGetUserDTO(User user,bool isObserved)
+        private GetUserDTO CreateGetUserDTO(User user, bool isObserved)
         {
             List<string> roles = _userManager.GetRolesAsync(user).Result.ToList();
-            return new GetUserDTO(user.Id!, user.UserName!, user.Email!, roles ,isObserved,user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
+            return new GetUserDTO(user.Id!, user.UserName!, user.Email!, roles, isObserved, user.Gender, user.Age, user.CreationTime, user.Description, user.ProfileImage);
         }
 
         private bool IsUserObserving(string ObserverId, string ObservedId)
@@ -146,7 +145,7 @@ namespace BusinessLogic.Services
         public List<GetUserDTO> GetAll(string currentUserId)
         {
             List<User> dbUsers = _userRepository.GetAll();
-            List<UserObservation> observedUsers = _userObservationRepository.Get(currentUserId); 
+            List<UserObservation> observedUsers = _userObservationRepository.Get(currentUserId);
 
             return dbUsers.Select(u =>
             {
@@ -160,8 +159,8 @@ namespace BusinessLogic.Services
         public async Task<User?> GetCurrentUser()
         {
             var userPrincipal = _httpContextAccessor.HttpContext?.User;
-            return userPrincipal == null ? 
-                null : 
+            return userPrincipal == null ?
+                null :
                 await _userManager.GetUserAsync(userPrincipal);
         }
     }

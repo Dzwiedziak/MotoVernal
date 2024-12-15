@@ -22,11 +22,11 @@ namespace BusinessLogic.Repositories
             .ToList();
 
         public Ban? GetOne(int id) => _context.Bans
-            .Include(b => b.Banned)  
-            .Include(b => b.Banner)  
+            .Include(b => b.Banned)
+            .Include(b => b.Banner)
             .Include(b => b.Banned.ProfileImage)
             .Include(b => b.Image)
-            .FirstOrDefault(b => b.Id == id); 
+            .FirstOrDefault(b => b.Id == id);
 
 
         public void Update(Ban ban) { _context.Update(ban); _context.SaveChanges(); }

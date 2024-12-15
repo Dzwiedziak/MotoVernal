@@ -22,6 +22,6 @@
         }
 
         public TopicResponse(Topic topic, User owner, string description, DateTime creationTime, File? image)
-            : this(0, topic, owner, description, creationTime,image) { }
+            : this(0, topic, owner, description, creationTime, image) { }
     }
 }

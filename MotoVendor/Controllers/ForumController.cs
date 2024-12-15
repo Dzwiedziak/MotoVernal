@@ -1,18 +1,14 @@
-﻿using BusinessLogic.DTO.Event;
-using BusinessLogic.DTO.Section;
+﻿using BusinessLogic.DTO.Section;
 using BusinessLogic.DTO.Topic;
 using BusinessLogic.DTO.TopicResponse;
 using BusinessLogic.Errors;
-using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
-using BusinessLogic.Services.Response;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MotoVendor.Authorizations.Requirements;
 using MotoVendor.ViewModels;
-using static System.Collections.Specialized.BitVector32;
 
 namespace MotoVendor.Controllers
 {
@@ -36,14 +32,14 @@ namespace MotoVendor.Controllers
         }
         public IActionResult SectionsAndTopicsList(int? sectionId)
         {
-            
+
             var rootSectionResult = _sectionService.GetRootSection();
             if (!rootSectionResult.IsSuccess)
             {
                 TempData["ErrorMessage"] = "Root section not found";
                 return RedirectToAction("Error", "Home");
             }
-            
+
             var activeSectionId = sectionId ?? rootSectionResult.Value.Id;
 
             ViewBag.IsRootSection = activeSectionId == rootSectionResult.Value.Id;
@@ -104,7 +100,7 @@ namespace MotoVendor.Controllers
         public IActionResult EditSection(int Id)
         {
             var sectionToEdit = _sectionService.GetOne(Id);
-            if(sectionToEdit == null)
+            if (sectionToEdit == null)
             {
                 TempData["ErrorMessage"] = "Section of this id not found";
                 return RedirectToAction("Error", "Home");
@@ -131,7 +127,7 @@ namespace MotoVendor.Controllers
                 return View(model);
             }
             var result = _sectionService.Update(model);
-            if(result == null)
+            if (result == null)
             {
                 return RedirectToAction("SectionsAndTopicsList", new { sectionId = model.Parent.Id });
             }
@@ -160,7 +156,7 @@ namespace MotoVendor.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            if(sectionId == rootSectionResult.Value.Id)
+            if (sectionId == rootSectionResult.Value.Id)
             {
                 TempData["ErrorMessage"] = "You can't add topic in Main Section";
                 return RedirectToAction("Error", "Home");
@@ -173,11 +169,11 @@ namespace MotoVendor.Controllers
             }
             var model = new AddTopicDTO
             {
-               Title = string.Empty,
-               Description = string.Empty,
-               Publisher = currentUser,
-               Section = currentSection,
-               Image = null
+                Title = string.Empty,
+                Description = string.Empty,
+                Publisher = currentUser,
+                Section = currentSection,
+                Image = null
             };
             return View(model);
         }
@@ -218,7 +214,7 @@ namespace MotoVendor.Controllers
             }
             var currentUser = await _userManager.GetUserAsync(User);
             var publisherUser = await _userManager.FindByIdAsync(topicToEdit.Publisher.Id);
-            if (currentUser != publisherUser) 
+            if (currentUser != publisherUser)
             {
                 TempData["ErrorMessage"] = "It is not your topic";
                 return RedirectToAction("Error", "Home");
@@ -363,7 +359,7 @@ namespace MotoVendor.Controllers
 
             _topicResponseService.Delete(commentId);
 
-            return RedirectToAction("DetailsTopic", new { Id = comment.Topic.Id }); 
+            return RedirectToAction("DetailsTopic", new { Id = comment.Topic.Id });
         }
 
 

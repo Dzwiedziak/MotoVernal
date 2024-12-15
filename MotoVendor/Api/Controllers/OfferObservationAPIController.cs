@@ -1,8 +1,6 @@
-﻿using BusinessLogic.DTO.API;
-using BusinessLogic.DTO.VehicleOfferObservation;
+﻿using BusinessLogic.DTO.VehicleOfferObservation;
 using BusinessLogic.Errors;
 using BusinessLogic.Services.Interfaces;
-using DB.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MotoVendor.Api.Controllers

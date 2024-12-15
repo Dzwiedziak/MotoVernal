@@ -1,18 +1,12 @@
-﻿using BusinessLogic.DTO.Ban;
-using BusinessLogic.DTO.Event;
+﻿using BusinessLogic.DTO.Event;
 using BusinessLogic.DTO.EventInterest;
-using BusinessLogic.DTO.User;
-using BusinessLogic.DTO.UserObservation;
 using BusinessLogic.Errors;
-using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MotoVendor.ViewModels;
-using System.Drawing;
-using System.Security.Claims;
 
 namespace MotoVendor.Controllers
 {
@@ -53,7 +47,7 @@ namespace MotoVendor.Controllers
         public async Task<IActionResult> AddEvent()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            
+
             var result = _banService.GetActiveBan(currentUser.Id);
             if (result != null)
             {
@@ -87,7 +81,7 @@ namespace MotoVendor.Controllers
             {
                 return View(model);
             }
-            
+
             var isBanned = _banService.GetActiveBan(currentUser.Id);
             if (isBanned != null)
             {

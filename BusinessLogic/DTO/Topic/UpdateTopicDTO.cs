@@ -14,7 +14,7 @@ namespace BusinessLogic.DTO.Topic
         public string Description { get; set; }
         public Entities.File? Image { get; set; }
         public UpdateTopicDTO() { }
-        public UpdateTopicDTO(int id,string title, string description, Entities.File? image)
+        public UpdateTopicDTO(int id, string title, string description, Entities.File? image)
         {
             Id = id;
             Title = title;

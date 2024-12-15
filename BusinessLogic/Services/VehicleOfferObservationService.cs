@@ -23,15 +23,15 @@ namespace BusinessLogic.Services
         public Result<int, VehicleOfferObservationErrorCode> Add(AddVehicleOfferObservationDTO entityAddDTO)
         {
             var dbEntity = _repository.GetForUserAndOffer(entityAddDTO.UserId, entityAddDTO.OfferId);
-            if(dbEntity != null)
+            if (dbEntity != null)
                 return VehicleOfferObservationErrorCode.RelationAlreadyExists;
 
             var dbUser = _userRepository.GetOne(entityAddDTO.UserId);
-            if(dbUser == null)
+            if (dbUser == null)
                 return VehicleOfferObservationErrorCode.UserNotExists;
 
             var dbVehicleOffer = _vehicleOfferRepository.GetOne(entityAddDTO.OfferId);
-            if(dbVehicleOffer == null)
+            if (dbVehicleOffer == null)
                 return VehicleOfferObservationErrorCode.OfferNotExists;
 
             var newEntity = new VehicleOfferObservation(0, dbUser, dbVehicleOffer);
@@ -42,7 +42,7 @@ namespace BusinessLogic.Services
         public VehicleOfferObservationErrorCode? Delete(int id)
         {
             var dbEntitiy = _repository.Get(id);
-            if(dbEntitiy == null)
+            if (dbEntitiy == null)
                 return VehicleOfferObservationErrorCode.RelationNotExists;
             _repository.Delete(dbEntitiy);
             return null;

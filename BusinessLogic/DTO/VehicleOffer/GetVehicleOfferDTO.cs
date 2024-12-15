@@ -1,6 +1,5 @@
 ﻿using BusinessLogic.Decorators;
 using BusinessLogic.DTO.Offer;
-using DB.Entities;
 using DB.Enums;
 using Entities = DB.Entities;
 

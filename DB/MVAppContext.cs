@@ -25,6 +25,7 @@ namespace DB
         public DbSet<PostComment> PostComments { get; set; }
         public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
         public DbSet<VehicleOfferObservation> VehicleOfferObservations { get; set; }
+        public DbSet<TopicResponseReaction> TopicResponseReactions { get; set; }
 
         public MVAppContext(DbContextOptions<MVAppContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,15 +43,15 @@ namespace DB
                 .OnDelete(DeleteBehavior.ClientCascade)
                 ;
             modelBuilder.Entity<VehicleOfferObservation>()
-                .HasOne(o => o.Observer)               
-                .WithMany()                            
-                .HasForeignKey("ObserverId")           
-                .OnDelete(DeleteBehavior.Restrict); 
+                .HasOne(o => o.Observer)
+                .WithMany()
+                .HasForeignKey("ObserverId")
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<VehicleOfferObservation>()
-                .HasOne(o => o.VehicleOffer)         
-                .WithMany()                           
-                .HasForeignKey("VehicleOfferId")       
+                .HasOne(o => o.VehicleOffer)
+                .WithMany()
+                .HasForeignKey("VehicleOfferId")
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
