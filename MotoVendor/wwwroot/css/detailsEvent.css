@@ -60,7 +60,7 @@
     margin-right: 25px;
 }
 
-    .description span{
+    .description span, pre {
         font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
@@ -70,6 +70,7 @@
         align-items: center;
         text-align: justify;
         color: #000000;
+        margin: 0px;
     }
 
 .rest-group {

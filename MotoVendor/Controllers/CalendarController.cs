@@ -30,9 +30,31 @@ namespace MotoVendor.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IActionResult EventsList()
+        public IActionResult EventsList(string sortBy, string search)
         {
             var events = _eventService.GetEvents();
+            if (!string.IsNullOrEmpty(search))
+            {
+                events = events.Where(e => e.Title.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            switch (sortBy)
+            {
+                case "alphabetical_asc":
+                    events = events.OrderBy(e => e.Title).ToList();
+                    break;
+                case "alphabetical_desc":
+                    events = events.OrderByDescending(e => e.Title).ToList();
+                    break;
+                case "date_adc":
+                    events = events.OrderBy(e => e.TimeFrom).ToList(); 
+                    break;
+                case "date_desc":
+                    events = events.OrderByDescending(e => e.TimeFrom).ToList(); 
+                    break;
+                default:
+                    events = events.OrderBy(e => e.TimeFrom).ToList();
+                    break;
+            }
             var eventsWithInterest = events.Select(e => new EventDTO
             {
                 Id = e.Id,
@@ -45,7 +67,7 @@ namespace MotoVendor.Controllers
                 Image = e.Image,
                 InterestedCount = _eventService.GetAllInterestByEvent(e.Id).Count()
             }).ToList();
-
+            ViewBag.SortBy = sortBy;
             return View(eventsWithInterest);
         }
         [Authorize]

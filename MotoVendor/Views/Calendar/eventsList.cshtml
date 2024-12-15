@@ -5,20 +5,52 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/eventsList.css">
 }
+<form method="get" action="@Url.Action("EventsList", "Calendar")">
 <section>
     <div class="up-section">
         <div class="nav-tree">
             <label for="place">Calendar</label>
         </div>
-        <div class="sort">
-            <label for="sort_by">Sort By</label>
-            <select id="type">
-                <option value="date_adc">Date ACS</option>
-                <option value="date_desc">Date DESC</option>
-                <option value="alpabetical_asc">Alpabetical ACS</option>
-                <option value="alphabetical_desc">Alpabetical DESC</option>
-            </select>
-        </div>
+            <div class="sort">
+                <label for="sort_by">Sort By</label>
+                    <select id="sortBy" name="sortBy" onchange="this.form.submit()">
+                        @if (ViewBag.SortBy == "date_adc")
+                        {
+                            <option value="date_adc" selected>Date ASC</option>
+                        }
+                        else
+                        {
+                            <option value="date_adc">Date ASC</option>
+                        }
+
+                        @if (ViewBag.SortBy == "date_desc")
+                        {
+                            <option value="date_desc" selected>Date DESC</option>
+                        }
+                        else
+                        {
+                            <option value="date_desc">Date DESC</option>
+                        }
+
+                        @if (ViewBag.SortBy == "alphabetical_asc")
+                        {
+                            <option value="alphabetical_asc" selected>Alphabetical ASC</option>
+                        }
+                        else
+                        {
+                            <option value="alphabetical_asc">Alphabetical ASC</option>
+                        }
+
+                        @if (ViewBag.SortBy == "alphabetical_desc")
+                        {
+                            <option value="alphabetical_desc" selected>Alphabetical DESC</option>
+                        }
+                        else
+                        {
+                            <option value="alphabetical_desc">Alphabetical DESC</option>
+                        }
+                    </select>
+            </div>
     </div>
     <div class="second-section">
         <div class="filter-by">
@@ -59,9 +91,12 @@
             </div>
         </div>
         <div class="search-bar">
-            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+            <button type="submit">
+                <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+            </button>
             <input type="text" id="search" placeholder="Search">
         </div>
+</form>
         <div class="adding-section">
             <button class="add-section" onclick="window.location.href='/Calendar/AddEvent'">
                 Plan new event
