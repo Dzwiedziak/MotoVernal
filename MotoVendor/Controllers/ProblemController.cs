@@ -1,7 +1,9 @@
 ﻿using BusinessLogic.DTO.Bug;
 using BusinessLogic.Errors;
 using BusinessLogic.Services.Interfaces;
+using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MotoVendor.Controllers
@@ -9,10 +11,12 @@ namespace MotoVendor.Controllers
     public class ProblemController : Controller
     {
         readonly IReportBugService _reportBugService;
+        readonly UserManager<User> _userManager;
 
-        public ProblemController(IReportBugService reportBugService)
+        public ProblemController(IReportBugService reportBugService, UserManager<User> userManager)
         {
             _reportBugService = reportBugService;
+            _userManager = userManager;
         }
 
         [Authorize]
@@ -27,6 +31,8 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public IActionResult Report(ReportBugDTO addDTO)
         {
+            var user = _userManager.GetUserAsync(User).Result!;
+            addDTO.Reporter = user;
             var result = _reportBugService.ReportBug(addDTO);
             if (result.IsSuccess)
             {
