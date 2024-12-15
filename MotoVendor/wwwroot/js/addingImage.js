@@ -5,7 +5,7 @@
     const loadImageLabel = document.getElementById('load_image_in_add')
     const lineAdd = document.getElementById('line_in_add')
 
-    const commentsInLoad = document.querySelectorAll('.editable-content');  // Zbierz wszystkie komentarze
+    const commentsInLoad = document.querySelectorAll('.editable-content');
 
     commentsInLoad.forEach(comment => {
         
