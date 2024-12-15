@@ -97,16 +97,16 @@ align-items: flex-start;
 .side-section {
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 15px 15px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0px 15px;
     gap: 15px;
 }
 
 .filter-by {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     padding: 0px;
@@ -131,6 +131,8 @@ align-items: flex-start;
         line-height: 24px;
         color: #000000;
         opacity: 0.5;
+        padding-block: 0px;
+        padding-inline: 0px;
     }
 
 .location-group {
@@ -192,7 +194,7 @@ align-items: flex-start;
     align-content: flex-start;
     width: 100%;
     min-height: 66vh;
-    background: #EAF2FF;
+    background: white;
     margin-right: 25px;
     margin-top: 15px;
 }

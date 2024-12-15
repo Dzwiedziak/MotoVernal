@@ -17,13 +17,13 @@
             <div class="sort">
                 <label for="sort_by">Sort By</label>
                     <select id="sortBy" name="sortBy" onchange="this.form.submit()">
-                        @if (ViewBag.SortBy == "date_adc")
+                        @if (ViewBag.SortBy == "date_asc")
                         {
-                            <option value="date_adc" selected>Date ASC</option>
+                            <option value="date_asc" selected>Date ASC</option>
                         }
                         else
                         {
-                            <option value="date_adc">Date ASC</option>
+                            <option value="date_asc">Date ASC</option>
                         }
 
                         @if (ViewBag.SortBy == "date_desc")
