@@ -24,10 +24,47 @@ namespace MotoVendor.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IActionResult EventsList()
+        public async Task<IActionResult> EventsList(string sortBy, string search, DateTime? dateFrom, DateTime? dateTo, bool? owner, bool? interested, string location)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
             var events = _eventService.GetEvents();
-            var eventsWithInterest = events.Select(e => new EventDTO
+            if (owner.HasValue && owner.Value)
+                events = events.Where(e => e.Publisher == currentUser).ToList();
+            if (interested.HasValue && interested.Value)
+                events = events.Where(e => _eventService.GetAllInterestByEvent(e.Id).Any(i => i.User == currentUser)).ToList();
+            if (!string.IsNullOrEmpty(location))
+                events = events.Where(e => e.Location == location).ToList();
+            if (dateFrom.HasValue)
+                events = events.Where(e => e.TimeFrom >= dateFrom.Value).ToList();
+            if (dateTo.HasValue)
+                events = events.Where(e => e.TimeTo <= dateTo.Value).ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                events = events.Where(e => e.Title.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            switch (sortBy)
+            {
+                case "alphabetical_asc":
+                    events = events.OrderBy(e => e.Title).ToList();
+                    break;
+                case "alphabetical_desc":
+                    events = events.OrderByDescending(e => e.Title).ToList();
+                    break;
+                case "date_adc":
+                    events = events.OrderBy(e => e.TimeFrom).ToList(); 
+                    break;
+                case "date_desc":
+                    events = events.OrderByDescending(e => e.TimeFrom).ToList(); 
+                    break;
+                default:
+                    events = events.OrderBy(e => e.TimeFrom).ToList();
+                    break;
+            }
+            var locations = events
+                .Select(e => e.Location)
+                .Distinct()
+                .ToList();
+            var eventsWithInterest = events.Select(e =>new EventDTO
             {
                 Id = e.Id,
                 Publisher = e.Publisher,
@@ -37,9 +74,16 @@ namespace MotoVendor.Controllers
                 TimeFrom = e.TimeFrom,
                 TimeTo = e.TimeTo,
                 Image = e.Image,
-                InterestedCount = _eventService.GetAllInterestByEvent(e.Id).Count()
+                InterestedList = _eventService.GetAllInterestByEvent(e.Id)
             }).ToList();
-
+            ViewBag.Locations = locations;
+            ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-ddTHH:mm");
+            ViewBag.DateTo = dateTo?.ToString("yyyy-MM-ddTHH:mm");
+            ViewBag.SortBy = sortBy;
+            ViewBag.Search = search;
+            ViewBag.Owner = owner;
+            ViewBag.Interested = interested;
+            ViewBag.SelectedLocation = location;
             return View(eventsWithInterest);
         }
         [Authorize]
