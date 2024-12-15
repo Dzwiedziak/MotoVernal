@@ -10,6 +10,7 @@ namespace BusinessLogic.Services
     public class TopicResponseService : ITopicResponseService
     {
         private readonly ITopicResponseRepository _topicResponseRepository;
+        private readonly ITopicResponseReactionRepository _reactionRepository;
 
         public TopicResponseService(ITopicResponseRepository responseRepository)
         {
@@ -45,6 +46,7 @@ namespace BusinessLogic.Services
 
             List<TopicResponse> allResponses = _topicResponseRepository.GetAll();
             List<TopicResponse> topicResponses = allResponses.Where(r => r.Topic.Id == id).ToList();
+
             return topicResponses.Select(r => CreateGetTopicResponseDTO(r)).ToList();
         }
 
@@ -63,7 +65,7 @@ namespace BusinessLogic.Services
             new(topicResponse.Topic, topicResponse.Owner, topicResponse.Description, DateTime.Now, topicResponse.Image);
 
         private GetTopicResponseDTO CreateGetTopicResponseDTO(TopicResponse topicResponse) =>
-            new(topicResponse.Id, topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime, topicResponse.Image);
+            new(topicResponse.Id, topicResponse.Topic, topicResponse.Owner, topicResponse.Description, topicResponse.CreationTime, topicResponse.Image, null, null, null);
 
         private void UpdateTopicResponse(ref TopicResponse oldTopicResponse, UpdateTopicResponseDTO topicResponse)
         {

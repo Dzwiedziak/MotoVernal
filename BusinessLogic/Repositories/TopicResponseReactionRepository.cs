@@ -35,6 +35,11 @@ namespace BusinessLogic.Repositories
             return _context.TopicResponseReactions.Where(r => r.Id == id).FirstOrDefault();
         }
 
+        public List<TopicResponseReaction> GetAll()
+        {
+            return _context.TopicResponseReactions.ToList();
+        }
+
         public void Update(TopicResponseReaction entity)
         {
             _context.Update(entity);

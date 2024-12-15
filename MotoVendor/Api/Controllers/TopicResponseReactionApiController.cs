@@ -3,6 +3,7 @@ using BusinessLogic.Errors;
 using BusinessLogic.Services.Interfaces;
 using DB.Enums;
 using Microsoft.AspNetCore.Mvc;
+using MotoVendor.Api.DTO;
 
 namespace MotoVendor.Api.Controllers
 {
@@ -38,14 +39,14 @@ namespace MotoVendor.Api.Controllers
             }
         }
         [HttpPatch]
-        [Route("/{id}/type")]
-        public IActionResult UpdateReactionType([FromRoute] int id, ReactionType reaction)
+        [Route("{id}/type")]
+        public IActionResult UpdateReactionType([FromRoute] int id, [FromBody] ReactionType reactionType)
         {
-            var result = _topicResponseReactionService.UpdateReactionType(id, reaction);
+            var result = _topicResponseReactionService.UpdateReactionType(id, reactionType);
             switch (result)
             {
                 case null:
-                    return Ok(result);
+                    return Ok();
                 case TopicResponseReactionErrorCode.TopicResponseNotFound:
                     return NotFound();
                 default:

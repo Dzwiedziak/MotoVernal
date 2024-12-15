@@ -87,6 +87,7 @@ internal class Program
         builder.Services.AddScoped<IPostCommentRepository, PostCommentRepository>();
         builder.Services.AddScoped<IPostCommentReactionRepository, PostCommentReactionRepository>();
         builder.Services.AddScoped<IVehicleOfferObservationRepository, VehicleOfferObservationRepository>();
+        builder.Services.AddScoped<ITopicResponseReactionRepository, TopicResponseReactionRepository>();
     }
 
     private static void InjectServices(WebApplicationBuilder builder)
@@ -103,7 +104,7 @@ internal class Program
         builder.Services.AddScoped<IPostCommentService, PostCommentService>();
         builder.Services.AddScoped<IPostCommentReactionService, PostCommentReactionService>();
         builder.Services.AddScoped<IVehicleOfferObservationService, VehicleOfferObservationService>();
-
+        builder.Services.AddScoped<ITopicResponseReactionService, TopicResponseReactionService>();
     }
 
     private static void InjectDbContext(WebApplicationBuilder builder)

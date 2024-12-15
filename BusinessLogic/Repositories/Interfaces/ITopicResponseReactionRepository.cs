@@ -9,5 +9,6 @@ namespace BusinessLogic.Repositories.Interfaces
         TopicResponseReaction? FindWhereUserAndTopicResponse(User user, TopicResponse topicResponse);
         TopicResponseReaction? Get(int id);
         void Update(TopicResponseReaction entity);
+        List<TopicResponseReaction> GetAll();
     }
 }
