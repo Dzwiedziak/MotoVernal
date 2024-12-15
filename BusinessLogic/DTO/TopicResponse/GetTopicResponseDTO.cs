@@ -11,7 +11,7 @@ namespace BusinessLogic.DTO.TopicResponse
         public DateTime CreationTime { get; set; }
         public Entities.File? Image { get; set; }
 
-        public GetTopicResponseDTO(int id,Entities.Topic topic, Entities.User owner, string description, DateTime creationTime, Entities.File? image)
+        public GetTopicResponseDTO(int id, Entities.Topic topic, Entities.User owner, string description, DateTime creationTime, Entities.File? image)
         {
             Id = id;
             Topic = topic;

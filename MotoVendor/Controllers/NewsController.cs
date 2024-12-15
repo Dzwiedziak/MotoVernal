@@ -7,9 +7,6 @@ using DB.Entities;
 using DB.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Hosting;
-using System.Security.Policy;
 
 namespace MotoVendor.Controllers
 {
@@ -39,7 +36,7 @@ namespace MotoVendor.Controllers
             if (!string.IsNullOrEmpty(relationStatus))
             {
                 var currentUser = _userService.GetCurrentUser().Result;
-                var currentUserId = currentUser?.Id; 
+                var currentUserId = currentUser?.Id;
                 if (relationStatus == "owner")
                 {
                     posts = posts.Where(post => currentUserId != null && post.Publisher?.Id == currentUserId).ToList();
@@ -74,18 +71,18 @@ namespace MotoVendor.Controllers
         [HttpPost]
         public IActionResult AddPost(AddPostDTO post)
         {
-            if(post.Content == null)
+            if (post.Content == null)
                 post.Content = String.Empty;
 
             ModelState.Clear();
             var publisher = _userService.GetCurrentUser().Result;
-            if(publisher != null)
+            if (publisher != null)
             {
                 post.Publisher = publisher;
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     var result = _postService.Add(post);
-                    if(result.IsSuccess)
+                    if (result.IsSuccess)
                         return RedirectToAction("EditPost", new { id = result.Value });
                     return View("Error");
                 }
@@ -98,7 +95,7 @@ namespace MotoVendor.Controllers
         public IActionResult EditPost(int id)
         {
             var result = _postService.Get(id);
-            if(result.IsSuccess)
+            if (result.IsSuccess)
             {
                 var user = _userService.GetCurrentUser().Result;
                 if (user == null || user.Id != result?.Value?.Publisher.Id)
@@ -115,10 +112,10 @@ namespace MotoVendor.Controllers
         public IActionResult EditPost([FromRoute] int id, [FromForm] UpdatePostDTO post)
         {
             var errorCode = _postService.Update(id, post);
-            if(errorCode == null)
+            if (errorCode == null)
             {
                 var result = _postService.Update(id, post);
-                if(result == null)
+                if (result == null)
                     return RedirectToAction("EditPost", new { id = id });
                 return View("Error");
             }
@@ -138,7 +135,7 @@ namespace MotoVendor.Controllers
         public IActionResult PostCommentLike(int postCommentId)
         {
             User? user = _userService.GetCurrentUser().Result;
-            if(user == null)
+            if (user == null)
             {
                 return View("Error");
             }

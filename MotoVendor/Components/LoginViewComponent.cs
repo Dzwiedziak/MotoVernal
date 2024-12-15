@@ -1,9 +1,6 @@
 ﻿using BusinessLogic.DTO.User;
-using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MotoVendor.Controllers;
 
 namespace MotoVendor.Components
 {

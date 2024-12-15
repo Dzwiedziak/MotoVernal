@@ -12,7 +12,7 @@ namespace BusinessLogic.DTO.Topic
         public Entities.Section Section { get; set; }
         public Entities.File? Image { get; set; }
 
-        public GetTopicDTO(int id,string title, string description, DateTime creationTime, Entities.User publisher, Entities.Section section, Entities.File? image)
+        public GetTopicDTO(int id, string title, string description, DateTime creationTime, Entities.User publisher, Entities.Section section, Entities.File? image)
         {
             Id = id;
             Title = title;

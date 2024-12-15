@@ -1,7 +1,6 @@
 ﻿using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
-using System.Security.Cryptography.Xml;
 
 namespace BusinessLogic.Repositories
 {
@@ -44,8 +43,8 @@ namespace BusinessLogic.Repositories
         public VehicleOfferObservation? GetForUserAndOffer(string userId, int offerId)
         {
             return _context.VehicleOfferObservations
-                .Where(o => 
-                    o.Observer.Id == userId && 
+                .Where(o =>
+                    o.Observer.Id == userId &&
                     o.VehicleOffer.Id == offerId)
                 .FirstOrDefault();
         }

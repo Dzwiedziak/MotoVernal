@@ -496,6 +496,32 @@ namespace DB.Migrations
                     b.ToTable("TopicResponses");
                 });
 
+            modelBuilder.Entity("DB.Entities.TopicResponseReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ReactionType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicResponseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TopicResponseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TopicResponseReactions");
+                });
+
             modelBuilder.Entity("DB.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -1062,7 +1088,7 @@ namespace DB.Migrations
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("DB.Entities.Topic", "Topic")
-                        .WithMany()
+                        .WithMany("Responses")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1072,6 +1098,23 @@ namespace DB.Migrations
                     b.Navigation("Owner");
 
                     b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("DB.Entities.TopicResponseReaction", b =>
+                {
+                    b.HasOne("DB.Entities.TopicResponse", "TopicResponse")
+                        .WithMany()
+                        .HasForeignKey("TopicResponseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("TopicResponse");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DB.Entities.User", b =>
@@ -1187,6 +1230,11 @@ namespace DB.Migrations
             modelBuilder.Entity("DB.Entities.PostComment", b =>
                 {
                     b.Navigation("Reactions");
+                });
+
+            modelBuilder.Entity("DB.Entities.Topic", b =>
+                {
+                    b.Navigation("Responses");
                 });
 
             modelBuilder.Entity("DB.Entities.VehicleOffer", b =>

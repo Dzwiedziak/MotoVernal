@@ -1,7 +1,5 @@
-﻿using BusinessLogic.DTO.Section;
-using BusinessLogic.DTO.TopicResponse;
+﻿using BusinessLogic.DTO.TopicResponse;
 using BusinessLogic.Errors;
-using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;

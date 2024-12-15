@@ -2,6 +2,7 @@
 {
     public enum TopicErrorCode
     {
-        TopicNotFound
+        TopicNotFound,
+        UserNotFound
     }
 }

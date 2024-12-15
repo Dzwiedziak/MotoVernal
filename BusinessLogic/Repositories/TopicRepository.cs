@@ -17,10 +17,10 @@ namespace BusinessLogic.Repositories
         public List<Topic> GetAll() => _context.Topics.ToList();
         public List<Topic> GetAllInSection(int sectionId) => _context.Topics
                 .Where(t => t.Section.Id == sectionId).
-                 Include(t => t.Publisher)  
+                 Include(t => t.Publisher)
                 .Include(t => t.Publisher.ProfileImage)
-                .Include(t => t.Section)    
-                .Include(t => t.Image)    
+                .Include(t => t.Section)
+                .Include(t => t.Image)
                 .ToList();
         public Topic? GetOne(int id) => _context.Topics
             .Include(t => t.Publisher)
@@ -30,5 +30,6 @@ namespace BusinessLogic.Repositories
             .FirstOrDefault(t => t.Id == id);
         public void Add(Topic topic) { _context.Attach(topic.Section); _context.Topics.Add(topic); _context.SaveChanges(); }
         public void Update(Topic topic) { _context.Topics.Update(topic); _context.SaveChanges(); }
+
     }
 }

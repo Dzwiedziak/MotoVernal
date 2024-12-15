@@ -1,17 +1,9 @@
-﻿using BusinessLogic.DTO.Offer;
-using BusinessLogic.DTO.VehicleOffer;
-using BusinessLogic.Errors;
-using BusinessLogic.Repositories;
-using BusinessLogic.Services;
+﻿using BusinessLogic.DTO.VehicleOffer;
 using BusinessLogic.Services.Interfaces;
-using DB.Entities;
 using DB.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.IdentityModel.Tokens;
 using MotoVendor.Authorizations.Requirements;
-using System.Collections.Generic;
 
 namespace MotoVendor.Controllers
 {
@@ -61,10 +53,10 @@ namespace MotoVendor.Controllers
         public async Task<IActionResult> EditOffer(UpdateVehicleOfferDTO vehicleOffer)
         {
             var authorizationResult = await _authorizationService.AuthorizeAsync(User, null, new IsVehicleOfferOwnerRequirement(vehicleOffer.Id));
-            if(authorizationResult.Succeeded)
+            if (authorizationResult.Succeeded)
             {
                 var error = _vehicleOfferService.Update(vehicleOffer);
-                if(error is null)
+                if (error is null)
                 {
                     return RedirectToAction("VehiclesList");
                 }
@@ -95,7 +87,7 @@ namespace MotoVendor.Controllers
                 {
                     isOwnerQuery = values.FirstOrDefault();
                 }
-                else if(key.Equals("isObserving", StringComparison.OrdinalIgnoreCase))
+                else if (key.Equals("isObserving", StringComparison.OrdinalIgnoreCase))
                 {
                     isObservingQuery = values.FirstOrDefault();
                 }
@@ -184,7 +176,7 @@ namespace MotoVendor.Controllers
         public IActionResult DetailsOffer(int id)
         {
             var model = _vehicleOfferService.Get(id);
-            if(model.IsSuccess)
+            if (model.IsSuccess)
                 return View(model.Value);
             return View("Error");
         }

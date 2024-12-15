@@ -1,5 +1,4 @@
-﻿using BusinessLogic.Services;
-using BusinessLogic.Services.Interfaces;
+﻿using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MotoVendor.Api.DTO;
 

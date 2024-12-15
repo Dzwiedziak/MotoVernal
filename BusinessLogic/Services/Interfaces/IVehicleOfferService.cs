@@ -1,7 +1,6 @@
 ﻿using BusinessLogic.DTO.VehicleOffer;
 using BusinessLogic.Errors;
 using BusinessLogic.Services.Response;
-using DB.Entities;
 
 namespace BusinessLogic.Services.Interfaces
 {

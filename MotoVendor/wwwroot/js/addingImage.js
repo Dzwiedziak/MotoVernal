@@ -5,74 +5,87 @@
     const loadImageLabel = document.getElementById('load_image_in_add')
     const lineAdd = document.getElementById('line_in_add')
 
-    const fileUpload = document.getElementById('photo-select__file');
-    const base64Input = document.getElementById('base64');
-    const extensionInput = document.getElementById('extension');
-    const previewContainer = document.getElementById('current-image');
-    const previewImage = previewContainer ? previewContainer.querySelector('img') : null;
-
-    const commentsInLoad = document.querySelectorAll('.editable-content'); 
+    const commentsInLoad = document.querySelectorAll('.editable-content');  // Zbierz wszystkie komentarze
 
     commentsInLoad.forEach(comment => {
-        let content = comment.textContent.trim(); 
-        comment.textContent = content;
+        
+        let content = comment.innerHTML.trim();
+
+        content = content.replace(/\n/g, '<br>');
+
+        comment.innerHTML = content;
     });
 
+    const MAX_FILE_SIZE = 4 * 1024 * 1024;    
 
-    const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
-    if (base64Input.value === '') {
-        base64Input.value = 'defaultBase64Value';
-    }
-    if (extensionInput.value === '') {
-        extensionInput.value = 'defaultExtension';
-    }
+    const elementsWithFileLoadings = document.querySelectorAll('.comments-content, .add-comment-content');
+    elementsWithFileLoadings.forEach(element => {
+        const fileUpload = element.querySelector('.photo-select__file');
+        const base64Input = element.querySelector('.base64');
+        const extensionInput = element.querySelector('.extension');
+        const previewContainer = element.querySelector('.current-image');
+        const previewImage = previewContainer ? previewContainer.querySelector('img') : null;
 
-    function updateImagePreview(base64, extension, prevImage, prevContainer) {
-        if (base64 !== 'defaultBase64Value' && extension) {
-            if (prevImage) {
-                prevImage.src = `data:image/${extension};base64,${base64}`;
-                prevContainer.style.display = 'block';
-            }
-        } else if (prevImage) {
-            prevImage.src = '';
-            prevContainer.style.display = 'none';
-        }
-    }
-    updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-
-    fileUpload.addEventListener('change', function (event) {
-        const file = event.target.files[0];
-
-        if (file) {
-            if (file.size > MAX_FILE_SIZE) {
-                alert("The file size exceeds the maximum limit of 4MB.");
-                fileUpload.value = '';
-                base64Input.value = 'defaultBase64Value';
-                extensionInput.value = 'defaultExtension';
-                updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-                return;
-            }
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    base64Input.value = e.target.result.split(",")[1];
-                    extensionInput.value = file.name.split('.').pop();
-                    updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert("Please select a valid image file.");
-                fileUpload.value = '';
-                base64Input.value = 'defaultBase64Value';
-                extensionInput.value = 'defaultExtension';
-                updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-            }
-        } else {
+        const loadImageLabel = element.querySelector('.load-image-label');
+        loadImageLabel.addEventListener('click', () => {
+            fileUpload.click();
+        })
+            
+        if (base64Input.value === '') {
             base64Input.value = 'defaultBase64Value';
-            extensionInput.value = 'defaultExtension';
-            updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
+
         }
+        if (extensionInput.value === '') {
+            extensionInput.value = 'defaultExtension';
+        }
+
+        function updateImagePreview(base64, extension) {
+            if (base64 !== 'defaultBase64Value' && extension) {
+                if (previewImage) {
+                    previewImage.src = `data:image/${extension};base64,${base64}`;
+                    previewContainer.style.display = 'block';
+                }
+            } else if (previewImage) {
+                previewImage.src = '';
+                previewContainer.style.display = 'none';
+            }
+        }
+        updateImagePreview(base64Input.value, extensionInput.value);
+
+        fileUpload.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                if (file.size > MAX_FILE_SIZE) {
+                    alert("The file size exceeds the maximum limit of 4MB.");
+                    fileUpload.value = '';
+                    base64Input.value = 'defaultBase64Value';
+                    extensionInput.value = 'defaultExtension';
+                    updateImagePreview(base64Input.value, extensionInput.value);
+                    return;
+                }
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        base64Input.value = e.target.result.split(",")[1];
+                        extensionInput.value = file.name.split('.').pop();
+                        updateImagePreview(base64Input.value, extensionInput.value);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("Please select a valid image file.");
+                    fileUpload.value = '';
+                    base64Input.value = 'defaultBase64Value';
+                    extensionInput.value = 'defaultExtension';
+                    updateImagePreview(base64Input.value, extensionInput.value);
+                }
+            } else {
+                base64Input.value = 'defaultBase64Value';
+                extensionInput.value = 'defaultExtension';
+                updateImagePreview(base64Input.value, extensionInput.value);
+            }
+        });
     });
     textarea.addEventListener('input', function () {
         this.style.height = 'auto';
@@ -88,7 +101,7 @@
             fileUpload.value = '';
             base64Input.value = 'defaultBase64Value';
             extensionInput.value = 'defaultExtension';
-            updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
+            updateImagePreview(base64Input.value, extensionInput.value);
         }
     });
     cancelBtn.addEventListener('click', function () {
@@ -100,7 +113,7 @@
         fileUpload.value = '';
         base64Input.value = 'defaultBase64Value';
         extensionInput.value = 'defaultExtension';
-        updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
+        updateImagePreview(base64Input.value, extensionInput.value);
     });
 
     const comments = document.querySelectorAll('.comments-content');
@@ -110,15 +123,11 @@
         let editableSpan = comment.querySelector('.editable-content');
         const cancelEditButton = comment.querySelector('.cancel-edit-btn');
         const loadImageLabel = comment.querySelector('.load-image-label');
-
-        const fileUpload = comment.querySelector('.photo-select__file');
-        const base64Input = comment.querySelector('.base64');
-        const extensionInput = comment.querySelector('.extension');
-        const previewContainer = comment.querySelector('.current-image');
-        const previewImage = previewContainer ? previewContainer.querySelector('img') : null;
+        const commentForm = comment.querySelector('.editable-post-content');
 
         let isEditing = false;
-        let editTextarea;
+        let editTextarea = comment.querySelector('.editable-post-content__description');
+        editTextarea.style.display = 'none';
         let originalContent;
 
         editButton.addEventListener('click', function () {
@@ -127,7 +136,6 @@
                 originalContent = editableSpan.innerHTML.trim();
 
                 const currentContent = editableSpan.innerHTML.replace(/<br>/g, "\n").trim();
-                editTextarea = document.createElement('textarea');
                 editTextarea.value = currentContent;
                 editTextarea.style.width = '100%';
 
@@ -139,7 +147,8 @@
                     this.style.height = `${this.scrollHeight}px`;
                 });
 
-                editableSpan.parentNode.replaceChild(editTextarea, editableSpan);
+                editTextarea.style.display = 'block';
+                editableSpan.style.display = 'none';
 
                 loadImageLabel.style.display = 'inline-block';
 
@@ -147,43 +156,18 @@
                 isEditing = true;
 
                 cancelEditButton.style.display = 'flex';
-                fileUpload.addEventListener('change', function (event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        if (file.size > MAX_FILE_SIZE) {
-                            alert("The file size exceeds the maximum limit of 4MB.");
-                            fileUpload.value = '';
-                            base64Input.value = 'defaultBase64Value';
-                            extensionInput.value = 'defaultExtension';
-                            updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-                            return;
-                        }
-                        if (file.type.startsWith('image/')) {
-                            const reader = new FileReader();
-                            reader.onload = function (e) {
-                                base64Input.value = e.target.result.split(",")[1];
-                                extensionInput.value = file.name.split('.').pop();
-                                updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-                            };
-                            reader.readAsDataURL(file);
-                        } else {
-                            alert("Please select a valid image file.");
-                            fileUpload.value = '';
-                            base64Input.value = 'defaultBase64Value';
-                            extensionInput.value = 'defaultExtension';
-                            updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
-                        }
-                    }
-                });
+
+
             } else {
 
+                commentForm.submit();
                 const newContent = editTextarea.value.trim().split('\n').join('<br>');
+                
 
-                editableSpan = document.createElement('span');
-                editableSpan.className = 'editable-content';
                 editableSpan.innerHTML = newContent;
 
-                editTextarea.parentNode.replaceChild(editableSpan, editTextarea);
+                editableSpan.style.display = 'block';
+                editTextarea.style.display = 'none';
 
                 editButton.querySelector('img').src = '/images/draw.png';
 
@@ -205,10 +189,6 @@
             isEditing = false;
             loadImageLabel.style.display = 'none';
             cancelEditButton.style.display = 'none';
-            fileUpload.value = '';
-            base64Input.value = 'defaultBase64Value';
-            extensionInput.value = 'defaultExtension';
-            updateImagePreview(base64Input.value, extensionInput.value, previewImage, previewContainer);
 
             editButton.querySelector('img').src = '/images/draw.png';
         });
