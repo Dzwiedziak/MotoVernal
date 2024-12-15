@@ -14,7 +14,7 @@ namespace BusinessLogic.DTO.Event
         public string Location { get; set; }
         public string Description { get; set; }
         public Entities.File? Image { get; set; }
-        public int InterestedCount { get; set; }
+        public List<Entities.EventInterest> InterestedList { get; set; }
     }
 
 }

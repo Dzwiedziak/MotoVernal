@@ -5,8 +5,11 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/eventsList.css">
 }
-<form method="get" action="@Url.Action("EventsList", "Calendar")">
+@section Scripts {
+    <script src="~/js/eventsList.js"></script>
+}
 <section>
+    <form method="get" action="@Url.Action("EventsList", "Calendar")">
     <div class="up-section">
         <div class="nav-tree">
             <label for="place">Calendar</label>
@@ -55,54 +58,63 @@
     <div class="second-section">
         <div class="filter-by">
             <label>Filter by</label>
-            <button class="clear">
+                <button class="clear" id="clear-filters-btn">
                 <span>X Clear All</span>
             </button>
         </div>
         <div class="filter-group">
             <div class="date-group">
-                <label for="datetime-from">Date from</label>
-                <input type="datetime-local" id="datetime-from">
+                <label for="datetime-from" >Date from</label>
+                    <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
             </div>
             <div class="date-group">
                 <label for="datetime-to">Date to</label>
-                <input type="datetime-local" id="datetime-to">
+                    <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
             </div>
         </div>
         <div class="location-group">
             <label for="location">Location</label>
-            <select id="location">
-                <option value="Onlinek">On-line</option>
-                <option value="Bialystok">Białystok</option>
-                <option value="Lublin">Lublin</option>
-                <option value="Warszawa">Warszawa</option>
-                <option value="Wroclaw">Wrocław</option>
-            </select>
+            <select id="location" class="location"name="location" onchange="this.form.submit()">
+        <option value="">-- Select Location --</option>
+        @foreach (var loc in ViewBag.Locations as List<string>)
+        {
+            @if (ViewBag.SelectedLocation == loc)
+            {
+                 <option value="@loc" selected>@loc</option>
+            }
+            else
+            {
+             <option value="@loc">@loc</option>
+            }
+        }
+    </select>
         </div>
         <div class="location-group">
             <label for="status">Status</label>
             <div class="status-group">
                 <label class="status">Owner</label>
-                <input type="checkbox" id="status1" name="owner" value="owner">
+                    <input type="checkbox" id="owner" name="owner" value="true"
+                    @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
             </div>
             <div class="status-group">
                 <label class="status">Interested</label>
-                <input type="checkbox" id="status2" name="interested" value="interested">
+                    <input type="checkbox" id="interested" name="interested" value="true"
+                    @(ViewBag.Interested == true ? "checked" : "") onchange="this.form.submit()">
             </div>
         </div>
         <div class="search-bar">
             <button type="submit">
                 <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
             </button>
-            <input type="text" id="search" placeholder="Search">
+            <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
         </div>
-</form>
-        <div class="adding-section">
-            <button class="add-section" onclick="window.location.href='/Calendar/AddEvent'">
-                Plan new event
-            </button>
-        </div>
+            <div class="adding-section">
+                <button type="button" class="add-section" onclick="window.location.href='/Calendar/AddEvent'">
+                    Plan new event
+                </button>
+            </div>
     </div>
+</form>
 </section>
 <div class="main-cnt">
     <ul>
@@ -154,7 +166,7 @@
                 <div class="event-down">
                     <div class="event-interested">
                         <img src="~/images/group.png" alt="group" class="group-image" id="group-image">
-                        <label>@ev3nt.InterestedCount</label>
+                        <label>@ev3nt.InterestedList.Count()</label>
                         <label class="interested">interested</label>
                     </div>
                         <button class="event-action" onclick="window.location.href='/Calendar/detailsEvent?id=@ev3nt.Id'">
