@@ -1,14 +1,18 @@
-﻿@model MotoVendor.ViewModels.TopicDetailsViewModel;
+﻿@inject BusinessLogic.Services.Interfaces.IUserService userService;
+@model MotoVendor.ViewModels.TopicDetailsViewModel;
 @{
     ViewData["Title"] = "Forum - Details Topic";
+    var userId = userService.GetCurrentUser().Result.Id;
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/detailsTopic.css" />
 }
 @section Scripts {
     <script src="~/js/addingImage.js"></script>
+    <script src="~/js/topicResponseReaction.js"></script>
 }
 <div class="main-cnt">
+    <input type="hidden" class="user-id" value="@userId" />
     <div class="basic-info">
         <span>@Model.TopicInfo.Title</span>
         <div class="extra-info">
@@ -68,7 +72,10 @@
     <div id="commentsWindow" class="commentsWindow">
         @foreach (var comment in Model.Responses)
         {
-            <div class="comments-content">
+            <div class="comments-content"
+                 response-id="@comment.Id"
+                 reaction-state="@(comment.UserResponse?.ReactionType.ToString().ToLower() ?? "none")"
+                @(comment.UserResponse != null ? $"reaction-id={comment.UserResponse.Id}" : "")>
                 @if (ViewBag.CurrentUserId == comment.Owner.Id)
                 {
                     <button id="edit-comment-btn" class="edit-comment-btn">
@@ -125,11 +132,11 @@
                             <button class="like-btn">
                                 <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
                             </button>
-                            <span>122</span>
+                            <span class="like-count">@comment.LikeCount</span>
                             <button class="dislike-btn">
                                 <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
                             </button>
-                            <span>25</span>
+                            <span class="dislike-count">@comment.DisLikeCount</span>
                         </div>
                     </div>
                 </div>

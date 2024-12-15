@@ -36,8 +36,36 @@ namespace BusinessLogic.Services
             if (dbEntitiy != null)
                 return TopicResponseReactionErrorCode.RelationAlreadyExists;
 
-            _repository.Add(new TopicResponseReaction(0, user, topicResponse, addDTO.ReactionType));
-            return topicResponse.Id;
+            var topicResponseReaction = new TopicResponseReaction(0, user, topicResponse, addDTO.ReactionType);
+            _repository.Add(topicResponseReaction);
+            return topicResponseReaction.Id;
+        }
+
+        public Result<TopicResponseReaction?, TopicResponseReactionErrorCode> FindWhere(string userId, int topicResponseId)
+        {
+            var user = _userRepository.GetOne(userId);
+            if (user == null)
+                return TopicResponseReactionErrorCode.UserNotFound;
+
+            var topicResponse = _topicResponseRepository.GetOne(topicResponseId);
+            if (topicResponse == null)
+                return TopicResponseReactionErrorCode.TopicResponseNotFound;
+
+            return _repository.FindWhereUserAndTopicResponse(user, topicResponse);
+        }
+
+        public int GetDisLikeCount(int topicResponseId)
+        {
+            var dbEntities = _repository.GetAll();
+            var resultList = dbEntities.Where(e => e.TopicResponse.Id == topicResponseId && e.ReactionType == ReactionType.Dislike).ToList();
+            return resultList.Count;
+        }
+
+        public int GetLikeCount(int topicResponseId)
+        {
+            var dbEntities = _repository.GetAll();
+            var resultList = dbEntities.Where(e => e.Id == topicResponseId && e.ReactionType == ReactionType.Like).ToList();
+            return resultList.Count;
         }
 
         public TopicResponseReactionErrorCode? UpdateReactionType(int id, ReactionType reactionType)

@@ -20,8 +20,9 @@ namespace MotoVendor.Controllers
         private readonly IBanService _banService;
         private readonly UserManager<User> _userManager;
         private readonly IAuthorizationService _authorizationService;
+        private readonly ITopicResponseReactionService _topicResponseReactionService;
 
-        public ForumController(ISectionService sectionService, ITopicService topicService, ITopicResponseService topicResponseService, IBanService banService, UserManager<User> userManager, IAuthorizationService authorizationService)
+        public ForumController(ISectionService sectionService, ITopicService topicService, ITopicResponseService topicResponseService, IBanService banService, UserManager<User> userManager, IAuthorizationService authorizationService, ITopicResponseReactionService topicResponseReactionService)
         {
             _sectionService = sectionService;
             _topicService = topicService;
@@ -29,6 +30,7 @@ namespace MotoVendor.Controllers
             _banService = banService;
             _userManager = userManager;
             _authorizationService = authorizationService;
+            _topicResponseReactionService = topicResponseReactionService;
         }
         public IActionResult SectionsAndTopicsList(int? sectionId)
         {
@@ -265,17 +267,26 @@ namespace MotoVendor.Controllers
                 Owner = currentUser,
                 Description = string.Empty,
                 Image = null
-
             };
 
-            var currentUserId = _userManager.GetUserId(User);
-            //bool isCurrentUserInterested = interestedUsers.Any(u => u.User.Id == currentUserId);
-
-            ViewBag.CurrentUserId = currentUserId;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.CurrentUserId = user.Id;
             if (result.Value != null)
             {
-                bool isOwner = currentUserId == result.Value.Publisher.Id;
+                bool isOwner = user.Id == result.Value.Publisher.Id;
                 ViewBag.isOwner = isOwner;
+                foreach (var topicResponse in topicResponses)
+                {
+                    var reactionResult = _topicResponseReactionService.FindWhere(user.Id, topicResponse.Id);
+                    if(!reactionResult.IsSuccess)
+                    {
+                        TempData["ErrorMessage"] = "References were not found";
+                        return RedirectToAction("Error", "Home");
+                    }
+                    topicResponse.UserResponse = reactionResult.Value;
+                    topicResponse.LikeCount = _topicResponseReactionService.GetLikeCount(topicResponse.Id);
+                    topicResponse.DisLikeCount = _topicResponseReactionService.GetDisLikeCount(topicResponse.Id);
+                }
                 var viewModel = new TopicDetailsViewModel
                 {
                     TopicInfo = result.Value,
