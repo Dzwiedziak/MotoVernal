@@ -50,7 +50,7 @@ namespace MotoVendor.Controllers
                 case "alphabetical_desc":
                     events = events.OrderByDescending(e => e.Title).ToList();
                     break;
-                case "date_adc":
+                case "date_asc":
                     events = events.OrderBy(e => e.TimeFrom).ToList(); 
                     break;
                 case "date_desc":

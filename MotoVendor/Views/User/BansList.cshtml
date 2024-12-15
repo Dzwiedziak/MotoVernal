@@ -5,31 +5,68 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/bansList.css" />
 }
+@section Scripts {
+    <script src="~/js/profilesList.js"></script>
+}
+<form method="get" action="@Url.Action("BansList", "User")">
 <section>
     <div class="up-section">
         <div class="nav-tree">
-            <label for="place">Bans List</label>
+            <label for="place">Blocked List</label>
         </div>
         <div class="sort">
             <label for="sort_by">Sort By</label>
-            <select id="type">
-                <option value="alpabetical_asc">Alpabetical ACS</option>
-                <option value="alphabetical_desc">Alpabetical DESC</option>
+                <select id="type" name="sortBy" onchange="this.form.submit()">
+                    @if (ViewBag.SortBy == "creation_time_asc")
+                    {
+                        <option value="creation_time_asc" selected>Creation Time ASC</option>
+                    }
+                    else
+                    {
+                        <option value="creation_time_asc">Creation Time ASC</option>
+                    }
+
+                    @if (ViewBag.SortBy == "creation_time_desc")
+                    {
+                        <option value="creation_time_desc" selected>Creation Time DESC</option>
+                    }
+                    else
+                    {
+                        <option value="creation_time_desc">Creation Time DESC</option>
+                    }
+                    @if (ViewBag.SortBy == "expiration_time_asc")
+                    {
+                        <option value="expiration_time_asc" selected>Expiration Time ASC</option>
+                    }
+                    else
+                    {
+                        <option value="expiration_time_asc">Expiration Time ASC</option>
+                    }
+
+                    @if (ViewBag.SortBy == "expiration_time_desc")
+                    {
+                        <option value="expiration_time_desc" selected>Expiration Time DESC</option>
+                    }
+                    else
+                    {
+                        <option value="expiration_time_desc">Expiration Time DESC</option>
+                    }
             </select>
         </div>
     </div>
     <div class="second-section">
         <div class="search-bar">
-            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-            <input type="text" id="search" placeholder="Search">
+                <button type="submit">
+                    <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                </button>
+                <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
         </div>
     </div>
 </section>
-<div class="main-cnt">
     <div class="side-section">
         <div class="filter-by">
             <label>Filter by</label>
-            <button class="clear">
+            <button class="clear" id="clear-filters-btn">
                 <span>X Clear All</span>
             </button>
         </div>
@@ -37,14 +74,18 @@
                 <label for="status">Type</label>
                 <div class="status-group">
                     <label class="status">Active</label>
-                    <input type="checkbox" id="status1" name="owner" value="owner">
+                    <input type="checkbox" id="active" name="active" value="true"
+                    @(ViewBag.Active == true ? "checked" : "") onchange="this.form.submit()">
                 </div>
                 <div class="status-group">
                     <label class="status">Unactive</label>
-                    <input type="checkbox" id="status2" name="interested" value="interested">
+                    <input type="checkbox" id="unactive" name="unactive" value="true"
+                    @(ViewBag.Unactive == true ? "checked" : "") onchange="this.form.submit()">
                 </div>
             </div>
         </div>
+</form>
+<div class="main-cnt">
         <ol>
             @foreach (var ban in Model)
             {

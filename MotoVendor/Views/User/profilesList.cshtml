@@ -5,31 +5,51 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/profilesList.css" />
 }
+@section Scripts {
+    <script src="~/js/profilesList.js"></script>
+}
+<form method="get" action="@Url.Action("ProfilesList", "User")">
 <section>
     <div class="up-section">
         <div class="nav-tree">
-            <label for="place">App</label>
+            <label for="place">Users</label>
         </div>
         <div class="sort">
             <label for="sort_by">Sort By</label>
-            <select id="type">
-                <option value="alpabetical_asc">Alpabetical ACS</option>
-                <option value="alphabetical_desc">Alpabetical DESC</option>
+                <select id="sortBy" name="sortBy" onchange="this.form.submit()">
+                    @if (ViewBag.SortBy == "date_asc")
+                    {
+                        <option value="alphabetical_asc" selected>Alphabetical ASC</option>
+                    }
+                    else
+                    {
+                        <option value="alphabetical_asc">Alphabetical ASC</option>
+                    }
+
+                    @if (ViewBag.SortBy == "date_desc")
+                    {
+                        <option value="alphabetical_desc" selected>Alphabetical DESC</option>
+                    }
+                    else
+                    {
+                        <option value="alphabetical_desc">Alphabetical DESC</option>
+                    }
             </select>
         </div>
     </div>
     <div class="second-section">
         <div class="search-bar">
-            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-            <input type="text" id="search" placeholder="Search">
+                <button type="submit">
+                     <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                </button>
+                <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
         </div>
     </div>
 </section>
-<div class="main-cnt">
     <div class="side-section">
         <div class="filter-by">
             <label>Filter by</label>
-            <button class="clear">
+                <button class="clear" id="clear-filters-btn">
                 <span>X Clear All</span>
             </button>
         </div>
@@ -37,14 +57,18 @@
             <label for="status">Type</label>
             <div class="status-group">
                 <label class="status">Observed</label>
-                <input type="checkbox" id="status1" name="owner" value="owner">
+                    <input type="checkbox" id="observed" name="observed" value="true"
+                    @(ViewBag.Observed == true ? "checked" : "") onchange="this.form.submit()">
             </div>
             <div class="status-group">
                 <label class="status">Admin</label>
-                <input type="checkbox" id="status2" name="interested" value="interested">
+                    <input type="checkbox" id="admin" name="admin" value="true"
+                    @(ViewBag.Admin == true ? "checked" : "") onchange="this.form.submit()">
             </div>
         </div>
     </div>
+</form>
+<div class="main-cnt">
     <ol>
         @foreach(var user in Model)
         {

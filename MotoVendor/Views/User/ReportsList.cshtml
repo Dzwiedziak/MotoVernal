@@ -5,6 +5,10 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/reportsList.css" />
 }
+@section Scripts {
+    <script src="~/js/profilesList.js"></script>
+}
+<form method="get" action="@Url.Action("ReportsList", "User")">
 <section>
     <div class="up-section">
         <div class="nav-tree">
@@ -12,19 +16,37 @@
         </div>
         <div class="sort">
             <label for="sort_by">Sort By</label>
-            <select id="type">
-                <option value="alpabetical_asc">Alpabetical ACS</option>
-                <option value="alphabetical_desc">Alpabetical DESC</option>
-            </select>
+                <select id="type" name="sortBy" onchange="this.form.submit()">
+                    @if (ViewBag.SortBy == "creation_time_asc")
+                    {
+                        <option value="creation_time_asc" selected>Creation Time ASC</option>
+                    }
+                    else
+                    {
+                        <option value="creation_time_asc">Creation Time ASC</option>
+                    }
+
+                    @if (ViewBag.SortBy == "creation_time_desc")
+                    {
+                        <option value="creation_time_desc" selected>Creation Time DESC</option>
+                    }
+                    else
+                    {
+                        <option value="creation_time_desc">Creation Time DESC</option>
+                    }
+                </select>
         </div>
     </div>
     <div class="second-section">
         <div class="search-bar">
-            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-            <input type="text" id="search" placeholder="Search">
+                <button type="submit">
+                    <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                </button>
+                <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
         </div>
     </div>
 </section>
+</form>
 <div class="main-cnt">
     <ol>
         @foreach (var report in Model)

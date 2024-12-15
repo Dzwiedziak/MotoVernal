@@ -3,13 +3,17 @@ using BusinessLogic.DTO.Report;
 using BusinessLogic.DTO.User;
 using BusinessLogic.DTO.UserObservation;
 using BusinessLogic.Errors;
+using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Data;
+using System.Globalization;
 using System.Security.Claims;
 
 
@@ -200,10 +204,34 @@ namespace MotoVendor.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProfilesList(string search, bool? observed, bool? admin, string sort_by)
+        public IActionResult ProfilesList(string search, string sortBy, bool? observed, bool? admin)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<GetUserDTO> dbUsers = _userService.GetAll(currentUserId);
+            if (observed.HasValue && observed.Value)
+                dbUsers = dbUsers.Where(u => u.IsObserved).ToList();
+            if (admin.HasValue && admin.Value)
+                dbUsers = dbUsers.Where(u => u.Roles.Contains("Admin")).ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                dbUsers = dbUsers.Where(u => u.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            switch (sortBy)
+            {
+                case "alphabetical_asc":
+                    dbUsers = dbUsers.OrderBy(u => u.UserName).ToList();
+                    break;
+                case "alphabetical_desc":
+                    dbUsers = dbUsers.OrderByDescending(u => u.UserName).ToList();
+                    break;
+                default:
+                    dbUsers = dbUsers.OrderBy(u => u.UserName).ToList();
+                    break;
+            }
+            ViewBag.Search = search;
+            ViewBag.SortBy = sortBy;
+            ViewBag.Observed = observed;
+            ViewBag.Admin = admin;
             return View(dbUsers);
         }
 
@@ -408,9 +436,40 @@ namespace MotoVendor.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult BansList()
+        public IActionResult BansList(string sortBy, string search, bool? active, bool? unactive)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var list = _banService.GetAllBans();
+            if (active.HasValue && active.Value)
+                list = list.Where(b => b.ExpirationTime >= DateTime.Now).ToList();
+            if (unactive.HasValue && unactive.Value)
+                list = list.Where(b => b.ExpirationTime <= DateTime.Now).ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = list.Where(b => b.Banned.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            switch (sortBy)
+            {
+                case "creation_time_asc":
+                    list = list.OrderBy(b => b.CreationTime).ToList();
+                    break;
+                case "creation_time_desc":
+                    list = list.OrderByDescending(b => b.CreationTime).ToList();
+                    break;
+                case "expiration_time_asc":
+                    list = list.OrderBy(b => b.ExpirationTime).ToList();
+                    break;
+                case "expiration_time_desc":
+                    list = list.OrderByDescending(b => b.ExpirationTime).ToList();
+                    break;
+                default:
+                    list = list.OrderBy(b => b.CreationTime).ToList();
+                    break;
+            }
+            ViewBag.Search = search;
+            ViewBag.SortBy = sortBy;
+            ViewBag.Active = active;
+            ViewBag.Unactive = unactive;
             return View(list);
         }
 
@@ -482,19 +541,55 @@ namespace MotoVendor.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult ReportsList()
+        public IActionResult ReportsList(string sortBy, string search)
         {
             if (User.IsInRole("Admin"))
             {
                 var list = _reportService.GetAllReports();
+                if (!string.IsNullOrEmpty(search))
+                {
+                    list = list.Where(r => r.Reporter.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+                switch (sortBy)
+                {
+                    case "creation_time_asc":
+                        list = list.OrderBy(r => r.CreationTime).ToList();
+                        break;
+                    case "creation_time_desc":
+                        list = list.OrderByDescending(r => r.CreationTime).ToList();
+                        break;   
+                    default:
+                        list = list.OrderBy(r => r.CreationTime).ToList();
+                        break;
+                }
+                ViewBag.Search = search;
+                ViewBag.SortBy = sortBy;
                 return View(list);
             }
             else
             {
                 var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var list = _reportService.GetReporterReports(currentUserId);
+                if (!string.IsNullOrEmpty(search))
+                {
+                    list = list.Where(r => r.Reporter.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+                switch (sortBy)
+                {
+                    case "creation_time_asc":
+                        list = list.OrderBy(r => r.CreationTime).ToList();
+                        break;
+                    case "creation_time_desc":
+                        list = list.OrderByDescending(r => r.CreationTime).ToList();
+                        break;
+                    default:
+                        list = list.OrderBy(r => r.CreationTime).ToList();
+                        break;
+                }
+                ViewBag.Search = search;
+                ViewBag.SortBy = sortBy;
                 return View(list);
-            }
+            } 
         }
         [Authorize]
         [HttpGet]
