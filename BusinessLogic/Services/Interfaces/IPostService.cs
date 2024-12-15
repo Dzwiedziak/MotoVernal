@@ -10,7 +10,7 @@ namespace BusinessLogic.Services.Interfaces
         Result<int?, PostErrorCode> Add(AddPostDTO post);
         Result<GetPostDTO, PostErrorCode> Get(int id);
         List<GetPostDTO> GetAll();
-        PostErrorCode? Update(int id, UpdatePostDTO user);
+        PostErrorCode? Update(UpdatePostDTO user);
         PostCommentErrorCode? AddPostComment(int id, AddPostCommentDTO postComment);
         PostCommentErrorCode? UpdatePostComment(int postCommentId, UpdatePostCommentDTO postComment);
 

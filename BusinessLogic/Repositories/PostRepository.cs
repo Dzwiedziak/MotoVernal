@@ -18,8 +18,10 @@ namespace BusinessLogic.Repositories
             _context.Posts
             .Include(p => p.Image)
             .Include(p => p.Publisher)
+            .Include(p => p.Publisher.ProfileImage)
             .Include(p => p.PostComments)
                 .ThenInclude(pc => pc.Publisher)
+                .Include(pc => pc.Publisher.ProfileImage)
             .Include(p => p.PostComments)
                 .ThenInclude(pc => pc.Reactions)
                 .ThenInclude(pcr => pcr.User)

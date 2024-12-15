@@ -21,7 +21,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin: 5px;
     padding: 15px 15px;
@@ -60,8 +60,15 @@
         align-items: center;
         color: #000000;
         opacity: 0.5;
+        padding-block: 0px;
+        padding-inline: 0px;
     }
-
+.postList .filters{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:50px;
+}
 .postList .filter-group {
     box-sizing: border-box;
     display: flex;
@@ -164,7 +171,7 @@
     padding: 2px;
 }
 
-.postList .search-bar {
+.filters .search-bar {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -172,15 +179,16 @@
     box-sizing: border-box;
     border: 1px solid #7D7C83;
     border-radius: 5px;
+    height: 40px
 }
 
-    .postList .search-bar img {
+    .filters .search-bar img {
         width: 25px;
         height: 25px;
         padding: 2px;
     }
 
-    .postList .search-bar input {
+    .filters .search-bar input {
         border: none;
         font-family: 'Inter';
         font-style: normal;
@@ -209,6 +217,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     padding-right: 20px;
 }
 
@@ -245,7 +254,6 @@
 }
 
 .postList .add-section {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 800;
     font-size: 18px;
@@ -371,7 +379,7 @@
     .postList .date > span {
         font-family: 'Inter';
         font-style: italic;
-        font-weight: 100;
+        font-weight: 400;
         font-size: 16px;
         line-height: 19px;
         display: flex;
@@ -587,9 +595,6 @@
     align-items: center;
 }
 
-.main-post {
-    padding: 25px;
-}
 
 .comments__btns-section {
     width: 50px;

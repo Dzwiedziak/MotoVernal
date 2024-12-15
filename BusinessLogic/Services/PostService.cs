@@ -36,9 +36,9 @@ namespace BusinessLogic.Services
             return CreateGetPostDTO(dbPost);
         }
 
-        public PostErrorCode? Update(int id, UpdatePostDTO post)
+        public PostErrorCode? Update( UpdatePostDTO post)
         {
-            Post? dbPost = _postRepository.GetOne(id);
+            Post? dbPost = _postRepository.GetOne(post.Id);
             if (dbPost is null)
                 return PostErrorCode.PostNotFound;
 

@@ -548,8 +548,12 @@ namespace MotoVendor.Controllers
                 var list = _reportService.GetAllReports();
                 if (!string.IsNullOrEmpty(search))
                 {
-                    list = list.Where(r => r.Reporter.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                    list = list.Where(r =>
+                        (r.Reporter != null && r.Reporter.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                        (r.Reported != null && r.Reported.UserName.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    ).ToList();
                 }
+
                 switch (sortBy)
                 {
                     case "creation_time_asc":
@@ -572,8 +576,12 @@ namespace MotoVendor.Controllers
                 var list = _reportService.GetReporterReports(currentUserId);
                 if (!string.IsNullOrEmpty(search))
                 {
-                    list = list.Where(r => r.Reporter.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                    list = list.Where(r =>
+                        (r.Reporter != null && r.Reporter.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                        (r.Reported != null && r.Reported.UserName.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    ).ToList();
                 }
+
                 switch (sortBy)
                 {
                     case "creation_time_asc":
