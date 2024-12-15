@@ -1,0 +1,39 @@
+﻿@model List<BusinessLogic.DTO.Bug.GetReportBugDTO>;
+@{
+    ViewData["Title"] = "Bug reports";
+}
+@section Styles {
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/bugReports.css" />
+}
+
+<div class="bug-report">
+    <div class="bug-report__header">
+        Bug Reports
+    </div>
+    <div class="bug-report__grid">
+        @foreach(var bugReport in Model)
+        {
+            <div class="bug-report__single">
+                <div class="bug-report__single__header">
+                    @bugReport.BugType
+                </div>
+                <div class="bug-report__single__inner">
+                    <div class="bug-report__single__photo">
+                        @if(bugReport.Image is not null)
+                        {
+                            <img class="bug-report__single__photo-img" src="data:image/@bugReport.Image.Extension;base64,@bugReport.Image.Base64" />
+                        }
+                    </div>
+                    <div class="bug-report__single__description">
+                        @bugReport.Description
+                    </div>
+                </div>
+                <a asp-action="ResolveReport" asp-route-id="@bugReport.Id" class="bug-report__resolve-btn">Set resolved</a>
+            </div>
+        }
+    </div>
+</div>

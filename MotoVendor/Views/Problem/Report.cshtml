@@ -1,8 +1,13 @@
-﻿@{
+﻿@using DB.Enums
+@model BusinessLogic.DTO.Bug.ReportBugDTO
+@{
     ViewData["Title"] = "Problem - Report";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/problemReport.css">
+}
+@section Scripts {
+    <script src="~/js/reportProblem.js"></script>
 }
 <main>
     <div class="report-problem">
@@ -15,15 +20,23 @@
                     What type of issue you want to report
                 </div>
             </div>
-            <form class="report-form">
-                <select class="report-form__type">
-                    <option>User interface</option>
+            <form class="report-form" method="post">
+                <select class="report-form__type" asp-for="BugType" asp-items="Html.GetEnumSelectList<BugType>()">
+                    <option selected disabled value="null">Bug type</option>
                 </select>
-                <textarea class="report-form__description" placeholder="Describe your problem"></textarea>
+                <textarea class="report-form__description" asp-for="Description" placeholder="Describe your problem"></textarea>
                 <div class="items-spread flex-wrap">
                     <div class="report-problem__media-icons">
-                        <img class="report-problem__media-icon" src="~/images/photo-icon.svg" />
-                        <img class="report-problem__media-icon" src="~/images/video-icon.svg" />
+                        <div class="image-upload">
+                            <img for="photo-select__file" class="load-image-label report-problem__media-icon" src="~/images/photo-icon.svg" />
+                            <input class="photo-select__file" type="file" accept="image/*" style="display: none;">
+
+                            <div class="current-image">
+                                <img class="report-problem__media-icon" />
+                            </div>
+                            <input type="hidden" class="base64" name="Image.Base64" />
+                            <input type="hidden" class="extension" name="Image.Extension" />
+                        </div>
                     </div>
                     <button class="report-btn" type="submit">Report</button>
                 </div>
