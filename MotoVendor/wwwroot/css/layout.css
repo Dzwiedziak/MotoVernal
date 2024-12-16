@@ -1,4 +1,9 @@
-﻿body {
+﻿input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+
+body {
     margin: 0px;
     min-height: 100vh;
     display: flex;

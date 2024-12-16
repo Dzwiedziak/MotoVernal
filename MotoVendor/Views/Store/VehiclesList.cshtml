@@ -15,6 +15,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
     <style>
+        p {
+            margin: 0px;
+        }
         .filter {
             width: 400px;
             display: flex;
@@ -287,6 +290,7 @@
         .offer__price-tag {
             font-size: 10px;
             font-weight: 500;
+            padding-left: 5px;
         }
 
         .hr-line {
@@ -744,10 +748,7 @@
     </div>
     <form class="content" id="data-manipulation-form">
         <div class="filter" method="get">
-            <div class="filter__search-component">
-                <img class="filter__search-icon" src="~/images/search.svg" />
-                <input class="filter__search-input" placeholder="Search" />
-            </div>
+            <div class="horizontal-line"></div>
             @foreach (var property in typeof(GetVehicleOfferDTO).GetProperties())
             {
                 var isFilterable = property.GetCustomAttribute<FilterableAttribute>() != null;
@@ -957,12 +958,19 @@
         <div class="results">
             <div class="results-global">
                 <div class="results-count">
-                    Showing @(ViewBag.PageIndex * ViewBag.PageSize + 1)-@(ViewBag.PageIndex * ViewBag.PageSize + Model.Count) of @ViewBag.TotalItemsCount Listings
+                    @if (Model.Count == 0)
+                    {
+                        <p>Showing None of @ViewBag.TotalItemsCount Listings</p>
+                    }
+                    else
+                    {
+                        <p>
+                            Showing @(ViewBag.PageIndex * ViewBag.PageSize + 1) - @(ViewBag.PageIndex * ViewBag.PageSize + Model.Count)
+                            of @ViewBag.TotalItemsCount Listings
+                        </p>
+                    }
                 </div>
                 <div class="result-global__right-side">
-                    <a class="offers__add" asp-action="AddOffer">
-                        Add offer
-                    </a>
                     <div class="aside-sorter">
                         <div>Sort by:</div>
                         <select name="sort_by" class="filter__sort-by">
@@ -981,6 +989,9 @@
                             }
                         </select>
                     </div>
+                    <a class="offers__add" asp-action="AddOffer">
+                        Add offer
+                    </a>
                 </div>
             </div>
             <div class="results-main">
@@ -988,10 +999,9 @@
                 {
                     <div class="offer">
                         <div class="offer__upper">
-                            @if(user != null && user.Id == vehicleOffer.User?.Id)
+                            @if (user != null && user.Id == vehicleOffer.User?.Id)
                             {
                                 <button type="button" class="offer__reservation-status" offer-id="@vehicleOffer.Id" onclick="changeReservation(this,@vehicleOffer.Id)" @(vehicleOffer.IsReserved ? "reserved" : "")>
-                                    
                                 </button>
                             }
                             else
@@ -1001,7 +1011,7 @@
                                 </div>
                             }
                             <div class="offer__actions-section">
-                                @if(user != null && user.Id == vehicleOffer.User?.Id)
+                                @if (user != null && user.Id == vehicleOffer.User?.Id)
                                 {
                                     <div class="offer__edit-btn-wrp">
                                         <a class="offer__edit-link" asp-action="EditOffer" asp-route-id="@vehicleOffer.Id">
@@ -1009,7 +1019,7 @@
                                         </a>
                                     </div>
                                 }
-                                @if(user != null)
+                                @if (user != null)
                                 {
                                     var offerObservation = offerObservationService.FindByUserAndOffer(user.Id, vehicleOffer.Id);
                                     <button type="button" class="offer__observation-status" user-id="@user.Id" offer-id="@vehicleOffer.Id" @(offerObservation != null ? $"observation-id={offerObservation.Id}" : "")>
@@ -1020,7 +1030,14 @@
                         </div>
                         <div class="offer__photo-main">
                             <a class="img-button" asp-action="DetailsOffer" asp-route-id="@vehicleOffer.Id">
-                                <img src="data:image/@vehicleOffer.Images?[0].Extension;base64,@vehicleOffer.Images?[0].Base64" alt="fetch failed" />
+                                @if (vehicleOffer.Images != null && vehicleOffer.Images.Count > 0)
+                                {
+                                    <img src="data:image/@vehicleOffer.Images[0].Extension;base64,@vehicleOffer.Images[0].Base64" alt="fetch failed" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/default-car.png" />
+                                }
                             </a>
                         </div>
                         <div class="offer__bottom">
@@ -1034,7 +1051,7 @@
                                 <div class="offer__price">
                                     @vehicleOffer.Price.ToString("N0") PLN
                                     <div class="offer__price-tag">
-                                        Brutto
+                                        Gross
                                     </div>
                                 </div>
                             </div>

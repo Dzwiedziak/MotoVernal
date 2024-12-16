@@ -83,6 +83,7 @@
 
         .offer-add__control-sections {
             flex-grow: 1;
+            overflow-y: overlay;
         }
 
         .offer-add__control-section {
@@ -101,13 +102,29 @@
             gap: 15px;
         }
 
-            .offer-add__control-section__controls > * {
+            .form-field {
                 padding: 10px;
                 padding-left: 20px;
                 color: black;
                 border-radius: 5px;
                 border: 1px solid #7D7C83;
                 font-family: 'Inter', sans-serif;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .form-field-container {
+                width: 100%;
+            }
+
+            .text-danger:empty {
+                display: none;
+            }
+
+            .text-danger {
+                color: red;
+                font-size: 14px;
+                text-align: center;
             }
 
         .offer-add__control-section__textarea {
@@ -120,17 +137,18 @@
             font-family: 'Inter', sans-serif;
             border-radius: 5px;
             padding: 5px;
+            margin-top: 10px;
         }
     </style>
     <style>
         .photo-list {
-            width: 400px;
             border-radius: 10px;
             overflow: hidden;
             background-color: white;
             display: flex;
             flex-direction: column;
             padding: 10px;
+            border: 1px solid #7D7C83;
         }
 
         .photo-list__nav-left {
@@ -437,248 +455,300 @@
     </script>
 }
 <div class="main-cnt">
-<div class="add-offer">
-    <div class="offer-add__sidebar">
-        <div class="offer-add__vehicle-model">
+    <div class="add-offer">
+        <div class="offer-add__sidebar">
             <div class="offer-add__photo">
-                <img style="height: 100%; width: 100%" src="~/images/example-vehicle.png" />
+                <img style="height: 100%; width: 100%" src="~/images/default-car.png" />
             </div>
-            <div class="offer-add__mark">
-                Audi
-            </div>
-            <div class="offer-add__model">
-                A6 C7 3.0tdi
-            </div>
-        </div>
-        <div class="offer-add__side-menu">
-            <div class="offer-add__side-menu__section">
-                <div class="offer-add__side-menu__section-title">
-                    Specification
-                </div>
-                <div class="offer-add__side-menu__section-btns">
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="vehicle-base-information">
-                        Vehicle base informations
-                    </button>
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="additional-features">
-                        Additional features
-                    </button>
-                </div>
-            </div>
-            <div class="offer-add__side-menu__section">
-                <div class="offer-add__side-menu__section-title">
-                    Vehicle's life
-                </div>
-                <div class="offer-add__side-menu__section-btns">
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="vehicle-state-information">
-                        Vehicle state information
-                    </button>
-                </div>
-            </div>
-            <div class="offer-add__side-menu__section">
-                <div class="offer-add__side-menu__section-title">
-                    Directly provided
-                </div>
-                <div class="offer-add__side-menu__section-btns">
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="description">
-                        Description
-                    </button>
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="photos">
-                        Photos
-                    </button>
-                </div>
-            </div>
-            <div class="offer-add__side-menu__section">
-                <div class="offer-add__side-menu__section-title">
-                    Personal
-                </div>
-                <div class="offer-add__side-menu__section-btns">
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="contact">
-                        Contact informations
-                    </button>
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="location">
-                        Location
-                    </button>
-                    <button class="offer-add__side-menu__section-btn" btn-for-control-section="price">
-                        Price
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <form class="offer-add__form" method="post" asp-action="AddOffer">
-        <div class="offer-add__control-sections">
-            <div class="offer-add__control-section-container" control-section="vehicle-base-information">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
-                            Vehicle base information
-                        </div>
-                        <div class="offer-add__control-section__description">
-                            Provide us basic inforamations about your vehicle
-                        </div>
+            <div class="offer-add__side-menu">
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Specification
                     </div>
-                    <div class="offer-add__control-section__controls">
-                        <input asp-for="Brand" type="text" placeholder="Brand" />
-                        <input asp-for="Model" type="text" placeholder="Model" />
-                        <input asp-for="Generation" type="text" placeholder="Generation" />
-                        <input asp-for="Version" type="text" placeholder="Version" />
-                        <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<TransmissionType>()">
-                            <option disabled selected value="null">Transmission</option>
-                        </select>
-                        <select asp-for="Drive" asp-items="Html.GetEnumSelectList<VehicleDriveType>()">
-                            <option disabled selected value="null">Drive</option>
-                        </select>
-                        <select asp-for="Body" asp-items="Html.GetEnumSelectList<BodyType>()">
-                            <option disabled selected value="null">Body</option>
-                        </select>
-                        <input asp-for="NumberOfSeats" type="number" placeholder="NumberOfSeats" />
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="vehicle-base-information">
+                            Vehicle base informations
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="additional-features">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
-                            Additional features
-                        </div>
-                        <div class="offer-add__control-section__description">
-                        </div>
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Vehicle's life
                     </div>
-                    <div class="offer-add__control-section__controls">
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="vehicle-state-information">
+                            Vehicle state information
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="vehicle-state-information">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
-                            Vehicle State Informations
-                        </div>
-                        <div class="offer-add__control-section__description">
-                        </div>
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Directly provided
                     </div>
-                    <div class="offer-add__control-section__controls">
-                        <select asp-for="FirstOwner" asp-items="Html.GetEnumSelectList<OwnerType>()">
-                            <option disabled selected value="null">FirstOwner</option>
-                        </select>
-                        <input asp-for="YearOfProduction" type="number" placeholder="YearOfProduction" />
-                        <input asp-for="Mileage" type="number" placeholder="Mileage" />
-                        <input asp-for="VIN" type="text" placeholder="Vin" />
-                        <input asp-for="Color" type="text" placeholder="Color" />
-                        <select asp-for="Condition" placeholder="Condition" asp-items="Html.GetEnumSelectList<VehicleCondition>()">
-                            <option disabled selected value="null">Condition</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="description">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
-                            Discription
-                        </div>
-                        <div class="offer-add__control-section__description">
-                            Give us informations about your offer
-                        </div>
-                    </div>
-                    <div class="offer-add__control-section__controls">
-                        <textarea asp-for="Description" class="offer-add__control-section__textarea"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="photos">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="description">
+                            Description
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="photos">
                             Photos
-                        </div>
-                        <div class="offer-add__control-section__description">
-                            Give us some visuals of your offer
-                        </div>
-                    </div>
-                    <div class="offer-add__control-section__controls">
-                        <div class="photo-list">
-                            <div class="photo-list__nav">
-                                <div class="photo-list__nav-left">
-                                    <img class="photo-list__nav-icon photo-list__nav-icon--selected photo-list__list-btn" src="~/images/carousel.svg" />
-                                    <img class="photo-list__nav-icon photo-list__grid-btn" src="~/images/grid.svg" />
-                                </div>
-                                <div class="photo-list__nav-right">
-                                    <!--<img class="photo-list__nav-icon" src="~/images/exit.svg" />-->
-                                </div>
-                            </div>
-                            <div style="display: block;" class="photo-list__carousel">
-                                <div class="photo-list__carousel-list-container">
-                                    <img class="photo-list__move-left-img" src="~/images/arrow-left.svg" />
-                                    <div style="left: 0%;" class="photo-list__carousel-list">
-                                        @if(Model?.Images != null)
-                                            @for(int i = 0; i < Model.Images.Count; i++)
-                                            {
-                                                <div class="photo-list__carousel-element">
-                                                    <img class="photo-list__carousel-content" src="data:image/@Model.Images[i].Extension;base64,@Model.Images[i].Base64" />
-                                                </div>
-                                            }
-                                        <div class="photo-list__carousel-element photo-list__carousel-element--empty">
-                                            <img class="photo-list__carousel-content--empty" src="~/images/no-image.svg" />
-                                        </div>
-                                    </div>
-                                    <img class="photo-list__move-right-img" src="~/images/arrow-right.svg" />
-                                    <input style="display: none;" type="file" class="photo-list__file-input" accept="image/*" />
-                                </div>
-                            </div>
-                            <div style="display: none;" class="photo-list__grid"></div>
-                            <div class="photo-list__post-body"></div>
-                        </div>
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="contact">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
-                            Contact Informations
-                        </div>
-                        <div class="offer-add__control-section__description">
-                            How potential buyer can contact you
-                        </div>
+                <div class="offer-add__side-menu__section">
+                    <div class="offer-add__side-menu__section-title">
+                        Personal
                     </div>
-                    <div class="offer-add__control-section__controls">
-                        <input asp-for="Email" type="email" placeholder="Email" />
-                        <input asp-for="Phone" type="text" placeholder="Phone" />
-                    </div>
-                </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="location">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
+                    <div class="offer-add__side-menu__section-btns">
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="contact">
+                            Contact informations
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="location">
                             Location
-                        </div>
-                        <div class="offer-add__control-section__description">
-                            Provide us information about your's offer location
-                        </div>
-                    </div>
-                    <div class="offer-add__control-section__controls">
-                        <input asp-for="Location" type="text" placeholder="Location" />
-                    </div>
-                </div>
-            </div>
-            <div class="offer-add__control-section-container" control-section="price">
-                <div class="offer-add__control-section">
-                    <div class="offer-add__control-section__info">
-                        <div class="offer-add__control-section__title">
+                        </button>
+                        <button class="offer-add__side-menu__section-btn" btn-for-control-section="price">
                             Price
-                        </div>
-                        <div class="offer-add__control-section__description">
-                        </div>
-                    </div>
-                    <div class="offer-add__control-section__controls">
-                        <input asp-for="Price" type="number" placeholder="Price" />
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="add-offer__submit-btn" type="submit">Add offer</button>
-    </form>
-</div>
+        <form class="offer-add__form" method="post" asp-action="AddOffer">
+            <input asp-for="User.Id" type="hidden" />
+            <div class="offer-add__control-sections">
+                <div class="offer-add__control-section-container" control-section="vehicle-base-information">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Vehicle base information
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Provide us basic informations about your vehicle
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="form-field-container">
+                                <span asp-validation-for="Brand" class="text-danger"></span>
+                                <input asp-for="Brand" type="text" placeholder="Brand" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Model" class="text-danger"></span>
+                                <input asp-for="Model" type="text" placeholder="Model" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Generation" class="text-danger"></span>
+                                <input asp-for="Generation" type="text" placeholder="Generation" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Version" class="text-danger"></span>
+                                <input asp-for="Version" type="text" placeholder="Version" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Transmission" class="text-danger"></span>
+                                <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<TransmissionType>()" class="form-field">
+                                    <option disabled selected value="null">Transmission</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Drive" class="text-danger"></span>
+                                <select asp-for="Drive" asp-items="Html.GetEnumSelectList<VehicleDriveType>()" class="form-field">
+                                    <option disabled selected value="null">Drive</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Body" class="text-danger"></span>
+                                <select asp-for="Body" asp-items="Html.GetEnumSelectList<BodyType>()" class="form-field">
+                                    <option disabled selected value="null">Body</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="NumberOfSeats" class="text-danger"></span>
+                                <input asp-for="NumberOfSeats" type="number" placeholder="NumberOfSeats" class="form-field" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-add__control-section-container" control-section="vehicle-state-information">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Vehicle State Informations
+                            </div>
+                            <div class="offer-add__control-section__description">
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="form-field-container">
+                                <span asp-validation-for="FirstOwner" class="text-danger"></span>
+                                <select asp-for="FirstOwner" asp-items="Html.GetEnumSelectList<OwnerType>()" class="form-field">
+                                    <option disabled selected value="null">FirstOwner</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="YearOfProduction" class="text-danger"></span>
+                                <input asp-for="YearOfProduction" type="number" placeholder="YearOfProduction" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Mileage" class="text-danger"></span>
+                                <input asp-for="Mileage" type="number" placeholder="Mileage" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="VIN" class="text-danger"></span>
+                                <input asp-for="VIN" type="text" placeholder="Vin" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Color" class="text-danger"></span>
+                                <input asp-for="Color" type="text" placeholder="Color" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Condition" class="text-danger"></span>
+                                <select asp-for="Condition" asp-items="Html.GetEnumSelectList<VehicleCondition>()" class="form-field">
+                                    <option disabled selected value="null">Condition</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-add__control-section-container" control-section="description">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Description
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Give us information about your offer
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="form-field-container">
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <textarea asp-for="Description" class="offer-add__control-section__textarea form-field"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-add__control-section-container" control-section="photos">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Photos
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Give us some visuals of your offer
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="photo-list">
+                                <div class="photo-list__nav">
+                                    <div class="photo-list__nav-left">
+                                        <img class="photo-list__nav-icon photo-list__nav-icon--selected photo-list__list-btn" src="~/images/carousel.svg" />
+                                        <img class="photo-list__nav-icon photo-list__grid-btn" src="~/images/grid.svg" />
+                                    </div>
+                                    <div class="photo-list__nav-right">
+                                    </div>
+                                </div>
+                                <div style="display: block;" class="photo-list__carousel">
+                                    <div class="photo-list__carousel-list-container">
+                                        <img class="photo-list__move-left-img" src="~/images/arrow-left.svg" />
+                                        <div style="left: 0%;" class="photo-list__carousel-list">
+                                            @if (Model?.Images != null)
+                                                @for (int i = 0; i < Model.Images.Count; i++)
+                                                {
+                                                    <div class="photo-list__carousel-element">
+                                                        <img class="photo-list__carousel-content" src="data:image/@Model.Images[i].Extension;base64,@Model.Images[i].Base64" />
+                                                    </div>
+                                                }
+                                            <div class="photo-list__carousel-element photo-list__carousel-element--empty">
+                                                <img class="photo-list__carousel-content--empty" src="~/images/no-image.svg" />
+                                            </div>
+                                        </div>
+                                        <img class="photo-list__move-right-img" src="~/images/arrow-right.svg" />
+                                        <input style="display: none;" type="file" class="photo-list__file-input form-field" accept="image/*" />
+                                    </div>
+                                </div>
+                                <div style="display: none;" class="photo-list__grid"></div>
+                                <div class="photo-list__post-body"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-add__control-section-container" control-section="contact">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Contact Informations
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                How potential buyer can contact you
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="form-field-container">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                                <input asp-for="Email" type="email" placeholder="Email" class="form-field" />
+                            </div>
+
+                            <div class="form-field-container">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                                <input asp-for="Phone" type="text" placeholder="Phone" class="form-field" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-add__control-section-container" control-section="location">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Location
+                            </div>
+                            <div class="offer-add__control-section__description">
+                                Provide us information about your offer location
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="form-field-container">
+                                <span asp-validation-for="Location" class="text-danger"></span>
+                                <input asp-for="Location" type="text" placeholder="Location" class="form-field" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-add__control-section-container" control-section="price">
+                    <div class="offer-add__control-section">
+                        <div class="offer-add__control-section__info">
+                            <div class="offer-add__control-section__title">
+                                Price
+                            </div>
+                            <div class="offer-add__control-section__description">
+                            </div>
+                        </div>
+                        <div class="offer-add__control-section__controls">
+                            <div class="form-field-container">
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                                <input asp-for="Price" type="number" placeholder="Gross price PLN" class="form-field" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="add-offer__submit-btn" type="submit">Add offer</button>
+        </form>
+    </div>
 </div>

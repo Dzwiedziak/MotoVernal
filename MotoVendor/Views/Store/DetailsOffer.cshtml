@@ -194,7 +194,6 @@
 
         .tabs-sections {
             height: 500px;
-            width: 800px;
             padding-left: 25px;
             padding-top: 25px;
         }
@@ -209,6 +208,10 @@
         }
 
         .profile-username {
+            font-size: 24px;
+        }
+
+        .tab-section__description {
             font-size: 24px;
         }
     </style>
@@ -326,6 +329,10 @@
                                     <img class="photo-list__carousel-content" src="data:/images/@image.Extension;base64,@image.Base64" />
                                 </div>
                             }
+                            @if(Model.Images.Count == 0)
+                            {
+                                <img class="photo-list__carousel-content" src="~/images//default-car.png" />
+                            }
                         }
                     </div>
                     <img class="photo-list__move-right-img" src="~/images/arrow-triangle-right.svg" />
@@ -340,14 +347,17 @@
                         <img src="~/images/pin-black.svg" />
                     </div>
                 </div>
-                <div class="action-btn">
-                    <a asp-action="Delete" asp-route-id="@Model.Id" class="action-text">
-                        Delete
+                @if (ViewBag.CanDelete)
+                {
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="action-btn">
+                        <div class="action-text">
+                            Delete
+                        </div>
+                        <div class="action-icon">
+                            <img src="~/images/bin.svg" />
+                        </div>
                     </a>
-                    <div class="action-icon">
-                        <img src="~/images/share.svg" />
-                    </div>
-                </div>
+                }
                 <div class="action-btn">
                     <div class="action-text">
                         Report
@@ -364,6 +374,17 @@
                         <img src="~/images/envelope.svg" />
                     </div>
                 </div>
+                @if(ViewBag.CanEdit)
+                {
+                    <a asp-action="EditOffer" asp-route-id="@Model.Id" class="action-btn">
+                        <div class="action-text">
+                            Edit offer
+                        </div>
+                        <div class="action-icon">
+                            <img style="filter: invert(1)" src="~/images/edit-icon.svg" />
+                        </div>
+                    </a>
+                }
             </div>
             <div class="category-info">
                 <div class="info-categories">
@@ -380,6 +401,23 @@
                         Finalization
                     </button>
                 </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        function adjustParentWidth() {
+                            const parent = document.querySelector('.tabs-sections');
+                            const children = parent.querySelectorAll('.tab-section');
+
+                            let maxWidth = 0;
+
+                            children.forEach(child => {
+                                maxWidth = Math.max(maxWidth, child.offsetWidth);
+                            });
+
+                            parent.style.width = `${maxWidth}px`;
+                        }
+                        adjustParentWidth();
+                    });
+                </script>
                 <div class="tabs-sections">
                     <div class="tab-section" tab-section="overview">
                         <div class="overview">
@@ -460,6 +498,10 @@
                                 @if (Model.User.ProfileImage != null)
                                 {
                                     <img class="profile-image" src="data:image/@Model.User.ProfileImage.Extension;base64,@Model.User.ProfileImage.Base64" />
+                                }
+                                else
+                                {
+                                    <img class="profile-image" src="~/images/./default-profile.jpg" />
                                 }
                             </div>
                             <div>

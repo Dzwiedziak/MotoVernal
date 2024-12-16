@@ -20,6 +20,7 @@ internal class Program
         InjectDbContext(builder);
         builder.Services.AddScoped<IAuthorizationHandler, IsVehicleOfferOwnerHandler>();
         builder.Services.AddScoped<IAuthorizationHandler, IsTopicResponseOwnerHandler>();
+        builder.Services.AddScoped<IAuthorizationHandler, CanDeleteVehicleOfferHandler>();
 
         builder.Services.AddControllersWithViews();
         builder.Services.AddIdentity<User, IdentityRole>(options =>

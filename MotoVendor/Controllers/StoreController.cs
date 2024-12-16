@@ -1,45 +1,83 @@
 ﻿using BusinessLogic.DTO.VehicleOffer;
+using BusinessLogic.Errors;
+using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogic.Services.Response;
+using DB.Entities;
 using DB.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MotoVendor.Authorizations.Requirements;
 
 namespace MotoVendor.Controllers
 {
-    [Route("store")]
     public class StoreController : Controller
     {
 
-        IVehicleOfferService _vehicleOfferService;
-        IUserService _userService;
-        IAuthorizationService _authorizationService;
-        public StoreController(IVehicleOfferService vehicleOfferService, IUserService userService, IAuthorizationService authorizationService)
+        readonly IVehicleOfferService _vehicleOfferService;
+        readonly IUserService _userService;
+        readonly UserManager<User> _userManager;
+        readonly IAuthorizationService _authorizationService;
+        readonly IBanService _banService;
+        public StoreController(IVehicleOfferService vehicleOfferService, IUserService userService, IAuthorizationService authorizationService, IBanService banService, UserManager<User> userManager)
         {
             _vehicleOfferService = vehicleOfferService;
             _userService = userService;
+            _userManager = userManager;
             _authorizationService = authorizationService;
+            _banService = banService;
         }
 
         [HttpGet]
         [Authorize]
-        public IActionResult AddOffer()
+        public async Task<IActionResult> AddOffer()
         {
             var model = new AddVehicleOfferDTO("Audi", "A6", "C7", "3", TransmissionType.Manual, VehicleDriveType.FrontWheel, BodyType.Sedan, "blue", VehicleCondition.Used, 5, 1999, 2555, OwnerType.First, "44ueu", "elo elo320", "Warszawa", new DB.Entities.User(), "mm@gmail.com", "+48 433 434 433", 4344343, new List<DB.Entities.File>());
+            var user = await _userManager.GetUserAsync(User);
+            model.User.Id = user.Id;
             return View(model);
         }
         [HttpPost]
         [Authorize]
-        public IActionResult AddOffer(AddVehicleOfferDTO vehicleOffer)
+        public async Task<IActionResult> AddOffer(AddVehicleOfferDTO vehicleOffer)
         {
-            vehicleOffer.User = _userService.GetCurrentUser().Result!;
-            _vehicleOfferService.Add(vehicleOffer);
-            return RedirectToAction("VehiclesList");
+            if(!ModelState.IsValid)
+            {
+                return View(vehicleOffer);
+            }
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
+            vehicleOffer.User = currentUser;
+            var result = _vehicleOfferService.Add(vehicleOffer);
+            if(result.IsSuccess)
+                return RedirectToAction("VehiclesList");
+            switch(result.Error)
+            {
+                case VehicleOfferErrorCode.VehicleWithVinExists:
+                    ModelState.AddModelError("VIN", "Vin exists in database. Contact with administrator");
+                    return View(vehicleOffer);
+                default:
+                    TempData["ErrorMessage"] = "Unknown error happened";
+                    return RedirectToAction("Error", "Home");
+            }
         }
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> EditOffer(int id)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
             var authorizationResult = await _authorizationService.AuthorizeAsync(User, null, new IsVehicleOfferOwnerRequirement(id));
             if (authorizationResult.Succeeded)
             {
@@ -53,6 +91,17 @@ namespace MotoVendor.Controllers
         [Authorize]
         public async Task<IActionResult> EditOffer(UpdateVehicleOfferDTO vehicleOffer)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(vehicleOffer);
+            }
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
             var authorizationResult = await _authorizationService.AuthorizeAsync(User, null, new IsVehicleOfferOwnerRequirement(vehicleOffer.Id));
             if (authorizationResult.Succeeded)
             {
@@ -61,15 +110,24 @@ namespace MotoVendor.Controllers
                 {
                     return RedirectToAction("VehiclesList");
                 }
-                return View("Error");
+                switch (error)
+                {
+                    case VehicleOfferErrorCode.VehicleWithVinExists:
+                        ModelState.AddModelError("VIN", "Vin exists in database. Contact with administrator");
+                        return View(vehicleOffer);
+                    default:
+                        TempData["ErrorMessage"] = "Unknown error happened";
+                        return RedirectToAction("Error", "Home");
+                }
             }
-            return View("Error");
+            TempData["ErrorMessage"] = "You have no permission to edit this offer";
+            return RedirectToAction("Error", "Home");
         }
 
         [HttpGet]
-        public IActionResult VehiclesList(int pageIndex = 0, int pageSize = 30)
+        public async Task<IActionResult> VehiclesList(int pageIndex = 0, int pageSize = 30)
         {
-            var user = _userService.GetCurrentUser().Result;
+            var currentUser = await _userManager.GetUserAsync(User);
             var query = HttpContext.Request.Query;
 
             var filters = new Dictionary<string, HashSet<string>>();
@@ -117,18 +175,18 @@ namespace MotoVendor.Controllers
             {
                 if (isOwner)
                 {
-                    if (user == null)
+                    if (currentUser == null)
                     {
                         return View(new List<GetVehicleOfferDTO>());
                     }
 
-                    filteredOffers = filteredOffers.Where(o => o.User.Id == user.Id).ToList();
+                    filteredOffers = filteredOffers.Where(o => o.User.Id == currentUser.Id).ToList();
                 }
                 else
                 {
-                    if (user != null)
+                    if (currentUser != null)
                     {
-                        filteredOffers = filteredOffers.Where(o => o.User.Id != user.Id).ToList();
+                        filteredOffers = filteredOffers.Where(o => o.User.Id != currentUser.Id).ToList();
                     }
                 }
             }
@@ -138,18 +196,18 @@ namespace MotoVendor.Controllers
             {
                 if (isObserving)
                 {
-                    if (user == null)
+                    if (currentUser == null)
                     {
                         return View(new List<GetVehicleOfferDTO>());
                     }
 
-                    filteredOffers = filteredOffers.Where(o => _vehicleOfferService.IsObservedBy(user.Id, o.Id)).ToList();
+                    filteredOffers = filteredOffers.Where(o => _vehicleOfferService.IsObservedBy(currentUser.Id, o.Id)).ToList();
                 }
                 else
                 {
-                    if (user != null)
+                    if (currentUser != null)
                     {
-                        filteredOffers = filteredOffers.Where(o => _vehicleOfferService.IsObservedBy(user.Id, o.Id)).ToList();
+                        filteredOffers = filteredOffers.Where(o => _vehicleOfferService.IsObservedBy(currentUser.Id, o.Id)).ToList();
                     }
                 }
             }
@@ -163,7 +221,6 @@ namespace MotoVendor.Controllers
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageSize = pageSize;
             ViewBag.TotalItemsCount = filteredOffers.Count;
-
             return View(paginatedOffers);
         }
 
@@ -173,22 +230,37 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
+
         [HttpGet]
-        public IActionResult DetailsOffer(int id)
+        public async Task<IActionResult> DetailsOffer(int id)
         {
+            var deletePermsission = await _authorizationService.AuthorizeAsync(User, null, new CanDeleteVehicleOfferRequirement(id));
+            var editPermission = await _authorizationService.AuthorizeAsync(User, null, new IsVehicleOfferOwnerRequirement(id));
+            ViewBag.CanDelete = deletePermsission.Succeeded;
+            ViewBag.CanEdit = editPermission.Succeeded;
             var model = _vehicleOfferService.Get(id);
             if (model.IsSuccess)
                 return View(model.Value);
             return View("Error");
         }
-        public IActionResult ToggleOfferObservation(int offerId)
-        {
-            return View();
-        }
 
+        [Authorize]
         [Route("{id}/delete")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isBanned = _banService.GetActiveBan(currentUser.Id);
+            if (isBanned != null)
+            {
+                TempData["ErrorMessage"] = "You are blocked you cannot actually plan new event.";
+                return RedirectToAction("Error", "Home");
+            }
+            var permission = await _authorizationService.AuthorizeAsync(User, null, new CanDeleteVehicleOfferRequirement(id));
+            if (!permission.Succeeded)
+            {
+                TempData["ErrorMessage"] = "You have not permissions to this action";
+                return RedirectToAction("Error", "Home");
+            }
             var error = _vehicleOfferService.Delete(id);
             if (error == null)
             {
