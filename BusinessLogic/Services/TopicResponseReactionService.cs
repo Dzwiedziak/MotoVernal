@@ -64,7 +64,7 @@ namespace BusinessLogic.Services
         public int GetLikeCount(int topicResponseId)
         {
             var dbEntities = _repository.GetAll();
-            var resultList = dbEntities.Where(e => e.Id == topicResponseId && e.ReactionType == ReactionType.Like).ToList();
+            var resultList = dbEntities.Where(e => e.TopicResponse.Id == topicResponseId && e.ReactionType == ReactionType.Like).ToList();
             return resultList.Count;
         }
 
