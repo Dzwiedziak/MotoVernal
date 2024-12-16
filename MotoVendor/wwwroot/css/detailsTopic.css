@@ -427,6 +427,7 @@ button.cancel-edit-btn {
 }
 
 .comments-content button > img {
+    overflow:visible;
     width: 35px;
     height: 35px;
 }

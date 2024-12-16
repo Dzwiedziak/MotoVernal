@@ -220,7 +220,11 @@
                         <div class="action-buttons">
                             @{
                                 var currentUser = User.Identity.Name;
-                                bool isMember = topic.Responses.Any(comment => comment.Owner.UserName == currentUser);
+                                bool isMember = false;
+                                if (currentUser != null)
+                                {
+                                   isMember = topic.Responses.Any(comment => comment.Owner.UserName == currentUser);
+                                }   
                             }
                             @if (!isMember)
                             {
