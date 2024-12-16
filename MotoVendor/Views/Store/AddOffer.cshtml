@@ -356,6 +356,18 @@
                     carouselList.insertBefore(element, referenceChild);
                 updateArrowsVisibility();
             }
+
+            function updateInputIndexes() {
+                Array.from(postBody.children).forEach((inputsContainer, newIndex) => {
+                    const extensionInput = inputsContainer.querySelector('[extension]');
+                    const base64Input = inputsContainer.querySelector('[base64]');
+                    if (extensionInput && base64Input) {
+                        extensionInput.name = `Images[${newIndex}].Extension`;
+                        base64Input.name = `Images[${newIndex}].Base64`;
+                    }
+                });
+            }
+
             function deleteElementFromCarousel(index) {
                 const element = carouselList.children[index];
                 if (element)
@@ -399,6 +411,7 @@
                     deleteElementFromCarousel(index);
                     deleteElementFromGrid(index);
                     deleteElementFromPostBody(index);
+                    updateInputIndexes();
                 })
                 const carouselElementContent = document.createElement('img');
                 carouselElementContent.classList.add('photo-list__carousel-content');
