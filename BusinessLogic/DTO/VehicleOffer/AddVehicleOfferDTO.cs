@@ -20,6 +20,7 @@ namespace BusinessLogic.DTO.VehicleOffer
         public int Mileage { get; set; }
         public OwnerType FirstOwner { get; set; }
         public string VIN { get; set; }
+        public VehicleOfferState State { get; set; }    
 
         public AddVehicleOfferDTO() { }
         public AddVehicleOfferDTO(string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body, string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vIN, string description, string location, Entities.User user, string email, string phone, int price, List<Entities.File> images)

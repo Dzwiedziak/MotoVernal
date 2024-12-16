@@ -110,7 +110,8 @@ namespace BusinessLogic.Services
                 mileage: vehicleOffer.Mileage,
                 firstOwner: vehicleOffer.FirstOwner,
                 vin: vehicleOffer.VIN,
-                images: vehicleOffer.Images
+                images: vehicleOffer.Images,
+                state: vehicleOffer.State
             );
         }
         private GetVehicleOfferDTO CreateGetVehicleOfferDTO(VehicleOffer vehicleOffer)
@@ -189,6 +190,15 @@ namespace BusinessLogic.Services
         public bool IsObservedBy(string userId, int offerId)
         {
             return _vehicleOfferObservationService.FindByUserAndOffer(userId, offerId) != null;
+        }
+
+        public VehicleOfferErrorCode? Delete(int id)
+        {
+            var offer = _vehicleOfferRepository.GetOne(id);
+            if (offer == null)
+                return VehicleOfferErrorCode.VehicleNotFound;
+            _vehicleOfferRepository.Delete(offer);
+            return null;
         }
     }
 }

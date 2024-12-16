@@ -18,40 +18,14 @@ namespace DB.Entities
         public int Mileage { get; set; }
         public OwnerType FirstOwner { get; set; }
         public string VIN { get; set; }
+        public VehicleOfferState State {  get; set; } 
 
         public VehicleOffer() { }
-        public VehicleOffer(VehicleOffer vehicleOffer) : base(
-            vehicleOffer.Id,
-            vehicleOffer.Description,
-            vehicleOffer.CreationTime,
-            vehicleOffer.Location,
-            vehicleOffer.User,
-            vehicleOffer.IsReserved,
-            vehicleOffer.Email,
-            vehicleOffer.Phone,
-            vehicleOffer.Price,
-            vehicleOffer.Images)
-        {
-            Brand = vehicleOffer.Brand;
-            Model = vehicleOffer.Model;
-            Generation = vehicleOffer.Generation;
-            Version = vehicleOffer.Version;
-            Transmission = vehicleOffer.Transmission;
-            Drive = vehicleOffer.Drive;
-            Body = vehicleOffer.Body;
-            Color = vehicleOffer.Color;
-            Condition = vehicleOffer.Condition;
-            NumberOfSeats = vehicleOffer.NumberOfSeats;
-            YearOfProduction = vehicleOffer.YearOfProduction;
-            Mileage = vehicleOffer.Mileage;
-            FirstOwner = vehicleOffer.FirstOwner;
-            VIN = vehicleOffer.VIN;
-        }
 
         public VehicleOffer(
             int id, string description, DateTime creationTime, string location, User user, bool isReserved, string email, string phone, int price,
             string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body,
-            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images)
+            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images, VehicleOfferState state)
             : base(id, description, creationTime, location, user, isReserved, email, phone, price, images)
         {
             Brand = brand;
@@ -68,12 +42,13 @@ namespace DB.Entities
             Mileage = mileage;
             FirstOwner = firstOwner;
             VIN = vin;
+            State = state;
         }
 
         public VehicleOffer(
             string description, DateTime creationTime, string location, User user, bool isReserved, string email, string phone, int price,
             string brand, string model, string generation, string version, TransmissionType transmission, VehicleDriveType drive, BodyType body,
-            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images)
+            string color, VehicleCondition condition, int numberOfSeats, int yearOfProduction, int mileage, OwnerType firstOwner, string vin, List<File> images, VehicleOfferState state)
             : base(description, creationTime, location, user, isReserved, email, phone, price, images)
         {
             Brand = brand;
@@ -90,6 +65,7 @@ namespace DB.Entities
             Mileage = mileage;
             FirstOwner = firstOwner;
             VIN = vin;
+            State = state;
         }
     }
 }

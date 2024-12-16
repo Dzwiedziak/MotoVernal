@@ -9,5 +9,6 @@ namespace BusinessLogic.Repositories.Interfaces
         VehicleOffer? GetOne(int id);
         void Add(VehicleOffer vehicleOffer);
         void Update(VehicleOffer vehicleOffer);
+        void Delete(VehicleOffer vehicleOffer);
     }
 }

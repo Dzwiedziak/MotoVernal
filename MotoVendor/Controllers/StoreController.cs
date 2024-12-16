@@ -7,6 +7,7 @@ using MotoVendor.Authorizations.Requirements;
 
 namespace MotoVendor.Controllers
 {
+    [Route("store")]
     public class StoreController : Controller
     {
 
@@ -31,7 +32,7 @@ namespace MotoVendor.Controllers
         [Authorize]
         public IActionResult AddOffer(AddVehicleOfferDTO vehicleOffer)
         {
-            vehicleOffer.User = _userService.GetCurrentUser().Result;
+            vehicleOffer.User = _userService.GetCurrentUser().Result!;
             _vehicleOfferService.Add(vehicleOffer);
             return RedirectToAction("VehiclesList");
         }
@@ -185,5 +186,16 @@ namespace MotoVendor.Controllers
             return View();
         }
 
+        [Route("{id}/delete")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var error = _vehicleOfferService.Delete(id);
+            if (error == null)
+            {
+                return RedirectToAction("VehiclesList");
+            }
+            TempData["ErrorMessage"] = "Offer has not been found";
+            return RedirectToAction("Error", "Home");
+        }
     }
 }
