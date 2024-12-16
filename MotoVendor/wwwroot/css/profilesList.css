@@ -1,8 +1,25 @@
 ﻿section {
     display: flex;
     flex-direction: column;
+    padding-top: 10px;
+}
+ol {
+    padding: 0px;
 }
 
+form {
+    display: flex;
+}
+
+.location-group-content {
+    display: flex;
+}
+
+.profiles-list {
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    padding: 30px;
+}
 .second-section {
     display: flex;
     flex-direction: row;
@@ -14,9 +31,6 @@
 
 .up-section {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 2px;
 }
 
 .search-bar {
@@ -62,9 +76,7 @@
 
 .sort {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding-right: 20px;
+    align-items: center;
 }
 
     .sort label {
@@ -88,10 +100,9 @@
     }
 
 .main-cnt {
-display: flex;
-flex-direction: row;
-justify-content: flex-start;
-align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
 }
 
 .side-section {
@@ -100,17 +111,13 @@ align-items: flex-start;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 0px 15px;
     gap: 15px;
+    margin-top: 10px;
 }
 
 .filter-by {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 10px;
+    justify-content: space-between;
 }
 
     .filter-by > label {
@@ -139,10 +146,7 @@ align-items: flex-start;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 5px;
     gap: 10px;
-    border: 1px solid #D6D8DC;
 }
 
     .location-group > label {
@@ -181,22 +185,18 @@ align-items: flex-start;
         padding: 2px;
         margin-right: 5px;
         width: 80px;
-        background-color: #cccccc;
-        border: 1px solid #000000;
     }
 
 .main-cnt ol {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
     align-items: flex-start;
     align-content: flex-start;
     width: 100%;
     min-height: 66vh;
     background: white;
-    margin-right: 25px;
-    margin-top: 15px;
+    gap: 15px;
 }
 
 .main-cnt li {
@@ -205,20 +205,17 @@ align-items: flex-start;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin: 15px;
     width: 350px;
     height: 85px;
-    background: #C6DBFF;
-    border-width: 1px 3px 5px 3px;
-    border-style: solid;
-    border-color: #4285F4;
-    border-radius: 25px;
+    border: 1px solid black; 
+    border-radius: 5px;
     padding: 5px;
+    gap: 10px;
 }
 
-    li.admin {
-        background: #FFE9A8;
-    }
+li.admin {
+    background: #ff4545;
+}
 
     li > span.id {
         font-family: 'Inter';
@@ -236,7 +233,6 @@ align-items: flex-start;
         height: 40px;
         border: 1px solid rgba(0, 0, 0, 0.5);
         flex: none;
-        order: 1;
         flex-grow: 0;
         border-radius: 100%;
         padding:0;

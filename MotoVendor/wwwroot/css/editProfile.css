@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
+    font-family: 'Inter', sans-serif;
 }
 
 .form-container {
@@ -13,7 +13,7 @@
     padding: 25px;
     gap: 10px;
     background: #FFFFFF;
-    border: 3px solid #64ABFF;
+    border: 1px solid black;
     border-radius: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     margin: 50px;
@@ -38,13 +38,11 @@
     box-sizing: border-box;
     width: 420px;
     height: 50px;
-    background: #64ABFF;
-    border: 1px solid #64ABFF;
     border-radius: 25px;
+    border: 1px solid black;
 }
 
     .profil-nickname > label {
-        font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
         font-size: 32px;
@@ -54,7 +52,6 @@
         text-align: center;
         color: #000000;
         border: none;
-        background: #64ABFF;
         outline: none
     }
 
@@ -99,18 +96,15 @@
         display: flex;
         align-items: center;
         color: #000000;
-        margin-right: 5px;
+        margin-right: 10px;
     }
 
     .info-item > input, select, textarea{
         box-sizing: border-box;
         width: 419px;
         height: 40px;
-        background: #C6DBFF;
-        border: 1px solid #64ABFF;
         border-radius: 25px;
         padding: 10px;
-        font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
@@ -119,13 +113,13 @@
         align-items: center;
         text-align: center;
         color: #000000;
-        outline: none
+        outline: none;
+        border: 1px solid black;
     }
 
 textarea {
     height: 100px;
     height: 180px;
-    font-family: 'Istok Web';
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -134,6 +128,7 @@ textarea {
     align-items: center;
     text-align: justify;
     color: #000000;
+    resize: none;
 }
 
 .form-actions {

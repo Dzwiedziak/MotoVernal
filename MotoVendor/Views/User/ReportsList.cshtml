@@ -4,18 +4,22 @@
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/reportsList.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 @section Scripts {
     <script src="~/js/profilesList.js"></script>
 }
-<form method="get" action="@Url.Action("ReportsList", "User")">
-<section>
-    <div class="up-section">
-        <div class="nav-tree">
-            <label for="place">Reports List</label>
-        </div>
-        <div class="sort">
-            <label for="sort_by">Sort By</label>
+<div class="reportList">
+    <form method="get" action="@Url.Action("ReportsList", "User")">
+    <section>
+        <div class="up-section">
+            <div class="nav-tree">
+                <label for="place">Reports List</label>
+            </div>
+            <div class="sort">
+                <label for="sort_by">Sort By</label>
                 <select id="type" name="sortBy" onchange="this.form.submit()">
                     @if (ViewBag.SortBy == "creation_time_asc")
                     {
@@ -35,65 +39,66 @@
                         <option value="creation_time_desc">Creation Time DESC</option>
                     }
                 </select>
+            </div>
         </div>
-    </div>
-    <div class="second-section">
-        <div class="search-bar">
+        <div class="second-section">
+            <div class="search-bar">
                 <button type="submit">
                     <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
                 </button>
                 <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
+            </div> 
         </div>
-    </div>
-</section>
-</form>
-<div class="main-cnt">
-    <ol>
-        @foreach (var report in Model)
-        {
-            <li>
-                <div class="extra-info">
-                    <div class="blocked-time">
-                        <span class="datetime">@report.CreationTime</span>
-                    </div>
-                    <div class="users-info">
-                        <div class="profile-info">
-                            <button class="profile" onclick="window.location.href='/user/ProfileView?id=@report.Reported.Id'">
-                                @if (report.Reported.ProfileImage != null && !string.IsNullOrEmpty(report.Reported.ProfileImage.Base64) && !string.IsNullOrEmpty(report.Reported.ProfileImage.Extension))
-                                {
-                                    <img class="profil-img" src="data:image/@report.Reported.ProfileImage.Extension;base64,@report.Reported.ProfileImage.Base64" />
-                                }
-                                else
-                                {
-                                    <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
-                                }
-                            </button>
-                            <span class="nickname">@report.Reported.UserName</span>
-                        </div>
+    </section>
+    </form>
+    <div class="main-cnt">
+        <ol>
+            @foreach (var report in Model)
+            {
+                <li>
+                    <div class="extra-info">
                         <div class="blocked-time">
-                            was reported by
+                            <span class="datetime">@report.CreationTime</span>
                         </div>
-                        <div class="profile-info">
-                            <button class="profile" onclick="window.location.href='/user/ProfileView?id=@report.Reporter.Id'">
-                                @if (report.Reporter.ProfileImage != null && !string.IsNullOrEmpty(report.Reporter.ProfileImage.Base64) && !string.IsNullOrEmpty(report.Reporter.ProfileImage.Extension))
-                                {
-                                    <img class="profil-img" src="data:image/@report.Reporter.ProfileImage.Extension;base64,@report.Reporter.ProfileImage.Base64" />
-                                }
-                                else
-                                {
-                                    <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
-                                }
+                        <div class="users-info">
+                            <div class="profile-info">
+                                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@report.Reported.Id'">
+                                    @if (report.Reported.ProfileImage != null && !string.IsNullOrEmpty(report.Reported.ProfileImage.Base64) && !string.IsNullOrEmpty(report.Reported.ProfileImage.Extension))
+                                    {
+                                        <img class="profil-img" src="data:image/@report.Reported.ProfileImage.Extension;base64,@report.Reported.ProfileImage.Base64" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                    }
+                                </button>
+                                <span class="nickname">@report.Reported.UserName</span>
+                            </div>
+                            <div class="blocked-time">
+                                was reported by
+                            </div>
+                            <div class="profile-info">
+                                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@report.Reporter.Id'">
+                                    @if (report.Reporter.ProfileImage != null && !string.IsNullOrEmpty(report.Reporter.ProfileImage.Base64) && !string.IsNullOrEmpty(report.Reporter.ProfileImage.Extension))
+                                    {
+                                        <img class="profil-img" src="data:image/@report.Reporter.ProfileImage.Extension;base64,@report.Reporter.ProfileImage.Base64" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                    }
+                                </button>
+                                <span class="nickname">@report.Reporter.UserName</span>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="info" onclick="window.location.href='/User/ReportDetails?id=@report.Id'">
+                                <img src="~/images/info.png" alt="info-img" class="info-img">
                             </button>
-                            <span class="nickname">@report.Reporter.UserName</span>
                         </div>
                     </div>
-                    <div class="action-buttons">
-                        <button class="info" onclick="window.location.href='/User/ReportDetails?id=@report.Id'">
-                            <img src="~/images/info.png" alt="info-img" class="info-img">
-                        </button>
-                    </div>
-                </div>
-            </li>
-        }
-    </ol>
+                </li>
+            }
+        </ol>
+    </div>
 </div>

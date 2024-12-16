@@ -11,11 +11,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     padding: 30px;
-    font-family: 'Inter', sans-serif;
-}
-
-.profile-header span {
-    font-family: 'Inter', sans-serif;
+    margin: 20px;
 }
 
 form h2 {
@@ -29,7 +25,7 @@ form h2 {
 }
 
 .form-group {
-    margin-bottom: 30px;
+    padding: 12px 12px 3px 10px;
 }
 
 .date-group {
@@ -39,12 +35,10 @@ form h2 {
 }
 
 .form-control {
-    margin-bottom: 15px;
-    margin-top: 15px;
+    padding: 12px 12px 3px 10px;
 }
 
     .form-control label {
-        margin-bottom: 5px;
     }
 
 label {
@@ -53,7 +47,6 @@ label {
     font-size: 16px;
     font-weight: 300;
     font-style: normal;
-    margin-bottom: 5px;
     color: #000000;
 }
 
@@ -61,9 +54,10 @@ input, select, textarea {
     font-family: 'Inter',sans-serif;
     font-size: 14px;
     font-weight: 300;
-    font-style: light;
     width: 100%;
-    padding: 10px;
+    padding-block: 0px;
+    padding-inline: 0px;
+    padding: 10px 0px 10px 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -78,11 +72,12 @@ input, select, textarea {
 
 .form-actions {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0px 10px;
 }
 
 .cancel-btn, .create-btn {
-    margin-inline: 25px;
     padding: 7.5px 12px 7.5px 10.5px;
     border-radius: 5px;
     border: none;
@@ -125,9 +120,9 @@ input, select, textarea {
         box-sizing: border-box;
         width: 50px;
         height: 50px;
+        border: 1px solid black;
         border-radius: 100%;
         margin-right: 5px;
-        border: 1px solid black;
     }
 
 .question {
@@ -167,12 +162,12 @@ input, select, textarea {
 .text-danger {
     color: red;
     text-align: center;
+    padding: 0px 0px 0px 10px;
 }
 
 .validate {
-    margin-top: -30px;
-    margin-bottom: 15px;
 }
+
 .load-image-label {
     display: inline-block;
     padding: 8px 15px;
@@ -184,3 +179,17 @@ input, select, textarea {
     text-align: center;
 }
 
+.current-image {
+    margin-top: 15px;
+}
+
+.section-title {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: -25px;
+}
+
+.profile-header span {
+    font-family: 'Inter', sans-serif;
+}

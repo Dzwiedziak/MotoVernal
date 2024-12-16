@@ -4,6 +4,9 @@
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/banDetails.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 <div class="main-cnt">
     <div class="info-container">
@@ -16,7 +19,7 @@
                     }
                     else
                     {
-                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                     }
                 </button>
                 <span class="nickname">@Model.Banned.UserName</span>
@@ -30,7 +33,7 @@
                     }
                     else
                     {
-                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                     }
                 </button>
                 <span class="nickname">@Model.Banner.UserName</span>
@@ -52,15 +55,17 @@
                 }
             </div>
         </div>
-        <div class="event-content">
-            <label>Creation time of blocked</label>
-            <label class="hour">@Model.CreationTime</label>
-            <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
-        </div>
-        <div class="event-content">
-            <label>Expiration time of blocked</label>
-            <label class="hour">@Model.ExpirationTime</label>
-            <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+        <div class="event-contents">
+            <div class="event-content">
+                <label>Creation time of blocked</label>
+                <label class="hour">@Model.CreationTime</label>
+                <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+            </div>
+            <div class="event-content">
+                <label>Expiration time of blocked</label>
+                <label class="hour">@Model.ExpirationTime</label>
+                <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
+            </div>
         </div>
         <div class="details-action">
             <button class="go-back" onclick="window.history.back()">

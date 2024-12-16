@@ -1,4 +1,10 @@
-﻿section {
+﻿.bansList {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    padding: 30px;
+}
+
+section {
     display: flex;
     flex-direction: column;
 }
@@ -63,8 +69,7 @@
 .sort {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    padding-right: 20px;
+    align-items: center;
 }
 
     .sort label {
@@ -143,23 +148,28 @@ main.second {
     align-items: flex-start;
 }
 
+.status-groups {
+    display: flex;
+    gap: 20px;
+}
+
 .side-section {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 0px 15px;
+    padding: 20px 15px;
     gap: 15px;
+
 }
 
 .filter-by {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
     padding: 0px;
-    gap: 10px;
+    width: 100%;
 }
 
     .filter-by > label {
@@ -188,10 +198,8 @@ main.second {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 5px;
     gap: 10px;
-    border: 1px solid #D6D8DC;
 }
 
     .location-group > label {
@@ -266,8 +274,6 @@ main.second {
 .status-group {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    text-align: center;
     padding: 0px;
 }
 
@@ -275,8 +281,6 @@ main.second {
         padding: 2px;
         margin-right: 5px;
         width: 80px;
-        background-color: #cccccc;
-        border: 1px solid #000000;
     }
 
 .filter-element {
@@ -299,22 +303,20 @@ main.second {
 
 .main-cnt {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 43px;
+    padding-left: 30px;
 }
 
     .main-cnt > ol {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
         align-content: flex-start;
         width: 100%;
         height: auto;
         min-height: 66vh;
         background: white;
-        margin-right: 25px;
-        margin-top: 15px;
+        padding: 0px;
     }
 
     .main-cnt li {
@@ -323,21 +325,16 @@ main.second {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        margin: 15px;
         width: 1000px;
         min-height: 85px;
         height: auto;
-        background: #C6DBFF;
-        border-width: 1px 3px 5px 3px;
-        border-style: solid;
-        border-color: #4285F4;
         border-radius: 25px;
         padding: 5px;
+        border: 1px solid black;
     }
 
         .main-cnt li.active {
             background: #ff9e9e;
-            border-color: #820000;
         }
 
 .blocked-time {
@@ -399,8 +396,6 @@ main.second {
     }
 
 .extra-info img {
-    width: 40px;
-    height: 40px;
 }
 
 .extra-info button.info {
@@ -418,4 +413,8 @@ button > img {
     align-items:center;
     align-content:center;
     gap:5px;
+}
+
+.nickname {
+    font-family: 'Inter', sans-serif;
 }

@@ -1,15 +1,26 @@
-﻿section {
+﻿main {
+    display: flex;
+}
+
+.reportList {
+    font-family: 'Inter', sans-serif;
+    width: 1000px;
     display: flex;
     flex-direction: column;
+    gap: 30px;
+    padding-top: 40px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .second-section {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    padding: 5px;
-    position: relative;
+    justify-content: space-between;
 }
 
 .up-section {
@@ -52,7 +63,7 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 19px;
     display: flex;
     align-items: center;
@@ -65,6 +76,7 @@
     flex-direction: row;
     justify-content: flex-start;
     padding-right: 20px;
+    align-items: center;
 }
 
     .sort label {
@@ -158,9 +170,8 @@ main.second {
         width: 100%;
         height: auto;
         min-height: 66vh;
-        background: #EAF2FF;
-        margin-right: 25px;
-        margin-top: 15px;
+        margin: 0px;
+        padding: 0px;
     }
 
     .main-cnt li {
@@ -169,16 +180,12 @@ main.second {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        margin: 15px;
-        width: 1000px;
         min-height: 85px;
         height: auto;
-        background: #C6DBFF;
-        border-width: 1px 3px 5px 3px;
-        border-style: solid;
-        border-color: #4285F4;
+        border: 1px solid black;
         border-radius: 25px;
         padding: 5px;
+        width: 100%;
     }
 
         .main-cnt li.active {
@@ -187,9 +194,8 @@ main.second {
         }
 
 .blocked-time {
-    font-family: 'Istok Web';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 24px;
     line-height: 50px;
     display: flex;
