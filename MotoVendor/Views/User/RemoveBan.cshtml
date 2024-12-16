@@ -2,7 +2,10 @@
     ViewData["Title"] = "User - Remove Ban";
 }
 @section Styles {
-    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+    <link rel="stylesheet" href="~/css/properRemoveBan.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 <div class="form-container">
     <form asp-action="RemoveBanConfirmed" asp-controller="User" method="post">
@@ -14,8 +17,8 @@
             This user is aldready blocked to <span class="red-text">@ViewBag.BanExpiration</span>
         </div>
         <div class="form-actions">
-            <button type="button" class="cancel-btn" style="background: blue;" onclick="window.history.back()">Cancel</button>
-            <button type="submit" class="create-btn" style="background: blue;">Remove</button>
+            <button type="button" class="cancel-btn" onclick="window.history.back()">Cancel</button>
+            <button type="submit" class="create-btn">Remove</button>
         </div>
     </form>
 </div>

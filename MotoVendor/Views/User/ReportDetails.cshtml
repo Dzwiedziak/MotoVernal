@@ -3,7 +3,10 @@
     ViewData["Title"] = "User - Report Details";
 }
 @section Styles {
-    <link rel="stylesheet" href="~/css/banDetails.css" />
+    <link rel="stylesheet" href="~/css/properReportDetails.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 <div class="main-cnt">
     <div class="info-container">
@@ -16,7 +19,7 @@
                     }
                     else
                     {
-                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                     }
                 </button>
                 <span class="nickname">@Model.Reported.UserName</span>
@@ -30,7 +33,7 @@
                     }
                     else
                     {
-                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                     }
                 </button>
                 <span class="nickname">@Model.Reporter.UserName</span>

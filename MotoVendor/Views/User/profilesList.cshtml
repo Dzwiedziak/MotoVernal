@@ -79,7 +79,7 @@
                     {
                         bool isAdmin = user.Roles.Contains("Admin");
                         <li class="@(isAdmin ? "admin" : "")">
-                            <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
+                            <button type="button" class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
                                 @if (user.ProfileImage != null && !string.IsNullOrEmpty(user.ProfileImage.Base64) && !string.IsNullOrEmpty(user.ProfileImage.Extension))
                                 {
                                     <img class="profil-img" src="data:image/@user.ProfileImage.Extension;base64,@user.ProfileImage.Base64" />

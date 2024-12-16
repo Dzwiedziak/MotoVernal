@@ -4,88 +4,92 @@
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/bansList.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 @section Scripts {
     <script src="~/js/profilesList.js"></script>
 }
-<form method="get" action="@Url.Action("BansList", "User")">
-<section>
-    <div class="up-section">
-        <div class="nav-tree">
-            <label for="place">Blocked List</label>
-        </div>
-        <div class="sort">
-            <label for="sort_by">Sort By</label>
-                <select id="type" name="sortBy" onchange="this.form.submit()">
-                    @if (ViewBag.SortBy == "creation_time_asc")
-                    {
-                        <option value="creation_time_asc" selected>Creation Time ASC</option>
-                    }
-                    else
-                    {
-                        <option value="creation_time_asc">Creation Time ASC</option>
-                    }
-
-                    @if (ViewBag.SortBy == "creation_time_desc")
-                    {
-                        <option value="creation_time_desc" selected>Creation Time DESC</option>
-                    }
-                    else
-                    {
-                        <option value="creation_time_desc">Creation Time DESC</option>
-                    }
-                    @if (ViewBag.SortBy == "expiration_time_asc")
-                    {
-                        <option value="expiration_time_asc" selected>Expiration Time ASC</option>
-                    }
-                    else
-                    {
-                        <option value="expiration_time_asc">Expiration Time ASC</option>
-                    }
-
-                    @if (ViewBag.SortBy == "expiration_time_desc")
-                    {
-                        <option value="expiration_time_desc" selected>Expiration Time DESC</option>
-                    }
-                    else
-                    {
-                        <option value="expiration_time_desc">Expiration Time DESC</option>
-                    }
-            </select>
-        </div>
-    </div>
-    <div class="second-section">
-        <div class="search-bar">
+<form class="bansList" method="get" action="@Url.Action("BansList", "User")">
+    <div>
+        <section>
+            <div class="up-section">
+                <div class="nav-tree">
+                    <label for="place">Blocked List</label>
+                </div>
+            </div>
+        </section>
+        <div class="side-section">
+            <div class="filter-by">
+                <label>Filter by</label>
+                <button class="clear" id="clear-filters-btn">
+                    <span>X Clear All</span>
+                </button>
+            </div>
+            <div class="search-bar">
                 <button type="submit">
                     <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
                 </button>
                 <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
-        </div>
-    </div>
-</section>
-    <div class="side-section">
-        <div class="filter-by">
-            <label>Filter by</label>
-            <button class="clear" id="clear-filters-btn">
-                <span>X Clear All</span>
-            </button>
-        </div>
+            </div>
             <div class="location-group">
                 <label for="status">Type</label>
-                <div class="status-group">
-                    <label class="status">Active</label>
-                    <input type="checkbox" id="active" name="active" value="true"
-                    @(ViewBag.Active == true ? "checked" : "") onchange="this.form.submit()">
-                </div>
-                <div class="status-group">
-                    <label class="status">Unactive</label>
-                    <input type="checkbox" id="unactive" name="unactive" value="true"
-                    @(ViewBag.Unactive == true ? "checked" : "") onchange="this.form.submit()">
+                <div class="status-groups">
+                    <div class="status-group">
+                        <label class="status">Active</label>
+                        <input type="checkbox" id="active" name="active" value="true"
+                        @(ViewBag.Active == true ? "checked" : "") onchange="this.form.submit()">
+                    </div>
+                    <div class="status-group">
+                        <label class="status">Unactive</label>
+                        <input type="checkbox" id="unactive" name="unactive" value="true"
+                        @(ViewBag.Unactive == true ? "checked" : "") onchange="this.form.submit()">
+                    </div>
                 </div>
             </div>
         </div>
-</form>
-<div class="main-cnt">
+    </div>
+    <div class="main-cnt">
+        <div class="sort">
+            <label for="sort_by">Sort By</label>
+            <select id="type" name="sortBy" onchange="this.form.submit()">
+                @if (ViewBag.SortBy == "creation_time_asc")
+                {
+                    <option value="creation_time_asc" selected>Creation Time ASC</option>
+                }
+                else
+                {
+                    <option value="creation_time_asc">Creation Time ASC</option>
+                }
+
+                @if (ViewBag.SortBy == "creation_time_desc")
+                {
+                    <option value="creation_time_desc" selected>Creation Time DESC</option>
+                }
+                else
+                {
+                    <option value="creation_time_desc">Creation Time DESC</option>
+                }
+                @if (ViewBag.SortBy == "expiration_time_asc")
+                {
+                    <option value="expiration_time_asc" selected>Expiration Time ASC</option>
+                }
+                else
+                {
+                    <option value="expiration_time_asc">Expiration Time ASC</option>
+                }
+
+                @if (ViewBag.SortBy == "expiration_time_desc")
+                {
+                    <option value="expiration_time_desc" selected>Expiration Time DESC</option>
+                }
+                else
+                {
+                    <option value="expiration_time_desc">Expiration Time DESC</option>
+                }
+            </select>
+        </div>
         <ol>
             @foreach (var ban in Model)
             {
@@ -99,7 +103,7 @@
                             }
                             else
                             {
-                                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                             }
                         </button>
                             <span class="nickname">@ban.Banned.UserName</span>
@@ -109,7 +113,7 @@
                             <span class="datetime">@ban.ExpirationTime</span>
                         </div>
                         <div class="action-buttons">
-                        <button class="info" onclick="window.location.href='/User/BanDetails?id=@ban.Id'">
+                        <button type="button" class="info" onclick="window.location.href='/User/BanDetails?id=@ban.Id'">
                                 <img src="~/images/info.png" alt="info-img" class="info-img">
                             </button>
                         </div>
@@ -118,3 +122,5 @@
             }
         </ol>
     </div>
+</form>
+

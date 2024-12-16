@@ -3,13 +3,13 @@
     ViewData["Title"] = "User - Profile View";
 }
 @section Styles {
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/profileView.css" />
 }
 <div class="form-container">
     <div class="profile-header">
-        <div class="profil-nickname">
-            <span>@Model.UserName</span>
-        </div>
         <div class="profile-img">
             @if (Model.ProfileImage != null && !string.IsNullOrEmpty(Model.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.ProfileImage.Extension))
             {
@@ -17,8 +17,11 @@
             }
             else
             {
-                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
             }
+        </div>
+        <div class="profil-nickname">
+            <span>@Model.UserName</span>
         </div>
     </div>
     <div class="profile-info">

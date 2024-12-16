@@ -3,7 +3,10 @@
     ViewData["Title"] = "User - Ban Account";
 }
 @section Styles {
-    <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/properBanAccount.css" />
 }
 @section Scripts {
     <script src="~/js/editingImage.js"></script>
@@ -20,7 +23,7 @@
             }
             else
             {
-                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
             }
             <span>@Model.Banned.UserName</span>
         </div>
