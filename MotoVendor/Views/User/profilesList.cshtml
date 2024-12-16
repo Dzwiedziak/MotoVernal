@@ -3,19 +3,56 @@
     ViewData["Title"] = "User - Profiles List";
 }
 @section Styles {
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/profilesList.css" />
 }
 @section Scripts {
     <script src="~/js/profilesList.js"></script>
 }
-<form method="get" action="@Url.Action("ProfilesList", "User")">
-<section>
-    <div class="up-section">
-        <div class="nav-tree">
-            <label for="place">Users</label>
+<div class="profiles-list">
+    <form method="get" action="@Url.Action("ProfilesList", "User")">
+        <div>
+            <div class="filter-by">
+                <label>Filter</label>
+                <button class="clear" id="clear-filters-btn">
+                    <span>X Clear All</span>
+                </button>
+            </div>
+            <section>
+                <div class="up-section">
+                </div>
+                <div class="second-section">
+                    <div class="search-bar">
+                            <button type="submit">
+                                 <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                            </button>
+                            <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
+                    </div>
+                </div>
+            </section>
+            <div class="side-section">
+                <div class="location-group">
+                    <label for="status">Type</label>
+                    <div class="location-group-content">
+                        <div class="status-group">
+                            <label class="status">Observed</label>
+                            <input type="checkbox" id="observed" name="observed" value="true"
+                            @(ViewBag.Observed == true ? "checked" : "") onchange="this.form.submit()">
+                        </div>
+                        <div class="status-group">
+                            <label class="status">Admin</label>
+                            <input type="checkbox" id="admin" name="admin" value="true"
+                            @(ViewBag.Admin == true ? "checked" : "") onchange="this.form.submit()">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="sort">
-            <label for="sort_by">Sort By</label>
+        <div class="main-cnt">
+            <div class="sort">
+                <label for="sort_by">Sort By</label>
                 <select id="sortBy" name="sortBy" onchange="this.form.submit()">
                     @if (ViewBag.SortBy == "alphabetical_asc")
                     {
@@ -34,77 +71,55 @@
                     {
                         <option value="alphabetical_desc">Alphabetical DESC</option>
                     }
-            </select>
-        </div>
-    </div>
-    <div class="second-section">
-        <div class="search-bar">
-                <button type="submit">
-                     <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-                </button>
-                <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
-        </div>
-    </div>
-</section>
-    <div class="side-section">
-        <div class="filter-by">
-            <label>Filter by</label>
-                <button class="clear" id="clear-filters-btn">
-                <span>X Clear All</span>
-            </button>
-        </div>
-        <div class="location-group">
-            <label for="status">Type</label>
-            <div class="status-group">
-                <label class="status">Observed</label>
-                    <input type="checkbox" id="observed" name="observed" value="true"
-                    @(ViewBag.Observed == true ? "checked" : "") onchange="this.form.submit()">
+                </select>
             </div>
-            <div class="status-group">
-                <label class="status">Admin</label>
-                    <input type="checkbox" id="admin" name="admin" value="true"
-                    @(ViewBag.Admin == true ? "checked" : "") onchange="this.form.submit()">
+            <div class="main-cnt__list">
+                <ol>
+                    @foreach(var user in Model)
+                    {
+                        bool isAdmin = user.Roles.Contains("Admin");
+                        <li class="@(isAdmin ? "admin" : "")">
+                            <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
+                                @if (user.ProfileImage != null && !string.IsNullOrEmpty(user.ProfileImage.Base64) && !string.IsNullOrEmpty(user.ProfileImage.Extension))
+                                {
+                                    <img class="profil-img" src="data:image/@user.ProfileImage.Extension;base64,@user.ProfileImage.Base64" />
+                                }
+                                else
+                                {
+                                    if(isAdmin)
+                                    {
+                                        <img src="~/images/admin-icon.svg" id="profil-img" alt="profil" class="profil-img">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
+                                    }
+                                }
+                            </button>
+                            <span class="nickname">@user.UserName</span>
+                            
+                            @if (user.IsObserved)
+                            {
+                                <form asp-action="StopObserveUser" method="post">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="observed">
+                                        <img src="~/images/star.png" alt="Unobserve" class="star-img" />
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="ObserveUser" method="post">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="observed">
+                                        <img src="~/images/star (1).png" alt="Observe" class="star-img" />
+                                    </button>
+                                </form>
+                            }
+                        </li>
+                    }
+                </ol>
             </div>
         </div>
-    </div>
-</form>
-<div class="main-cnt">
-    <ol>
-        @foreach(var user in Model)
-        {
-            bool isAdmin = user.Roles.Contains("Admin");
-            <li class="@(isAdmin ? "admin" : "")">
-                <span class="nickname">@user.UserName</span>
-                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@user.Id'">
-                    @if (user.ProfileImage != null && !string.IsNullOrEmpty(user.ProfileImage.Base64) && !string.IsNullOrEmpty(user.ProfileImage.Extension))
-                    {
-                        <img class="profil-img" src="data:image/@user.ProfileImage.Extension;base64,@user.ProfileImage.Base64" />
-                    }
-                    else
-                    {
-                        <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
-                    }
-                </button>
-
-                @if (user.IsObserved)
-                {
-                    <form asp-action="StopObserveUser" method="post">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" class="observed">
-                            <img src="~/images/star.png" alt="Unobserve" class="star-img" />
-                        </button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-action="ObserveUser" method="post">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" class="observed">
-                            <img src="~/images/star (1).png" alt="Observe" class="star-img" />
-                        </button>
-                    </form>
-                }
-            </li>
-        }
-    </ol>
+    </form>
 </div>
