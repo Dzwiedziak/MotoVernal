@@ -17,7 +17,7 @@
         <div class="sort">
             <label for="sort_by">Sort By</label>
                 <select id="sortBy" name="sortBy" onchange="this.form.submit()">
-                    @if (ViewBag.SortBy == "date_asc")
+                    @if (ViewBag.SortBy == "alphabetical_asc")
                     {
                         <option value="alphabetical_asc" selected>Alphabetical ASC</option>
                     }
@@ -26,7 +26,7 @@
                         <option value="alphabetical_asc">Alphabetical ASC</option>
                     }
 
-                    @if (ViewBag.SortBy == "date_desc")
+                    @if (ViewBag.SortBy == "alphabetical_desc")
                     {
                         <option value="alphabetical_desc" selected>Alphabetical DESC</option>
                     }

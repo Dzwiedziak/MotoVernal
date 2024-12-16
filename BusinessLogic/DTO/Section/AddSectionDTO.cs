@@ -6,7 +6,7 @@ namespace BusinessLogic.DTO.Section
     public class AddSectionDTO
     {
         [Required(ErrorMessage = "Title is required.")]
-        [StringLength(25, MinimumLength = 3, ErrorMessage = "Title must be between 3 and 25 characters.")]
+        [StringLength(30, MinimumLength = 1, ErrorMessage = "Title must be between 1 and 30 characters.")]
         public string Title { get; set; }
         public Entities.Section Parent { get; set; }
         public Entities.File? Image { get; set; }

@@ -11,8 +11,9 @@ namespace BusinessLogic.DTO.Topic
         public Entities.User Publisher { get; set; }
         public Entities.Section Section { get; set; }
         public Entities.File? Image { get; set; }
+        public List<Entities.TopicResponse>? Responses { get; set; }
 
-        public GetTopicDTO(int id, string title, string description, DateTime creationTime, Entities.User publisher, Entities.Section section, Entities.File? image)
+        public GetTopicDTO(int id, string title, string description, DateTime creationTime, Entities.User publisher, Entities.Section section, Entities.File? image, List<Entities.TopicResponse>? responses)
         {
             Id = id;
             Title = title;
@@ -21,6 +22,7 @@ namespace BusinessLogic.DTO.Topic
             Publisher = publisher;
             Section = section;
             Image = image;
+            Responses = responses;
         }
     }
 }

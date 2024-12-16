@@ -7,8 +7,12 @@ using DB.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MotoVendor.Authorizations.Requirements;
 using MotoVendor.ViewModels;
+using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MotoVendor.Controllers
 {
@@ -32,7 +36,9 @@ namespace MotoVendor.Controllers
             _authorizationService = authorizationService;
             _topicResponseReactionService = topicResponseReactionService;
         }
-        public IActionResult SectionsAndTopicsList(int? sectionId)
+        public async Task<IActionResult> SectionsAndTopicsList(int? sectionId, string sortBySection, string? searchSection, 
+                                                   string sortByTopic, string? searchTopic, DateTime? dateFrom,DateTime? dateTo,
+                                                   bool? owner, bool? member)
         {
 
             var rootSectionResult = _sectionService.GetRootSection();
@@ -51,6 +57,78 @@ namespace MotoVendor.Controllers
             var parentSections = _sectionService.GetParentSections(activeSectionId);
             var topics = _topicService.GetAllInSections(activeSectionId);
 
+            if(childSections.Value.Count() == 0)
+            {
+                ViewBag.NoChildrenSections = true;
+            }
+            else
+            {
+                ViewBag.NoChildrenSections = false;
+            }
+            if (!string.IsNullOrEmpty(searchSection))
+            {
+                childSections = childSections.Value.Where(section =>
+                    (!string.IsNullOrEmpty(section.Title) && section.Title.Contains(searchSection, StringComparison.OrdinalIgnoreCase))
+                ).ToList();
+            }
+            switch (sortBySection)
+            {
+                case "alphabetical_asc":
+                    childSections = childSections.Value.OrderBy(s => s.Title).ToList();
+                    break;
+                case "alphabetical_desc":
+                    childSections = childSections.Value.OrderByDescending(s => s.Title).ToList();
+                    break;
+                default:
+                    childSections = childSections.Value.OrderBy(s => s.Title).ToList();
+                    break;
+            }
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                if ((owner.HasValue && owner.Value) || (member.HasValue && member.Value))
+                {
+                    topics = topics.Where(topic =>
+                        currentUser.Id != null &&
+                        (
+                            (owner.HasValue && owner.Value && topic.Publisher?.Id == currentUser.Id) ||
+                            (member.HasValue && member.Value && topic.Responses.Any(comment => comment.Owner.Id == currentUser.Id))
+                        )
+                    ).ToList();
+                }
+            }
+            if (!string.IsNullOrEmpty(searchTopic))
+            {
+                topics = topics.Where(topic =>
+                    (!string.IsNullOrEmpty(topic.Title) && topic.Title.Contains(searchTopic, StringComparison.OrdinalIgnoreCase))
+                ).ToList();
+            }
+            if (dateFrom.HasValue)
+            {
+                topics = topics.Where(t => t.CreationTime >= dateFrom.Value).ToList();
+            }
+            if (dateTo.HasValue)
+            {
+                topics = topics.Where(t => t.CreationTime <= dateTo.Value).ToList();
+            }
+            switch (sortByTopic)
+            {
+                case "alphabetical_asc":
+                    topics = topics.OrderBy(t => t.Title).ToList();
+                    break;
+                case "alphabetical_desc":
+                    topics = topics.OrderByDescending(t => t.Title).ToList();
+                    break;
+                case "date_asc":
+                    topics = topics.OrderBy(t => t.CreationTime).ToList();
+                    break;
+                case "date_desc":
+                    topics = topics.OrderByDescending(t => t.CreationTime).ToList();
+                    break;
+                default:
+                    topics = topics.OrderBy(t => t.CreationTime).ToList();
+                    break;
+            }
             var vm = new SectionsAndTopicsListViewModel
             {
                 SectionInfo = sectionInfo.Value,
@@ -58,6 +136,14 @@ namespace MotoVendor.Controllers
                 ParentSections = parentSections.Value,
                 TopicsList = topics
             };
+            ViewBag.SortBySection = sortBySection;
+            ViewBag.SearchSection = searchSection;
+            ViewBag.SortByTopic = sortByTopic;
+            ViewBag.SearchTopic = searchTopic;
+            ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-ddTHH:mm");
+            ViewBag.DateTo = dateTo?.ToString("yyyy-MM-ddTHH:mm");
+            ViewBag.Owner = owner;
+            ViewBag.Member = member;
 
             return View(vm);
         }

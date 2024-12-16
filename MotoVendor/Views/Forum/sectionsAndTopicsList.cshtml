@@ -5,8 +5,12 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/sectionsAndTopicsList.css" />
 }
-
+@section Scripts {
+    <script src="~/js/sectionsAndTopics.js"></script>
+}
 <section>
+    <form method="get" action="/Forum/SectionsAndTopicsList">
+        <input type="hidden" name="sectionId" value="@Model.SectionInfo.Id" />
     <div class="up-section">
         <div class="nav-tree">
             @foreach (var parent in Model.ParentSections)
@@ -16,28 +20,52 @@
             }
             <span>@Model.SectionInfo.Title</span>
         </div>
-        <div class="sort">
-            <label for="sort_by">Sort By</label>
-            <select id="type">
-                <option value="alpabetical_asc">Alpabetical ACS</option>
-                <option value="alphabetical_desc">Alpabetical DESC</option>
-            </select>
+        @if (!ViewBag.NoChildrenSections)
+        {
+            <div class="sort">
+                <label for="sort_by">Sort By</label>
+                    <select id="sortBy" name="sortBySection" onchange="this.form.submit()">
+                        @if (ViewBag.SortBySection == "alphabetical_asc")
+                        {
+                            <option value="alphabetical_asc" selected>Alphabetical ASC</option>
+                        }
+                        else
+                        {
+                            <option value="alphabetical_asc">Alphabetical ASC</option>
+                        }
+
+                        @if (ViewBag.SortBySection == "alphabetical_desc")
+                        {
+                            <option value="alphabetical_desc" selected>Alphabetical DESC</option>
+                        }
+                        else
+                        {
+                            <option value="alphabetical_desc">Alphabetical DESC</option>
+                        }
+                    </select>
         </div>
+        }
     </div>
     <div class="second-section">
-        <div class="search-bar">
-            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-            <input type="text" id="search" placeholder="Search">
+        @if (!ViewBag.NoChildrenSections)
+        {
+            <div class="search-bar">
+                <button type ="submit">
+                    <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                </button>
+                    <input type="text" name="searchSection" value="@ViewBag.searchSection" id="search" placeholder="Search">
         </div>
+        }
         @if (User.IsInRole("Admin"))
         {
             <div class="adding-section">
-                <button class="add-section" onclick="window.location.href='/Forum/AddSection?sectionId=@Model.SectionInfo.Id'">
+                <button type="button" class="add-section" onclick="window.location.href='/Forum/AddSection?sectionId=@Model.SectionInfo.Id'">
                  Add new section
             </button>
         </div>
         }
     </div>
+    </form>
 </section>
 <div class="main-cnt">
     <ul>
@@ -73,101 +101,106 @@
 </div>
 @if (!ViewBag.IsRootSection)
 {
+    <form method="get" action="/Forum/SectionsAndTopicsList">
     <section>
+            <input type="hidden" name="sectionId" value="@Model.SectionInfo.Id" />
         <div class="up-section">
             <div class="nav-tree">
 
             </div>
             <div class="sort">
                 <label for="sort_by">Sort By</label>
-                <select id="type">
-                    <option value="alpabetical_asc">Alpabetical ACS</option>
-                    <option value="alphabetical_desc">Alpabetical DESC</option>
-                    <option value="date_asc">Date ASC</option>
-                    <option value="date_desc">Date DESC</option>
+                <select id="sortBy" name="sortByTopic" onchange="this.form.submit()">
+                    @if (ViewBag.SortByTopic == "date_asc")
+                    {
+                        <option value="date_asc" selected>Date ASC</option>
+                    }
+                    else
+                    {
+                        <option value="date_asc">Date ASC</option>
+                    }
+
+                    @if (ViewBag.SortByTopic == "date_desc")
+                    {
+                        <option value="date_desc" selected>Date DESC</option>
+                    }
+                    else
+                    {
+                        <option value="date_desc">Date DESC</option>
+                    }
+
+                    @if (ViewBag.SortByTopic == "alphabetical_asc")
+                    {
+                        <option value="alphabetical_asc" selected>Alphabetical ASC</option>
+                    }
+                    else
+                    {
+                        <option value="alphabetical_asc">Alphabetical ASC</option>
+                    }
+
+                    @if (ViewBag.SortByTopic == "alphabetical_desc")
+                    {
+                        <option value="alphabetical_desc" selected>Alphabetical DESC</option>
+                    }
+                    else
+                    {
+                        <option value="alphabetical_desc">Alphabetical DESC</option>
+                    }
                 </select>
             </div>
         </div>
         <div class="second-section">
             <div class="search-bar">
                 <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-                <input type="text" id="search" placeholder="Search">
+                    <input type="text" name="searchTopic" value="@ViewBag.searchTopic" placeholder="Search">
             </div>
             <div class="adding-section">
-                <button class="add-section" onclick="window.location.href='/Forum/AddTopic?sectionId=@Model.SectionInfo.Id'">
+                <button type="button"class="add-section" onclick="window.location.href='/Forum/AddTopic?sectionId=@Model.SectionInfo.Id'">
                     Add new topic
                 </button>
             </div>
         </div>
     </section>
-    <div class="main-down-cnt">
         <div class="side-section">
             <div class="filter-by">
                 <label>Filter by</label>
-                <button class="clear">
+            <button class="clear" id="clear-filters-btn">
                     <span>X Clear All</span>
                 </button>
             </div>
             <div class="filter-group">
                 <div class="date-group">
-                    <label for="datetime-from">Date min</label>
-                    <input type="datetime-local" id="datetime-from">
+                    <label for="datetime-from">Creation time min</label>
+                    <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
                 </div>
                 <div class="date-group">
-                    <label for="datetime-to">Date max</label>
-                    <input type="datetime-local" id="datetime-to">
+                    <label for="datetime-to">Creation time max</label>
+                    <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
                 </div>
             </div>
             <div class = "location-group">
                 <label for="status">Type</label>
                 <div class = "status-group">
-                    <label class="status">Observed</label>
-                    <input type="checkbox" id="status1" name="owner" value="owner">
+                    <label class="status">Owner</label>
+                    <input type="checkbox" id="owner" name="owner" value="true"
+                    @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
                 </div>
                 <div class = "status-group">
-                    <label class="status">Admin</label>
-                    <input type="checkbox" id="status2" name="interested" value="interested">
+                    <label class="status">Member</label>
+                    <input type="checkbox" id="member" name="member" value="true"
+                    @(ViewBag.Member == true ? "checked" : "") onchange="this.form.submit()">
                 </div>
-            </div>
-            <div class="filter-element">
-                <div class="range-slider-wrapper">
-                    <div class="range-slider">
-                        <div class="slide-inside" style="position: absolute; left: 30%; top: -1px; width: 70%;">
-
-                        </div>
-                        <div class="range-slider-ball" style="position: absolute; left: 30%; top: -10px">
-
-                        </div>
-                        <div style="position: absolute; left: 100%; top: -10px">
-                            <div class="range-slider-ball" style="position: absolute; right: 0px;">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="filter-element">
-                <div class="range-form">
-                    From
-                    <div class="range-form-value">
-                        103k
-                    </div>
-                </div>
-                <div class="range-form">
-                    To
-                    <div class="range-form-value">
-                        200k
-                    </div>
-                </div>
-            </div>
+            </div>   
         </div>
+    </form>
+    <div class="main-down-cnt">
         <ol>
             @foreach (var topic in Model.TopicsList)
             {
                 <li>
                     <div class="main-info">
                         <span>@topic.Title</span>
-                        <span class="nr-answers">Number of answers: 23</span>
+                        <span class="nr-answers">Number of answers: @topic.Responses.Count()</span>
                     </div>
                     <div class="extra-info">
                         <button class="profile" onclick="window.location.href='/user/ProfileView?id=@topic.Publisher.Id'">
@@ -185,9 +218,22 @@
                         <span class="hour">@topic.CreationTime.ToString("HH:mm")</span>
                         <span class="date">@topic.CreationTime.ToString("dd-MM-yyyy")</span>
                         <div class="action-buttons">
-                            <button class="observed">
-                                <img src="~/images/star (1).png" alt="star-img" class="star-img">
-                            </button>
+                            @{
+                                var currentUser = User.Identity.Name;
+                                bool isMember = topic.Responses.Any(comment => comment.Owner.UserName == currentUser);
+                            }
+                            @if (!isMember)
+                            {
+                                <button class="observed">
+                                    <img src="~/images/star (1).png" alt="star-img" class="star-img">
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="observed">
+                                    <img src="~/images/star.png" alt="star-img" class="star-img">
+                                </button>
+                            }
                             <button class="observed" onclick=" window.location.href='/Forum/DetailsTopic?Id=@topic.Id'">
                                 <img src="~/images/login.png" alt="go_in-img" class="go-in-img">
                             </button>
@@ -195,29 +241,6 @@
                     </div>
                 </li>
             }
-            <li class="owner">
-                <div class="main-info">
-                    <span>Problem ze skrzynią biegów VW GOLF 5</span>
-                    <span class="nr-answers">Number of answers: 23</span>
-                </div>
-                <div class="extra-info">
-                    <button class="profile">
-                        <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img">
-                    </button>
-                    <span class="nickname">RoyBig</span>
-                    <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
-                    <span class="hour">12:44</span>
-                    <span class="date">30-01-2022</span>
-                    <div class="action-buttons">
-                        <button class="observed">
-                            <img src="~/images/star (1).png" alt="star-img" class="star-img">
-                        </button>
-                        <button class="observed">
-                            <img src="~/images/login.png" alt="go_in-img" class="go-in-img">
-                        </button>
-                    </div>
-                </div>
-            </li>
         </ol>
     </div>
 }
