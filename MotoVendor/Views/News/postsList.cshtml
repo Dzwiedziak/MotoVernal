@@ -1,5 +1,5 @@
 ﻿@inject BusinessLogic.Services.Interfaces.IUserService UserService
-@model List<BusinessLogic.DTO.Post.GetPostDTO>
+@model MotoVendor.ViewModels.NewsListViewModel;
 @{
     ViewData["Title"] = "News - Posts List";
     var user = UserService.GetCurrentUser().Result;
@@ -56,6 +56,7 @@
 
 <div class="postList">
     <div class="listNews">
+        <form method="get" action="@Url.Action("PostsList", "News")">
         <section>
             <div class="up-section">
                 <div class="nav-tree">
@@ -63,63 +64,81 @@
                 </div>
                 <div class="sort">
                     <label for="sort_by">Sort By</label>
-                    <select id="type">
-                        <option value="date_adc">Date ACS</option>
-                        <option value="date_desc">Date DESC</option>
-                        <option value="alpabetical_asc">Alpabetical ACS</option>
-                        <option value="alphabetical_desc">Alpabetical DESC</option>
-                    </select>
+                        <select id="sortBy" name="sortBy" onchange="this.form.submit()">
+                            @if (ViewBag.SortBy == "date_asc")
+                            {
+                                <option value="date_asc" selected>Publication Time ASC</option>
+                            }
+                            else
+                            {
+                                <option value="date_asc">Publication Time ASC</option>
+                            }
+
+                            @if (ViewBag.SortBy == "date_desc")
+                            {
+                                <option value="date_desc" selected>Publication Time DESC</option>
+                            }
+                            else
+                            {
+                                <option value="date_desc">Publication Time DESC</option>
+                            }
+                        </select>
                 </div>
             </div>
             <div class="second-section">
                 <div class="filter-by">
                     <label>Filter by</label>
-                    <button class="clear">
+                        <button class="clear" id="clear-filters-btn">
                         <span>X Clear All</span>
                     </button>
                 </div>
-                <form asp-action="PostsList" method="get">
+                <div class="filters">
                     <div class="filter-group">
                         <div class="date-group">
                             <label for="datetime-from">Date from</label>
-                            <input type="datetime-local" id="datetime-from" name="creationTimeGTE">
+                                <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
                         </div>
                         <div class="date-group">
                             <label for="datetime-to">Date to</label>
-                            <input type="datetime-local" id="datetime-to" name="creationTimeLTE">
+                            <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
                         </div>
                     </div>
                     <div class="location-group">
                         <label for="status">Status</label>
                         <div class="status-group">
                             <label class="status">Owner</label>
-                            <input type="checkbox" id="status1" name="relationStatus" value="owner">
+                                <input type="checkbox" id="owner" name="owner" value="true"
+                                @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
                         </div>
                         <div class="status-group">
                             <label class="status">Liked</label>
-                            <input type="checkbox" id="status2" name="relationStatus" value="interested">
+                                <input type="checkbox" id="liked" name="liked" value="true"
+                                @(ViewBag.Liked == true ? "checked" : "") onchange="this.form.submit()">
                         </div>
                         <div class="status-group">
                             <label class="status">Member</label>
-                            <input type="checkbox" id="status3" name="relationStatus" value="member">
+                            <input type="checkbox" id="member" name="member" value="true"
+                                @(ViewBag.Member == true ? "checked" : "") onchange="this.form.submit()">
                         </div>
                     </div>
                     <div class="search-bar">
-                        <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-                        <input type="text" id="search" name="search" placeholder="Search">
+                        <button type="submit">
+                                <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                        </button>
+                        <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
                     </div>
-                    <button type="submit">Apply Filters</button>
-                </form>
+                </div> 
                 <div class="adding-section">
                     <a class="add-section" asp-action="AddPost">
-                        Plan new event
+                        Add new post
                     </a>
                 </div>
             </div>
         </section>
+    </form>
         <main>
             <ul>
-                @foreach (var post in @Model)
+                @foreach (var post in @Model.PostsList)
                 {
                     <li class="posts--post">
                         @if(user != null && post.Publisher != null && post.Publisher.Id == user.Id)
@@ -131,8 +150,15 @@
                         <div class="main-post">
                             <div class="post-info">
                                 <div class="profile">
-                                    <button class="profile-btn">
-                                        <img src="~/images/profilowe.jpg" alt="delete" class="x-icon" id="x-image">
+                                    <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@post.Publisher.Id'">
+                                        @if (post.Publisher.ProfileImage != null && !string.IsNullOrEmpty(post.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(post.Publisher.ProfileImage.Extension))
+                                        {
+                                            <img class="profil-img" src="data:image/@post.Publisher.ProfileImage.Extension;base64,@post.Publisher.ProfileImage.Base64" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                        }
                                     </button>
                                     <span>@post.Publisher?.UserName</span>
                                 </div>
@@ -143,7 +169,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="data:image/@post.Image?.Extension;base64,@post.Image?.Base64" alt="photo" class="photo" id="photo">
+                            @if (post.Image != null && !string.IsNullOrEmpty(post.Image.Base64) && !string.IsNullOrEmpty(post.Image.Extension))
+                            {
+                                <img src="data:image/@post.Image?.Extension;base64,@post.Image?.Base64" alt="photo" class="photo" id="photo">
+                            }
+                            else
+                            {
+                                
+                            }
                             <div class="post-content">
                                 <span>
                                     <pre>@post.Content</pre>
@@ -153,22 +186,44 @@
                             </div>
                             <div class="action-group">
                                 <div class="interacted-group">
-                                    <button class="like-btn">
-                                        <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
-                                    </button>
-                                    <span>3304</span>
+                                    @{
+                                        var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                                        bool userLikedPost = Model.PostReactionsList.Any(reaction => reaction.Post.Id == post.Id && reaction.User.Id == currentUserId);
+                                    }
+                                    @if (!userLikedPost)
+                                    {
+                                    <form asp-action="LikePost" method="post">
+                                        <input type="hidden" name="id" value="@post.Id" />
+                                        <button class="like-btn">
+                                            <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
+                                        </button>
+                                    </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="RemoveLikePost" method="post">
+                                            <input type="hidden" name="id" value="@post.Id" />
+                                            <button class="like-btn">
+                                                <img src="~/images/liked.png" alt="liked" class="like-icon" id="liked-image">
+                                            </button>
+                                        </form>
+                                    }
+                                    <span>@Model.PostReactionsList.Where(pr => pr.Post.Id == post.Id).Count()</span>
                                 </div>
                                 <div class="interacted-group">
                                     <button class="comments-btn">
                                         <img src="~/images/comments.png" alt="comments" class="comments-icon" id="comments-image">
                                     </button>
-                                    <span><b>Comments</b></span>
+                                    <span><b>Comments</b>@post.PostComments.Count()</span>
                                 </div>
                             </div>
                         </div>
-                        <button class="x-btn">
-                            <img src="~/images/x-button.png" alt="delete" class="x-icon" id="x-image">
-                        </button>
+                        @if (user != null && post.Publisher != null && post.Publisher.Id == user.Id)
+                        {
+                            <button class="x-btn">
+                                <img src="~/images/x-button.png" alt="delete" class="x-icon" id="x-image">
+                            </button>
+                        }
                         <div class="commentsWindow-container">
                             <div id="commentsWindow" class="commentsWindow">
                                 <div class="commentsWindow__inner">
@@ -189,8 +244,15 @@
                                             <div class="main-post">
                                                 <div class="post-info">
                                                     <div class="profile">
-                                                        <button class="profile-btn">
-                                                            <img src="~/images/profilowe.jpg" alt="profil-img" class="profil-img" id="profil-img">
+                                                        <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@post.Publisher.Id'">
+                                                            @if (post.Publisher.ProfileImage != null && !string.IsNullOrEmpty(comment.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(comment.Publisher.ProfileImage.Extension))
+                                                            {
+                                                                <img class="profil-img" src="data:image/@comment.Publisher.ProfileImage.Extension;base64,@comment.Publisher.ProfileImage.Base64" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                                            }
                                                         </button>
                                                         <span>@comment.Publisher?.UserName</span>
                                                     </div>
@@ -244,9 +306,14 @@
                                                 </div>
                                             </div>
                                             <div class="comments__right-aside">
-                                                <button class="x-btn">
-                                                    <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
-                                                </button>
+                                                @if ((user != null && post.Publisher != null && comment.Publisher?.Id == user.Id) || User.IsInRole("Admin"))
+                                                {
+                                                    <form action="@Url.Action("DeleteComment", "News", new { commentId = comment.Id })" method="post">
+                                                    <button class="x-btn">
+                                                        <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
+                                                    </button>
+                                                    </form>
+                                                }
                                             </div>
                                         </div>
                                     }

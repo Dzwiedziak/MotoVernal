@@ -28,6 +28,10 @@ namespace MotoVendor.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var events = _eventService.GetEvents();
+            var locations = events
+               .Select(e => e.Location)
+               .Distinct()
+               .ToList();
             if (owner.HasValue && owner.Value)
                 events = events.Where(e => e.Publisher == currentUser).ToList();
             if (interested.HasValue && interested.Value)
@@ -40,7 +44,10 @@ namespace MotoVendor.Controllers
                 events = events.Where(e => e.TimeTo <= dateTo.Value).ToList();
             if (!string.IsNullOrEmpty(search))
             {
-                events = events.Where(e => e.Title.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                events = events.Where(e =>
+                    e.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    e.Publisher.UserName.Contains(search, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
             }
             switch (sortBy)
             {
@@ -51,19 +58,15 @@ namespace MotoVendor.Controllers
                     events = events.OrderByDescending(e => e.Title).ToList();
                     break;
                 case "date_asc":
-                    events = events.OrderBy(e => e.TimeFrom).ToList(); 
+                    events = events.OrderBy(e => e.TimeFrom).ToList();
                     break;
                 case "date_desc":
-                    events = events.OrderByDescending(e => e.TimeFrom).ToList(); 
+                    events = events.OrderByDescending(e => e.TimeFrom).ToList();
                     break;
                 default:
                     events = events.OrderBy(e => e.TimeFrom).ToList();
                     break;
             }
-            var locations = events
-                .Select(e => e.Location)
-                .Distinct()
-                .ToList();
             var eventsWithInterest = events.Select(e =>new EventDTO
             {
                 Id = e.Id,
