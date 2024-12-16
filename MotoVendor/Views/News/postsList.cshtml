@@ -1,5 +1,5 @@
 ﻿@inject BusinessLogic.Services.Interfaces.IUserService UserService
-@model List<BusinessLogic.DTO.Post.GetPostDTO>
+@model MotoVendor.ViewModels.NewsListViewModel;
 @{
     ViewData["Title"] = "News - Posts List";
     var user = UserService.GetCurrentUser().Result;
@@ -112,7 +112,8 @@
                         </div>
                         <div class="status-group">
                             <label class="status">Liked</label>
-                            <input type="checkbox" id="status2" name="relationStatus" value="interested">
+                                <input type="checkbox" id="liked" name="liked" value="true"
+                                @(ViewBag.Liked == true ? "checked" : "") onchange="this.form.submit()">
                         </div>
                         <div class="status-group">
                             <label class="status">Member</label>
@@ -137,7 +138,7 @@
     </form>
         <main>
             <ul>
-                @foreach (var post in @Model)
+                @foreach (var post in @Model.PostsList)
                 {
                     <li class="posts--post">
                         @if(user != null && post.Publisher != null && post.Publisher.Id == user.Id)
@@ -185,22 +186,44 @@
                             </div>
                             <div class="action-group">
                                 <div class="interacted-group">
-                                    <button class="like-btn">
-                                        <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
-                                    </button>
-                                    <span>3304</span>
+                                    @{
+                                        var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                                        bool userLikedPost = Model.PostReactionsList.Any(reaction => reaction.Post.Id == post.Id && reaction.User.Id == currentUserId);
+                                    }
+                                    @if (!userLikedPost)
+                                    {
+                                    <form asp-action="LikePost" method="post">
+                                        <input type="hidden" name="id" value="@post.Id" />
+                                        <button class="like-btn">
+                                            <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
+                                        </button>
+                                    </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="RemoveLikePost" method="post">
+                                            <input type="hidden" name="id" value="@post.Id" />
+                                            <button class="like-btn">
+                                                <img src="~/images/liked.png" alt="liked" class="like-icon" id="liked-image">
+                                            </button>
+                                        </form>
+                                    }
+                                    <span>@Model.PostReactionsList.Where(pr => pr.Post.Id == post.Id).Count()</span>
                                 </div>
                                 <div class="interacted-group">
                                     <button class="comments-btn">
                                         <img src="~/images/comments.png" alt="comments" class="comments-icon" id="comments-image">
                                     </button>
-                                    <span><b>Comments</b></span>
+                                    <span><b>Comments</b>@post.PostComments.Count()</span>
                                 </div>
                             </div>
                         </div>
-                        <button class="x-btn">
-                            <img src="~/images/x-button.png" alt="delete" class="x-icon" id="x-image">
-                        </button>
+                        @if (user != null && post.Publisher != null && post.Publisher.Id == user.Id)
+                        {
+                            <button class="x-btn">
+                                <img src="~/images/x-button.png" alt="delete" class="x-icon" id="x-image">
+                            </button>
+                        }
                         <div class="commentsWindow-container">
                             <div id="commentsWindow" class="commentsWindow">
                                 <div class="commentsWindow__inner">
@@ -283,9 +306,14 @@
                                                 </div>
                                             </div>
                                             <div class="comments__right-aside">
-                                                <button class="x-btn">
-                                                    <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
-                                                </button>
+                                                @if ((user != null && post.Publisher != null && comment.Publisher?.Id == user.Id) || User.IsInRole("Admin"))
+                                                {
+                                                    <form action="@Url.Action("DeleteComment", "News", new { commentId = comment.Id })" method="post">
+                                                    <button class="x-btn">
+                                                        <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
+                                                    </button>
+                                                    </form>
+                                                }
                                             </div>
                                         </div>
                                     }

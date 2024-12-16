@@ -1,6 +1,9 @@
-﻿using BusinessLogic.DTO.Post;
+﻿using BusinessLogic.DTO.EventInterest;
+using BusinessLogic.DTO.Post;
 using BusinessLogic.DTO.PostComment;
+using BusinessLogic.DTO.PostReaction;
 using BusinessLogic.Errors;
+using BusinessLogic.Repositories;
 using BusinessLogic.Repositories.Interfaces;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Response;
@@ -11,11 +14,13 @@ namespace BusinessLogic.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly IPostReactionRepository _postReactionRepository;
         private readonly IPostCommentRepository _postCommentRepository;
         private readonly IUserService _userService;
-        public PostService(IPostRepository postRepository, IPostCommentRepository postCommentRepository, IUserService userService)
+        public PostService(IPostRepository postRepository, IPostReactionRepository postReactionRepository, IPostCommentRepository postCommentRepository, IUserService userService)
         {
             _postRepository = postRepository;
+            _postReactionRepository = postReactionRepository;
             _postCommentRepository = postCommentRepository;
             _userService = userService;
         }
@@ -34,6 +39,10 @@ namespace BusinessLogic.Services
                 return PostErrorCode.PostNotFound;
 
             return CreateGetPostDTO(dbPost);
+        }
+        public Post? GetPost(int id)
+        {
+            return _postRepository.GetOne(id);
         }
 
         public PostErrorCode? Update( UpdatePostDTO post)
@@ -62,6 +71,29 @@ namespace BusinessLogic.Services
         public List<GetPostDTO> GetAll()
         {
             return _postRepository.GetAll().Select(p => CreateGetPostDTO(p)).ToList();
+        }
+        public List<PostReaction> GetAllReactions()
+        {
+            return _postReactionRepository.GetAll();
+        }
+        public PostReactiontErrorCode? LikePost(PostReactionDTO postReaction)
+        {
+            PostReaction? dbpostReaction = _postReactionRepository.GetOne(postReaction.User.Id, postReaction.Post.Id);
+            if (dbpostReaction is not null)
+                return PostReactiontErrorCode.AlreadyLiked;
+
+            _postReactionRepository.Add(CreatePostReaction(postReaction));
+            return null;
+        }
+
+        public PostReactiontErrorCode? StopLikePost(PostReactionDTO postReaction)
+        {
+            PostReaction? dbpostReaction = _postReactionRepository.GetOne(postReaction.User.Id, postReaction.Post.Id);
+            if (dbpostReaction is null)
+                return PostReactiontErrorCode.AlreadyNotLiked;
+
+            _postReactionRepository.Delete(dbpostReaction.Id);
+            return null;
         }
 
         public PostCommentErrorCode? AddPostComment(int id, AddPostCommentDTO postComment)
@@ -96,6 +128,10 @@ namespace BusinessLogic.Services
         private void UpdatePostComment(ref PostComment dbPostComment, UpdatePostCommentDTO updatedPostComment)
         {
             dbPostComment.Content = updatedPostComment.Content;
+        }
+        public PostReaction CreatePostReaction(PostReactionDTO postReaction)
+        {
+            return new PostReaction(postReaction.User, postReaction.Post);
         }
     }
 }

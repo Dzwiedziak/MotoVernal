@@ -372,7 +372,5 @@ namespace MotoVendor.Controllers
 
             return RedirectToAction("DetailsTopic", new { Id = comment.Topic.Id });
         }
-
-
     }
 }

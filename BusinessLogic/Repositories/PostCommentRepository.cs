@@ -22,6 +22,11 @@ namespace BusinessLogic.Repositories
         {
             return _context.PostComments.Where(pc => pc.Id == id).FirstOrDefault();
         }
+        public void Delete(PostComment postComment)
+        {
+            _context.PostComments.Remove(postComment);
+            _context.SaveChanges();
+        }
 
         public void Update(PostComment postComment)
         {

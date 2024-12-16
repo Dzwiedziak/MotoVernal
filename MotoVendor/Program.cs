@@ -84,6 +84,7 @@ internal class Program
         builder.Services.AddScoped<IEventIntrestRepository, EventInterestRepository>();
         builder.Services.AddScoped<IBanRepository, BanRepository>();
         builder.Services.AddScoped<IReportRepository, ReportRepository>();
+        builder.Services.AddScoped<IPostReactionRepository, PostReactionRepository>();
         builder.Services.AddScoped<IPostCommentRepository, PostCommentRepository>();
         builder.Services.AddScoped<IPostCommentReactionRepository, PostCommentReactionRepository>();
         builder.Services.AddScoped<IVehicleOfferObservationRepository, VehicleOfferObservationRepository>();

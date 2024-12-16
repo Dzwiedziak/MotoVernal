@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Repositories.Interfaces;
+using BusinessLogic.Services.Interfaces;
 using DB.Entities;
 
 namespace BusinessLogic.Services
@@ -10,7 +11,11 @@ namespace BusinessLogic.Services
         {
             _postCommentRepository = postCommentRepository;
         }
-
+        public void Delete(int id) 
+        {
+            var comment = _postCommentRepository.Get(id);
+            _postCommentRepository.Delete(comment);
+        }
         public PostComment? Get(int id)
         {
             return _postCommentRepository.Get(id);

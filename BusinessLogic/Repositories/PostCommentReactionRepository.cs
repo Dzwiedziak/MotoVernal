@@ -22,6 +22,7 @@ namespace BusinessLogic.Repositories
         public List<PostCommentReaction> GetAll()
         {
             return _context.PostCommentReactions
+                .Include(pcr => pcr.PostComment)
                 .Include(pcr => pcr.User)
                 .ToList();
         }

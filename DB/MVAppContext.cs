@@ -22,6 +22,7 @@ namespace DB
         public DbSet<UserObservation> UserObservations { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<EventInterest> EventInterests { get; set; }
+        public DbSet<PostReaction> PostReactions { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
         public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
         public DbSet<VehicleOfferObservation> VehicleOfferObservations { get; set; }
