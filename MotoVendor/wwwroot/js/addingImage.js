@@ -10,9 +10,6 @@
     commentsInLoad.forEach(comment => {
         
         let content = comment.innerHTML.trim();
-
-        content = content.replace(/\n/g, '<br>');
-
         comment.innerHTML = content;
     });
 
@@ -135,7 +132,7 @@
 
                 originalContent = editableSpan.innerHTML.trim();
 
-                const currentContent = editableSpan.innerHTML.replace(/<br>/g, "\n").trim();
+                const currentContent = editableSpan.innerHTML.trim();
                 editTextarea.value = currentContent;
                 editTextarea.style.width = '100%';
 
@@ -161,6 +158,7 @@
             } else {
 
                 commentForm.submit();
+
                 const newContent = editTextarea.value.trim().split('\n').join('<br>');
                 
 
@@ -181,11 +179,10 @@
 
         cancelEditButton.addEventListener('click', function () {
 
-            editableSpan = document.createElement('span');
-            editableSpan.className = 'editable-content';
             editableSpan.innerHTML = originalContent;
 
-            editTextarea.parentNode.replaceChild(editableSpan, editTextarea);
+            editableSpan.style.display = 'block';
+            editTextarea.style.display = 'none';
             isEditing = false;
             loadImageLabel.style.display = 'none';
             cancelEditButton.style.display = 'none';
