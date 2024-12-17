@@ -24,7 +24,7 @@
     justify-content: center;
     box-sizing: border-box;
     border-bottom: 3px solid black;
-    border-radius: 50px;
+    border-radius: 10px 10px 50px 50px;
 }
 
     .main-cnt li > img {
