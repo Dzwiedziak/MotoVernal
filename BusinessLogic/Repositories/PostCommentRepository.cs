@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Repositories.Interfaces;
 using DB;
 using DB.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Repositories
 {
@@ -20,7 +21,9 @@ namespace BusinessLogic.Repositories
 
         public PostComment? Get(int id)
         {
-            return _context.PostComments.Where(pc => pc.Id == id).FirstOrDefault();
+            return _context.PostComments.Where(pc => pc.Id == id)
+                .Include(pc => pc.Publisher)
+                .FirstOrDefault();
         }
         public void Delete(PostComment postComment)
         {

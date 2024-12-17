@@ -58,14 +58,17 @@
                 </a>
             </li>
         }
-        <li>
-            <a asp-controller="Problem" asp-action="Report" class="sign-in__link">
+        @if (!User.IsInRole("Admin"))
+        {
+            <li>
+                <a asp-controller="Problem" asp-action="Report" class="sign-in__link">
                 <img class="sign-in__icon" src="~/images/bug-icon.svg">
                 <div class="sign-in_text">
                     Report bug
                 </div>
             </a>
         </li>
+        }
         <li>
             <a asp-controller="User" asp-action="Logout" class="sign-in__link logout">
                 <img class="sign-in__icon" src="~/images/logout.svg">
