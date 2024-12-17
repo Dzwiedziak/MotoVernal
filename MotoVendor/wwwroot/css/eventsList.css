@@ -439,6 +439,7 @@ section {
         line-height: 19px;
         color: #000000;
         padding-right: 5px;
+        white-space: nowrap;
     }
 
     .sort select {
