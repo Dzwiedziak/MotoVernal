@@ -116,7 +116,7 @@
             </div>
         </section>
     </form>
-    <main class="posts-main">
+    <div class="posts-main">
         <div class="main-header">
             <div class="sort">
                 <label for="sort_by">Sort By</label>
@@ -261,7 +261,7 @@
                                                             }
                                                             else
                                                             {
-                                                                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                                                <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                                                             }
                                                         </button>
                                                         <span>@comment.Publisher?.UserName</span>
@@ -319,7 +319,7 @@
                                                 @if ((user != null && post.Publisher != null && comment.Publisher?.Id == user.Id) || User.IsInRole("Admin"))
                                                 {
                                                     <form action="@Url.Action("DeleteComment", "News", new { commentId = comment.Id })" method="post">
-                                                    <button class="x-btn">
+                                                    <button style="right: 0px" class="x-btn">
                                                         <img src="~/images//trash-bin.png" alt="delete" class="x-icon" id="x-image">
                                                     </button>
                                                     </form>
@@ -339,8 +339,6 @@
                                             <div class="post-content">
                                                 <textarea name="Content" id="comment-textarea" placeholder="Write to comment"></textarea>
                                             </div>
-                                            <div class="line-add">
-                                            </div>
                                             <button class="add-comment__submit-btn" type="submit">Add comment</button>
                                             <div id="new-comment-action" class="comment-action">
                                                 <button id="cancel-btn" class="cancel-btn">
@@ -358,7 +356,7 @@
                     </li>
                 }
                 </ul>
-            </main>
+            </div>
         </div>
     </div>
     <div id="comment-modal">
