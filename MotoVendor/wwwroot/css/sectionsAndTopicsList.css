@@ -1,4 +1,25 @@
-﻿.main-cnt ul {
+﻿.topics-section {
+    display: flex;
+    padding-top: 30px;
+    border-top: 1px solid black;
+    padding-bottom: 30px;
+}
+
+.main-right {
+    padding-left: 30px;
+}
+
+.sections-topics {
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+}
+
+.sort-upper {
+    justify-content: flex-start !important;
+    width: fit-content !important;
+}
+
+.main-cnt ul {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -81,6 +102,7 @@
 section {
     display: flex;
     flex-direction: column;
+    padding-bottom: 30px;
 }
 
 .second-section {
@@ -146,7 +168,6 @@ section {
     flex-direction: row;
     justify-content: flex-start;
     align-items:center;
-    padding-right: 20px;
 }
 
     .sort label {
@@ -170,16 +191,15 @@ section {
     }
 
 .adding-section {
-    position: absolute;
     right: 15px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 10px;
     gap: 10px;
     background: #FC139C;
     border-radius: 5px;
+    width: 200px;
 }
 
 .add-section {
@@ -195,7 +215,8 @@ section {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    padding-right: 20px;
+    justify-content: space-between;
+    width: 100%;
 }
 
     .sort label {
@@ -206,6 +227,7 @@ section {
         line-height: 19px;
         color: #000000;
         padding-right: 5px;
+        font-size: 20px;
     }
 
     .sort select {
@@ -228,21 +250,14 @@ section {
 .side-section {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 15px 15px;
-    margin-left:20px;
-    gap: 100px;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .filter-by {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
     padding: 0px;
-    gap: 10px;
+    justify-content: space-between;
 }
 
     .filter-by > label {
@@ -271,10 +286,7 @@ section {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 5px;
     gap: 10px;
-    border: 1px solid #D6D8DC;
 }
 
     .location-group > label {
@@ -288,6 +300,10 @@ section {
         color: #000000;
     }
 
+    .location-group__content {
+        display: flex;
+        gap: 20px;
+    }
     .location-group > select, option {
         margin: 0 auto;
         padding: 5px;
@@ -305,10 +321,16 @@ section {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 5px;
+
     gap: 10px;
-    border: 1px solid #D6D8DC;
+}
+
+.filter-group__header {
+    font-size: 20px;
+}
+
+.filter-group__content {
+    display: flex;
 }
 
     .filter-group > label {
@@ -342,8 +364,7 @@ section {
     }
 
     .date-group > input {
-        padding: 5px;
-        background-color: #cccccc;
+        border: none;
     }
 
 .status-group {
@@ -357,9 +378,6 @@ section {
     .status-group > label {
         padding: 2px;
         margin-right: 5px;
-        width: 80px;
-        background-color: #cccccc;
-        border: 1px solid #000000;
     }
 
 .filter-element {
@@ -456,8 +474,7 @@ section {
     width: 100%;
     height: auto;
     background: white;
-    margin-right: 25px;
-    margin-top: 15px;
+    padding: 0px;
 }
 
 .main-down-cnt li {
@@ -466,7 +483,6 @@ section {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin: 15px;
     width: 1000px;
     min-height: 85px;
     height: auto;
@@ -475,7 +491,6 @@ section {
     border-style: solid;
     border-color: black;
     border-radius: 25px;
-    padding: 5px;
 }
 
     .main-down-cnt li.owner {

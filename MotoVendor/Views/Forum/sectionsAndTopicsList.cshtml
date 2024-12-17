@@ -11,23 +11,24 @@
 @section Scripts {
     <script src="~/js/sectionsAndTopics.js"></script>
 }
-<section>
-    <form method="get" action="/Forum/SectionsAndTopicsList">
-        <input type="hidden" name="sectionId" value="@Model.SectionInfo.Id" />
-    <div class="up-section">
-        <div class="nav-tree">
-            @foreach (var parent in Model.ParentSections)
-            {
-                <a href="/Forum/SectionsAndTopicsList/?sectionId=@parent.Id">@parent.Title</a>
-                <span> > </span>
-            }
-            <span>@Model.SectionInfo.Title</span>
-        </div>
-        @if (!ViewBag.NoChildrenSections)
-        {
-            <div class="sort">
-                <label for="sort_by">Sort By</label>
-                    <select id="sortBy" name="sortBySection" onchange="this.form.submit()">
+<div class="sections-topics">
+    <section>
+        <form method="get" action="/Forum/SectionsAndTopicsList">
+            <input type="hidden" name="sectionId" value="@Model.SectionInfo.Id" />
+            <div class="up-section">
+                <div class="nav-tree">
+                    @foreach (var parent in Model.ParentSections)
+                    {
+                        <a href="/Forum/SectionsAndTopicsList/?sectionId=@parent.Id">@parent.Title</a>
+                        <span> > </span>
+                    }
+                    <span>@Model.SectionInfo.Title</span>
+                </div>
+                @if (!ViewBag.NoChildrenSections)
+                {
+                    <div class="sort sort-upper">
+                        <label for="sort_by">Sort By</label>
+                        <select id="sortBy" name="sortBySection" onchange="this.form.submit()">
                         @if (ViewBag.SortBySection == "alphabetical_asc")
                         {
                             <option value="alphabetical_asc" selected>Alphabetical ASC</option>
@@ -45,209 +46,218 @@
                         {
                             <option value="alphabetical_desc">Alphabetical DESC</option>
                         }
-                    </select>
-        </div>
-        }
-    </div>
-    <div class="second-section">
-        @if (!ViewBag.NoChildrenSections)
-        {
-            <div class="search-bar">
-                <button type ="submit">
-                    <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-                </button>
-                    <input type="text" name="searchSection" value="@ViewBag.searchSection" id="search" placeholder="Search">
-        </div>
-        }
-        @if (User.IsInRole("Admin"))
-        {
-            <div class="adding-section">
-                <button type="button" class="add-section" onclick="window.location.href='/Forum/AddSection?sectionId=@Model.SectionInfo.Id'">
-                 Add new section
-            </button>
-        </div>
-        }
-    </div>
-    </form>
-</section>
-<div class="main-cnt">
-    <ul>
-        @foreach (var sectionC in Model.ChildSections)
-        {
-            <li>
-            <div class="section_with_edit">
-            @if (sectionC.Image != null && !string.IsNullOrEmpty(sectionC.Image.Base64) && !string.IsNullOrEmpty(sectionC.Image.Extension))
-            {
-               <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
-                    <img alt="car" class="section-image" id="section-image" src="data:image/@sectionC.Image.Extension;base64,@sectionC.Image.Base64" />
-               </button>
-            }
-            else
-            {
-                <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
-                    <img alt="car" class="section-image" id="section-image" src="~/images/default_car.png" />
-               </button>
-            }
-            <div class="section-info">
-                <label>@sectionC.Title</label>
+                        </select>
+                    </div>
+                }
             </div>
+            <div class="second-section">
+                @if (!ViewBag.NoChildrenSections)
+                {
+                    <div class="search-bar">
+                        <button type ="submit">
+                            <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                        </button>
+                        <input type="text" name="searchSection" value="@ViewBag.searchSection" id="search" placeholder="Search">
+                </div>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="adding-section">
+                        <button type="button" class="add-section" onclick="window.location.href='/Forum/AddSection?sectionId=@Model.SectionInfo.Id'">
+                         Add new section
+                    </button>
+                </div>
+                }
             </div>
-            @if (User.IsInRole("Admin"))
-            {
-                    <button class="edit-btn" id="edit-button" onclick="window.location.href='/Forum/EditSection?Id=@sectionC.Id'">
-                    <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
-                </button>
-            }
-            </li>
-        }
-    </ul>
-</div>
-@if (!ViewBag.IsRootSection)
-{
-    <form method="get" action="/Forum/SectionsAndTopicsList">
-    <section>
-            <input type="hidden" name="sectionId" value="@Model.SectionInfo.Id" />
-        <div class="up-section">
-            <div class="nav-tree">
-
-            </div>
-            <div class="sort">
-                <label for="sort_by">Sort By</label>
-                <select id="sortBy" name="sortByTopic" onchange="this.form.submit()">
-                    @if (ViewBag.SortByTopic == "date_asc")
-                    {
-                        <option value="date_asc" selected>Date ASC</option>
-                    }
-                    else
-                    {
-                        <option value="date_asc">Date ASC</option>
-                    }
-
-                    @if (ViewBag.SortByTopic == "date_desc")
-                    {
-                        <option value="date_desc" selected>Date DESC</option>
-                    }
-                    else
-                    {
-                        <option value="date_desc">Date DESC</option>
-                    }
-
-                    @if (ViewBag.SortByTopic == "alphabetical_asc")
-                    {
-                        <option value="alphabetical_asc" selected>Alphabetical ASC</option>
-                    }
-                    else
-                    {
-                        <option value="alphabetical_asc">Alphabetical ASC</option>
-                    }
-
-                    @if (ViewBag.SortByTopic == "alphabetical_desc")
-                    {
-                        <option value="alphabetical_desc" selected>Alphabetical DESC</option>
-                    }
-                    else
-                    {
-                        <option value="alphabetical_desc">Alphabetical DESC</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="second-section">
-            <div class="search-bar">
-                <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-                    <input type="text" name="searchTopic" value="@ViewBag.searchTopic" placeholder="Search">
-            </div>
-            <div class="adding-section">
-                <button type="button"class="add-section" onclick="window.location.href='/Forum/AddTopic?sectionId=@Model.SectionInfo.Id'">
-                    Add new topic
-                </button>
-            </div>
-        </div>
+        </form>
     </section>
-        <div class="side-section">
-            <div class="filter-by">
-                <label>Filter by</label>
-            <button class="clear" id="clear-filters-btn">
-                    <span>X Clear All</span>
-                </button>
-            </div>
-            <div class="filter-group">
-                <div class="date-group">
-                    <label for="datetime-from">Creation time min</label>
-                    <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
-                </div>
-                <div class="date-group">
-                    <label for="datetime-to">Creation time max</label>
-                    <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
-                </div>
-            </div>
-            <div class = "location-group">
-                <label for="status">Type</label>
-                <div class = "status-group">
-                    <label class="status">Owner</label>
-                    <input type="checkbox" id="owner" name="owner" value="true"
-                    @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
-                </div>
-                <div class = "status-group">
-                    <label class="status">Member</label>
-                    <input type="checkbox" id="member" name="member" value="true"
-                    @(ViewBag.Member == true ? "checked" : "") onchange="this.form.submit()">
-                </div>
-            </div>   
-        </div>
-    </form>
-    <div class="main-down-cnt">
-        <ol>
-            @foreach (var topic in Model.TopicsList)
+    <div class="main-cnt">
+        <ul>
+            @foreach (var sectionC in Model.ChildSections)
             {
                 <li>
-                    <div class="main-info">
-                        <span>@topic.Title</span>
-                        <span class="nr-answers">Number of answers: @topic.Responses.Count()</span>
-                    </div>
-                    <div class="extra-info">
-                        <button class="profile" onclick="window.location.href='/user/ProfileView?id=@topic.Publisher.Id'">
-                            @if (topic.Publisher.ProfileImage != null && !string.IsNullOrEmpty(topic.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(topic.Publisher.ProfileImage.Extension))
-                            {
-                                <img class="profil-img" src="data:image/@topic.Publisher.ProfileImage.Extension;base64,@topic.Publisher.ProfileImage.Base64" />
-                            }
-                            else
-                            {
-                                <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
-                            }
-                        </button>
-                        <span class="nickname">@topic.Publisher.UserName</span>
-                        <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
-                        <span class="hour">@topic.CreationTime.ToString("HH:mm")</span>
-                        <span class="date">@topic.CreationTime.ToString("dd-MM-yyyy")</span>
-                        <div class="action-buttons">
-                            @{
-                                var currentUser = User.Identity.Name;
-                                bool isMember = false;
-                                if (currentUser != null)
-                                {
-                                   isMember = topic.Responses.Any(comment => comment.Owner.UserName == currentUser);
-                                }   
-                            }
-                            @if (!isMember)
-                            {
-                                <button class="observed">
-                                    <img src="~/images/star (1).png" alt="star-img" class="star-img">
-                                </button>
-                            }
-                            else
-                            {
-                                <button class="observed">
-                                    <img src="~/images/star.png" alt="star-img" class="star-img">
-                                </button>
-                            }
-                            <button class="observed" onclick=" window.location.href='/Forum/DetailsTopic?Id=@topic.Id'">
-                                <img src="~/images/login.png" alt="go_in-img" class="go-in-img">
-                            </button>
-                        </div>
-                    </div>
+                <div class="section_with_edit">
+                @if (sectionC.Image != null && !string.IsNullOrEmpty(sectionC.Image.Base64) && !string.IsNullOrEmpty(sectionC.Image.Extension))
+                {
+                   <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
+                        <img alt="car" class="section-image" id="section-image" src="data:image/@sectionC.Image.Extension;base64,@sectionC.Image.Base64" />
+                   </button>
+                }
+                else
+                {
+                    <button class="go_in-btn" id="go_in-section" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@sectionC.Id'">
+                        <img alt="car" class="section-image" id="section-image" src="~/images/default_car.png" />
+                   </button>
+                }
+                <div class="section-info">
+                    <label>@sectionC.Title</label>
+                </div>
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                        <button class="edit-btn" id="edit-button" onclick="window.location.href='/Forum/EditSection?Id=@sectionC.Id'">
+                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image">
+                    </button>
+                }
                 </li>
             }
-        </ol>
+        </ul>
     </div>
-}
+    @if (!ViewBag.IsRootSection)
+    {
+        <div class="topics-section">
+            <form method="get" action="/Forum/SectionsAndTopicsList">
+                <section>
+                    <input type="hidden" name="sectionId" value="@Model.SectionInfo.Id" />
+                    <div class="up-section">
+                        <div class="sort">
+                            <label for="sort_by">Sort By</label>
+                            <select id="sortBy" name="sortByTopic" onchange="this.form.submit()">
+                                @if (ViewBag.SortByTopic == "date_asc")
+                                {
+                                    <option value="date_asc" selected>Date ASC</option>
+                                }
+                                else
+                                {
+                                    <option value="date_asc">Date ASC</option>
+                                }
+
+                                @if (ViewBag.SortByTopic == "date_desc")
+                                {
+                                    <option value="date_desc" selected>Date DESC</option>
+                                }
+                                else
+                                {
+                                    <option value="date_desc">Date DESC</option>
+                                }
+
+                                @if (ViewBag.SortByTopic == "alphabetical_asc")
+                                {
+                                    <option value="alphabetical_asc" selected>Alphabetical ASC</option>
+                                }
+                                else
+                                {
+                                    <option value="alphabetical_asc">Alphabetical ASC</option>
+                                }
+
+                                @if (ViewBag.SortByTopic == "alphabetical_desc")
+                                {
+                                    <option value="alphabetical_desc" selected>Alphabetical DESC</option>
+                                }
+                                else
+                                {
+                                    <option value="alphabetical_desc">Alphabetical DESC</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="second-section">
+                    </div>
+                </section>
+                <div class="side-section">
+                    <div class="filter-by">
+                        <label>Filter by</label>
+                        <button class="clear" id="clear-filters-btn">
+                            <span>X Clear All</span>
+                        </button>
+                    </div>
+                    <div class="search-bar">
+                        <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                        <input type="text" name="searchTopic" value="@ViewBag.searchTopic" placeholder="Search">
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-group__header">
+                            Creation time
+                        </div>
+                        <div class="filter-group__content">
+                            <div class="date-group">
+                                <label for="datetime-from"></label>
+                                <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
+                            </div>
+                            <div class="date-group">
+                                <label for="datetime-to"></label>
+                                <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "location-group">
+                        <label class="location-group__header" for="status">Type</label>
+                        <div class="location-group__content">
+                            <div class="status-group">
+                                <label class="status">Owner</label>
+                                <input type="checkbox" id="owner" name="owner" value="true"
+                                @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
+                            </div>
+                            <div class="status-group">
+                                <label class="status">Member</label>
+                                <input type="checkbox" id="member" name="member" value="true"
+                                @(ViewBag.Member == true ? "checked" : "") onchange="this.form.submit()">
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </form>
+            <div class="main-right">
+                <div class="adding-section">
+                    <button type="button" class="add-section" onclick="window.location.href='/Forum/AddTopic?sectionId=@Model.SectionInfo.Id'">
+                        Add new topic
+                    </button>
+                </div>
+                <div class="main-down-cnt">
+                    <ol>
+                        @foreach (var topic in Model.TopicsList)
+                        {
+                            <li>
+                                <div class="main-info">
+                                    <span>@topic.Title</span>
+                                    <span class="nr-answers">Number of answers: @topic.Responses.Count()</span>
+                                </div>
+                                <div class="extra-info">
+                                    <button class="profile" onclick="window.location.href='/user/ProfileView?id=@topic.Publisher.Id'">
+                                        @if (topic.Publisher.ProfileImage != null && !string.IsNullOrEmpty(topic.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(topic.Publisher.ProfileImage.Extension))
+                                        {
+                                            <img class="profil-img" src="data:image/@topic.Publisher.ProfileImage.Extension;base64,@topic.Publisher.ProfileImage.Base64" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                        }
+                                    </button>
+                                    <span class="nickname">@topic.Publisher.UserName</span>
+                                    <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
+                                    <span class="hour">@topic.CreationTime.ToString("HH:mm")</span>
+                                    <span class="date">@topic.CreationTime.ToString("dd-MM-yyyy")</span>
+                                    <div class="action-buttons">
+                                        @{
+                                            var currentUser = User.Identity.Name;
+                                            bool isMember = false;
+                                            if (currentUser != null)
+                                            {
+                                               isMember = topic.Responses.Any(comment => comment.Owner.UserName == currentUser);
+                                            }   
+                                        }
+                                        @if (!isMember)
+                                        {
+                                            <button class="observed">
+                                                <img src="~/images/star (1).png" alt="star-img" class="star-img">
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="observed">
+                                                <img src="~/images/star.png" alt="star-img" class="star-img">
+                                            </button>
+                                        }
+                                        <button class="observed" onclick=" window.location.href='/Forum/DetailsTopic?Id=@topic.Id'">
+                                            <img src="~/images/login.png" alt="go_in-img" class="go-in-img">
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ol>
+                </div>
+            </div>
+        </div>
+    }
+</div>
