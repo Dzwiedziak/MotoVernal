@@ -2,17 +2,35 @@
     font-family: 'Inter', sans-serif;
 }
 
+.main-content {
+    width: fit-content;
+}
+
 .posts-main {
     display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: 20px;
+}
+
+.edit-btn {
+    position: absolute;
+    left: -60px;
+}
+.x-btn {
+    position: absolute;
+    right: -40px;
 }
 
 .main-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .listNews {
     display: flex;
+    padding: 20px;
 }
 
 .filter-group__inner {
@@ -26,12 +44,11 @@
 }
 
 .postList .line {
-    margin-left: 25px;
-    border: 3px solid #4285F4;
+    border-bottom: 1px solid black;
 }
 
 .postList .line-add {
-    border: 3px solid #4285F4;
+    border-bottom: 1px solid black;
     width: 100%;
     margin-bottom: 15px;
 }
@@ -49,7 +66,7 @@
     align-items: center;
     margin: 5px;
     padding: 15px 15px;
-    gap: 50px;
+    gap: 20px;
 }
 
 .postList .filter-by {
@@ -89,8 +106,8 @@
 .postList .filters{
     display:flex;
     flex-direction:column;
-    gap:50px;
     width: 100%;
+    gap: 20px;
 }
 .postList .filter-group {
     box-sizing: border-box;
@@ -116,7 +133,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2px;
 }
 
     .postList .date-group > label {
@@ -131,8 +147,8 @@
     }
 
     .postList .date-group > input {
-        padding: 5px;
         border: none;
+        font-family: 'Inter', sans-serif;
     }
 
 .location-group__inner {
@@ -281,12 +297,11 @@
     color: #FFFFFF;
 }
 
-.postList main ul {
+.posts-main ul {
     min-height: 66vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px 50px;
+    padding: 0px;
     gap: 50px;
 }
 
@@ -303,7 +318,7 @@
     padding: 0px;
 }
 
-.postList main button > img {
+.posts-main button > img {
     width: 35px;
     height: 35px;
 }
@@ -331,6 +346,8 @@
     width: 900px;
     border: 1px solid black;
     border-radius: 10px;
+    position: relative;
+    margin-top: 10px;
 }
 
     .postList .main-post > img {
@@ -418,7 +435,7 @@
 
 .postList .post-content {
     width: 100%;
-    padding: 30px;
+    padding: 20px;
 }
 
     .postList .post-content > span, textarea {
@@ -469,7 +486,11 @@
         margin-left: 5px;
         margin-right: 10px;
         font-size: 20px;
+
     }
+.postList .interacted-group > span > b {
+    padding-right: 5px;
+}
 
 .postList .commentsWindow {
     display: none;
@@ -484,10 +505,11 @@
     align-items: center;
     padding: 20px;
     gap: 10px;
-    background: #C6DBFF;
+    background: white;
     border-radius: 50px;
     overflow-x: hidden;
     font-family: 'Inter', sans-serif;
+    border: 1px solid black;
 }
 
 .postList .comments-content {
@@ -495,7 +517,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #C6DBFF;
+    background-color: white;
     margin: 2px;
 }
 
@@ -504,7 +526,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #C6DBFF;
+    background-color: white;
     margin: 2px;
 }
 
@@ -532,11 +554,14 @@
 }
 
 .postList .add-comment-content textarea {
+    outline: none;
     width: 100%;
-    border-color: #0066FF;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     box-sizing: border-box;
     margin-bottom: 20px;
     font-family: 'Inter', sans-serif;
+    resize: none;
 }
 
 .postList .comment-action {
@@ -595,6 +620,7 @@
     align-self: center;
     font-weight: 500;
     font-size: 16px;
+    margin-bottom: 15px;
 }
 
 .dislike-icon {
