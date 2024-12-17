@@ -1,6 +1,30 @@
-﻿.post-list {
+﻿.postList {
     font-family: 'Inter', sans-serif;
 }
+
+.posts-main {
+    display: flex;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.listNews {
+    display: flex;
+}
+
+.filter-group__inner {
+    display: flex;
+}
+
+.filter-group__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
 .postList .line {
     margin-left: 25px;
     border: 3px solid #4285F4;
@@ -20,22 +44,21 @@
 .postList .second-section {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin: 5px;
     padding: 15px 15px;
     gap: 50px;
-    border: 1px solid #D6D8DC;
 }
 
 .postList .filter-by {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
     padding: 0px;
     gap: 10px;
+    width: 100%;
 }
 
     .postList .filter-by > label {
@@ -65,18 +88,16 @@
     }
 .postList .filters{
     display:flex;
-    flex-direction:row;
-    align-items:center;
+    flex-direction:column;
     gap:50px;
+    width: 100%;
 }
 .postList .filter-group {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     padding: 5px;
     gap: 10px;
-    border: 1px solid #D6D8DC;
 }
 
     .postList .filter-group > label {
@@ -111,17 +132,20 @@
 
     .postList .date-group > input {
         padding: 5px;
-        background-color: #cccccc;
+        border: none;
     }
+
+.location-group__inner {
+    display: flex;
+    gap: 20px;
+}
 
 .postList .location-group {
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 5px;
     gap: 10px;
-    border: 1px solid #D6D8DC;
+    flex-direction: column;
 }
 
     .postList .location-group > label {
@@ -152,16 +176,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    text-align: center;
     padding: 0px;
 }
 
     .postList .status-group > label {
         padding: 2px;
         margin-right: 5px;
-        width: 80px;
-        background-color: #cccccc;
-        border: 1px solid #000000;
     }
 
 .postList .up-section {
@@ -171,7 +191,7 @@
     padding: 2px;
 }
 
-.filters .search-bar {
+.search-bar {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -182,13 +202,13 @@
     height: 40px
 }
 
-    .filters .search-bar img {
+.search-bar img {
         width: 25px;
         height: 25px;
         padding: 2px;
     }
 
-    .filters .search-bar input {
+.search-bar input {
         border: none;
         font-family: 'Inter';
         font-style: normal;
@@ -268,7 +288,6 @@
     align-items: center;
     padding: 20px 50px;
     gap: 50px;
-    background: #EAF2FF;
 }
 
 .postList li {
@@ -310,10 +329,8 @@
     flex-direction: column;
     box-sizing: border-box;
     width: 900px;
-    border-width: 2px 3px 10px 3px;
-    border-style: solid;
-    border-color: #4285F4;
-    border-radius: 50px;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
     .postList .main-post > img {
@@ -325,7 +342,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background: rgba(198, 219, 255, 0.5);
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
     padding: 2px;

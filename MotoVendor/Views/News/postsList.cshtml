@@ -62,28 +62,6 @@
                 <div class="nav-tree">
                     <label for="place">News</label>
                 </div>
-                <div class="sort">
-                    <label for="sort_by">Sort By</label>
-                        <select id="sortBy" name="sortBy" onchange="this.form.submit()">
-                            @if (ViewBag.SortBy == "date_asc")
-                            {
-                                <option value="date_asc" selected>Publication Time ASC</option>
-                            }
-                            else
-                            {
-                                <option value="date_asc">Publication Time ASC</option>
-                            }
-
-                            @if (ViewBag.SortBy == "date_desc")
-                            {
-                                <option value="date_desc" selected>Publication Time DESC</option>
-                            }
-                            else
-                            {
-                                <option value="date_desc">Publication Time DESC</option>
-                            }
-                        </select>
-                </div>
             </div>
             <div class="second-section">
                 <div class="filter-by">
@@ -92,51 +70,83 @@
                         <span>X Clear All</span>
                     </button>
                 </div>
+                <div class="search-bar">
+                    <button type="submit">
+                        <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
+                    </button>
+                    <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
+                </div>
                 <div class="filters">
                     <div class="filter-group">
-                        <div class="date-group">
-                            <label for="datetime-from">Date from</label>
-                                <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
+                        <div class="filter-group__title">
+                            Date
                         </div>
-                        <div class="date-group">
-                            <label for="datetime-to">Date to</label>
-                            <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
+                        <div class="filter-group__inner">
+                            <div class="date-group">
+                                <label for="datetime-from"></label>
+                                <input type="datetime-local" id="datetime-from" name="dateFrom" value="@ViewBag.DateFrom" onchange="this.form.submit()">
+                            </div>
+                            <div class="date-group">
+                                <label for="datetime-to"></label>
+                                <input type="datetime-local" id="datetime-to" name="dateTo" value="@ViewBag.DateTo" onchange="this.form.submit()">
+                            </div>
                         </div>
                     </div>
                     <div class="location-group">
                         <label for="status">Status</label>
-                        <div class="status-group">
-                            <label class="status">Owner</label>
-                                <input type="checkbox" id="owner" name="owner" value="true"
-                                @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
+                        <div class="location-group__inner">
+                            <div class="status-group">
+                                <label class="status">Owner</label>
+                                    <input type="checkbox" id="owner" name="owner" value="true"
+                                    @(ViewBag.Owner == true ? "checked" : "") onchange="this.form.submit()">
+                            </div>
+                            <div class="status-group">
+                                <label class="status">Liked</label>
+                                    <input type="checkbox" id="liked" name="liked" value="true"
+                                    @(ViewBag.Liked == true ? "checked" : "") onchange="this.form.submit()">
+                            </div>
+                            <div class="status-group">
+                                <label class="status">Member</label>
+                                <input type="checkbox" id="member" name="member" value="true"
+                                    @(ViewBag.Member == true ? "checked" : "") onchange="this.form.submit()">
+                            </div>
                         </div>
-                        <div class="status-group">
-                            <label class="status">Liked</label>
-                                <input type="checkbox" id="liked" name="liked" value="true"
-                                @(ViewBag.Liked == true ? "checked" : "") onchange="this.form.submit()">
-                        </div>
-                        <div class="status-group">
-                            <label class="status">Member</label>
-                            <input type="checkbox" id="member" name="member" value="true"
-                                @(ViewBag.Member == true ? "checked" : "") onchange="this.form.submit()">
-                        </div>
-                    </div>
-                    <div class="search-bar">
-                        <button type="submit">
-                                <img src="~/images/peel.svg" alt="peel" class="peel-icon" id="peel-icon">
-                        </button>
-                        <input type="text" name="search" value="@ViewBag.search" id="search" placeholder="Search">
                     </div>
                 </div> 
-                <div class="adding-section">
-                    <a class="add-section" asp-action="AddPost">
-                        Add new post
-                    </a>
-                </div>
             </div>
         </section>
     </form>
-        <main>
+    <main class="posts-main">
+        <div class="main-header">
+            <div class="sort">
+                <label for="sort_by">Sort By</label>
+                <select id="sortBy" name="sortBy" onchange="this.form.submit()">
+                    @if (ViewBag.SortBy == "date_asc")
+                    {
+                        <option value="date_asc" selected>Publication Time ASC</option>
+                    }
+                    else
+                    {
+                        <option value="date_asc">Publication Time ASC</option>
+                    }
+
+                    @if (ViewBag.SortBy == "date_desc")
+                    {
+                        <option value="date_desc" selected>Publication Time DESC</option>
+                    }
+                    else
+                    {
+                        <option value="date_desc">Publication Time DESC</option>
+                    }
+                </select>
+            </div>
+            <div class="adding-section">
+                <a class="add-section" asp-action="AddPost">
+                    Add new post
+                </a>
+            </div>
+        </div>
+        <div class="main-content">
             <ul>
                 @foreach (var post in @Model.PostsList)
                 {
@@ -157,7 +167,7 @@
                                         }
                                         else
                                         {
-                                            <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                            <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
                                         }
                                     </button>
                                     <span>@post.Publisher?.UserName</span>
@@ -348,7 +358,8 @@
                     </li>
                 }
                 </ul>
-        </main>
+            </main>
+        </div>
     </div>
     <div id="comment-modal">
     </div>
