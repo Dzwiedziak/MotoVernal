@@ -4,6 +4,9 @@
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/detailsEvent.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 }
 @section Scripts {
     <script src="~/js/detailsEvent.js"></script>
@@ -30,7 +33,7 @@
                 {
                     <button class="edit-button" onclick="window.location.href='/Calendar/EditEvent?id=@ViewBag.EventID'">
                         <label>Edit</label>
-                        <img src="~/images/draw.png" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
+                        <img style="filter: invert(1)" src="~/images/edit-icon.svg" alt="edit" class="edit-image" id="edit-image" width="35px" height="35px">
                     </button>
                 }
             </div>
@@ -63,8 +66,7 @@
             <label class="date">@Model.EventDetails.TimeTo.ToString("dd-MM-yyyy")</label>
             <img src="~/images/calendar.png" alt="calendar" class="calendar-image" id="calendar-image">
         </div>
-        <div class="line">
-        </div>
+        
         <div class="interested-section">
             <div class="interested-header">
                 <img src="~/images/group.png" alt="group" class="group-image" id="group-image">

@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #FFFFFF, #EAF2FF,#4285F4);
 }
 
 .form-container {
@@ -26,8 +25,11 @@ form h2 {
 }
 
 .form-group {
-    padding: 12px 12px 3px 10px;
+    padding: 12px 25px 3px 10px;
 }
+    #select.form-group {
+        padding:12px 13px 3px 10px;
+    }
 
 .date-group {
     display: flex;
@@ -36,7 +38,7 @@ form h2 {
 }
 
 .form-control {
-    padding: 12px 12px 3px 10px;
+    padding: 12px 25px 3px 10px;
 }
 
     .form-control label {
@@ -74,12 +76,12 @@ input, select, textarea {
 
 .form-actions {
     display: flex;
-    justify-content: space-around;
-    margin-top:30px;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0px 10px;
 }
 
 .cancel-btn, .create-btn {
-    margin-inline: 25px;
     padding: 7.5px 12px 7.5px 10.5px;
     border-radius: 5px;
     border: none;

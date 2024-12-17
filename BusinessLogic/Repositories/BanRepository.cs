@@ -25,6 +25,7 @@ namespace BusinessLogic.Repositories
             .Include(b => b.Banned)
             .Include(b => b.Banner)
             .Include(b => b.Banned.ProfileImage)
+            .Include(b => b.Banner.ProfileImage)
             .Include(b => b.Image)
             .FirstOrDefault(b => b.Id == id);
 

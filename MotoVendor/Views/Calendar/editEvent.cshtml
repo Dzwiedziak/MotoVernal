@@ -3,6 +3,9 @@
     ViewData["Title"] = "Calendar - Edit Event";
 }
 @section Styles {
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/addEditEventPostTopic.css" />
 }
 @section Scripts {
@@ -12,7 +15,7 @@
     <form asp-action="EditEvent" method="post">
         <input type="hidden" asp-for="Id" />
         <h2>Edit event</h2>
-        <div class="form-group">
+        <div class="form-group" id="select">
             <label for="type">Type</label>
             <select id="type" asp-for="EventType">
                 @foreach (var eventType in Enum.GetValues(typeof(DB.Enums.EventType)).Cast<DB.Enums.EventType>())

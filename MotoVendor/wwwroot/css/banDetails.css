@@ -5,6 +5,7 @@
     align-items: center;
     height:100%;
     font-family: 'Inter', sans-serif;
+    padding:30px;
 }
 
 .event-contents {
@@ -50,7 +51,7 @@
 
 .reason {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
@@ -58,7 +59,7 @@
     align-items: center;
     text-align: center;
     color: #000000;
-    gap:15px;
+    gap:5px;
 }
 
 .reason > span {
@@ -71,7 +72,7 @@
     border-radius: 25px;
     min-width:350px;
     max-width: 550px;
-    margin-right: 25px;
+    margin-top: -20px;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -86,14 +87,17 @@
 .rest-group {
     display: flex;
     flex-direction: column;
+    width:fit-content;
+    height:fit-content;
     align-items: center;
     padding: 5px;
 }
 
     .rest-group > img {
         width: 700px;
-        height: 500px;
-        border: 3px solid #4285F4;
+        aspect-ratio:16/9;
+        object-fit:contain;
+        border: 1px solid black;
         border-radius: 25px;
     }
 

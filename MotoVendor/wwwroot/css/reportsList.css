@@ -172,6 +172,7 @@ main.second {
         min-height: 66vh;
         margin: 0px;
         padding: 0px;
+        gap: 15px;
     }
 
     .main-cnt li {

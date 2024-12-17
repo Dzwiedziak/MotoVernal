@@ -46,7 +46,7 @@
 
 .reason {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
@@ -54,17 +54,19 @@
     align-items: center;
     text-align: center;
     color: #000000;
-    gap: 15px;
+    gap: 5px;
 }
 
     .reason > span {
         box-sizing: border-box;
+        display: flex;
         flex-direction: row;
+        align-items: flex-start;
         padding: 5px 10px;
         border-radius: 25px;
         min-width: 350px;
         max-width: 550px;
-        margin-right: 25px;
+        margin-top: -20px;
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
@@ -74,20 +76,22 @@
         text-align: justify;
         color: #000000;
         white-space: pre;
-        border: 1px solid black;
     }
 
 .rest-group {
     display: flex;
     flex-direction: column;
+    width: fit-content;
+    height: fit-content;
     align-items: center;
     padding: 5px;
 }
 
     .rest-group > img {
         width: 700px;
-        height: 500px;
-        border: 3px solid #4285F4;
+        aspect-ratio: 16/9;
+        object-fit: contain;
+        border: 1px solid black;
         border-radius: 25px;
     }
 

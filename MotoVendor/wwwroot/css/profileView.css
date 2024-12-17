@@ -128,27 +128,19 @@
 
 .description-info-item {
     box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    width: 450px;
-    background: #C6DBFF;
-    border: 1px solid #64ABFF;
+    width: 420px;
+    border: 1px solid black;
     border-radius: 25px;
+    padding: 10px;
+    text-align: justify;
+    margin-bottom: 15px;
 }
 
     .description-info-item > span {
-        width: 420px;
-        font-family: 'Istok Web';
         font-style: normal;
         font-weight: 400;
-        font-size: 13px;
-        line-height: 19px;
-        display: flex;
-        align-items: center;
-        text-align: justify;
+        font-size: 18px;
+        line-height: 26px;
         color: #000000;
     }
 

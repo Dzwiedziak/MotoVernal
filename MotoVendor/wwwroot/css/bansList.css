@@ -317,6 +317,7 @@ main.second {
         min-height: 66vh;
         background: white;
         padding: 0px;
+        gap:15px;
     }
 
     .main-cnt li {
