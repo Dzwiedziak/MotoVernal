@@ -606,7 +606,30 @@
 }
 
 .postList textarea {
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    resize: none;
+    border-radius: 5px;
+}
 
+.editable__btn {
+    font-weight: 500;
+    font-size: 16px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    padding: 7px !important;
+}
+
+.editable__btn-section {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+}
+
+.editable-content-section {
+    display: flex;
 }
 
 .add-comment__submit-btn {
