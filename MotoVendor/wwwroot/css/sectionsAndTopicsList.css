@@ -112,6 +112,7 @@ section {
     align-items: center;
     padding: 5px;
     position: relative;
+    gap: 30px;
 }
 
 .up-section {
@@ -475,6 +476,7 @@ section {
     height: auto;
     background: white;
     padding: 0px;
+    gap:15px;
 }
 
 .main-down-cnt li {

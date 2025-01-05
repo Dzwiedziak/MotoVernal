@@ -62,19 +62,13 @@
     </div>
     <div class="action-profile">
         <div class="nav-to">
-            <span>Take me to</span>
-            <button class="take-to">
-                Discusions
-            </button>
-            <button class="take-to">
+            <span>Take me to "@Model.UserName"</span>
+            <a class="take-to" href="/Calendar/EventsList?search=@Model.UserName">
                 Events
-            </button>
-            <button class="take-to">
+            </a>
+            <a class="take-to" href="/News/PostsList?search=@Model.UserName">
                 Posts
-            </button>
-            <button class="take-to">
-                Sale ads
-            </button>
+            </a>
         </div>
         <div class="profile-buttons">
             <button class="go-back" onclick="window.location.href='/user/ProfilesList'">

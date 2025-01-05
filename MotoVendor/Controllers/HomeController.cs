@@ -10,23 +10,6 @@ namespace MotoVendor.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Test()
-        {
-            Entities.File file = new Entities.File()
-            {
-                Base64 = "",
-                Extension = ""
-            };
-            return View(file);
-        }
-
-        [HttpPost]
-        public IActionResult Test(Entities.File file)
-        {
-            return View(file);
-        }
-
         public IActionResult Error()
         {
             return View();

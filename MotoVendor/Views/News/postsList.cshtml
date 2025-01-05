@@ -255,7 +255,7 @@
                                                 <div class="post-info">
                                                     <div class="profile">
                                                         <button class="profil-btn" id="profil-button" onclick="window.location.href='/user/ProfileView?id=@post.Publisher.Id'">
-                                                            @if (post.Publisher.ProfileImage != null && !string.IsNullOrEmpty(comment.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(comment.Publisher.ProfileImage.Extension))
+                                                            @if (post.Publisher.ProfileImage != null && !string.IsNullOrEmpty(comment.Publisher?.ProfileImage?.Base64) && !string.IsNullOrEmpty(comment.Publisher?.ProfileImage?.Extension))
                                                             {
                                                                 <img class="profil-img" src="data:image/@comment.Publisher.ProfileImage.Extension;base64,@comment.Publisher.ProfileImage.Base64" />
                                                             }
