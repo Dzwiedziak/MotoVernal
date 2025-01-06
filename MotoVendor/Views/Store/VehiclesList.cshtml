@@ -1006,8 +1006,7 @@
                             }
                             else
                             {
-                                <div class="offer__reservation-status @(vehicleOffer.IsReserved ? "offer__reservation-status--reserved" : "")">
-                                    @(vehicleOffer.IsReserved ? "Reserved" : "Not Reserved")
+                                <div class="offer__reservation-status" @(vehicleOffer.IsReserved ? "reserved" : "")>
                                 </div>
                             }
                             <div class="offer__actions-section">
