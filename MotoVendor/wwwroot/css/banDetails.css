@@ -62,27 +62,27 @@
     gap:5px;
 }
 
-.reason > span {
-
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 5px 10px;
-    border-radius: 25px;
-    min-width:350px;
-    max-width: 550px;
-    margin-top: -20px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 26px;
-    display: flex;
-    align-items: center;
-    text-align: justify;
-    color: #000000;
-    white-space:pre;
-}
+    .reason > span {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 5px 10px;
+        border-radius: 25px;
+        min-width: 350px;
+        max-width: 550px;
+        margin-top: -20px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        text-align: justify;
+        color: #000000;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
 
 .rest-group {
     display: flex;

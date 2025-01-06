@@ -341,15 +341,16 @@ textarea {
 .submenu__item {
     font-weight: 300;
 }
-.submenu__item > a{
-    color:white;
-    font-weight:300;
-    text-decoration:none;
-}
+    .submenu__item > a {
+        color: white;
+        font-weight: 300;
+        text-decoration: none;
+        font-size: 15px
+    }
 
 .hr-line {
     position: absolute;
-    width: 800px;
+    width: 750px;
     height: 2px;
     background-color: #9F9F9F;
     top: 20px;

@@ -75,7 +75,8 @@
         align-items: center;
         text-align: justify;
         color: #000000;
-        white-space: pre;
+        white-space: pre-wrap;
+        word-wrap: break-word;
     }
 
 .rest-group {

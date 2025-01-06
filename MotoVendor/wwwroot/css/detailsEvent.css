@@ -68,6 +68,8 @@
         text-align: justify;
         color: #000000;
         margin: 0px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
     }
 
 .rest-group {
