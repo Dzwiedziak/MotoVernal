@@ -30,15 +30,19 @@
                     }
                 }
                 const editButton = comment.querySelector('#edit-comment-btn');
-                editButton.addEventListener('click', () => {
-                    switchContentSection("mutable");
-                    switchContentSectionButtonVisiblity("immutable");
-                });
+                if(editButton) {
+                    editButton.addEventListener('click', () => {
+                        switchContentSection("mutable");
+                        switchContentSectionButtonVisiblity("immutable");
+                    });
+                }
                 const cancelButton = comment.querySelector('#cancel-edit-btn');
-                cancelButton.addEventListener('click', () => {
-                    switchContentSection("immutable");
-                    switchContentSectionButtonVisiblity("mutable");
-                });
+                if(cancelButton) {
+                    cancelButton.addEventListener('click', () => {
+                        switchContentSection("immutable");
+                        switchContentSectionButtonVisiblity("mutable");
+                    });
+                }
                 function switchContentSectionButtonVisiblity(sectionButton) {
                     if (sectionButton === "immutable") {
                         cancelButton.style.display = 'block';
