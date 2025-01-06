@@ -18,6 +18,7 @@ namespace BusinessLogic.Repositories
         public List<Topic> GetAllInSection(int sectionId) => _context.Topics
                 .Where(t => t.Section.Id == sectionId)
                 .Include(t => t.Responses)
+                     .ThenInclude(r => r.Owner)
                 .Include(t => t.Publisher)
                 .Include(t => t.Publisher.ProfileImage)
                 .Include(t => t.Section)

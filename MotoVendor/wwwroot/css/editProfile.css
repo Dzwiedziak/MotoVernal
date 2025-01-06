@@ -105,6 +105,7 @@
         height: 40px;
         border-radius: 25px;
         padding: 10px;
+        font-family:'Inter';
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
@@ -122,7 +123,7 @@ textarea {
     height: 180px;
     font-style: normal;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 18px;
     line-height: 19px;
     display: flex;
     align-items: center;
