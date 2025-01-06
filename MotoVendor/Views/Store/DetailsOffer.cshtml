@@ -205,6 +205,7 @@
             display: flex;
             gap: 20px;
             padding-top: 20px;
+            align-items: center
         }
 
         .profile-username {
@@ -314,7 +315,7 @@
 <div class="offer-details">
     <div class="offer-details__inner">
         <h1>
-            Used Audi A6 C7 Allroad Quattro
+            @Model.Brand  @Model.Model @Model.Generation @Model.Version 
         </h1>
         <div class="content">
             <div style="display: block;" class="photo-list__carousel">
@@ -358,22 +359,6 @@
                         </div>
                     </a>
                 }
-                <div class="action-btn">
-                    <div class="action-text">
-                        Report
-                    </div>
-                    <div class="action-icon">
-                        <img src="~/images/flag.svg" />
-                    </div>
-                </div>
-                <div class="action-btn">
-                    <div class="action-text">
-                        Contact user
-                    </div>
-                    <div class="action-icon">
-                        <img src="~/images/envelope.svg" />
-                    </div>
-                </div>
                 @if(ViewBag.CanEdit)
                 {
                     <a asp-action="EditOffer" asp-route-id="@Model.Id" class="action-btn">
@@ -443,10 +428,6 @@
                                     <div class="value">@Model.Transmission</div>
                                 </li>
                                 <li>
-                                    <div class="label">Engine</div>
-                                    <div class="value">Unknown</div>
-                                </li>
-                                <li>
                                     <div class="label">Drive</div>
                                     <div class="value">@Model.Drive</div>
                                 </li>
@@ -508,16 +489,13 @@
                                 <div class="profile-username">
                                     @Model.User.UserName
                                 </div>
-                                <div class="profile-description">
-                                    @Model.User.Description
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab-section" tab-section="contact-info">
                         <div class="finalization-container">
                             <div class="finalization-label">Phone number:</div><div class="finalization-value">@Model.Phone</div>
-                            <div class="finalization-label">E-mail:</div><div class="finalization-value">@Model.Phone</div>
+                            <div class="finalization-label">E-mail:</div><div class="finalization-value">@Model.Email</div>
                             <div class="finalization-label">Location:</div><div class="finalization-value">@Model.Location</div>
                         </div>
                     </div>
@@ -535,14 +513,8 @@
                             </div>
                         </div>
                         <div class="price-label">
-                            Cena brutto
+                            Gross price
                         </div>
-                    </div>
-                    <div class="negotiation-info">
-                        Cena podlega negocjacji
-                    </div>
-                    <div class="currency-options">
-                        Check in different currency
                     </div>
                 </div>
             </div>
