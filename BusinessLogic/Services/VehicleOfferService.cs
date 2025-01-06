@@ -160,6 +160,10 @@ namespace BusinessLogic.Services
             oldVehicleOffer.Mileage = vehicleOffer.Mileage;
             oldVehicleOffer.FirstOwner = vehicleOffer.FirstOwner;
             oldVehicleOffer.VIN = vehicleOffer.VIN;
+            oldVehicleOffer.Description = vehicleOffer.Description;
+            oldVehicleOffer.Location = vehicleOffer.Location;
+            oldVehicleOffer.Phone = vehicleOffer.Phone;
+            oldVehicleOffer.Price = vehicleOffer.Price;
             oldVehicleOffer.Images = vehicleOffer.Images;
         }
 
