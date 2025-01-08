@@ -14,5 +14,25 @@ namespace MotoVendor.Controllers
         {
             return View();
         }
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+        public IActionResult ExchangeRatesInfo()
+        {
+            return View();
+        }
+        public IActionResult APIDocumentation()
+        {
+            return View();
+        }
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        public IActionResult FutureFeatures()
+        {
+            return View();
+        }
     }
 }

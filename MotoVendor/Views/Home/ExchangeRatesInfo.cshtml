@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Offers - Exchange rates info";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/exchangeRates.css">
+}
+<div class="exchange-rates-page">
+    <h1>Kursy wymiany</h1>
+    <main class="exchange-rates-main">
+        <section>
+            <h2>Wyświetlanie cen w dowolnej walucie na każdej stronie</h2>
+            <div>
+                Na naszej stronie internetowej masz możliwość wyświetlania cen w dowolnie wybranej walucie na każdej podstronie. Wystarczy wybrać preferowaną walutę, a wszystkie produkty i usługi automatycznie przeliczą się zgodnie z bieżącym kursem.
+            </div>
+        </section>
+        <section>
+            <h2>Aktualne kursy walut</h2>
+            <div>
+                Aby zagwarantować dokładność cen, nasz system regularnie aktualizuje kursy walut. Możesz również tutaj sprawdzić najnowsze kursy, aby być na bieżąco.
+            </div>
+        </section>
+        <hr class="exchange-rate-separator">
+        <div class="exchange-rate-block">
+            <div class="exchange-rate">
+                <div class="currency">
+                    <div class="currency-value">1</div>
+                    <div class="currency-symbolics">
+                        <img class="currency-image" src="~/images/eu-flag.svg">
+                        <div class="currency-label">EUR</div>
+                    </div>
+                </div>
+                <img class="exchange-symbol" src="~/images/two-direction-arrow.svg">
+                <div class="currency">
+                    <div class="currency-value">4.23</div>
+                    <div class="currency-symbolics">
+                        <img class="currency-image" src="~/images/pl-flag.svg">
+                        <div class="currency-label">PLN</div>
+                    </div>
+                </div>
+            </div>
+            <div class="probe-time">
+                Dane z godziny 15:43 GMT+2
+            </div>
+        </div>
+    </main>
+</div>

@@ -73,13 +73,13 @@
                         <a class="site-ft__link site-ft__section-title">Website</a>
                         <ul class="site-ft__section-list">
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">Report Problem</a>
+                                <a style="color: grey" class="site-ft__link">Carriers</a>
                             </li>
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">Cookies</a>
+                                <a style="color: grey" class="site-ft__link">Partners</a>
                             </li>
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">Promoted offers</a>
+                                <a asp-controller="home" asp-action="futureFeatures" class="site-ft__link">Future features</a>
                             </li>
                         </ul>
                     </li>
@@ -87,10 +87,7 @@
                         <a class="site-ft__link site-ft__section-title">Company</a>
                         <ul class="site-ft__section-list">
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">About us</a>
-                            </li>
-                            <li class="site-ft__section-element">
-                                <a class="site-ft__link">Privacy policy</a>
+                                <a asp-controller="home" asp-action="aboutUs" class="site-ft__link">About us</a>
                             </li>
                         </ul>
                     </li>
@@ -98,7 +95,7 @@
                         <a class="site-ft__link site-ft__section-title">Currencies</a>
                         <ul class="site-ft__section-list">
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">Exchange rates</a>
+                                <a style="color: grey" class="site-ft__link">Exchange rates</a>
                             </li>
                         </ul>
                     </li>
@@ -106,7 +103,7 @@
                         <a class="site-ft__link site-ft__section-title">For developers</a>
                         <ul class="site-ft__section-list">
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">API Documentation</a>
+                                <a asp-action="apiDocumentation" asp-controller="home" class="site-ft__link">API Documentation</a>
                             </li>
                         </ul>
                     </li>
@@ -114,8 +111,14 @@
                         <a class="site-ft__link site-ft__section-title">Help</a>
                         <ul class="site-ft__section-list">
                             <li class="site-ft__section-element">
-                                <a class="site-ft__link">FAQ</a>
-                            </li>                        
+                                <a asp-action="faq" asp-controller="home" class="site-ft__link">FAQ</a>
+                            </li>
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Contact</a>
+                            </li>
+                            <li class="site-ft__section-element">
+                                <a class="site-ft__link">Contact</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

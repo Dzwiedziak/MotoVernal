@@ -1,0 +1,236 @@
+﻿@section Styles {
+    <style>
+        .full-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "Inter", system-ui;
+            padding-bottom: 50px;
+        }
+
+        .exchange-rates-main {
+            margin-top: 50px;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .exchange-rate-block {
+            width: fit-content;
+            padding: 20px 40px;
+            display: block;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #FCFCFC;
+        }
+
+        .exchange-rate {
+            display: flex;
+        }
+
+        .exchange-symbol {
+            margin: 0px 20px;
+        }
+
+        .currency {
+            padding: 15px;
+            width: 200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .currency-symbolics {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .probe-time {
+            padding-top: 20px;
+        }
+
+        .exchange-rate-separator {
+            width: 100%;
+        }
+
+        section {
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+}
+
+<div class="full-page">
+    <h1>API Documentation</h1>
+    <main class="exchange-rates-main">
+        <section>
+            <h2>Vehicle Offer Observation API</h2>
+            <ul>
+                <li><strong>Route: </strong>/api/offers/observations</li>
+                <li><strong>Description: </strong>Provides methods to manage vehicle offer observations.</li>
+                <li>
+                    <strong>Available Methods:</strong>
+                    <ul>
+                        <li><strong>POST /api/offers/observations</strong>: Adds an observation from a user to a vehicle offer.</li>
+                        <li><strong>DELETE /api/offers/observations/{id}</strong>: Removes an observation from a specific vehicle offer.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>POST /api/offers/observations</h3>
+            <ul>
+                <li><strong>Description: </strong>Adds an observation from a user to a vehicle offer.</li>
+                <li>
+                    <strong>Request body:</strong>
+                    <code>
+                        {
+                        "UserId": "user123",
+                        "OfferId": 123
+                        }
+                    </code>
+                    <ul>
+                        <li><strong>UserId</strong>(string): The unique ID of the user making the observation.</li>
+                        <li><strong>OfferId</strong>(int): The ID of the vehicle offer being observed.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Response:</strong>
+                    <ul>
+                        <li><strong>200 OK</strong>: If the observation was successfully added.</li>
+                        <li><strong>409 Conflict</strong>: If the user is already observing this offer.</li>
+                        <li><strong>500 Internal Server Error</strong>: For unknown errors.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>DELETE /api/offers/observations/{id}</h3>
+            <ul>
+                <li><strong>Description: </strong>Removes an observation from a specific vehicle offer.</li>
+                <li>
+                    <strong>Parameters:</strong>
+                    <ul>
+                        <li><strong>id</strong>(int): The ID of the observation to remove.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Response:</strong>
+                    <ul>
+                        <li><strong>200 OK</strong>: If the observation was successfully deleted.</li>
+                        <li><strong>409 Conflict</strong>: If the user is not observing this offer.</li>
+                        <li><strong>500 Internal Server Error</strong>: For unknown errors.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <hr class="exchange-rate-separator">
+        <section>
+            <h2>Reservation Offer API</h2>
+            <ul>
+                <li><strong>Route: </strong>/api/offers/{id}/isreserved</li>
+                <li><strong>Description: </strong>Updates the reservation status of a specific vehicle offer.</li>
+                <li>
+                    <strong>Available Method:</strong>
+                    <ul>
+                        <li><strong>PATCH /api/offers/{id}/isreserved</strong>: Updates the reservation status of a vehicle offer.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>PATCH /api/offers/{id}/isreserved</h3>
+            <ul>
+                <li><strong>Description: </strong>Updates the reservation status of a specific vehicle offer.</li>
+                <li>
+                    <strong>Request body:</strong>
+                    <code>
+                        {
+                        "isReserved": true
+                        }
+                    </code>
+                    <ul>
+                        <li><strong>isReserved</strong>(bool): The reservation status to set (`true` for reserved, `false` for unreserved).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Response:</strong>
+                    <ul>
+                        <li><strong>200 OK</strong>: If the update was successful.</li>
+                        <li><strong>204 No Content</strong>: If the vehicle offer was not found.</li>
+                        <li><strong>500 Internal Server Error</strong>: For unknown errors.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <hr class="exchange-rate-separator">
+        <section>
+            <h2>Topic Response Reaction API</h2>
+            <ul>
+                <li><strong>Route: </strong>/api/topics/responses/reactions</li>
+                <li><strong>Description: </strong>Provides methods for adding or updating reactions to topic responses.</li>
+                <li>
+                    <strong>Available Methods:</strong>
+                    <ul>
+                        <li><strong>POST /api/topics/responses/reactions</strong>: Adds a reaction to a specific topic response.</li>
+                        <li><strong>PATCH /api/topics/responses/reactions/{id}/type</strong>: Updates the type of an existing reaction to a topic response.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>POST /api/topics/responses/reactions</h3>
+            <ul>
+                <li><strong>Description: </strong>Adds a reaction to a specific topic response.</li>
+                <li>
+                    <strong>Request body:</strong>
+                    <code>
+                        {
+                        "UserId": "user123",
+                        "TopicResponseId": 456,
+                        "ReactionType": "Like"
+                        }
+                    </code>
+                    <ul>
+                        <li><strong>UserId</strong>(string): The ID of the user reacting to the topic response.</li>
+                        <li><strong>TopicResponseId</strong>(int): The ID of the topic response being reacted to.</li>
+                        <li><strong>ReactionType</strong>(string): The type of reaction (`Like` or `Dislike`).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Response:</strong>
+                    <ul>
+                        <li><strong>200 OK</strong>: If the reaction was successfully added.</li>
+                        <li><strong>409 Conflict</strong>: If the user is not found, the topic response does not exist, or the relation already exists.</li>
+                        <li><strong>500 Internal Server Error</strong>: For unknown errors.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>PATCH /api/topics/responses/reactions/{id}/type</h3>
+            <ul>
+                <li><strong>Description: </strong>Updates the type of an existing reaction to a topic response.</li>
+                <li>
+                    <strong>Request body:</strong>
+                    <code>
+                        {
+                        "ReactionType": "Dislike"
+                        }
+                    </code>
+                    <ul>
+                        <li><strong>ReactionType</strong>(string): The new reaction type (`Like` or `Dislike`).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Response:</strong>
+                    <ul>
+                        <li><strong>200 OK</strong>: If the update was successful.</li>
+                        <li><strong>404 Not Found</strong>: If the topic response was not found.</li>
+                        <li><strong>500 Internal Server Error</strong>: For unknown errors.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>

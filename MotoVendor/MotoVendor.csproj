@@ -32,4 +32,8 @@
     <None Include="Views\Shared\Auth.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Offers\" />
+  </ItemGroup>
+
 </Project>
