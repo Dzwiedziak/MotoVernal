@@ -47,6 +47,7 @@
         border-color: black;
         border-radius: 10px 10px 0px 0px;
         padding-block: 0px;
+        border-bottom: none;
         padding-inline: 0px;
     }
 

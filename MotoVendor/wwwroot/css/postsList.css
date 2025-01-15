@@ -15,7 +15,7 @@
 
 .edit-btn {
     position: absolute;
-    left: -60px;
+    left: -40px;
 }
 .x-btn {
     position: absolute;
@@ -329,8 +329,8 @@
 }
 
 .postList .edit-icon {
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
 }
 
 
