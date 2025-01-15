@@ -1,0 +1,79 @@
+﻿@model DB.Entities.Report;
+@{
+    ViewData["Title"] = "User - Report Details";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/reportDetails.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+}
+<div class="main-cnt">
+    <div class="info-container">
+        <div class="up-info">
+            <div class="profile-info">
+                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@Model.Reported.Id'">
+                    @if (Model.Reported.ProfileImage != null && !string.IsNullOrEmpty(Model.Reported.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Reported.ProfileImage.Extension))
+                    {
+                        <img class="profil-img" src="data:image/@Model.Reported.ProfileImage.Extension;base64,@Model.Reported.ProfileImage.Base64" />
+                    }
+                    else
+                    {
+                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
+                    }
+                </button>
+                <span class="nickname">@Model.Reported.UserName</span>
+            </div>
+            <div class="classic">was reported by</div>
+            <div class="profile-info">
+                <button class="profile" onclick="window.location.href='/user/ProfileView?id=@Model.Reporter.Id'">
+                    @if (Model.Reporter.ProfileImage != null && !string.IsNullOrEmpty(Model.Reporter.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.Reporter.ProfileImage.Extension))
+                    {
+                        <img class="profil-img" src="data:image/@Model.Reporter.ProfileImage.Extension;base64,@Model.Reporter.ProfileImage.Base64" />
+                    }
+                    else
+                    {
+                        <img src="~/images/user-icon.svg" id="profil-img" alt="profil" class="profil-img">
+                    }
+                </button>
+                <span class="nickname">@Model.Reporter.UserName</span>
+            </div>
+        </div>
+        <div class="main-info">
+            <div class="reason">
+                Reason for reporting:
+                <span>@Model.Description</span>
+            </div>
+            <div class="rest-group">
+                @if (Model.Image != null && !string.IsNullOrEmpty(Model.Image.Base64) && !string.IsNullOrEmpty(Model.Image.Extension))
+                {
+                    <img class="reason-img" src="data:image/@Model.Image.Extension;base64,@Model.Image.Base64" />
+                }
+                else
+                {
+
+                }
+            </div>
+        </div>
+        <div class="details-action">
+            <button class="go-back" onclick="window.history.back()">
+                <span>Take me back</span>
+            </button>
+            @if (User.IsInRole("Admin"))
+            {
+                <button class="show-more" onclick="window.location.href='/user/BanAccount?id=@Model.Reported.Id'" style="background-color: red">
+                    <span>Ban @Model.Reported.UserName</span>
+                </button>
+                <button class="show-more" onclick="window.location.href='/user/RejectReport?id=@Model.Id'" style="background-color: lightcoral;">
+                    <span>Reject Report</span>
+                </button>
+            }
+            else
+            {
+                <button class="show-more" onclick="window.location.href='/user/RejectReport?id=@Model.Id'" style="background-color: lightcoral;">
+                    <span>Delete Report</span>
+                </button>
+            }
+        </div>
+    </div>
+</div>

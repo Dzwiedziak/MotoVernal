@@ -1,0 +1,192 @@
+﻿@inject BusinessLogic.Services.Interfaces.IUserService userService;
+@model MotoVernal.ViewModels.TopicDetailsViewModel;
+@{
+    ViewData["Title"] = "Forum - Details Topic";
+    var userId = userService.GetCurrentUser().Result.Id;
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/detailsTopic.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+}
+@section Scripts {
+    <script src="~/js/addingImage.js"></script>
+    <script src="~/js/topicResponseReaction.js"></script>
+}
+<div class="main-cnt">
+    <input type="hidden" class="user-id" value="@userId" />
+    <div class="basic-info">
+        <span>@Model.TopicInfo.Title</span>
+        <div class="extra-info">
+            <button class="profile" onclick="window.location.href='/user/ProfileView?id=@Model.TopicInfo.Publisher.Id'">
+                @if (Model.TopicInfo.Publisher.ProfileImage != null && !string.IsNullOrEmpty(Model.TopicInfo.Publisher.ProfileImage.Base64) && !string.IsNullOrEmpty(Model.TopicInfo.Publisher.ProfileImage.Extension))
+                {
+                    <img class="profil-img" src="data:image/@Model.TopicInfo.Publisher.ProfileImage.Extension;base64,@Model.TopicInfo.Publisher.ProfileImage.Base64" />
+                }
+                else
+                {
+                    <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                }
+            </button>
+            <span class="nickname">@Model.TopicInfo.Publisher.UserName</span>
+            <img src="~/images/stopwatch.png" alt="stopwatch-img" class="stopwatch-img">
+            <span class="hour">@Model.TopicInfo.CreationTime.ToString("HH:mm")</span>
+            <span class="date">@Model.TopicInfo.CreationTime.ToString("dd-MM-yyyy")</span>
+            <button class="go-back" onclick="window.location.href='/Forum/SectionsAndTopicsList?sectionId=@Model.TopicInfo.Section.Id'">
+                <img src="~/images/undo.png" alt="go_back-img" class="go-back-img">
+            </button>
+        </div>
+    </div>
+    <div class="main-info">
+        <div class="description-info-item">
+            <span>
+                <pre>@Model.TopicInfo.Description</pre>
+            </span>
+        </div>
+        @if (Model.TopicInfo.Image != null && !string.IsNullOrEmpty(Model.TopicInfo.Image.Base64) && !string.IsNullOrEmpty(Model.TopicInfo.Image.Extension))
+        {
+            <img alt="topic-img" class="topic-img" src="data:image/@Model.TopicInfo.Image.Extension;base64,@Model.TopicInfo.Image.Base64" />
+        }
+        else
+        {
+            <img src="~/images/default_car.png" id="topic-img" alt="topic-img" class="topic-img">
+        }
+        <div class="action-buttons">
+            @if (ViewBag.isOwner)
+            {
+                <button class="edit-button" onclick="window.location.href='/Forum/EditTopic?id=@Model.TopicInfo.Id'">
+                    <label>Edit</label>
+                    <img src="~/images//draw.png" alt="edit" class="edit-image" id="edit-image">
+                </button>
+            }
+        </div>
+    </div>
+    <div class="line">
+    </div>
+    <div id="commentsWindow" class="commentsWindow">
+        @foreach (var comment in Model.Responses)
+        {
+            <div class="comments-content"
+                 response-id="@comment.Id"
+                 reaction-state="@(comment.UserResponse?.ReactionType.ToString().ToLower() ?? "none")"
+                @(comment.UserResponse != null ? $"reaction-id={comment.UserResponse.Id}" : "")>
+                @if (ViewBag.CurrentUserId == comment.Owner.Id)
+                {
+                    <button id="edit-comment-btn" class="edit-comment-btn">
+                        <img src="~/images/draw.png" alt="edit" class="edit-icon">
+                    </button>
+                    <button id="cancel-edit-btn" class="cancel-edit-btn">
+                        <img src="~/images/x-button.png" alt="cancel" class="cancel-icon">
+                    </button>
+                }
+                else
+                {
+                    <button style="display: none" id="edit-comment-btn" class="edit-comment-btn">
+                        <img src="~/images/draw.png" alt="edit" class="edit-icon">
+                    </button>
+                    <button style="display: none" id="cancel-edit-btn" class="cancel-edit-btn">
+                        <img src="~/images/x-button.png" alt="cancel" class="cancel-icon">
+                    </button>
+                }
+                <div class="main-post">
+                    <div class="post-info">
+                        <div class="profile">
+                            <button class="profile-btn" onclick="window.location.href='/user/ProfileView?id=@comment.Owner.Id'">
+                                @if (comment.Owner.ProfileImage != null && !string.IsNullOrEmpty(comment.Owner.ProfileImage.Base64) && !string.IsNullOrEmpty(comment.Owner.ProfileImage.Extension))
+                                {
+                                    <img class="profil-img" src="data:image/@comment.Owner.ProfileImage.Extension;base64,@comment.Owner.ProfileImage.Base64" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/profilowe.jpg" id="profil-img" alt="profil" class="profil-img">
+                                }
+                            </button>
+                            <span>@comment.Owner.UserName</span>
+                        </div>
+                        <div class="create-time">
+                            <img src="~/images/clock.png" alt="clock" class="clock-icon" id="clock-icon">
+                            <div class="date">
+                                <span>@comment.CreationTime.ToString("HH:mm")</span>
+                                <label>@comment.CreationTime.ToString("dd-MM-yyyy")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="editable-post-content" asp-action="EditResponse" asp-route-id="@comment.Id" method="post">
+                        <span id="editable-content" class="editable-content">
+                            @comment.Description
+                        </span>
+                        <textarea class="editable-post-content__description" name="Description"></textarea>
+                        <div class="image-upload">
+                            <label for="photo-select__file" class="load-image-label">Load image</label>
+                            <input class="photo-select__file" type="file" accept="image/*" style="display: none;">
+
+                            <div class="current-image" style="display: @(!string.IsNullOrEmpty(comment.Image?.Base64) ? "block" : "none")">
+                                <img src="@(string.IsNullOrEmpty(comment.Image?.Base64) ? "" : $"data:image/{comment.Image.Extension};base64,{comment.Image.Base64}")" alt="Preview of uploaded image">
+                            </div>
+                            <input type="hidden" class="base64" name="Image.Base64" value="@comment.Image?.Base64" />
+                            <input type="hidden" class="extension" name="Image.Extension" value="@comment.Image?.Extension" />
+                        </div>
+                    </form>
+                    <div class="line-2">
+                    </div>
+
+                    <div class="action-group">
+                        <div class="interacted-group">
+                            <button class="like-btn">
+                                <img src="~/images/like.png" alt="like" class="like-icon" id="like-image">
+                            </button>
+                            <span class="like-count">@comment.LikeCount</span>
+                            <button class="dislike-btn">
+                                <img src="~/images/dislike.png" alt="dislike" class="dislike-icon" id="dislike-image">
+                            </button>
+                            <span class="dislike-count">@comment.DisLikeCount</span>
+                        </div>
+                    </div>
+                </div>
+                @if (ViewBag.CurrentUserId == comment.Owner.Id || User.IsInRole("Admin"))
+                {
+                    <form action="@Url.Action("DeleteComment", "Forum", new { commentId = comment.Id })" method="post">
+                    <button class="x-btn">
+                        <img src="~/images/trash-bin.png" alt="delete" class="x-icon" id="x-image">
+                    </button>
+                    </form>
+                }
+            </div>
+        }
+        <div class="add-comment-content">
+            <form asp-action="AddResponse" method="post">
+                <input type="hidden" name="Topic.Id" asp-for="ResponseToAdd.Topic.Id" value="@Model.ResponseToAdd.Topic.Id" />
+                <input type="hidden" name="Owner.Id" asp-for="ResponseToAdd.Owner.Id" value="@Model.ResponseToAdd.Owner.Id" />
+                <button id="edit-comment-btn" class="edit-comment-btn">
+                    <img src="~/images/draw.png" alt="edit" class="edit-icon" id="edit-icon">
+                </button>
+                <div class="main-post">
+                    <div class="post-content">
+                        <textarea id="comment-textarea" placeholder="Write to comment" name="Description" asp-for="ResponseToAdd.Description"></textarea>
+                        <div class="image-upload">
+                            <label for="photo-select__file" id="load_image_in_add" class="load-image-label">Load image</label>
+                            <input class="photo-select__file" type="file" accept="image/*" style="display: none;">
+
+                            <div id="current-image" class="current-image" style="display: @(!string.IsNullOrEmpty(Model.ResponseToAdd.Image?.Base64) ? "block" : "none")" >
+                                <img id="image-preview" src="@(string.IsNullOrEmpty(Model.ResponseToAdd.Image?.Base64) ? "" : $"data:image/{Model.ResponseToAdd.Image.Extension};base64,{Model.ResponseToAdd.Image.Base64}")" alt="Preview of uploaded image">
+                            </div>
+                            <input type="hidden" class="base64" name="Image.Base64" asp-for="ResponseToAdd.Image.Base64" value="@Model.ResponseToAdd.Image?.Base64" />
+                            <input type="hidden" class="extension" name="Image.Extension" asp-for="ResponseToAdd.Image.Extension" value="@Model.ResponseToAdd.Image?.Extension" />
+                        </div>
+                    </div>
+                    <div class="line-2" id="line_in_add" style="display:none;">
+                    </div>
+                    <div id="new-comment-action" class="comment-action">
+                        <button type="button" id="cancel-btn" class="cancel-btn">
+                            <span>Cancel</span>
+                        </button>
+                        <button type="submit" class="comment-btn">
+                            <span>Comment</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
