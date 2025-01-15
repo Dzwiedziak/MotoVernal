@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Offers - Promoted offers";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/promotedOffers.css">
+}
+
+<div class="promoted-offers-info">
+    <h1 class="page-title">
+        FAQ
+    </h1>
+    <main class="main-content">
+        <article class="promoted-offers-article">
+            <section class="promoted-offers-section">
+                <h2 class="section-title">
+                    What is MotoVernal?
+                </h2>
+                <div class="section-content">
+                    MotoVernal is a platform that connects the community through a discussion forum and a marketplace, allowing users to share knowledge and buy or sell products.
+                </div>
+            </section>
+            <section class="promoted-offers-section">
+                <h2 class="section-title">
+                    How can I register?
+                </h2>
+                <div class="section-content">
+                    When not logged in, click the account button and fill out the registration form. Once you verify your email address, you'll gain access to all features.
+                </div>
+            </section>
+            <section class="promoted-offers-section">
+                <h2 class="section-title">
+                    Is the platform free to use?
+                </h2>
+                <div class="section-content">
+                    Yes, currently all features on the website are free. How in the future that may change.
+                </div>
+            </section>
+            <section class="promoted-offers-section">
+                <h2 class="section-title">
+                    What sections are available on the website?
+                </h2>
+                <div class="section-content">
+                    <ul>
+                        <li>
+                            On forum, you can engage in meaningful discussions with our community. Exchange ideas, ask questions and much more.
+                        </li>
+                        <li>
+                            Make posts about latest trends, share your thoughts, and stay updated.
+                        </li>
+                        <li>
+                            Discover a dynamic hub for buying, selling and trading. Everything on our marketplace section.
+                        </li>
+                        <li>
+                            Check calendar section, where you can truck upcoming events or publish yourself.
+                        </li>
+                        </ol>
+                </div>
+            </section>
+        </article>
+        <aside class="promoted-offers-aside">
+            <div class="table-of-contents">
+                <h2 class="table-of-contents__title">
+                    Table of contents
+                </h2>
+                <ol class="table-of-contents__list">
+                    <li>
+                        What is MotoVernal?
+                    </li>
+                    <li>
+                        How can I register?
+                    </li>
+                    <li>
+                        Is platform free to use?
+                    </li>
+                    <li>
+                        What sections are available on the website?
+                    </li>
+                </ol>
+            </div>
+            <div class="cta-section">
+                <div class="cta-header">
+                    Didn't get your answer?
+                </div>
+                <div class="cta-content">
+                    Check on <a class="offers-list-link" asp-action="faq" asp-controller="home">FAQ</a>
+                </div>
+            </div>
+        </aside>
+    </main>
+</div>
